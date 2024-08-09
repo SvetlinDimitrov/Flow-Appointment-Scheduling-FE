@@ -1,12 +1,14 @@
 import RefreshToken from "../../../models/auth/RefreshToken.ts";
-import React, {createContext, ReactNode, useState} from "react";
+import {createContext, ReactNode, useState} from "react";
 import Jwt from "../../../models/auth/Jwt.ts";
 
 interface AuthContextType {
   jwtToken: Jwt | null;
   refreshToken: RefreshToken | null;
-  setJwtToken: React.Dispatch<React.SetStateAction<Jwt | null>>;
-  setRefreshToken: React.Dispatch<React.SetStateAction<RefreshToken | null>>;
+  setJwtTokenInLocalStorage: (token: Jwt) => void;
+  setRefreshTokenInLocalStorage: (token: RefreshToken) => void;
+  removeJwtTokenFromLocalStorage: () => void;
+  removeRefreshTokenFromLocalStorage: () => void;
   isUserAuthenticated: () => boolean;
 }
 
@@ -24,11 +26,39 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
   });
 
   const isUserAuthenticated = () => {
-    return !!(jwtToken && new Date(jwtToken.expirationTime) > new Date());
+    return !!(refreshToken && new Date(refreshToken.expirationTime) > new Date());
+  };
+
+  const setJwtTokenInLocalStorage = (token: Jwt) => {
+    localStorage.setItem('flow/jwtToken', JSON.stringify(token));
+    setJwtToken(token);
+  };
+
+  const setRefreshTokenInLocalStorage = (token: RefreshToken) => {
+    localStorage.setItem('flow/refreshToken', JSON.stringify(token));
+    setRefreshToken(token);
+  };
+
+  const removeJwtTokenFromLocalStorage = () => {
+    localStorage.removeItem('flow/jwtToken');
+    setJwtToken(null);
+  };
+
+  const removeRefreshTokenFromLocalStorage = () => {
+    localStorage.removeItem('flow/refreshToken');
+    setRefreshToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{jwtToken, refreshToken, setJwtToken, setRefreshToken, isUserAuthenticated}}>
+    <AuthContext.Provider value={{
+      jwtToken,
+      refreshToken,
+      isUserAuthenticated,
+      setJwtTokenInLocalStorage,
+      setRefreshTokenInLocalStorage,
+      removeJwtTokenFromLocalStorage,
+      removeRefreshTokenFromLocalStorage
+    }}>
       {children}
     </AuthContext.Provider>
   );

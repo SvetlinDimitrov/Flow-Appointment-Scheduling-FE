@@ -1,8 +1,9 @@
-import React, {createContext, ReactNode, useState} from 'react';
+import {createContext, ReactNode, useState} from 'react';
 
 interface UserContextType {
   userId: number | null;
-  setUserId: React.Dispatch<React.SetStateAction<number | null>>;
+  setUserIdInLocalStorage: (id: number) => void;
+  removeUserIdFromLocalStorage: () => void;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -13,8 +14,18 @@ export const UserProvider = ({children}: { children: ReactNode }) => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
+  const setUserIdInLocalStorage = (id: number) => {
+    localStorage.setItem('flow/user_id', JSON.stringify(id));
+    setUserId(id);
+  };
+
+  const removeUserIdFromLocalStorage = () => {
+    localStorage.removeItem('flow/user_id');
+    setUserId(null);
+  };
+
   return (
-    <UserContext.Provider value={{userId, setUserId}}>
+    <UserContext.Provider value={{userId, setUserIdInLocalStorage, removeUserIdFromLocalStorage}}>
       {children}
     </UserContext.Provider>
   );

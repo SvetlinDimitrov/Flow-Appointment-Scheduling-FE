@@ -30,8 +30,11 @@ const Header = () => {
         }
         {isUserAuthenticated() &&
           <Stack direction={'row'} spacing={2}>
-            <Button color="inherit" style={{margin: '0 10px'}} onClick={() => navigate('/authed')}>
-              Authed
+            <Button color="inherit" style={{margin: '0 10px'}} onClick={() => navigate('/settings')}>
+              Settings
+            </Button>
+            <Button color="inherit" style={{margin: '0 10px'}} onClick={() => navigate('/logout')}>
+              Logout
             </Button>
           </Stack>
         }

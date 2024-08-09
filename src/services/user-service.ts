@@ -1,4 +1,4 @@
-import axiosInstance from '../utils/axios_config/axiosInstance';
+import {axiosInstance} from '../utils/axios_config/axiosInstance';
 import User from "../models/users/User.ts";
 import CreateUser from "../models/users/CreateUser.ts";
 import UpdateUser from "../models/users/UpdateUser.ts";

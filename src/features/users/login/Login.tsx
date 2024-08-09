@@ -2,6 +2,8 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {Button, Paper, TextField, Typography} from '@mui/material';
 import passwordValidation from "../../shared/validation/passwordValidation.ts";
 import emailValidation from "../../shared/validation/emailValidation.ts";
+import useLoginUserMutation from "../../../hooks/users/useLoginUserMutation.ts";
+import {useNavigate} from "react-router-dom";
 
 interface IFormInput {
   email: string;
@@ -11,8 +13,21 @@ interface IFormInput {
 const Login = () => {
   const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
 
-  const onSubmit: SubmitHandler<IFormInput> = data => {
+  const navigate = useNavigate();
 
+  const userLoginMutation = useLoginUserMutation();
+
+  const onSubmit: SubmitHandler<IFormInput> = data => {
+    const body: IFormInput = {
+      email: data.email,
+      password: data.password
+    };
+
+    userLoginMutation.mutate(body, {
+      onSuccess: () => {
+        navigate('/');
+      }
+    });
   };
 
   return (
