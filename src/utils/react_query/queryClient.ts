@@ -1,17 +1,19 @@
 import {MutationCache, QueryCache, QueryClient} from '@tanstack/react-query';
+import {useContext} from "react";
+import {ToasterContext} from "../../features/shared/context/ToasterContext.tsx";
+
+const handleError = (error: Error) => {
+  const {showError} = useContext(ToasterContext)!;
+  showError(error.message);
+  console.error('Error - ', error.message);
+};
 
 // Defining global error handlers for the query and mutation caches
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error) => {
-      console.error('QueryClient error  - ', error);
-    },
+    onError: handleError,
   }),
   mutationCache: new MutationCache({
-    onError: (error) => { // cache-level mutations error handler
-      console.error('MutationCache error - ', error);
-    },
+    onError: handleError,
   }),
 });
-
-export default queryClient;

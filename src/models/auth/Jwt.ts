@@ -1,4 +1,4 @@
-export default interface JwtView {
+export default interface Jwt {
   token: string;
   expirationTime: Date;
 }

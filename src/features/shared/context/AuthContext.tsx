@@ -1,11 +1,11 @@
-import RefreshToken from "../../../models/users/RefreshToken.ts";
+import RefreshToken from "../../../models/auth/RefreshToken.ts";
 import React, {createContext, ReactNode, useState} from "react";
-import JwtView from "../../../models/users/Jwt.ts";
+import Jwt from "../../../models/auth/Jwt.ts";
 
 interface AuthContextType {
-  jwtToken: JwtView | null;
+  jwtToken: Jwt | null;
   refreshToken: RefreshToken | null;
-  setJwtToken: React.Dispatch<React.SetStateAction<JwtView | null>>;
+  setJwtToken: React.Dispatch<React.SetStateAction<Jwt | null>>;
   setRefreshToken: React.Dispatch<React.SetStateAction<RefreshToken | null>>;
   isUserAuthenticated: () => boolean;
 }
@@ -13,13 +13,13 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({children}: { children: ReactNode }) => {
-  const [jwtToken, setJwtToken] = useState<JwtView | null>(() => {
-    const storedJwtToken = localStorage.getItem('jwtToken');
+  const [jwtToken, setJwtToken] = useState<Jwt | null>(() => {
+    const storedJwtToken = localStorage.getItem('flow/jwtToken');
     return storedJwtToken ? JSON.parse(storedJwtToken) : null;
   });
 
   const [refreshToken, setRefreshToken] = useState<RefreshToken | null>(() => {
-    const storedRefreshToken = localStorage.getItem('refreshToken');
+    const storedRefreshToken = localStorage.getItem('flow/refreshToken');
     return storedRefreshToken ? JSON.parse(storedRefreshToken) : null;
   });
 

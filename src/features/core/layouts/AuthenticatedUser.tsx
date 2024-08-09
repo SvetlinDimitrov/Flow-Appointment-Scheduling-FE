@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../../core/context/AuthContext";
+import { AuthContext } from "../../shared/context/AuthContext.tsx";
 
 const AuthenticatedUser = () => {
   const {isUserAuthenticated} = useContext(AuthContext)!;

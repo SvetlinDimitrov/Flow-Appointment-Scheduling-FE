@@ -1,40 +1,53 @@
-// src/features/auth/components/Login.tsx
-import { useState } from 'react';
-import { Container, TextField, Button, Typography } from '@mui/material';
+import {SubmitHandler, useForm} from 'react-hook-form';
+import {Button, Paper, TextField, Typography} from '@mui/material';
+import passwordValidation from "../../shared/validation/passwordValidation.ts";
+import emailValidation from "../../shared/validation/emailValidation.ts";
+
+interface IFormInput {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
 
-  const handleLogin = () => {
-    // Handle login logic here
+  const onSubmit: SubmitHandler<IFormInput> = data => {
+
   };
 
   return (
-    <Container maxWidth="sm">
+    <Paper sx={{
+      padding: 7,
+      maxWidth: 500,
+      borderRadius: 3,
+    }} elevation={4}>
       <Typography variant="h4" component="h1" gutterBottom>
         Login
       </Typography>
-      <TextField
-        label="Email"
-        type="email"
-        fullWidth
-        margin="normal"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        fullWidth
-        margin="normal"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>
-        Login
-      </Button>
-    </Container>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <TextField
+          label="Email"
+          type="email"
+          fullWidth
+          margin="normal"
+          {...register('email', emailValidation)}
+          error={!!errors.email}
+          helperText={errors.email ? errors.email.message : ''}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          fullWidth
+          margin="normal"
+          {...register('password', passwordValidation)}
+          error={!!errors.password}
+          helperText={errors.password ? errors.password.message : ''}
+        />
+        <Button variant="contained" color="primary" fullWidth type="submit">
+          Login
+        </Button>
+      </form>
+    </Paper>
   );
 };
 
