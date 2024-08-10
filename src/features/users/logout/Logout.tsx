@@ -10,14 +10,14 @@ const Logout = () => {
   const queryClient = useQueryClient();
 
   const {removeRefreshToken, removeJwtTokenFun} = useContext(AuthContext)!;
-  const {removeUserIdFromLocalStorage} = useContext(UserContext)!;
+  const {removeUserIdFun} = useContext(UserContext)!;
 
   useEffect(() => {
     const isConfirmed = window.confirm("Are you sure you want to log out?");
     if (isConfirmed) {
       removeJwtTokenFun();
       removeRefreshToken();
-      removeUserIdFromLocalStorage();
+      removeUserIdFun();
       queryClient.removeQueries();
     }
     navigate('/');

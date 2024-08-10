@@ -1,4 +1,4 @@
-import {Button, Paper, Stack, TextField, Typography} from '@mui/material';
+import {Box, Button, Paper, Stack, TextField, Typography} from '@mui/material';
 import useGetUserQuery from "../../../hooks/users/query/useGetUserQuery.ts";
 import {useContext, useState} from "react";
 import {UserContext} from "../../shared/context/UserContext.tsx";
@@ -8,7 +8,7 @@ import LoadingSpinner from "../../core/loading/LoadingSpinner.tsx";
 import useUpdateUserMutation from "../../../hooks/users/mutations/useUpdateUserMutation.ts";
 import {useNavigate} from "react-router-dom";
 import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserMutation.ts";
-import {paperStyles} from "./settingsStyle.ts";
+import {centeredContainerStyles, paperStyles} from "./settingsStyle.ts";
 
 const Settings = () => {
 
@@ -47,7 +47,8 @@ const Settings = () => {
   if (error) return <PageNotFound/>;
 
   return (
-    <Paper sx={paperStyles} elevation={4}>
+    <Box sx={centeredContainerStyles}>
+      <Paper sx={paperStyles} elevation={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Settings
         </Typography>
@@ -104,7 +105,8 @@ const Settings = () => {
             </Button>
           </Stack>
         </form>
-    </Paper>
+      </Paper>
+    </Box>
   );
 };
 

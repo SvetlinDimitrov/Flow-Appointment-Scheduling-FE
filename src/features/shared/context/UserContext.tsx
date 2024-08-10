@@ -1,31 +1,33 @@
 import {createContext, ReactNode, useState} from 'react';
+import {
+  getUserIdFromLocalStorage,
+  removeUserIdFromLocalStorage,
+  setUserIdInLocalStorage
+} from "../../../utils/local_storage/userToken.ts";
 
 interface UserContextType {
   userId: number | null;
-  setUserIdInLocalStorage: (id: number) => void;
-  removeUserIdFromLocalStorage: () => void;
+  setUserIdFun: (id: number) => void;
+  removeUserIdFun: () => void;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({children}: { children: ReactNode }) => {
-  const [userId, setUserId] = useState<number | null>(() => {
-    const storedUser = localStorage.getItem('flow/user_id');
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const [userId, setUserId] = useState<number | null>(getUserIdFromLocalStorage());
 
-  const setUserIdInLocalStorage = (id: number) => {
-    localStorage.setItem('flow/user_id', JSON.stringify(id));
+  const setUserIdFun = (id: number) => {
+    setUserIdInLocalStorage(id);
     setUserId(id);
   };
 
-  const removeUserIdFromLocalStorage = () => {
-    localStorage.removeItem('flow/user_id');
+  const removeUserIdFun = () => {
+    removeUserIdFromLocalStorage();
     setUserId(null);
   };
 
   return (
-    <UserContext.Provider value={{userId, setUserIdInLocalStorage, removeUserIdFromLocalStorage}}>
+    <UserContext.Provider value={{userId, setUserIdFun, removeUserIdFun}}>
       {children}
     </UserContext.Provider>
   );

@@ -25,7 +25,6 @@ function App() {
   return (
     <>
       <Header/>
-      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '86vh'}}>
         <LoadingSpinner/>
         <Routes>
           <Route path="*" element={<PageNotFound/>}/>
@@ -39,7 +38,6 @@ function App() {
             <Route path="/logout" element={<Logout/>}/>
           </Route>
         </Routes>
-      </div>
       <Footer/>
     </>
   )

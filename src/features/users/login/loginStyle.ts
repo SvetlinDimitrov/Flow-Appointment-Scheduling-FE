@@ -5,3 +5,10 @@ export const paperStyles: SxProps = {
   maxWidth: 500,
   borderRadius: 3,
 };
+
+export const centeredContainerStyles: SxProps = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '86.1vh',
+};

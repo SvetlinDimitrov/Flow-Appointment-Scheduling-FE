@@ -17,7 +17,7 @@ const Header = () => {
           <AccountBalanceIcon/>
         </IconButton>
         <Typography variant="h6" component="div" sx={typographyStyles}>
-          Flow
+          Flow Appointment Scheduling
         </Typography>
         {!isUserAuthenticated() &&
           <Stack direction={'row'} spacing={2}>

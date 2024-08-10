@@ -10,13 +10,13 @@ import {getUserIdFromJwt} from "../../../utils/jwt/jwtDecoder.ts";
 const useLoginUserMutation = () => {
 
   const {setJwtTokenFun , setRefreshTokenFun} = useContext(AuthContext)!;
-  const {setUserIdInLocalStorage} = useContext(UserContext)!;
+  const {setUserIdFun} = useContext(UserContext)!;
 
   return useMutation({
     mutationFn: (authRequest: AuthenticationRequest) => createAuthenticationToken(authRequest),
     onSuccess: (data: AuthenticationResponse) => {
       setJwtTokenFun(data.jwtToken);
-      setUserIdInLocalStorage(getUserIdFromJwt(data.jwtToken.token));
+      setUserIdFun(getUserIdFromJwt(data.jwtToken.token));
       setRefreshTokenFun(data.refreshToken);
     }
   });

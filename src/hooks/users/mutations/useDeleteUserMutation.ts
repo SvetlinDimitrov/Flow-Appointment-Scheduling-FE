@@ -8,14 +8,14 @@ const useDeleteUserMutation = () => {
   const queryClient = useQueryClient();
 
   const {removeRefreshToken, removeJwtTokenFun} = useContext(AuthContext)!;
-  const {removeUserIdFromLocalStorage} = useContext(UserContext)!;
+  const {removeUserIdFun} = useContext(UserContext)!;
 
   return useMutation({
     mutationFn: (id: number) => deleteUser(id),
     onSuccess: () => {
       removeRefreshToken();
       removeJwtTokenFun();
-      removeUserIdFromLocalStorage();
+      removeUserIdFun();
       queryClient.removeQueries();
     },
   });
