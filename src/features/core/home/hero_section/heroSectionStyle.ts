@@ -1,0 +1,25 @@
+export const mainBoxStyle = {
+  position: 'relative',
+  height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  color: 'white',
+  textAlign: 'center',
+  overflow: 'hidden',
+  gap: '4rem',
+  '::after': {
+    content: '""',
+    backgroundImage: 'url(https://www.aquaviaspa.es/wp-content/uploads/2017/09/fitness-banner.png)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    opacity: 0.7,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: -1,
+  }
+}
