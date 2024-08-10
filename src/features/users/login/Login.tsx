@@ -2,8 +2,9 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {Button, Paper, TextField, Typography} from '@mui/material';
 import passwordValidation from "../../shared/validation/passwordValidation.ts";
 import emailValidation from "../../shared/validation/emailValidation.ts";
-import useLoginUserMutation from "../../../hooks/users/useLoginUserMutation.ts";
+import useLoginUserMutation from "../../../hooks/users/mutations/useLoginUserMutation.ts";
 import {useNavigate} from "react-router-dom";
+import {paperStyles} from "./loginStyle.ts";
 
 interface IFormInput {
   email: string;
@@ -31,11 +32,7 @@ const Login = () => {
   };
 
   return (
-    <Paper sx={{
-      padding: 7,
-      maxWidth: 500,
-      borderRadius: 3,
-    }} elevation={4}>
+    <Paper sx={paperStyles} elevation={4}>
       <Typography variant="h4" component="h1" gutterBottom>
         Login
       </Typography>

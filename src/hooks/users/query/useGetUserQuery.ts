@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {getUserById} from "../../services/user-service";
+import {getUserById} from "../../../services/user-service.ts";
 
 const useGetUserQuery = (id: number) => {
   return useQuery({

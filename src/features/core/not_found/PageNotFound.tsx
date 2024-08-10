@@ -1,8 +1,9 @@
 import { Container, Typography } from '@mui/material';
+import {containerStyles} from "./pageNotFoundStyles.ts";
 
 const PageNotFound = () => {
   return (
-    <Container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
+    <Container sx={containerStyles}>
       <Typography variant="h1" component="h1" gutterBottom>
         404
       </Typography>

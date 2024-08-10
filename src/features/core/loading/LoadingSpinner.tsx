@@ -1,5 +1,6 @@
 import {useIsFetching, useIsMutating} from "@tanstack/react-query";
 import {CircularProgress} from "@mui/material";
+import styles from './LoadingSpinner.module.css';
 
 const LoadingSpinner = () => {
 
@@ -8,19 +9,13 @@ const LoadingSpinner = () => {
 
   if (isFetching || isMutating) {
     return (
-      <div style={{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: '999'
-      }}>
+      <div className={styles.spinnerContainer}>
         <CircularProgress color={'primary'} size={80}/>
       </div>
     );
   }
 
-  return null;
+  return <div></div>;
 };
 
 export default LoadingSpinner;

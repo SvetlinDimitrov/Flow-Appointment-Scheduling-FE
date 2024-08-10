@@ -1,39 +1,32 @@
 import axios from 'axios';
+import {refreshToken} from "../../services/auth-service.ts";
+import {getRefreshTokenFromLocalStorage} from "../local_storage/refreshToken.ts";
+import {getJwtTokenFromLocalStorage} from "../local_storage/jwtToken.ts";
 import Jwt from "../../models/auth/Jwt.ts";
 import RefreshToken from "../../models/auth/RefreshToken.ts";
-import {refreshToken} from "../../services/auth-service.ts";
-
-interface AuthContextType {
-  jwtToken: Jwt | null;
-  refreshToken: RefreshToken | null;
-  setJwtTokenInLocalStorage: (token: Jwt) => void;
-  setRefreshTokenInLocalStorage: (token: RefreshToken) => void;
-  isUserAuthenticated: () => boolean;
-  removeJwtTokenFromLocalStorage: () => void;
-  removeRefreshTokenFromLocalStorage: () => void;
-}
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
-const setupInterceptors = (authContext: AuthContextType) => {
+interface AuthContextType {
+  setJwtTokenFun: (token: Jwt) => void;
+  setRefreshTokenFun: (token: RefreshToken) => void;
+  removeJwtTokenFun: () => void;
+  removeRefreshToken: () => void;
+}
+
+const setupInterceptors = (auth: AuthContextType) => {
   axiosInstance.interceptors.request.use(
     async (config) => {
-      const {
-        jwtToken,
-        refreshToken: refreshTokenValue,
-        setJwtTokenInLocalStorage,
-        setRefreshTokenInLocalStorage,
-        removeJwtTokenFromLocalStorage,
-        removeRefreshTokenFromLocalStorage
-      } = authContext;
 
+      const refreshTokenValue = getRefreshTokenFromLocalStorage();
+      const jwtToken = getJwtTokenFromLocalStorage();
       if (refreshTokenValue) {
         if (new Date(refreshTokenValue.expirationTime) <= new Date()) {
           // Refresh token is expired
-          removeJwtTokenFromLocalStorage();
-          removeRefreshTokenFromLocalStorage();
+          auth.removeJwtTokenFun();
+          auth.removeRefreshToken();
         } else {
           // Refresh token is valid
           if (jwtToken) {
@@ -41,13 +34,14 @@ const setupInterceptors = (authContext: AuthContextType) => {
               // JWT token is expired, refresh it
               try {
                 const response = await refreshToken({ token: refreshTokenValue.token });
-                setJwtTokenInLocalStorage(response.jwtToken);
-                setRefreshTokenInLocalStorage(response.refreshToken);
+                auth.setJwtTokenFun(response.jwtToken);
+                auth.setRefreshTokenFun(response.refreshToken);
                 config.headers['Authorization'] = `Bearer ${response.jwtToken.token}`;
               } catch (error) {
+                console.log(123);
                 // Failed to refresh token (e.g. refresh token is expired)
-                removeJwtTokenFromLocalStorage();
-                removeRefreshTokenFromLocalStorage();
+                // auth.removeJwtTokenFun();
+                // auth.removeRefreshToken();
               }
             } else {
               // JWT token is valid

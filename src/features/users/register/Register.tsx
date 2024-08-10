@@ -3,8 +3,11 @@ import {Button, Paper, TextField, Typography} from '@mui/material';
 import emailValidation from '../../shared/validation/emailValidation';
 import passwordValidation from '../../shared/validation/passwordValidation';
 import CreateUser from "../../../models/users/CreateUser.ts";
-import useCreateUserMutation from "../../../hooks/users/useCreateUserMutation.ts";
+import useCreateUserMutation from "../../../hooks/users/mutations/useCreateUserMutation.ts";
 import {useNavigate} from "react-router-dom";
+import nameValidation from "../../shared/validation/nameValidation.ts";
+import confirmPasswordValidation from "../../shared/validation/confirmPasswordValidation.ts";
+import {paperStyles} from "./registerStyle.ts";
 
 interface IFormInput {
   email: string;
@@ -13,23 +16,6 @@ interface IFormInput {
   password: string;
   confirmPassword: string;
 }
-
-const nameValidation = {
-  required: 'This field is required',
-  minLength: {
-    value: 3,
-    message: 'Must be at least 3 characters long'
-  },
-  maxLength: {
-    value: 255,
-    message: 'Must not exceed 255 characters'
-  }
-};
-
-const confirmPasswordValidation = (password: string) => ({
-  required: 'Confirm Password is required',
-  validate: (value: string) => value === password || 'Passwords do not match'
-});
 
 const Register = () => {
   const {register, handleSubmit, watch, formState: {errors}} = useForm<IFormInput>();
@@ -56,11 +42,7 @@ const Register = () => {
   };
 
   return (
-    <Paper sx={{
-      padding: 7,
-      maxWidth: 500,
-      borderRadius: 3,
-    }} elevation={4}>
+    <Paper sx={paperStyles} elevation={4}>
       <Typography variant="h4" component="h1" gutterBottom>
         Register
       </Typography>

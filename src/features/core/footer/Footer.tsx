@@ -1,9 +1,10 @@
 import { AppBar, Toolbar, Typography } from '@mui/material';
+import { appBarStyles, toolbarStyles } from './footerStyles';
 
 const Footer = () => {
   return (
-    <AppBar position="sticky" color="primary" style={{ top: 'auto', bottom: 0 }}>
-      <Toolbar style={{ display: 'flex', justifyContent: 'center' }}>
+    <AppBar sx={appBarStyles}>
+      <Toolbar sx={toolbarStyles}>
         <Typography variant="body1" color="inherit">
           © 2024 Prime Holding
         </Typography>
