@@ -9,17 +9,21 @@ export const mainBoxStyle = {
   textAlign: 'center',
   overflow: 'hidden',
   gap: '4rem',
-  '::after': {
+  backgroundImage: 'url(https://www.aquaviaspa.es/wp-content/uploads/2017/09/fitness-banner.png)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  '::before': {
     content: '""',
-    backgroundImage: 'url(https://www.aquaviaspa.es/wp-content/uploads/2017/09/fitness-banner.png)',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    opacity: 0.7,
     position: 'absolute',
     top: 0,
     left: 0,
     width: '100%',
     height: '100%',
-    zIndex: -1,
-  }
-}
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    zIndex: 1,
+  },
+  '& > *': {
+    position: 'relative',
+    zIndex: 2,
+  },
+};

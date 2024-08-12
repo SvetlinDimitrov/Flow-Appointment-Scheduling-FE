@@ -13,13 +13,10 @@ const Logout = () => {
   const {removeUserIdFun} = useContext(UserContext)!;
 
   useEffect(() => {
-    const isConfirmed = window.confirm("Are you sure you want to log out?");
-    if (isConfirmed) {
-      removeJwtTokenFun();
-      removeRefreshToken();
-      removeUserIdFun();
-      queryClient.removeQueries();
-    }
+    removeJwtTokenFun();
+    removeRefreshToken();
+    removeUserIdFun();
+    queryClient.removeQueries();
     navigate('/');
   }, [removeJwtTokenFun, removeRefreshToken, queryClient, navigate]);
 

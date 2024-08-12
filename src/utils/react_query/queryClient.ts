@@ -1,46 +1,55 @@
-import {MutationCache, QueryCache, QueryClient} from '@tanstack/react-query';
+import {MutationCache, QueryClient} from '@tanstack/react-query';
+import {AxiosError} from "axios";
+import BadRequestBody from "../../models/error/badRequestBody.ts";
+import NotFoundErrorBody from "../../models/error/notFoundErrorBody.ts";
 import {toast} from "react-toastify";
-import {AxiosError} from 'axios';
-
-const handleError = (error: any) => {
-  let description = 'Unsuccessful operation!';
-
-  if (error instanceof AxiosError) {
-    const errorBody = error.response?.data;
-
-    if (errorBody && errorBody.errors) description = errorBody.errors[0];
-    else if (errorBody && errorBody.detail) description = errorBody.detail;
-  }
-
-  toast.error(description);
-};
-
-const handleSuccess = () => {
-  toast.success("Operation completed successfully.");
-}
 
 // Defining global error handlers for the query and mutation caches
 export const queryClient = new QueryClient({
-  queryCache: new QueryCache({
-    onError: (error) => {
-      handleError(error)
-    },
-    onSuccess: () => {
-      handleSuccess()
-    },
-  }),
-  mutationCache: new MutationCache({
-    onError: (error) => {
-      handleError(error)
-    },
-    onSuccess: () => {
-      handleSuccess()
-    }
-  }),
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 50, // 50 minutes
       gcTime: 1000 * 60 * 60, // 1 hour
     }
-  }
+  },
+  mutationCache: new MutationCache({
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 400) {
+          const errorBody: BadRequestBody = error.response?.data;
+          toast.error(badRequestHandle(errorBody));
+        } else if (error.response?.status === 404) {
+          const errorBody: NotFoundErrorBody = error.response?.data;
+          toast.error(notFoundHandle(errorBody));
+        } else if (error.response?.status === 401) {
+          toast.error('Unauthorized!');
+        } else if (error.response?.status === 403) {
+          toast.error('Forbidden!');
+        } else {
+          toast.error('An error occurred!');
+        }
+      } else {
+        toast.error(error.message);
+      }
+    },
+  }),
 });
+
+const badRequestHandle = (errorBody: BadRequestBody) => {
+  if (errorBody && errorBody.errors)
+    return errorBody.errors[0]
+      .split(',')[0]
+      .split(':')[1];
+  else if (errorBody && errorBody.detail)
+    return errorBody.detail;
+  else
+    return "Bad request!";
+}
+
+const notFoundHandle = (errorBody: NotFoundErrorBody) => {
+  if (errorBody && errorBody.detail)
+    return errorBody.detail;
+  else
+    return 'Resource not found!';
+}
+

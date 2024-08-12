@@ -6,6 +6,7 @@ import {useContext} from "react";
 import {AuthContext} from "../../../features/shared/context/AuthContext.tsx";
 import {UserContext} from "../../../features/shared/context/UserContext.tsx";
 import {getUserIdFromJwt} from "../../../utils/jwt/jwtDecoder.ts";
+import {toast} from "react-toastify";
 
 const useLoginUserMutation = () => {
 
@@ -18,7 +19,8 @@ const useLoginUserMutation = () => {
       setJwtTokenFun(data.jwtToken);
       setUserIdFun(getUserIdFromJwt(data.jwtToken.token));
       setRefreshTokenFun(data.refreshToken);
-    }
+      toast.success("Login successful.");
+    },
   });
 };
 

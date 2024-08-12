@@ -13,6 +13,7 @@ import {setupInterceptors} from "./utils/axios_config/axiosInstance.ts";
 import {useContext, useEffect} from "react";
 import {AuthContext} from "./features/shared/context/AuthContext.tsx";
 import Settings from "./features/users/settings/Settings.tsx";
+import AboutUs from "./features/core/about_us/AboutUs.tsx";
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
         <Routes>
           <Route path="*" element={<PageNotFound/>}/>
           <Route path="/" element={<Home/>}/>
+          <Route path="/about-us" element={<AboutUs/>}/>
           <Route element={<GuestOnly/>}>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>

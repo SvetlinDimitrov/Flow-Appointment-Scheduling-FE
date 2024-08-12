@@ -3,7 +3,7 @@ import {Box, Button, Paper, TextField, Typography} from '@mui/material';
 import passwordValidation from "../../shared/validation/passwordValidation.ts";
 import emailValidation from "../../shared/validation/emailValidation.ts";
 import useLoginUserMutation from "../../../hooks/users/mutations/useLoginUserMutation.ts";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {centeredContainerStyles, paperStyles} from "./loginStyle.ts";
 
 interface IFormInput {
@@ -56,9 +56,12 @@ const Login = () => {
             error={!!errors.password}
             helperText={errors.password ? errors.password.message : ''}
           />
-          <Button variant="contained" color="primary" fullWidth type="submit">
+          <Button sx={{mt: 3, mb: 1}} variant="contained" color="primary" fullWidth type="submit">
             Login
           </Button>
+          <Typography variant="body2" align="center" sx={{marginTop: 2}}>
+            Don't have an account? <Link to="/register">Register here</Link>
+          </Typography>
         </form>
       </Paper>
     </Box>

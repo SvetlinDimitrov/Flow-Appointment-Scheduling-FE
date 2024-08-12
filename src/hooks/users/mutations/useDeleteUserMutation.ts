@@ -3,6 +3,7 @@ import {deleteUser} from '../../../services/user-service.ts';
 import {useContext} from "react";
 import {AuthContext} from "../../../features/shared/context/AuthContext.tsx";
 import {UserContext} from "../../../features/shared/context/UserContext.tsx";
+import {toast} from "react-toastify";
 
 const useDeleteUserMutation = () => {
   const queryClient = useQueryClient();
@@ -17,6 +18,7 @@ const useDeleteUserMutation = () => {
       removeJwtTokenFun();
       removeUserIdFun();
       queryClient.removeQueries();
+      toast.success("User deleted successfully.");
     },
   });
 };

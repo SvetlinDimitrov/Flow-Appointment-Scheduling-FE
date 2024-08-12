@@ -4,7 +4,7 @@ import emailValidation from '../../shared/validation/emailValidation';
 import passwordValidation from '../../shared/validation/passwordValidation';
 import CreateUser from "../../../models/users/CreateUser.ts";
 import useCreateUserMutation from "../../../hooks/users/mutations/useCreateUserMutation.ts";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import nameValidation from "../../shared/validation/nameValidation.ts";
 import confirmPasswordValidation from "../../shared/validation/confirmPasswordValidation.ts";
 import {centeredContainerStyles, paperStyles} from "./registerStyle.ts";
@@ -93,9 +93,12 @@ const Register = () => {
             error={!!errors.confirmPassword}
             helperText={errors.confirmPassword ? errors.confirmPassword.message : ''}
           />
-          <Button variant="contained" color="primary" fullWidth type="submit">
+          <Button sx={{mt: 3, mb: 1}} variant="contained" color="primary" fullWidth type="submit">
             Register
           </Button>
+          <Typography variant="body2" align="center" sx={{marginTop: 2}}>
+            Already have an account? <Link to="/login">Login here</Link>
+          </Typography>
         </form>
       </Paper>
     </Box>

@@ -5,7 +5,13 @@ const ServicesOverviewSection = () => {
   const navigate = useNavigate();
 
   return (
-    <Stack sx={{ alignItems: 'center' , mt: '4rem'}} gap={5}>
+    <Stack sx={{
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      textAlign: 'center',
+      justifyContent: 'center',
+      alignItems: 'center'}} gap={5}>
       <Typography variant="h4" component="h2" gutterBottom sx={{ fontWeight: 'bold', fontSize: '2.5rem', color: '#333' }}>
         Our Services
       </Typography>
