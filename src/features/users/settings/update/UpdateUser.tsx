@@ -1,7 +1,8 @@
 import React from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
+import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
 import nameValidation from "../../../shared/validation/nameValidation.ts";
+import {dialogContentStyle, dialogTitleStyle, mainWrapperStyle} from "./updateUserStyles.ts";
 
 interface UpdateUserProps {
   open: boolean;
@@ -14,8 +15,8 @@ interface FormInputs {
   lastName: string;
 }
 
-const UpdateUser: React.FC<UpdateUserProps> = ({open, onClose, onSubmit}) => {
-  const {register, handleSubmit, formState: {errors}} = useForm<FormInputs>();
+const UpdateUser: React.FC<UpdateUserProps> = ({ open, onClose, onSubmit }) => {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
 
   const onSubmitForm: SubmitHandler<FormInputs> = (data) => {
     onSubmit(data.firstName, data.lastName);
@@ -23,12 +24,17 @@ const UpdateUser: React.FC<UpdateUserProps> = ({open, onClose, onSubmit}) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title" slotProps={{
-      backdrop: {sx: {backgroundColor: 'rgba(0, 0, 0, 0.8)',},},
+    <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title"
+            slotProps={{backdrop: { sx: mainWrapperStyle },}} PaperProps={{
+      sx: {
+        borderRadius: 3,
+      },
     }}>
-      <DialogTitle id="form-dialog-title">Update User</DialogTitle>
-      <DialogContent>
-        <form onSubmit={handleSubmit(onSubmitForm)}>
+
+      <DialogTitle id="form-dialog-title" sx={dialogTitleStyle}>Update User</DialogTitle>
+      <DialogContent sx={dialogContentStyle}>
+        <Box sx={{pt: 4}}>
+        <form onSubmit={handleSubmit(onSubmitForm)} >
           <TextField
             autoFocus
             margin="dense"
@@ -59,6 +65,7 @@ const UpdateUser: React.FC<UpdateUserProps> = ({open, onClose, onSubmit}) => {
             </Button>
           </DialogActions>
         </form>
+        </Box>
       </DialogContent>
     </Dialog>
   );

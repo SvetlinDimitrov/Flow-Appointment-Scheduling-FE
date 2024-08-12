@@ -8,7 +8,7 @@ import LoadingSpinner from "../../core/loading/LoadingSpinner.tsx";
 import useUpdateUserMutation from "../../../hooks/users/mutations/useUpdateUserMutation.ts";
 import {useNavigate} from "react-router-dom";
 import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserMutation.ts";
-import {centeredContainerStyles, paperStyles} from "./settingsStyle.ts";
+import {mainWrapperStyle, secondWrapperStyle} from "./settingsStyle.ts";
 
 const Settings = () => {
 
@@ -47,8 +47,8 @@ const Settings = () => {
   if (error) return <PageNotFound/>;
 
   return (
-    <Box sx={centeredContainerStyles}>
-      <Paper sx={paperStyles} elevation={4}>
+    <Box sx={mainWrapperStyle}>
+      <Paper sx={secondWrapperStyle} elevation={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Settings
         </Typography>
@@ -94,7 +94,9 @@ const Settings = () => {
             >
               Update
             </Button>
-            <UpdateUser open={isUpdateOpen} onClose={handleCloseUpdate} onSubmit={handleUpdateUser}/>
+            <UpdateUser open={isUpdateOpen}
+                        onClose={handleCloseUpdate}
+                        onSubmit={handleUpdateUser}/>
             <Button
               fullWidth
               variant="contained"

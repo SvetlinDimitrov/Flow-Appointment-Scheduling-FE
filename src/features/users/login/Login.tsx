@@ -4,7 +4,7 @@ import passwordValidation from "../../shared/validation/passwordValidation.ts";
 import emailValidation from "../../shared/validation/emailValidation.ts";
 import useLoginUserMutation from "../../../hooks/users/mutations/useLoginUserMutation.ts";
 import {Link, useNavigate} from "react-router-dom";
-import {centeredContainerStyles, paperStyles} from "./loginStyle.ts";
+import {mainWrapperStyle, registerLinkStyle, secondWrapperStyle} from "./loginStyle.ts";
 
 interface IFormInput {
   email: string;
@@ -32,8 +32,8 @@ const Login = () => {
   };
 
   return (
-    <Box sx={centeredContainerStyles}>
-      <Paper sx={paperStyles} elevation={4}>
+    <Box sx={mainWrapperStyle}>
+      <Paper sx={secondWrapperStyle} elevation={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Login
         </Typography>
@@ -59,7 +59,7 @@ const Login = () => {
           <Button sx={{mt: 3, mb: 1}} variant="contained" color="primary" fullWidth type="submit">
             Login
           </Button>
-          <Typography variant="body2" align="center" sx={{marginTop: 2}}>
+          <Typography variant="body2" align="center" sx={registerLinkStyle}>
             Don't have an account? <Link to="/register">Register here</Link>
           </Typography>
         </form>

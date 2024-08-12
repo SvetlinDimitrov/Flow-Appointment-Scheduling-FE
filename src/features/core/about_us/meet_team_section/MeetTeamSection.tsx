@@ -1,5 +1,11 @@
 import {Box, Button, Typography} from '@mui/material';
 import TeamMember from "./team_member/TeamMember.tsx";
+import {
+  headerStyle,
+  joinOurTeamButtonStyle,
+  mainWrapperStyle, subheaderStyle,
+  teamMembersWrapperStyle
+} from "./meetTeamSectionStyles.ts";
 
 const teamMembers = [
   {
@@ -24,24 +30,16 @@ const teamMembers = [
 
 const MeetTeamSection = () => {
   return (
-    <Box sx={{
-      textAlign: 'center',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-      gap: 4,
-      p: 4
-    }}>
-      <Typography variant="h4" component="h2" gutterBottom>
+    <Box sx={mainWrapperStyle}>
+      <Typography variant="h4" component="h2" sx={headerStyle} >
         Meet Our Expert Team
       </Typography>
-      <Typography variant="body1" paragraph>
+      <Typography variant="body1" paragraph sx={subheaderStyle}>
         Our team is a group of passionate professionals dedicated to your wellness. From our skilled massage therapists
         to our energetic fitness instructors, every member of Flow brings a wealth of experience and a commitment to
         your well-being.
       </Typography>
-      <Box sx={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 4, mt: 4}}>
+      <Box sx={teamMembersWrapperStyle}>
         {teamMembers.map((member, index) => (
           <TeamMember
             key={index}
@@ -52,7 +50,7 @@ const MeetTeamSection = () => {
           />
         ))}
       </Box>
-      <Button variant="contained" color="primary" sx={{mt: 4}}>
+      <Button variant="contained" color="primary" sx={joinOurTeamButtonStyle}>
         Join Our Team
       </Button>
     </Box>

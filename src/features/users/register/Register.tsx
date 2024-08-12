@@ -7,7 +7,7 @@ import useCreateUserMutation from "../../../hooks/users/mutations/useCreateUserM
 import {Link, useNavigate} from "react-router-dom";
 import nameValidation from "../../shared/validation/nameValidation.ts";
 import confirmPasswordValidation from "../../shared/validation/confirmPasswordValidation.ts";
-import {centeredContainerStyles, paperStyles} from "./registerStyle.ts";
+import {linkStyle, mainWrapperStyle, registerButtonStyle, secondWrapperStyle} from "./registerStyle.ts";
 
 interface IFormInput {
   email: string;
@@ -42,8 +42,8 @@ const Register = () => {
   };
 
   return (
-    <Box sx={centeredContainerStyles}>
-      <Paper sx={paperStyles} elevation={4}>
+    <Box sx={mainWrapperStyle}>
+      <Paper sx={secondWrapperStyle} elevation={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Register
         </Typography>
@@ -93,10 +93,10 @@ const Register = () => {
             error={!!errors.confirmPassword}
             helperText={errors.confirmPassword ? errors.confirmPassword.message : ''}
           />
-          <Button sx={{mt: 3, mb: 1}} variant="contained" color="primary" fullWidth type="submit">
+          <Button sx={registerButtonStyle} variant="contained" color="primary" type="submit">
             Register
           </Button>
-          <Typography variant="body2" align="center" sx={{marginTop: 2}}>
+          <Typography variant="body2" align="center" sx={linkStyle}>
             Already have an account? <Link to="/login">Login here</Link>
           </Typography>
         </form>

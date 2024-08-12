@@ -1,5 +1,6 @@
 import {Box, Button, TextField} from '@mui/material';
 import {useForm} from 'react-hook-form';
+import {contactUsButtonStyle, mainWrapperStyle} from "./contactUsStyles.ts";
 
 interface IFormInput {
   name: string;
@@ -15,8 +16,7 @@ const ContactForm = () => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)}
-         sx={{display: 'flex', flexDirection: 'column', width: '100%', maxWidth: '500px', gap: 2}}>
+    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={mainWrapperStyle}>
       <TextField
         label="Name"
         variant="outlined"
@@ -52,7 +52,7 @@ const ContactForm = () => {
         helperText={errors.message ? errors.message.message : ''}
         sx={{backgroundColor: 'white', borderRadius: 1}}
       />
-      <Button variant="contained" color="primary" type="submit" sx={{mt: 2, px: 4, py: 1.5, fontSize: '1rem'}}>
+      <Button variant="contained" color="primary" type="submit" sx={contactUsButtonStyle}>
         Send Message
       </Button>
     </Box>

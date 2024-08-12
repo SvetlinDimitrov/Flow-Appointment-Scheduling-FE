@@ -1,5 +1,12 @@
 import {Box, Typography} from '@mui/material';
 import MissionValueItem from './mission_value_item/MissionValueItem';
+import {
+  headerStyle,
+  mainWrapperStyle,
+  missionValueWrapperStyle,
+  secondaryWrapperStyle,
+  subheaderStyle
+} from "./missionValuesSectionStyles.ts";
 
 const missionValues = [
   {
@@ -21,33 +28,26 @@ const missionValues = [
 
 const MissionValuesSection = () => {
   return (
-    <Box sx={{
-      textAlign: 'center',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-      gap: 4,
-      p: 4,
-      backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    }}>
-      <Typography variant="h4" component="h2" gutterBottom>
+    <Box sx={mainWrapperStyle}>
+      <Box sx={secondaryWrapperStyle}>
+        <Typography variant="h4" component="h2" gutterBottom sx={headerStyle}>
         Our Mission and Values
       </Typography>
-      <Typography variant="body1" paragraph>
+        <Typography variant="body1" paragraph sx={subheaderStyle}>
         At Flow, our mission is to enhance the well-being of every individual we serve through personalized wellness
         solutions. We are committed to creating an environment that fosters health, relaxation, and a sense of
         community.
       </Typography>
-      <Box sx={{display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 5, mt: 4}}>
-        {missionValues.map((value, index) => (
-          <MissionValueItem
-            key={index}
-            iconSrc={value.iconSrc}
-            title={value.title}
-            description={value.description}
-          />
-        ))}
+        <Box sx={missionValueWrapperStyle}>
+          {missionValues.map((value, index) => (
+            <MissionValueItem
+              key={index}
+              iconSrc={value.iconSrc}
+              title={value.title}
+              description={value.description}
+            />
+          ))}
+        </Box>
       </Box>
     </Box>
   );
