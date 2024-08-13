@@ -4,7 +4,7 @@ export const mainWrapperStyle: SxProps = {
   position: 'relative',
   textAlign: 'center',
   p: 3,
-  backgroundImage: 'url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Finstyledecoparis.com%2Fwp-content%2Fuploads%2F2021%2F10%2F3d-rendering-modern-loft-gym-and-fitness-N8JNRLH-1.jpg&f=1&nofb=1&ipt=e72ca8d3257bcd78367eca0223ba6e28147e6c801395c2571ab1718966b42922&ipo=images)',
+  backgroundImage: 'url("/static/images/home/customer_section_bg.jpg")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   height: {

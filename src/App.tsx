@@ -8,19 +8,20 @@ import AuthenticatedUser from "./features/core/layouts/AuthenticatedUser.tsx";
 import Header from "./features/core/header/Header.tsx";
 import Footer from "./features/core/footer/Footer.tsx";
 import LoadingSpinner from "./features/core/loading/LoadingSpinner.tsx";
-import Logout from "./features/users/logout/Logout.tsx";
 import {setupInterceptors} from "./utils/axios_config/axiosInstance.ts";
 import {useContext, useEffect} from "react";
 import {AuthContext} from "./features/shared/context/AuthContext.tsx";
 import Settings from "./features/users/settings/Settings.tsx";
 import AboutUs from "./features/core/about_us/AboutUs.tsx";
+import {UserContext} from "./features/shared/context/UserContext.tsx";
 
 function App() {
 
   const authContext = useContext(AuthContext)!;
+  const userContext = useContext(UserContext)!;
 
   useEffect(() => {
-    setupInterceptors(authContext);
+    setupInterceptors(authContext, userContext);
   }, []);
 
   return (
@@ -37,7 +38,6 @@ function App() {
           </Route>
           <Route element={<AuthenticatedUser/>}>
             <Route path="/settings" element={<Settings/>}/>
-            <Route path="/logout" element={<Logout/>}/>
           </Route>
         </Routes>
       <Footer/>

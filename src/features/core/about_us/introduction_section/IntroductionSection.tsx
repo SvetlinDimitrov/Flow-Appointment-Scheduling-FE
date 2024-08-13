@@ -14,7 +14,7 @@ const IntroductionSection = () => {
       </Typography>
       <Box
         component="img"
-        src="https://softwareresources.com/wp-content/uploads/2013/07/Building-Great-Founding-Teams-1200x628-1080x628.jpg"
+        src="/static/images/about_us/introduction_section_group.jpg"
         alt="Welcoming image of the spa"
         sx={imageStyle}
       />

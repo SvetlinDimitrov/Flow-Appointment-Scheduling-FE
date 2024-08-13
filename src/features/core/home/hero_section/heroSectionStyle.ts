@@ -11,7 +11,7 @@ export const mainBoxStyle: SxProps = {
   textAlign: 'center',
   overflow: 'hidden',
   gap: '4rem',
-  backgroundImage: 'url(https://www.aquaviaspa.es/wp-content/uploads/2017/09/fitness-banner.png)',
+  backgroundImage: 'url(/static/images/home/hero_section_bg.png)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   '::before': {

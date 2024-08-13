@@ -13,10 +13,14 @@ interface AuthContextType {
   setJwtTokenFun: (token: Jwt) => void;
   setRefreshTokenFun: (token: RefreshToken) => void;
   removeJwtTokenFun: () => void;
-  removeRefreshToken: () => void;
+  removeRefreshTokenFun: () => void;
 }
 
-const setupInterceptors = (auth: AuthContextType) => {
+interface UserContextType {
+  removeUserIdFun: () => void;
+}
+
+const setupInterceptors = (authContext: AuthContextType, userContext: UserContextType) => {
   axiosInstance.interceptors.request.use(
     async (config) => {
 
@@ -25,8 +29,9 @@ const setupInterceptors = (auth: AuthContextType) => {
       if (refreshTokenValue) {
         if (new Date(refreshTokenValue.expirationTime) <= new Date()) {
           // Refresh token is expired
-          auth.removeJwtTokenFun();
-          auth.removeRefreshToken();
+          authContext.removeJwtTokenFun();
+          authContext.removeRefreshTokenFun();
+          userContext.removeUserIdFun();
         } else {
           // Refresh token is valid
           if (jwtToken) {
@@ -34,14 +39,13 @@ const setupInterceptors = (auth: AuthContextType) => {
               // JWT token is expired, refresh it
               try {
                 const response = await refreshToken({ token: refreshTokenValue.token });
-                auth.setJwtTokenFun(response.jwtToken);
-                auth.setRefreshTokenFun(response.refreshToken);
+                authContext.setJwtTokenFun(response.jwtToken);
+                authContext.setRefreshTokenFun(response.refreshToken);
                 config.headers['Authorization'] = `Bearer ${response.jwtToken.token}`;
               } catch (error) {
-                console.log(123);
-                // Failed to refresh token (e.g. refresh token is expired)
-                // auth.removeJwtTokenFun();
-                // auth.removeRefreshToken();
+                authContext.removeJwtTokenFun();
+                authContext.removeRefreshTokenFun();
+                userContext.removeUserIdFun();
               }
             } else {
               // JWT token is valid

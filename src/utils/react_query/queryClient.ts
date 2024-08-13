@@ -13,7 +13,11 @@ export const queryClient = new QueryClient({
     }
   },
   mutationCache: new MutationCache({
-    onError: (error) => {
+    onError: (error, _variables, _context, mutation) => {
+      if (mutation.options.onError) {
+        // If a specific onError handler is defined, do not execute the global handler
+        return;
+      }
       if (error instanceof AxiosError) {
         if (error.response?.status === 400) {
           const errorBody: BadRequestBody = error.response?.data;

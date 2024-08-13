@@ -18,7 +18,7 @@ interface AuthContextType {
   setJwtTokenFun: (token: Jwt) => void;
   setRefreshTokenFun: (token: RefreshToken) => void;
   removeJwtTokenFun: () => void;
-  removeRefreshToken: () => void;
+  removeRefreshTokenFun: () => void;
   isUserAuthenticated: () => boolean;
 }
 
@@ -48,7 +48,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
     setJwtToken(null);
   };
 
-  const removeRefreshToken = () => {
+  const removeRefreshTokenFun = () => {
     removeRefreshTokenFromLocalStorage()
     setRefreshToken(null);
   };
@@ -61,7 +61,7 @@ export const AuthProvider = ({children}: { children: ReactNode }) => {
       setJwtTokenFun,
       setRefreshTokenFun,
       removeJwtTokenFun,
-      removeRefreshToken
+      removeRefreshTokenFun
     }}>
       {children}
     </AuthContext.Provider>

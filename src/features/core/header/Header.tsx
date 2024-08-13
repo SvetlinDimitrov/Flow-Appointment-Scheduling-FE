@@ -5,9 +5,12 @@ import {AuthContext} from "../../shared/context/AuthContext.tsx";
 import {appBarStyles, buttonStyles, horizontalLinksStyles, typographyStyles} from "./headerStyles.ts";
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import Sandwich from "./sandwitch/Sandwich.tsx";
+import useLogoutUser from "../../../hooks/users/custom/useLogaoutUser.ts";
 
 const Header = () => {
+
   const navigate = useNavigate();
+  const logoutUser = useLogoutUser();
 
   const {isUserAuthenticated} = useContext(AuthContext)!;
 
@@ -31,7 +34,9 @@ const Header = () => {
           <Button color="inherit" sx={buttonStyles} onClick={() => navigate('/settings')}>
             Settings
           </Button>
-          <Button color="inherit" sx={buttonStyles} onClick={() => navigate('/logout')}>
+          <Button color="inherit" sx={buttonStyles} onClick={() => {
+            if (window.confirm("Are you sure you want to logout?")) logoutUser();
+          }}>
             Logout
           </Button>
         </>

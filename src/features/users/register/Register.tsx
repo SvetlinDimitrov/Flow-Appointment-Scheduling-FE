@@ -62,7 +62,7 @@ const Register = () => {
             type="text"
             fullWidth
             margin="normal"
-            {...register('firstName')}
+            {...register('firstName', nameValidation)}
             error={!!errors.firstName}
             helperText={errors.firstName ? errors.firstName.message : ''}
           />

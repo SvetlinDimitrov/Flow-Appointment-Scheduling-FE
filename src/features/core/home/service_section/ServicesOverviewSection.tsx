@@ -4,19 +4,19 @@ import ServiceCard from "./service_card_props/ServiceCard.tsx";
 
 const serviceCardsData = [
   {
-    image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fblog.priceplow.com%2Fwp-content%2Fuploads%2Frevive-md-chris-bumstead-gym.jpg&f=1&nofb=1&ipt=611ffae345d9e5a04a2e6434b4bcb910ce594fd3b087f28b7d8ed007a384e8ff&ipo=images",
+    image: "/static/images/home/fitness_service.jpg",
     alt: "Fitness Classes",
     title: "Fitness Classes",
     navigateTo: "/services/fitness-classes"
   },
   {
-    image: "https://florida-academy.edu/wp-content/uploads/2019/11/MassageTherapyFAQs-FloridaAcademy.jpeg",
+    image: "/static/images/home/massage_service.jpeg",
     alt: "Massage Therapy",
     title: "Massage Therapy",
     navigateTo: "/services/massage-therapy"
   },
   {
-    image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fgumlet.assettype.com%2Ffreepressjournal%2F2023-03%2F92967be8-b607-4e37-9f21-50d09f14a790%2Fwinter_skincare_2022_natural_ingredients_at_home.jpg&f=1&nofb=1&ipt=8e36e3ddc2e6daa25887752c1811c0ccb60be37eb4ef112d52936953ae5501da&ipo=images",
+    image: "/static/images/home/skin_treatment_service.jpg",
     alt: "Skincare Treatments",
     title: "Skincare Treatments",
     navigateTo: "/services/skincare-treatments"

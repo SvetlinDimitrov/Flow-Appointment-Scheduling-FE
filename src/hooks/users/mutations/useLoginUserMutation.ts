@@ -21,6 +21,9 @@ const useLoginUserMutation = () => {
       setRefreshTokenFun(data.refreshToken);
       toast.success("Login successful.");
     },
+    onError: () => {
+      toast.error("Invalid email or password.");
+    }
   });
 };
 
