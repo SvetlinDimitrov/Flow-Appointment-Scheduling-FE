@@ -26,8 +26,8 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider = ({children}: { children: ReactNode }) => {
 
-  const [jwtToken, setJwtToken] = useState<Jwt | null>(getJwtTokenFromLocalStorage());
-  const [refreshToken, setRefreshToken] = useState<RefreshToken | null>(getRefreshTokenFromLocalStorage());
+  const [jwtToken, setJwtToken] = useState<Jwt | null>(getJwtTokenFromLocalStorage);
+  const [refreshToken, setRefreshToken] = useState<RefreshToken | null>(getRefreshTokenFromLocalStorage);
 
   const isUserAuthenticated = () => {
     return !!(refreshToken && new Date(refreshToken.expirationTime) > new Date());

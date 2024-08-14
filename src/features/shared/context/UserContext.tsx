@@ -14,7 +14,7 @@ interface UserContextType {
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({children}: { children: ReactNode }) => {
-  const [userId, setUserId] = useState<number | null>(getUserIdFromLocalStorage());
+  const [userId, setUserId] = useState<number | null>(getUserIdFromLocalStorage);
 
   const setUserIdFun = (id: number) => {
     setUserIdInLocalStorage(id);
