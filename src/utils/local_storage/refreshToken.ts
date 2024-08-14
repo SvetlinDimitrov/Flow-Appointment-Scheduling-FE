@@ -1,4 +1,4 @@
-import RefreshToken from "../../models/auth/RefreshToken.ts";
+import {RefreshToken} from "../../models/auth.types.ts";
 
 export const setRefreshTokenInLocalStorage = (token: RefreshToken) => {
   localStorage.setItem('flow/refreshToken', JSON.stringify(token));

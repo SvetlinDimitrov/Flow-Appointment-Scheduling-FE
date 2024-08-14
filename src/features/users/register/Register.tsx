@@ -2,12 +2,12 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {Box, Button, Paper, TextField, Typography} from '@mui/material';
 import emailValidation from '../../shared/validation/emailValidation';
 import passwordValidation from '../../shared/validation/passwordValidation';
-import CreateUser from "../../../models/users/CreateUser.ts";
 import useCreateUserMutation from "../../../hooks/users/mutations/useCreateUserMutation.ts";
 import {Link, useNavigate} from "react-router-dom";
 import nameValidation from "../../shared/validation/nameValidation.ts";
 import confirmPasswordValidation from "../../shared/validation/confirmPasswordValidation.ts";
 import {linkStyle, mainWrapperStyle, registerButtonStyle, secondWrapperStyle} from "./registerStyle.ts";
+import {CreateUserRequest} from "../../../models/api/users.ts";
 
 interface IFormInput {
   email: string;
@@ -27,7 +27,7 @@ const Register = () => {
   const password = watch('password');
 
   const onSubmit: SubmitHandler<IFormInput> = data => {
-    const body: CreateUser = {
+    const body: CreateUserRequest = {
       email: data.email,
       firstName: data.firstName,
       lastName: data.lastName,

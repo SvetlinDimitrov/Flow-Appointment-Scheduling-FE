@@ -3,7 +3,7 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
 import nameValidation from "../../../shared/validation/nameValidation.ts";
 import {dialogContentStyle, dialogTitleStyle, mainWrapperStyle} from "./updateUserStyles.ts";
-import User from "../../../../models/users/User.ts";
+import {User} from "../../../../models/user.types.ts";
 
 interface UpdateUserProps {
   open: boolean;

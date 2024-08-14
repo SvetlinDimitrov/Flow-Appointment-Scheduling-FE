@@ -1,4 +1,4 @@
-import JwtToken from "../../models/auth/JwtToken.ts";
+import {JwtToken} from "../../models/auth.types.ts";
 
 export const setJwtTokenInLocalStorage = (token: JwtToken) => {
   localStorage.setItem('flow/jwtToken', JSON.stringify(token));

@@ -1,7 +1,5 @@
 import {axiosInstance} from '../utils/axios_config/axiosInstance';
-import AuthenticationRequest from "../models/auth/AuthenticationRequest.ts";
-import AuthenticationResponse from "../models/auth/AuthenticationResponse.ts";
-import RefreshTokenRequest from "../models/auth/RefreshTokenRequest.ts";
+import {AuthenticationRequest, AuthenticationResponse, RefreshTokenRequest} from "../models/api/auth.ts";
 
 export const createAuthenticationToken = async (authRequest: AuthenticationRequest): Promise<AuthenticationResponse> => {
   const response = await axiosInstance.post(`/auth`, authRequest);

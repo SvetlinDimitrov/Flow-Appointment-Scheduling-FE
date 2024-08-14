@@ -9,10 +9,10 @@ import {
   removeRefreshTokenFromLocalStorage,
   setRefreshTokenInLocalStorage
 } from "../../../utils/local_storage/refreshToken.ts";
-import RefreshToken from "../../../models/auth/RefreshToken.ts";
-import JwtToken from "../../../models/auth/JwtToken.ts";
+
 import {removeJwtTokenFromLocalStorage, setJwtTokenInLocalStorage} from "../../../utils/local_storage/jwtToken.ts";
 import {getUserIdFromJwt} from "../../../utils/jwt/jwtDecoder.ts";
+import {JwtToken, RefreshToken} from "../../../models/auth.types.ts";
 
 interface UserContextType {
   userId: number | null;

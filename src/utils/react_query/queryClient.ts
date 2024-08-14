@@ -1,8 +1,7 @@
 import {MutationCache, QueryClient} from '@tanstack/react-query';
 import {AxiosError} from "axios";
-import BadRequestBody from "../../models/error/badRequestBody.ts";
-import NotFoundErrorBody from "../../models/error/notFoundErrorBody.ts";
 import {toast} from "react-toastify";
+import {BadRequestBody, NotFoundErrorBody} from "../../models/api/errors.ts";
 
 // Defining global error handlers for the query and mutation caches
 export const queryClient = new QueryClient({

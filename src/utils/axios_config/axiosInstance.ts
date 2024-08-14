@@ -2,8 +2,7 @@ import axios from 'axios';
 import {refreshToken} from "../../services/auth-service.ts";
 import {getRefreshTokenFromLocalStorage} from "../local_storage/refreshToken.ts";
 import {getJwtTokenFromLocalStorage} from "../local_storage/jwtToken.ts";
-import JwtToken from "../../models/auth/JwtToken.ts";
-import RefreshToken from "../../models/auth/RefreshToken.ts";
+import {JwtToken, RefreshToken} from "../../models/auth.types.ts";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,

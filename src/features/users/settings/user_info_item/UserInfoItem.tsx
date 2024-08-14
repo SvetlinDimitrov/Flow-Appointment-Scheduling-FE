@@ -1,4 +1,3 @@
-// src/features/users/settings/user_info_item/UserInfoItem.tsx
 import {Box, Typography} from '@mui/material';
 import {ReactNode} from 'react';
 

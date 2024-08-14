@@ -1,10 +1,9 @@
 import {useMutation} from "@tanstack/react-query";
-import AuthenticationRequest from "../../../models/auth/AuthenticationRequest.ts";
-import AuthenticationResponse from "../../../models/auth/AuthenticationResponse.ts";
 import {createAuthenticationToken} from "../../../services/auth-service.ts";
 import {useContext} from "react";
 import {UserAuthContext} from "../../../features/shared/context/UserAuthContext.tsx";
 import {toast} from "react-toastify";
+import {AuthenticationRequest, AuthenticationResponse} from "../../../models/api/auth.ts";
 
 const useLoginUserMutation = () => {
 
