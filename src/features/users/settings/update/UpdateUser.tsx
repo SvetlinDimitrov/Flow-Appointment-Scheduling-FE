@@ -3,11 +3,13 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
 import nameValidation from "../../../shared/validation/nameValidation.ts";
 import {dialogContentStyle, dialogTitleStyle, mainWrapperStyle} from "./updateUserStyles.ts";
+import User from "../../../../models/users/User.ts";
 
 interface UpdateUserProps {
   open: boolean;
   onClose: () => void;
   onSubmit: (firstName: string, lastName: string) => void;
+  data: User;
 }
 
 interface FormInputs {
@@ -15,9 +17,13 @@ interface FormInputs {
   lastName: string;
 }
 
-const UpdateUser: React.FC<UpdateUserProps> = ({ open, onClose, onSubmit }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
-
+const UpdateUser: React.FC<UpdateUserProps> = ({ open, onClose, onSubmit , data}) => {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>({
+    defaultValues: {
+      firstName: data.firstName,
+      lastName: data.lastName,
+    }
+  });
   const onSubmitForm: SubmitHandler<FormInputs> = (data) => {
     onSubmit(data.firstName, data.lastName);
     onClose();

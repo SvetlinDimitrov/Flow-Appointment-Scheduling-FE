@@ -96,7 +96,8 @@ const Settings = () => {
             </Button>
             <UpdateUser open={isUpdateOpen}
                         onClose={handleCloseUpdate}
-                        onSubmit={handleUpdateUser}/>
+                        onSubmit={handleUpdateUser}
+                        data={user}/>
             <Button
               fullWidth
               variant="contained"
