@@ -1,7 +1,7 @@
-import Jwt from "./Jwt.ts";
+import JwtToken from "./JwtToken.ts";
 import RefreshToken from "./RefreshToken.ts";
 
 export default interface AuthenticationResponse {
-  jwtToken: Jwt;
+  jwtToken: JwtToken;
   refreshToken: RefreshToken;
 }

@@ -1,10 +1,10 @@
-import Jwt from "../../models/auth/Jwt.ts";
+import JwtToken from "../../models/auth/JwtToken.ts";
 
-export const setJwtTokenInLocalStorage = (token: Jwt) => {
+export const setJwtTokenInLocalStorage = (token: JwtToken) => {
   localStorage.setItem('flow/jwtToken', JSON.stringify(token));
 }
 
-export const getJwtTokenFromLocalStorage = (): Jwt | null => {
+export const getJwtTokenFromLocalStorage = (): JwtToken | null => {
   const storedJwtToken = localStorage.getItem('flow/jwtToken');
   return storedJwtToken ? JSON.parse(storedJwtToken) : null;
 }

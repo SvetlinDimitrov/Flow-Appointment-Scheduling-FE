@@ -10,18 +10,16 @@ import Footer from "./features/core/footer/Footer.tsx";
 import LoadingSpinner from "./features/core/loading/LoadingSpinner.tsx";
 import {setupInterceptors} from "./utils/axios_config/axiosInstance.ts";
 import {useContext, useEffect} from "react";
-import {AuthContext} from "./features/shared/context/AuthContext.tsx";
 import Settings from "./features/users/settings/Settings.tsx";
 import AboutUs from "./features/core/about_us/AboutUs.tsx";
-import {UserContext} from "./features/shared/context/UserContext.tsx";
+import {UserAuthContext} from "./features/shared/context/UserAuthContext.tsx";
 
 function App() {
 
-  const authContext = useContext(AuthContext)!;
-  const userContext = useContext(UserContext)!;
+  const userContext = useContext(UserAuthContext)!;
 
   useEffect(() => {
-    setupInterceptors(authContext, userContext);
+    setupInterceptors(userContext);
   }, []);
 
   return (

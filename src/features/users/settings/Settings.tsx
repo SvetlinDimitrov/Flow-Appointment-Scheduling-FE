@@ -1,7 +1,7 @@
 import {Box, Button, Paper, Stack, TextField, Typography} from '@mui/material';
 import useGetUserQuery from "../../../hooks/users/query/useGetUserQuery.ts";
 import {useContext, useState} from "react";
-import {UserContext} from "../../shared/context/UserContext.tsx";
+import {UserAuthContext} from "../../shared/context/UserAuthContext.tsx";
 import PageNotFound from "../../core/not_found/PageNotFound.tsx";
 import UpdateUser from "./update/UpdateUser.tsx";
 import LoadingSpinner from "../../core/loading/LoadingSpinner.tsx";
@@ -12,7 +12,7 @@ import {mainWrapperStyle, secondWrapperStyle} from "./settingsStyle.ts";
 
 const Settings = () => {
 
-  const {userId} = useContext(UserContext)!;
+  const {userId} = useContext(UserAuthContext)!;
 
   const navigate = useNavigate();
 

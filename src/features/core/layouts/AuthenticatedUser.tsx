@@ -1,10 +1,9 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../../shared/context/AuthContext.tsx";
+import {Navigate, Outlet} from "react-router-dom";
+import {useContext} from "react";
+import {UserAuthContext} from "../../shared/context/UserAuthContext.tsx";
 
 const AuthenticatedUser = () => {
-  const {isUserAuthenticated} = useContext(AuthContext)!;
-
+  const {isUserAuthenticated} = useContext(UserAuthContext)!;
 
   if (!isUserAuthenticated()) {
     return <Navigate to="/login" />;

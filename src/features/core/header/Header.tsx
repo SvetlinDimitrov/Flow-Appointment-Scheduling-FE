@@ -1,18 +1,16 @@
 import {AppBar, Button, IconButton, Stack, Toolbar, Typography} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {useContext} from "react";
-import {AuthContext} from "../../shared/context/AuthContext.tsx";
 import {appBarStyles, buttonStyles, horizontalLinksStyles, typographyStyles} from "./headerStyles.ts";
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import Sandwich from "./sandwitch/Sandwich.tsx";
-import useLogoutUser from "../../../hooks/users/custom/useLogaoutUser.ts";
+import {UserAuthContext} from "../../shared/context/UserAuthContext.tsx";
 
 const Header = () => {
 
   const navigate = useNavigate();
-  const logoutUser = useLogoutUser();
 
-  const {isUserAuthenticated} = useContext(AuthContext)!;
+  const {isUserAuthenticated, logout} = useContext(UserAuthContext)!;
 
   const menuItems = (
     <>
@@ -35,7 +33,7 @@ const Header = () => {
             Settings
           </Button>
           <Button color="inherit" sx={buttonStyles} onClick={() => {
-            if (window.confirm("Are you sure you want to logout?")) logoutUser();
+            if (window.confirm("Are you sure you want to logout?")) logout();
           }}>
             Logout
           </Button>

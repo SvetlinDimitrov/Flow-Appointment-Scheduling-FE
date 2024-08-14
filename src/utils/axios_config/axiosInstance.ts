@@ -2,25 +2,19 @@ import axios from 'axios';
 import {refreshToken} from "../../services/auth-service.ts";
 import {getRefreshTokenFromLocalStorage} from "../local_storage/refreshToken.ts";
 import {getJwtTokenFromLocalStorage} from "../local_storage/jwtToken.ts";
-import Jwt from "../../models/auth/Jwt.ts";
+import JwtToken from "../../models/auth/JwtToken.ts";
 import RefreshToken from "../../models/auth/RefreshToken.ts";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
-interface AuthContextType {
-  setJwtToken: (token: Jwt) => void;
-  setRefreshToken: (token: RefreshToken) => void;
-  removeJwtToken: () => void;
-  removeRefreshToken: () => void;
+interface InterceptorProps {
+  login: (jwtToken: JwtToken, refreshToken: RefreshToken) => void;
+  logout: () => void;
 }
 
-interface UserContextType {
-  removeUserId: () => void;
-}
-
-const setupInterceptors = (authContext: AuthContextType, userContext: UserContextType) => {
+const setupInterceptors = ({login, logout}: InterceptorProps) => {
   axiosInstance.interceptors.request.use(
     async (config) => {
 
@@ -29,9 +23,7 @@ const setupInterceptors = (authContext: AuthContextType, userContext: UserContex
       if (refreshTokenValue) {
         if (new Date(refreshTokenValue.expirationTime) <= new Date()) {
           // Refresh token is expired
-          authContext.removeJwtToken();
-          authContext.removeRefreshToken();
-          userContext.removeUserId();
+          logout();
         } else {
           // Refresh token is valid
           if (jwtToken) {
@@ -39,13 +31,10 @@ const setupInterceptors = (authContext: AuthContextType, userContext: UserContex
               // JWT token is expired, refresh it
               try {
                 const response = await refreshToken({ token: refreshTokenValue.token });
-                authContext.setJwtToken(response.jwtToken);
-                authContext.setRefreshToken(response.refreshToken);
+                login(response.jwtToken, refreshTokenValue);
                 config.headers['Authorization'] = `Bearer ${response.jwtToken.token}`;
               } catch (error) {
-                authContext.removeJwtToken();
-                authContext.removeRefreshToken();
-                userContext.removeUserId();
+                logout();
               }
             } else {
               // JWT token is valid

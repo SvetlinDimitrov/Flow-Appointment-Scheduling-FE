@@ -1,4 +1,4 @@
-export default interface Jwt {
+export default interface JwtToken {
   token: string;
   expirationTime: Date;
 }

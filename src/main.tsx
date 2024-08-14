@@ -3,8 +3,7 @@ import {createRoot} from 'react-dom/client'
 import App from './App.tsx'
 import './reset.css'
 import './index.css'
-import AuthProvider from "./features/shared/context/AuthContext.tsx";
-import UserProvider from "./features/shared/context/UserContext.tsx";
+import UserAuthProvider from "./features/shared/context/UserAuthContext.tsx";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import {BrowserRouter} from "react-router-dom";
@@ -13,8 +12,7 @@ import ToastNotification from "./features/core/toast/ToastNotification.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <AuthProvider>
-      <UserProvider>
+      <UserAuthProvider>
           <QueryClientProvider client={queryClient}>
             <BrowserRouter>
               <App/>
@@ -22,7 +20,6 @@ createRoot(document.getElementById('root')!).render(
             <ReactQueryDevtools/>
             <ToastNotification/>
           </QueryClientProvider>
-      </UserProvider>
-    </AuthProvider>
+      </UserAuthProvider>
   </StrictMode>,
 )
