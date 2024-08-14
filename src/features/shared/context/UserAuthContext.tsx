@@ -3,7 +3,7 @@ import {
   getUserIdFromLocalStorage,
   removeUserIdFromLocalStorage,
   setUserIdInLocalStorage
-} from "../../../utils/local_storage/userToken.ts";
+} from "../../../utils/local_storage/userId.ts";
 import {
   getRefreshTokenFromLocalStorage,
   removeRefreshTokenFromLocalStorage,
