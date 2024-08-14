@@ -8,15 +8,15 @@ import {toast} from "react-toastify";
 const useDeleteUserMutation = () => {
   const queryClient = useQueryClient();
 
-  const {removeRefreshTokenFun, removeJwtTokenFun} = useContext(AuthContext)!;
-  const {removeUserIdFun} = useContext(UserContext)!;
+  const {removeRefreshToken, removeJwtToken} = useContext(AuthContext)!;
+  const {removeUserId} = useContext(UserContext)!;
 
   return useMutation({
     mutationFn: (id: number) => deleteUser(id),
     onSuccess: () => {
-      removeRefreshTokenFun();
-      removeJwtTokenFun();
-      removeUserIdFun();
+      removeRefreshToken();
+      removeJwtToken();
+      removeUserId();
       queryClient.removeQueries();
       toast.success("User deleted successfully.");
     },

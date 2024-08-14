@@ -10,15 +10,15 @@ import {toast} from "react-toastify";
 
 const useLoginUserMutation = () => {
 
-  const {setJwtTokenFun , setRefreshTokenFun} = useContext(AuthContext)!;
-  const {setUserIdFun} = useContext(UserContext)!;
+  const {setJwtToken , setRefreshToken} = useContext(AuthContext)!;
+  const {setUserId} = useContext(UserContext)!;
 
   return useMutation({
     mutationFn: (authRequest: AuthenticationRequest) => createAuthenticationToken(authRequest),
     onSuccess: (data: AuthenticationResponse) => {
-      setJwtTokenFun(data.jwtToken);
-      setUserIdFun(getUserIdFromJwt(data.jwtToken.token));
-      setRefreshTokenFun(data.refreshToken);
+      setJwtToken(data.jwtToken);
+      setUserId(getUserIdFromJwt(data.jwtToken.token));
+      setRefreshToken(data.refreshToken);
       toast.success("Login successful.");
     },
     onError: () => {

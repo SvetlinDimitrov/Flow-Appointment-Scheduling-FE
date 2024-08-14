@@ -7,27 +7,27 @@ import {
 
 interface UserContextType {
   userId: number | null;
-  setUserIdFun: (id: number) => void;
-  removeUserIdFun: () => void;
+  setUserId: (id: number) => void;
+  removeUserId: () => void;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({children}: { children: ReactNode }) => {
-  const [userId, setUserId] = useState<number | null>(getUserIdFromLocalStorage);
+  const [userId, setUser] = useState<number | null>(getUserIdFromLocalStorage);
 
-  const setUserIdFun = (id: number) => {
+  const setUserId = (id: number) => {
     setUserIdInLocalStorage(id);
-    setUserId(id);
+    setUser(id);
   };
 
-  const removeUserIdFun = () => {
+  const removeUserId = () => {
     removeUserIdFromLocalStorage();
-    setUserId(null);
+    setUser(null);
   };
 
   return (
-    <UserContext.Provider value={{userId, setUserIdFun, removeUserIdFun}}>
+    <UserContext.Provider value={{userId, setUserId, removeUserId}}>
       {children}
     </UserContext.Provider>
   );

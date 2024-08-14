@@ -8,13 +8,13 @@ import {toast} from "react-toastify";
 const useLogoutUser = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const {removeRefreshTokenFun, removeJwtTokenFun} = useContext(AuthContext)!;
-  const {removeUserIdFun} = useContext(UserContext)!;
+  const {removeRefreshToken, removeJwtToken} = useContext(AuthContext)!;
+  const {removeUserId} = useContext(UserContext)!;
 
   return () => {
-    removeJwtTokenFun();
-    removeRefreshTokenFun();
-    removeUserIdFun();
+    removeJwtToken();
+    removeRefreshToken();
+    removeUserId();
     queryClient.removeQueries();
     toast.success("Logged out successfully.");
     navigate('/');

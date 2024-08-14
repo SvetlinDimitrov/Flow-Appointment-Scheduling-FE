@@ -10,14 +10,14 @@ const axiosInstance = axios.create({
 });
 
 interface AuthContextType {
-  setJwtTokenFun: (token: Jwt) => void;
-  setRefreshTokenFun: (token: RefreshToken) => void;
-  removeJwtTokenFun: () => void;
-  removeRefreshTokenFun: () => void;
+  setJwtToken: (token: Jwt) => void;
+  setRefreshToken: (token: RefreshToken) => void;
+  removeJwtToken: () => void;
+  removeRefreshToken: () => void;
 }
 
 interface UserContextType {
-  removeUserIdFun: () => void;
+  removeUserId: () => void;
 }
 
 const setupInterceptors = (authContext: AuthContextType, userContext: UserContextType) => {
@@ -29,9 +29,9 @@ const setupInterceptors = (authContext: AuthContextType, userContext: UserContex
       if (refreshTokenValue) {
         if (new Date(refreshTokenValue.expirationTime) <= new Date()) {
           // Refresh token is expired
-          authContext.removeJwtTokenFun();
-          authContext.removeRefreshTokenFun();
-          userContext.removeUserIdFun();
+          authContext.removeJwtToken();
+          authContext.removeRefreshToken();
+          userContext.removeUserId();
         } else {
           // Refresh token is valid
           if (jwtToken) {
@@ -39,13 +39,13 @@ const setupInterceptors = (authContext: AuthContextType, userContext: UserContex
               // JWT token is expired, refresh it
               try {
                 const response = await refreshToken({ token: refreshTokenValue.token });
-                authContext.setJwtTokenFun(response.jwtToken);
-                authContext.setRefreshTokenFun(response.refreshToken);
+                authContext.setJwtToken(response.jwtToken);
+                authContext.setRefreshToken(response.refreshToken);
                 config.headers['Authorization'] = `Bearer ${response.jwtToken.token}`;
               } catch (error) {
-                authContext.removeJwtTokenFun();
-                authContext.removeRefreshTokenFun();
-                userContext.removeUserIdFun();
+                authContext.removeJwtToken();
+                authContext.removeRefreshToken();
+                userContext.removeUserId();
               }
             } else {
               // JWT token is valid
