@@ -1,4 +1,5 @@
-import {Box, Button, Paper, Stack, TextField, Typography} from '@mui/material';
+// src/features/users/settings/Settings.tsx
+import {Box, Button, Paper, Stack, Typography} from '@mui/material';
 import useGetUserQuery from "../../../hooks/users/query/useGetUserQuery.ts";
 import {useContext, useState} from "react";
 import {UserAuthContext} from "../../shared/context/UserAuthContext.tsx";
@@ -9,6 +10,7 @@ import useUpdateUserMutation from "../../../hooks/users/mutations/useUpdateUserM
 import {useNavigate} from "react-router-dom";
 import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserMutation.ts";
 import {mainWrapperStyle, secondWrapperStyle} from "./settingsStyle.ts";
+import UserInfoItem from "./user_info_item/UserInfoItem.tsx";
 
 const Settings = () => {
 
@@ -19,7 +21,7 @@ const Settings = () => {
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
 
   if (!userId) {
-    navigate('/');
+    navigate("/login");
     return null;
   }
 
@@ -43,7 +45,7 @@ const Settings = () => {
     }
   }
 
-  if (isLoading) return <LoadingSpinner/>;
+  if (isLoading || !user) return <LoadingSpinner/>;
   if (error) return <PageNotFound/>;
 
   return (
@@ -52,62 +54,36 @@ const Settings = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Settings
         </Typography>
-        <form>
-          <Stack spacing={2}>
-            <TextField
-              fullWidth
-              label="First Name"
-              variant="outlined"
-              name="firstName"
-              value={user?.firstName}
-              InputProps={{readOnly: true}}
-            />
-            <TextField
-              fullWidth
-              label="Last Name"
-              variant="outlined"
-              name="lastName"
-              value={user?.lastName}
-              InputProps={{readOnly: true}}
-            />
-            <TextField
-              fullWidth
-              label="Email"
-              variant="outlined"
-              name="email"
-              value={user?.email}
-              InputProps={{readOnly: true}}
-            />
-            <TextField
-              fullWidth
-              label="Role"
-              variant="outlined"
-              name="role"
-              value={user?.role}
-              InputProps={{readOnly: true}}
-            />
+        <Stack spacing={2}>
+          <UserInfoItem label="First Name:" value={user.firstName}/>
+          <UserInfoItem label="Last Name:" value={user.lastName}/>
+          <UserInfoItem label="Email:" value={user.email}/>
+          <UserInfoItem label="Role:" value={user.role}/>
+          <Box sx={{display: 'flex', gap: 2}}>
             <Button
               fullWidth
               variant="contained"
               color="primary"
               onClick={handleOpenUpdate}
+              sx={{flexGrow: 1}}
             >
               Update
             </Button>
-            <UpdateUser open={isUpdateOpen}
-                        onClose={handleCloseUpdate}
-                        onSubmit={handleUpdateUser}
-                        data={user}/>
             <Button
               fullWidth
               variant="contained"
               color="secondary"
               onClick={handleDeleteUser}
+              sx={{flexGrow: 1}}
             >
               Delete
             </Button>
-          </Stack>
-        </form>
+          </Box>
+          <UpdateUser open={isUpdateOpen}
+                      onClose={handleCloseUpdate}
+                      onSubmit={handleUpdateUser}
+                      data={user}/>
+        </Stack>
       </Paper>
     </Box>
   );

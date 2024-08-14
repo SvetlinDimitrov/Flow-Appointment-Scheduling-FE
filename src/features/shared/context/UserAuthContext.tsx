@@ -1,5 +1,9 @@
 import {createContext, ReactNode, useState} from 'react';
-import {getUserIdFromLocalStorage, removeUserIdFromLocalStorage} from "../../../utils/local_storage/userToken.ts";
+import {
+  getUserIdFromLocalStorage,
+  removeUserIdFromLocalStorage,
+  setUserIdInLocalStorage
+} from "../../../utils/local_storage/userToken.ts";
 import {
   getRefreshTokenFromLocalStorage,
   removeRefreshTokenFromLocalStorage,
@@ -30,13 +34,16 @@ export const UserAuthProvider = ({children}: { children: ReactNode }) => {
   const login = (jwtToken: JwtToken, refreshToken: RefreshToken) => {
     setRefreshTokenInLocalStorage(refreshToken);
     setJwtTokenInLocalStorage(jwtToken);
-    setUserId(getUserIdFromJwt(jwtToken.token));
+    const userId = getUserIdFromJwt(jwtToken.token);
+    setUserIdInLocalStorage(userId);
+    setUserId(userId);
   }
 
   const logout = () => {
     removeRefreshTokenFromLocalStorage();
     removeJwtTokenFromLocalStorage();
     removeUserIdFromLocalStorage();
+    setUserId(null);
   }
 
   return (
