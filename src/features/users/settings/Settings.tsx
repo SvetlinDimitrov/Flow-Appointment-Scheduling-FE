@@ -1,5 +1,5 @@
 // src/features/users/settings/Settings.tsx
-import {Box, Button, Paper, Stack, Typography} from '@mui/material';
+import {Stack, Typography} from '@mui/material';
 import useGetUserQuery from "../../../hooks/users/query/useGetUserQuery.ts";
 import {useContext, useState} from "react";
 import {UserAuthContext} from "../../shared/context/UserAuthContext.tsx";
@@ -9,7 +9,7 @@ import LoadingSpinner from "../../core/loading/LoadingSpinner.tsx";
 import useUpdateUserMutation from "../../../hooks/users/mutations/useUpdateUserMutation.ts";
 import {useNavigate} from "react-router-dom";
 import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserMutation.ts";
-import {mainWrapperStyle, secondWrapperStyle} from "./settingsStyle.ts";
+import {BoxButtonWrapper, MainWrapper, SecondWrapper, StyleButton} from "./settingsStyle.ts";
 import UserInfoItem from "./user_info_item/UserInfoItem.tsx";
 
 const Settings = () => {
@@ -49,8 +49,8 @@ const Settings = () => {
   if (error) return <PageNotFound/>;
 
   return (
-    <Box sx={mainWrapperStyle}>
-      <Paper sx={secondWrapperStyle} elevation={4}>
+    <MainWrapper>
+      <SecondWrapper elevation={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Settings
         </Typography>
@@ -59,33 +59,32 @@ const Settings = () => {
           <UserInfoItem label="Last Name:" value={user.lastName}/>
           <UserInfoItem label="Email:" value={user.email}/>
           <UserInfoItem label="Role:" value={user.role}/>
-          <Box sx={{display: 'flex', gap: 2}}>
-            <Button
+          <BoxButtonWrapper>
+            <StyleButton
               fullWidth
               variant="contained"
               color="primary"
               onClick={handleOpenUpdate}
-              sx={{flexGrow: 1}}
+              aria-hidden={false}
             >
               Update
-            </Button>
-            <Button
+            </StyleButton>
+            <StyleButton
               fullWidth
               variant="contained"
               color="secondary"
               onClick={handleDeleteUser}
-              sx={{flexGrow: 1}}
             >
               Delete
-            </Button>
-          </Box>
+            </StyleButton>
+          </BoxButtonWrapper>
           <UpdateUser open={isUpdateOpen}
                       onClose={handleCloseUpdate}
                       onSubmit={handleUpdateUser}
                       data={user}/>
         </Stack>
-      </Paper>
-    </Box>
+      </SecondWrapper>
+    </MainWrapper>
   );
 };
 

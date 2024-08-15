@@ -1,6 +1,9 @@
-import {SxProps} from "@mui/material";
+import {styled} from "@mui/system";
+import {Box} from "@mui/material";
+import {CoreHeader as SharedHeader} from "../../../shared/styles/headers.ts";
+import {CoreSubHeader as SharedSubHeader} from "../../../shared/styles/subHeaders.ts";
 
-export const mainBoxStyle: SxProps = {
+export const MainBox = styled(Box)(({theme}) => ({
   position: 'relative',
   height: '100vh',
   display: 'flex',
@@ -10,7 +13,7 @@ export const mainBoxStyle: SxProps = {
   color: 'white',
   textAlign: 'center',
   overflow: 'hidden',
-  gap: '4rem',
+  gap: theme.spacing(8),
   backgroundImage: 'url(/static/images/home/hero_section_bg.png)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
@@ -28,32 +31,8 @@ export const mainBoxStyle: SxProps = {
     position: 'relative',
     zIndex: 2,
   },
-};
+}));
 
-export const headerStyle: SxProps = {
-  fontSize: {
-    xs: '2rem',
-    md: '3rem',
-  },
-  lineHeight: {
-    xs: '1.5',
-    md: '1.5',
-  },
-  p: {
-    xs: '1rem',
-    md: '2rem',
-  },
-}
+export const Header = SharedHeader;
 
-export const subHeaderStyle: SxProps = {
-  fontSize: {
-    xs: '1.1rem',
-    md: '1.4rem',
-  },
-  lineHeight: '1.5',
-  p: {
-    xs: '1rem',
-    md: '2rem',
-  },
-}
-
+export const SubHeader = SharedSubHeader;

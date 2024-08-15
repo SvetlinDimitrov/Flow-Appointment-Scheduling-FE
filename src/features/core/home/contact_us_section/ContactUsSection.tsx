@@ -1,18 +1,17 @@
-import {Box, Typography} from '@mui/material';
 import ContactForm from "./contanct_us_form/ContactForm.tsx";
-import {mainHeadingStyle, mainWrapperStyle, subHeadingStyle} from "./contanctUsStyle.ts";
+import {Header, MainWrapper, SubHeading} from "./contanctUsStyle.ts";
 
 const ContactUsSection = () => {
   return (
-    <Box sx={mainWrapperStyle}>
-      <Typography variant="h4" component="h2" sx={mainHeadingStyle}>
+    <MainWrapper>
+      <Header variant="h4">
         Contact Us
-      </Typography>
-      <Typography variant="body1" paragraph sx={subHeadingStyle}>
+      </Header>
+      <SubHeading variant="body1" paragraph>
         We would love to hear from you! Please fill out the form below and we will get in touch with you shortly.
-      </Typography>
+      </SubHeading>
       <ContactForm/>
-    </Box>
+    </MainWrapper>
   );
 };
 

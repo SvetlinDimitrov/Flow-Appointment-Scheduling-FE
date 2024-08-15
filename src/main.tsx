@@ -9,9 +9,13 @@ import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import {BrowserRouter} from "react-router-dom";
 import {queryClient} from "./utils/react_query/queryClient.ts";
 import ToastNotification from "./features/core/toast/ToastNotification.tsx";
+import {createTheme, ThemeProvider} from "@mui/material";
+
+const theme = createTheme();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <ThemeProvider theme={theme}>
       <UserAuthProvider>
           <QueryClientProvider client={queryClient}>
             <BrowserRouter>
@@ -21,5 +25,6 @@ createRoot(document.getElementById('root')!).render(
             <ToastNotification/>
           </QueryClientProvider>
       </UserAuthProvider>
+    </ThemeProvider>
   </StrictMode>,
 )

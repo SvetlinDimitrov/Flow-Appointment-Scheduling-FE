@@ -1,11 +1,12 @@
-import {SxProps} from "@mui/material";
+import {Box} from "@mui/material";
+import {styled} from "@mui/system";
 
-export const mainWrapperStyle : SxProps = {
+export const MainWrapper = styled(Box)(({theme}) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: 4,
-  mt: 5,
-  mb: 5
-}
+  gap: theme.spacing(4),
+  marginTop: theme.spacing(5),
+  marginBottom: theme.spacing(5),
+}));

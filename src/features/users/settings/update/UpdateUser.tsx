@@ -1,8 +1,8 @@
 import React from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
+import {Button, Dialog, DialogActions, TextField} from '@mui/material';
 import nameValidation from "../../../shared/validation/nameValidation.ts";
-import {dialogContentStyle, dialogTitleStyle, mainWrapperStyle} from "./updateUserStyles.ts";
+import {mainWrapperStyle, StyleBox, StyledDialogContent, StyledDialogTitle} from "./updateUserStyles.ts";
 import {User} from "../../../../models/user.types.ts";
 
 interface UpdateUserProps {
@@ -37,9 +37,9 @@ const UpdateUser: React.FC<UpdateUserProps> = ({ open, onClose, onSubmit , data}
       },
     }}>
 
-      <DialogTitle id="form-dialog-title" sx={dialogTitleStyle}>Update User</DialogTitle>
-      <DialogContent sx={dialogContentStyle}>
-        <Box sx={{pt: 4}}>
+      <StyledDialogTitle id="form-dialog-title">Update User</StyledDialogTitle>
+      <StyledDialogContent>
+        <StyleBox>
         <form onSubmit={handleSubmit(onSubmitForm)} >
           <TextField
             autoFocus
@@ -71,8 +71,8 @@ const UpdateUser: React.FC<UpdateUserProps> = ({ open, onClose, onSubmit , data}
             </Button>
           </DialogActions>
         </form>
-        </Box>
-      </DialogContent>
+        </StyleBox>
+      </StyledDialogContent>
     </Dialog>
   );
 };

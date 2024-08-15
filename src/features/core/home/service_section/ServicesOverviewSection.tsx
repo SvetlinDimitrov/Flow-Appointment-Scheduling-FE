@@ -1,5 +1,4 @@
-import {Box, Stack, Typography} from '@mui/material';
-import {cardsHolderStyle, mainRapperStyle, mainTitleStyle, subTextStyle} from './serviceSectionStyle.ts';
+import {CardsHolder, Header, MainWrapper, SubHeader} from './serviceSectionStyle.ts';
 import ServiceCard from "./service_card_props/ServiceCard.tsx";
 
 const serviceCardsData = [
@@ -25,15 +24,15 @@ const serviceCardsData = [
 
 const ServicesOverviewSection = () => {
   return (
-    <Stack sx={mainRapperStyle}>
-      <Typography variant="h4" component="h2" sx={mainTitleStyle}>
+    <MainWrapper>
+      <Header variant="h4">
         Our Services
-      </Typography>
-      <Typography variant="body1" sx={subTextStyle}>
+      </Header>
+      <SubHeader variant="body1">
         We offer a variety of services to cater to your wellness needs, from fitness classes to massage therapy and
         skincare treatments.
-      </Typography>
-      <Box sx={cardsHolderStyle}>
+      </SubHeader>
+      <CardsHolder>
         {serviceCardsData.map((card, index) => (
           <ServiceCard
             key={index}
@@ -43,8 +42,8 @@ const ServicesOverviewSection = () => {
             navigateTo={card.navigateTo}
           />
         ))}
-      </Box>
-    </Stack>
+      </CardsHolder>
+    </MainWrapper>
   );
 };
 

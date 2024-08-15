@@ -1,16 +1,18 @@
-import {SxProps} from "@mui/material";
+import {UserMainWrapper, UserSecondWrapper} from "../../shared/styles/wrappers.ts";
+import {styled} from "@mui/system";
+import {Box, Button} from "@mui/material";
 
-export const secondWrapperStyle: SxProps = {
-  padding: 4,
-  maxWidth: 500,
+export const MainWrapper = UserMainWrapper;
+
+export const SecondWrapper = styled(UserSecondWrapper)(() => ({
   width: '100%',
-  borderRadius: 3,
-};
+}));
 
-export const mainWrapperStyle: SxProps = {
+export const StyleButton = styled(Button)(() => ({
+  flexGrow: 1,
+}));
+
+export const BoxButtonWrapper = styled(Box)(({theme}) => ({
   display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  height: '86.1vh',
-  padding: 3,
-};
+  gap: theme.spacing(2),
+}));

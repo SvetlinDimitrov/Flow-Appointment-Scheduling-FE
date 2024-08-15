@@ -1,21 +1,13 @@
-import { SxProps } from '@mui/material';
+import {AppBar, Toolbar} from "@mui/material";
+import {styled} from "@mui/system";
 
-export const appBarStyles: SxProps = {
+export const StyledAppBar = styled(AppBar)(() => ({
   position: 'static',
-  color: 'primary',
   top: 'auto',
   bottom: 0,
-};
+}));
 
-export const toolbarStyles: SxProps = {
+export const StyledToolbar = styled(Toolbar)(() => ({
   display: 'flex',
   justifyContent: 'center',
-};
-
-export const centeredContainerStyles: SxProps = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  height: '86.1vh',
-  width: '100%',
-};
+}));

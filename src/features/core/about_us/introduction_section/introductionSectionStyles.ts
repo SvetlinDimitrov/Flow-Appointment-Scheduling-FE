@@ -1,33 +1,24 @@
-import {SxProps} from "@mui/material";
+import {Box} from "@mui/material";
+import {styled} from "@mui/system";
+import {CoreHeader as SharedHeader} from "../../../shared/styles/headers.ts";
+import {CoreSubHeader as SharedSubHeader} from "../../../shared/styles/subHeaders.ts";
 
-export const mainWrapperStyle: SxProps = {
+export const MainWrapper = styled(Box)(({theme}) => ({
   textAlign: 'center',
-  p: 2
-}
+  padding: theme.spacing(2),
+}));
 
-export const imageStyle: SxProps = {
+export const Header = SharedHeader;
+
+export const Subheader = SharedSubHeader;
+
+export const Image = styled('img')(({theme}) => ({
   width: '100%',
   maxWidth: 600,
-  borderRadius: 2,
-  mt: 2
-}
+  borderRadius: theme.shape.borderRadius,
+  marginTop: theme.spacing(2),
+}));
 
-export const headerStyle: SxProps = {
-  fontWeight: 'bold',
-  fontSize: {
-    xs: '2rem',
-    md: '3rem',
-  },
-  lineHeight: {
-    xs: '1.2',
-    md: '1.5',
-  },
-}
 
-export const subheaderStyle: SxProps = {
-  fontSize: {
-    xs: '1.1rem',
-    md: '1.4rem',
-  },
-  lineHeight: 1.5
-}
+
+

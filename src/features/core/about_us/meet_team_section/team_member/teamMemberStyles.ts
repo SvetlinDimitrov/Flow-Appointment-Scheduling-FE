@@ -1,40 +1,46 @@
-import {SxProps} from "@mui/material";
+import {Avatar, Box, Typography} from "@mui/material";
+import {styled} from "@mui/system";
 
-export const mainWrapperStyle: SxProps = {
+export const MainWrapper = styled(Box)(({theme}) => ({
   textAlign: 'center',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   flexDirection: 'column',
-  width: {
-    lg: '25%',
-    md: '40%',
-    sm: '80%'
+  width: '80%',
+  [theme.breakpoints.up('sm')]: {
+    width: '80%',
   },
-  gap: 1,
+  [theme.breakpoints.up('md')]: {
+    width: '40%',
+  },
+  [theme.breakpoints.up('lg')]: {
+    width: '25%',
+  },
+  gap: theme.spacing(1),
   border: '1px solid #ccc',
-  borderRadius: 2,
-  padding: 2,
+  borderRadius: theme.shape.borderRadius,
+  padding: theme.spacing(2),
   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
-}
+}));
 
-export const avatarStyle: SxProps = {
+export const StyledAvatar = styled(Avatar)(({theme}) => ({
   width: 150,
   height: 150,
-  marginBottom: 2
-}
+  marginBottom: theme.spacing(2)
+}));
 
-export const teamMemberNameStyle: SxProps = {
+export const TeamMemberName = styled(Typography)(() => ({
   fontWeight: 'bold',
   fontSize: '1.25rem'
-}
+}));
 
-export const teamMemberRoleStyle: SxProps = {
+export const TeamMemberRole = styled(Typography)(() => ({
   color: 'black',
   fontStyle: 'italic'
-}
+}));
 
-export const teamMemberDescriptionStyle: SxProps = {
+export const TeamMemberDescription = styled(Typography)(() => ({
   color: 'dimgray',
   fontSize: '0.875rem'
-}
+}));

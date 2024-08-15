@@ -1,20 +1,22 @@
-import {SxProps} from "@mui/material";
+import {styled} from "@mui/system";
+import {Box, Button} from "@mui/material";
+import {CoreHeader as SharedHeader} from "../../../shared/styles/headers.ts";
 
-export const mainWrapperStyle: SxProps = {
+export const MainWrapper = styled(Box)(({theme}) => ({
   position: 'relative',
   textAlign: 'center',
-  p: 3,
+  padding: theme.spacing(3),
   backgroundImage: 'url("/static/images/home/customer_section_bg.jpg")',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  height: {
-    lg: '100vh',
-    sm: 'auto'
+  height: '100vh',
+  [theme.breakpoints.down('lg')]: {
+    height: 'auto',
   },
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  gap: 6,
+  gap: theme.spacing(6),
   alignItems: 'center',
   '::before': {
     content: '""',
@@ -30,34 +32,32 @@ export const mainWrapperStyle: SxProps = {
     position: 'relative',
     zIndex: 2,
   },
-}
+}));
 
-export const mainHeadingStyle: SxProps = {
-  fontWeight: 'bold',
-  fontSize: {
-    sm: '3rem',
-    xs: '2rem'
-  },
+export const Header = styled(SharedHeader)(({theme}) => ({
   color: 'white',
-  mb: 4,
-  lineHeight: '1.5',
+  marginBottom: theme.spacing(4),
+}));
 
-}
-
-export const testimonialWrapperStyle: SxProps = {
+export const TestimonialWrapper = styled(Box)(({theme}) => ({
   display: 'grid',
-  gridTemplateColumns: {
-    lg: 'repeat(3, 1fr)',
-    md: 'repeat(2, 1fr)',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  [theme.breakpoints.down('lg')]: {
+    gridTemplateColumns: 'repeat(2, 1fr)',
   },
-  gap: 4,
+  [theme.breakpoints.down('sm')]: {
+    gridTemplateColumns: 'repeat(1, 1fr)',
+  },
+  gap: theme.spacing(4),
   justifyContent: 'center',
-  alignItems: 'center'
-}
+  alignItems: 'center',
+}));
 
-export const aboutUsNavigationStyle: SxProps = {
-  mt: 2,
-  px: 2,
-  py: 1,
-  fontSize: '1rem'
-};
+export const AboutUsNavigationButton = styled(Button)(({theme}) => ({
+  marginTop: theme.spacing(2),
+  paddingLeft: theme.spacing(2),
+  paddingRight: theme.spacing(2),
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(1),
+  fontSize: '1rem',
+}));

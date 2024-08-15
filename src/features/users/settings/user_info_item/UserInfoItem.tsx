@@ -1,5 +1,5 @@
-import {Box, Typography} from '@mui/material';
 import {ReactNode} from 'react';
+import {Label, UserInfoItemWrapper, Value} from "./userInfoItemStyle.ts";
 
 interface UserInfoItemProps {
   label: string;
@@ -8,24 +8,14 @@ interface UserInfoItemProps {
 
 const UserInfoItem = ({label, value}: UserInfoItemProps) => {
   return (
-    <Box sx={{
-      padding: 2,
-      border: '1px solid #ccc',
-      borderRadius: '8px',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-      backgroundColor: '#f9f9f9',
-      fontFamily: 'Arial, sans-serif',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    }}>
-      <Typography variant="body1" sx={{fontWeight: 'bold', marginRight: 2}}>
+    <UserInfoItemWrapper>
+      <Label variant="body1">
         {label}
-      </Typography>
-      <Typography variant="body2">
+      </Label>
+      <Value variant="body2">
         {value}
-      </Typography>
-    </Box>
+      </Value>
+    </UserInfoItemWrapper>
   );
 };
 

@@ -1,12 +1,6 @@
-import {Box, Button, Typography} from '@mui/material';
 import Testimonial from "./testimonial/Testimonial.tsx";
 import {useNavigate} from "react-router-dom";
-import {
-  aboutUsNavigationStyle,
-  mainHeadingStyle,
-  mainWrapperStyle,
-  testimonialWrapperStyle
-} from "./customerTestimonialsSectionStyle.ts";
+import {AboutUsNavigationButton, Header, MainWrapper, TestimonialWrapper} from "./customerTestimonialsSectionStyle.ts";
 
 const testimonials = [
   {
@@ -40,23 +34,23 @@ const CustomerTestimonialsSection = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={mainWrapperStyle}>
-      <Typography variant="h4" component="h2" sx={mainHeadingStyle}>
+    <MainWrapper>
+      <Header variant="h4">
         Why Choose Flow?
-      </Typography>
-      <Box sx={testimonialWrapperStyle}>
+      </Header>
+      <TestimonialWrapper>
         {testimonials.map((testimonial, index) => (
           <Testimonial key={index}
                        text={testimonial.text}
                        image={testimonial.image}
                        clientName={testimonial.clientName}/>
         ))}
-      </Box>
-      <Button variant="contained" color="primary" sx={aboutUsNavigationStyle}
+      </TestimonialWrapper>
+      <AboutUsNavigationButton variant="contained" color="primary"
               onClick={() => navigate('/about-us')}>
         About Us
-      </Button>
-    </Box>
+      </AboutUsNavigationButton>
+    </MainWrapper>
   );
 };
 

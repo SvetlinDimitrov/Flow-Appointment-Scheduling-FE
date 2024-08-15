@@ -1,10 +1,10 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Box, Button, Paper, TextField, Typography} from '@mui/material';
+import {TextField} from '@mui/material';
 import passwordValidation from "../../shared/validation/passwordValidation.ts";
 import emailValidation from "../../shared/validation/emailValidation.ts";
 import useLoginUserMutation from "../../../hooks/users/mutations/useLoginUserMutation.ts";
 import {Link, useNavigate} from "react-router-dom";
-import {mainWrapperStyle, registerLinkStyle, secondWrapperStyle} from "./loginStyle.ts";
+import {LoginButton, MainWrapper, RegisterLink, SecondWrapper, Title} from "./loginStyles.ts";
 
 interface IFormInput {
   email: string;
@@ -32,11 +32,11 @@ const Login = () => {
   };
 
   return (
-    <Box sx={mainWrapperStyle}>
-      <Paper sx={secondWrapperStyle} elevation={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
+    <MainWrapper>
+      <SecondWrapper elevation={4}>
+        <Title variant="h4">
           Login
-        </Typography>
+        </Title>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             label="Email"
@@ -56,15 +56,15 @@ const Login = () => {
             error={!!errors.password}
             helperText={errors.password ? errors.password.message : ''}
           />
-          <Button sx={{mt: 3, mb: 1}} variant="contained" color="primary" fullWidth type="submit">
+          <LoginButton variant="contained" fullWidth type="submit">
             Login
-          </Button>
-          <Typography variant="body2" align="center" sx={registerLinkStyle}>
+          </LoginButton>
+          <RegisterLink variant="body2" align="center">
             Don't have an account? <Link to="/register">Register here</Link>
-          </Typography>
+          </RegisterLink>
         </form>
-      </Paper>
-    </Box>
+      </SecondWrapper>
+    </MainWrapper>
   );
 };
 

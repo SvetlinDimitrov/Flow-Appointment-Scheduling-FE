@@ -1,25 +1,34 @@
-import {SxProps} from '@mui/material';
+import {AppBar, Box, Button, Typography} from "@mui/material";
+import {styled} from "@mui/system";
 
-export const appBarStyles: SxProps = {
+export const StyledAppBar = styled(AppBar)(() => ({
   position: 'sticky',
-};
+}));
 
-export const typographyStyles: SxProps = {
+export const StyledTypography = styled(Typography)(({theme}) => ({
   flexGrow: 1,
-  fontSize: {
-    xs: '0.8rem',
-    sm: '1.2rem',
-    md: '1.6rem',
+  [theme.breakpoints.up('xs')]: {
+    fontSize: '0.8rem',
   },
-};
+  [theme.breakpoints.up('sm')]: {
+    fontSize: '1.2rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '1.6rem',
+  },
+}));
 
-export const buttonStyles: SxProps = {
+export const StyledButton = styled(Button)(() => ({
   margin: '0 10px',
-};
+}));
 
-export const horizontalLinksStyles: SxProps = {
-  display: {
-    md: 'flex',
-    xs: 'none',
+export const HorizontalLinks = styled(Box)(({theme}) => ({
+  flexDirection: 'row',
+  [theme.breakpoints.up('md')]: {
+    display: 'flex',
   },
-};
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
+  },
+
+}));

@@ -1,9 +1,10 @@
-import {SxProps} from "@mui/material";
+import {styled} from "@mui/system";
+import {Card, CardContent} from "@mui/material";
 
-export const mainRapperStyle: SxProps = {
+export const MainWrapper = styled(Card)(() => ({
   width: '100%',
-};
+}));
 
-export const cardContentStyle: SxProps = {
-  textAlign: 'center'
-};
+export const CardContentStyle = styled(CardContent)(() => ({
+  textAlign: 'center',
+}));

@@ -1,43 +1,30 @@
-import {SxProps} from "@mui/material";
+import {Box, Button} from "@mui/material";
+import {styled} from "@mui/system";
+import {CoreHeader as SharedHeader} from "../../../shared/styles/headers.ts";
+import {CoreSubHeader as SharedSubHeader} from "../../../shared/styles/subHeaders.ts";
 
-export const mainWrapperStyle: SxProps = {
+export const MainWrapper = styled(Box)(({theme}) => ({
   textAlign: 'center',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   flexDirection: 'column',
-  gap: 4,
-  p: 2
-}
+  gap: theme.spacing(4),
+  padding: theme.spacing(2),
+}));
 
-export const teamMembersWrapperStyle: SxProps = {
+export const Header = SharedHeader;
+
+export const Subheader = SharedSubHeader;
+
+export const TeamMembersWrapper = styled(Box)(({theme}) => ({
   display: 'flex',
   justifyContent: 'center',
   flexWrap: 'wrap',
-  gap: 4,
-  mt: 4
-}
+  gap: theme.spacing(4),
+  marginTop: theme.spacing(4),
+}));
 
-export const joinOurTeamButtonStyle: SxProps = {
-  mt: 4
-}
-
-export const headerStyle: SxProps = {
-  fontWeight: 'bold',
-  fontSize: {
-    xs: '2rem',
-    md: '3rem',
-  },
-  lineHeight: {
-    xs: '1.2',
-    md: '1.5',
-  },
-}
-
-export const subheaderStyle: SxProps = {
-  fontSize: {
-    xs: '1.1rem',
-    md: '1.4rem',
-  },
-  lineHeight: 1.5
-}
+export const JoinOurTeamButton = styled(Button)(({theme}) => ({
+  marginTop: theme.spacing(4),
+}));

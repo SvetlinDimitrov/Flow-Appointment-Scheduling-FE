@@ -1,12 +1,12 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {Box, Button, Paper, TextField, Typography} from '@mui/material';
+import {TextField, Typography} from '@mui/material';
 import emailValidation from '../../shared/validation/emailValidation';
 import passwordValidation from '../../shared/validation/passwordValidation';
 import useCreateUserMutation from "../../../hooks/users/mutations/useCreateUserMutation.ts";
 import {Link, useNavigate} from "react-router-dom";
 import nameValidation from "../../shared/validation/nameValidation.ts";
 import confirmPasswordValidation from "../../shared/validation/confirmPasswordValidation.ts";
-import {linkStyle, mainWrapperStyle, registerButtonStyle, secondWrapperStyle} from "./registerStyle.ts";
+import {LinkStyle, MainWrapper, RegisterButton, SecondWrapper} from "./registerStyle.ts";
 import {CreateUserRequest} from "../../../models/api/users.ts";
 
 interface IFormInput {
@@ -42,8 +42,8 @@ const Register = () => {
   };
 
   return (
-    <Box sx={mainWrapperStyle}>
-      <Paper sx={secondWrapperStyle} elevation={4}>
+    <MainWrapper>
+      <SecondWrapper elevation={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Register
         </Typography>
@@ -93,15 +93,15 @@ const Register = () => {
             error={!!errors.confirmPassword}
             helperText={errors.confirmPassword ? errors.confirmPassword.message : ''}
           />
-          <Button sx={registerButtonStyle} variant="contained" color="primary" type="submit">
+          <RegisterButton variant="contained" color="primary" type="submit">
             Register
-          </Button>
-          <Typography variant="body2" align="center" sx={linkStyle}>
+          </RegisterButton>
+          <LinkStyle variant="body2" align="center">
             Already have an account? <Link to="/login">Login here</Link>
-          </Typography>
+          </LinkStyle>
         </form>
-      </Paper>
-    </Box>
+      </SecondWrapper>
+    </MainWrapper>
   );
 };
 

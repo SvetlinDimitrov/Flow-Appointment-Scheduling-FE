@@ -6,13 +6,16 @@ export const MainWrapper = UserMainWrapper;
 
 export const SecondWrapper = UserSecondWrapper;
 
-export const RegisterButton = styled(Button)(({theme}) => ({
-  marginTop: theme.spacing(3),
-  marginBottom: theme.spacing(1),
-  width: '100%',
+export const Title = styled(Typography)(({theme}) => ({
+  marginBottom: theme.spacing(2),
 }));
 
-export const LinkStyle = styled(Typography)(({theme}) => ({
+export const RegisterLink = styled(Typography)(({theme}) => ({
   marginTop: theme.spacing(2),
-  lineHeight: '1.5rem',
+  textAlign: 'center',
+}));
+
+export const LoginButton = styled(Button)(({theme}) => ({
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(1),
 }));

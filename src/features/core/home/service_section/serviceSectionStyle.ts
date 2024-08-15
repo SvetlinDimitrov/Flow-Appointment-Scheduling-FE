@@ -1,35 +1,36 @@
-import {SxProps} from "@mui/material";
+import {styled} from "@mui/system";
+import {Box, Typography, Stack} from "@mui/material";
 
-export const mainRapperStyle: SxProps = {
+export const MainWrapper = styled(Stack)(({theme}) => ({
   display: 'flex',
   flexDirection: 'column',
   textAlign: 'center',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: 5,
-  p: 2,
-  mt: 5,
-  mb: 5
-};
+  gap: theme.spacing(5),
+  padding: theme.spacing(2),
+  marginTop: theme.spacing(5),
+  marginBottom: theme.spacing(5),
+}));
 
-export const mainTitleStyle: SxProps = {
+export const Header = styled(Typography)(() => ({
   fontWeight: 'bold',
   fontSize: '2.5rem',
-  color: '#333'
-};
+  color: '#333',
+}));
 
-export const subTextStyle: SxProps = {
+export const SubHeader = styled(Typography)(() => ({
   fontSize: '1.25rem',
   color: '#666',
-  lineHeight: '1.5'
-};
+  lineHeight: '1.5',
+}));
 
-export const cardsHolderStyle: SxProps = {
+export const CardsHolder = styled(Box)(({theme}) => ({
   display: 'flex',
-  flexDirection: {
-    lg: 'row',
-    xs: 'column'
+  flexDirection: 'row',
+  [theme.breakpoints.down('lg')]: {
+    flexDirection: 'column',
   },
   justifyContent: 'center',
-  gap: 5,
-};
+  gap: theme.spacing(5),
+}));

@@ -1,7 +1,7 @@
-import {AppBar, Button, IconButton, Stack, Toolbar, Typography} from '@mui/material';
+import {IconButton, Toolbar} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {useContext} from "react";
-import {appBarStyles, buttonStyles, horizontalLinksStyles, typographyStyles} from "./headerStyles.ts";
+import {HorizontalLinks, StyledAppBar, StyledButton, StyledTypography} from "./headerStyles.ts";
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import Sandwich from "./sandwitch/Sandwich.tsx";
 import {UserAuthContext} from "../../shared/context/UserAuthContext.tsx";
@@ -14,49 +14,49 @@ const Header = () => {
 
   const menuItems = (
     <>
-      <Button color="inherit" sx={buttonStyles} onClick={() => navigate('/about-us')}>
+      <StyledButton color="inherit" onClick={() => navigate('/about-us')}>
         About us
-      </Button>
+      </StyledButton>
       {!isUserAuthenticated() && (
         <>
-          <Button color="inherit" sx={buttonStyles} onClick={() => navigate('/login')}>
+          <StyledButton color="inherit" onClick={() => navigate('/login')}>
             Login
-          </Button>
-          <Button color="inherit" sx={buttonStyles} onClick={() => navigate('/register')}>
+          </StyledButton>
+          <StyledButton color="inherit" onClick={() => navigate('/register')}>
             Register
-          </Button>
+          </StyledButton>
         </>
       )}
       {isUserAuthenticated() && (
         <>
-          <Button color="inherit" sx={buttonStyles} onClick={() => navigate('/settings')}>
+          <StyledButton color="inherit" onClick={() => navigate('/settings')}>
             Settings
-          </Button>
-          <Button color="inherit" sx={buttonStyles} onClick={() => {
+          </StyledButton>
+          <StyledButton color="inherit" onClick={() => {
             if (window.confirm("Are you sure you want to logout?")) logout();
           }}>
             Logout
-          </Button>
+          </StyledButton>
         </>
       )}
     </>
   );
 
   return (
-    <AppBar sx={appBarStyles}>
+    <StyledAppBar>
       <Toolbar>
         <IconButton size={'large'} edge={'start'} color={'inherit'} aria-label={'logo'} onClick={() => navigate('/')}>
           <AssignmentIcon/>
         </IconButton>
-        <Typography variant="h6" component="div" sx={typographyStyles}>
+        <StyledTypography variant="h6">
           Flow Appointment Scheduling
-        </Typography>
+        </StyledTypography>
         <Sandwich menuItems={menuItems}/>
-        <Stack sx={horizontalLinksStyles} direction={'row'} spacing={2}>
+        <HorizontalLinks>
           {menuItems}
-        </Stack>
+        </HorizontalLinks>
       </Toolbar>
-    </AppBar>
+    </StyledAppBar>
   );
 };
 

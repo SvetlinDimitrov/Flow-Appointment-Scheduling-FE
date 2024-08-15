@@ -1,11 +1,4 @@
-import {Avatar, Box, Typography} from '@mui/material';
-import {
-  avatarStyle,
-  clientNameAndAvatarWrapperStyle,
-  clientNameStyle,
-  mainParagraphStyle,
-  mainWrapperStyle
-} from "./testimonialStyle.ts";
+import {AvatarStyle, ClientName, ClientNameAndAvatarWrapper, MainParagraph, MainWrapper} from "./testimonialStyle.ts";
 
 interface TestimonialProps {
   text: string;
@@ -15,17 +8,17 @@ interface TestimonialProps {
 
 const Testimonial = ({ text, image, clientName }: TestimonialProps) => {
   return (
-    <Box sx={mainWrapperStyle}>
-      <Typography variant="body1" sx={mainParagraphStyle}>
+    <MainWrapper>
+      <MainParagraph variant="body1">
     {text}
-  </Typography>
-      <Box sx={clientNameAndAvatarWrapperStyle}>
-        <Avatar alt={clientName} src={image} sx={avatarStyle}/>
-        <Typography variant="body2" sx={clientNameStyle}>
-      {clientName}
-    </Typography>
-  </Box>
-</Box>
+      </MainParagraph>
+      <ClientNameAndAvatarWrapper>
+        <AvatarStyle alt={clientName} src={image}/>
+        <ClientName variant="body2">
+          {clientName}
+        </ClientName>
+      </ClientNameAndAvatarWrapper>
+    </MainWrapper>
   );
 };
 

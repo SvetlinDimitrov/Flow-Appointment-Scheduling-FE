@@ -1,11 +1,4 @@
-import {Avatar, Box, Typography} from '@mui/material';
-import {
-  avatarStyle,
-  mainWrapperStyle,
-  teamMemberDescriptionStyle,
-  teamMemberNameStyle,
-  teamMemberRoleStyle
-} from "./teamMemberStyles.ts";
+import {MainWrapper, StyledAvatar, TeamMemberDescription, TeamMemberName, TeamMemberRole} from "./teamMemberStyles.ts";
 
 interface TeamMemberProps {
   name: string;
@@ -16,11 +9,12 @@ interface TeamMemberProps {
 
 const TeamMember = ({name, role, description, imageSrc}: TeamMemberProps) => {
   return (
-    <Box sx={mainWrapperStyle}>
-      <Avatar src={imageSrc} alt={name} sx={avatarStyle}/>
-      <Typography variant="h6" sx={teamMemberNameStyle}>{name}</Typography>
-      <Typography variant="body2" sx={teamMemberRoleStyle}>{role}</Typography>
-      <Typography variant="body2" sx={teamMemberDescriptionStyle}>{description}</Typography></Box>
+    <MainWrapper>
+      <StyledAvatar src={imageSrc} alt={name}/>
+      <TeamMemberName variant="h6">{name}</TeamMemberName>
+      <TeamMemberRole variant="body2">{role}</TeamMemberRole>
+      <TeamMemberDescription variant="body2">{description}</TeamMemberDescription>
+    </MainWrapper>
   );
 };
 

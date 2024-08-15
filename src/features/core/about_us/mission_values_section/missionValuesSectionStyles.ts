@@ -1,46 +1,33 @@
-import {SxProps} from "@mui/material";
+import {Box} from "@mui/material";
+import {styled} from "@mui/system";
+import {CoreHeader as SharedHeader} from "../../../shared/styles/headers.ts";
+import {CoreSubHeader as SharedSubHeader} from "../../../shared/styles/subHeaders.ts";
 
-export const mainWrapperStyle: SxProps = {
+export const MainWrapper = styled(Box)(() => ({
   backgroundColor: 'rgba(0, 0, 0, 0.05)',
   width: '100%',
-}
+}));
 
-export const secondaryWrapperStyle: SxProps = {
+export const SecondaryWrapper = styled(Box)(({theme}) => ({
   textAlign: 'center',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   flexDirection: 'column',
-  gap: 4,
-  p: 2,
-  mt: 4,
-  mb: 4
-}
+  gap: theme.spacing(4),
+  padding: theme.spacing(2),
+  marginTop: theme.spacing(4),
+  marginBottom: theme.spacing(4),
+}));
 
-export const missionValueWrapperStyle: SxProps = {
+export const MissionValueWrapper = styled(Box)(({theme}) => ({
   display: 'flex',
   justifyContent: 'center',
   flexWrap: 'wrap',
-  gap: 5,
-  mt: 4
-}
+  gap: theme.spacing(5),
+  marginTop: theme.spacing(4),
+}));
 
-export const headerStyle: SxProps = {
-  fontWeight: 'bold',
-  fontSize: {
-    xs: '2rem',
-    md: '3rem',
-  },
-  lineHeight: {
-    xs: '1.2',
-    md: '1.5',
-  },
-}
+export const Header = SharedHeader;
 
-export const subheaderStyle: SxProps = {
-  fontSize: {
-    xs: '1.1rem',
-    md: '1.4rem',
-  },
-  lineHeight: 1.5
-}
+export const Subheader = SharedSubHeader;
