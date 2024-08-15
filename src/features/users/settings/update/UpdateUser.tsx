@@ -1,9 +1,11 @@
 import React from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {Button, Dialog, DialogActions, TextField} from '@mui/material';
-import nameValidation from "../../../shared/validation/nameValidation.ts";
 import {mainWrapperStyle, StyleBox, StyledDialogContent, StyledDialogTitle} from "./updateUserStyles.ts";
 import {User} from "../../../../models/user.types.ts";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {z} from "zod";
+import {nameValidation} from "../../../shared/validation/users.validations.ts";
 
 interface UpdateUserProps {
   open: boolean;
@@ -22,7 +24,12 @@ const UpdateUser: React.FC<UpdateUserProps> = ({ open, onClose, onSubmit , data}
     defaultValues: {
       firstName: data.firstName,
       lastName: data.lastName,
-    }
+    },
+    resolver: zodResolver(
+      z.object({
+        firstName: nameValidation,
+        lastName: nameValidation,
+      }))
   });
   const onSubmitForm: SubmitHandler<FormInputs> = (data) => {
     onSubmit(data.firstName, data.lastName);
@@ -48,7 +55,7 @@ const UpdateUser: React.FC<UpdateUserProps> = ({ open, onClose, onSubmit , data}
             label="First Name"
             type="text"
             fullWidth
-            {...register('firstName', nameValidation)}
+            {...register('firstName')}
             error={!!errors.firstName}
             helperText={errors.firstName ? errors.firstName.message : ''}
           />
@@ -58,7 +65,7 @@ const UpdateUser: React.FC<UpdateUserProps> = ({ open, onClose, onSubmit , data}
             label="Last Name"
             type="text"
             fullWidth
-            {...register('lastName', nameValidation)}
+            {...register('lastName')}
             error={!!errors.lastName}
             helperText={errors.lastName ? errors.lastName.message : ''}
           />

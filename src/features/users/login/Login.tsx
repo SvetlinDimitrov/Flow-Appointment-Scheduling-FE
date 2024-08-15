@@ -1,10 +1,11 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {TextField} from '@mui/material';
-import passwordValidation from "../../shared/validation/passwordValidation.ts";
-import emailValidation from "../../shared/validation/emailValidation.ts";
 import useLoginUserMutation from "../../../hooks/users/mutations/useLoginUserMutation.ts";
 import {Link, useNavigate} from "react-router-dom";
 import {LoginButton, MainWrapper, RegisterLink, SecondWrapper, Title} from "./loginStyles.ts";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {emailValidation, passwordValidation} from "../../shared/validation/users.validations.ts";
+import {z} from "zod";
 
 interface IFormInput {
   email: string;
@@ -12,7 +13,13 @@ interface IFormInput {
 }
 
 const Login = () => {
-  const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>();
+  const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>({
+    resolver: zodResolver(
+      z.object({
+        email: emailValidation,
+        password: passwordValidation,
+      }))
+  });
 
   const navigate = useNavigate();
 
@@ -43,7 +50,7 @@ const Login = () => {
             type="email"
             fullWidth
             margin="normal"
-            {...register('email', emailValidation)}
+            {...register('email')}
             error={!!errors.email}
             helperText={errors.email ? errors.email.message : ''}
           />
@@ -52,7 +59,7 @@ const Login = () => {
             type="password"
             fullWidth
             margin="normal"
-            {...register('password', passwordValidation)}
+            {...register('password')}
             error={!!errors.password}
             helperText={errors.password ? errors.password.message : ''}
           />

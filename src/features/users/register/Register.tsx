@@ -1,13 +1,12 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {TextField, Typography} from '@mui/material';
-import emailValidation from '../../shared/validation/emailValidation';
-import passwordValidation from '../../shared/validation/passwordValidation';
 import useCreateUserMutation from "../../../hooks/users/mutations/useCreateUserMutation.ts";
 import {Link, useNavigate} from "react-router-dom";
-import nameValidation from "../../shared/validation/nameValidation.ts";
-import confirmPasswordValidation from "../../shared/validation/confirmPasswordValidation.ts";
 import {LinkStyle, MainWrapper, RegisterButton, SecondWrapper} from "./registerStyle.ts";
 import {CreateUserRequest} from "../../../models/api/users.ts";
+import {emailValidation, nameValidation, passwordValidation} from "../../shared/validation/users.validations.ts";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {z} from "zod";
 
 interface IFormInput {
   email: string;
@@ -18,13 +17,22 @@ interface IFormInput {
 }
 
 const Register = () => {
-  const {register, handleSubmit, watch, formState: {errors}} = useForm<IFormInput>();
+
+  // @ts-ignore
+  const {register, handleSubmit, watch, formState: {errors}} = useForm<IFormInput>({
+    resolver: zodResolver(
+      z.object({
+        email: emailValidation,
+        firstName: nameValidation,
+        lastName: nameValidation,
+        password: passwordValidation,
+        confirmPassword: z.string().refine(value => value === watch('password'), 'Passwords do not match')
+      }))
+  });
 
   const createUserMutation = useCreateUserMutation();
 
   const navigate = useNavigate();
-
-  const password = watch('password');
 
   const onSubmit: SubmitHandler<IFormInput> = data => {
     const body: CreateUserRequest = {
@@ -53,7 +61,7 @@ const Register = () => {
             type="email"
             fullWidth
             margin="normal"
-            {...register('email', emailValidation)}
+            {...register('email')}
             error={!!errors.email}
             helperText={errors.email ? errors.email.message : ''}
           />
@@ -62,7 +70,7 @@ const Register = () => {
             type="text"
             fullWidth
             margin="normal"
-            {...register('firstName', nameValidation)}
+            {...register('firstName')}
             error={!!errors.firstName}
             helperText={errors.firstName ? errors.firstName.message : ''}
           />
@@ -71,7 +79,7 @@ const Register = () => {
             type="text"
             fullWidth
             margin="normal"
-            {...register('lastName', nameValidation)}
+            {...register('lastName')}
             error={!!errors.lastName}
             helperText={errors.lastName ? errors.lastName.message : ''}
           />
@@ -80,7 +88,7 @@ const Register = () => {
             type="password"
             fullWidth
             margin="normal"
-            {...register('password', passwordValidation)}
+            {...register('password')}
             error={!!errors.password}
             helperText={errors.password ? errors.password.message : ''}
           />
@@ -89,7 +97,7 @@ const Register = () => {
             type="password"
             fullWidth
             margin="normal"
-            {...register('confirmPassword', confirmPasswordValidation(password))}
+            {...register('confirmPassword')}
             error={!!errors.confirmPassword}
             helperText={errors.confirmPassword ? errors.confirmPassword.message : ''}
           />
