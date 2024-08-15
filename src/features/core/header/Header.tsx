@@ -14,9 +14,6 @@ const Header = () => {
 
   const menuItems = (
     <>
-      <StyledButton color="inherit" onClick={() => navigate('/about-us')}>
-        About us
-      </StyledButton>
       {!isUserAuthenticated() && (
         <>
           <StyledButton color="inherit" onClick={() => navigate('/login')}>

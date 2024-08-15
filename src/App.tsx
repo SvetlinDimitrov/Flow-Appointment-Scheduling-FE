@@ -13,6 +13,7 @@ import {useContext, useEffect} from "react";
 import Settings from "./features/users/settings/Settings.tsx";
 import AboutUs from "./features/core/about_us/AboutUs.tsx";
 import {UserAuthContext} from "./features/shared/context/UserAuthContext.tsx";
+import ContactUs from "./features/core/contact_us/ContactUs.tsx";
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="*" element={<PageNotFound/>}/>
           <Route path="/" element={<Home/>}/>
           <Route path="/about-us" element={<AboutUs/>}/>
+          <Route path="/contant-us" element={<ContactUs/>}/>
           <Route element={<GuestOnly/>}>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
