@@ -1,8 +1,8 @@
 import {Box, Button} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {styled} from "@mui/system";
-import {CoreHeader as SharedHeader} from "../../../shared/styles/headers.ts";
-import {CoreSubHeader as SharedSubHeader} from "../../../shared/styles/subHeaders.ts";
+import {CoreHeader as SharedHeader} from "../../../../shared/styles/headers.ts";
+import {CoreSubHeader as SharedSubHeader} from "../../../../shared/styles/subHeaders.ts";
 
 const MainBox = styled(Box)(({theme}) => ({
   position: 'relative',

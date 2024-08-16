@@ -1,5 +1,6 @@
-import {AppBar, Toolbar, Typography, Box} from '@mui/material';
+import {AppBar, Box, Toolbar, Typography} from '@mui/material';
 import {Link} from 'react-router-dom';
+import {paths} from "../../shared/paths/paths.ts";
 
 const Footer = () => {
   return (
@@ -16,16 +17,14 @@ const Footer = () => {
           © 2024 Prime Holding
         </Typography>
         <Box sx={{ display: 'flex', gap: 2 }}>
-          <Link to="/contant-us" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <Typography variant={"body1"} color={"inherit"}>
-              Contact Us
-            </Typography>
-          </Link>
-          <Link to="/about-us" style={{ textDecoration: 'none', color: 'inherit' }}>
-            <Typography variant={"body1"} color={"inherit"}>
-              About Us
-            </Typography>
-          </Link>
+          {paths.defaultPaths.map((path, index) => (
+            <Link key={index} to={Object.values(path)[0]}
+                  style={{textDecoration: 'none', color: 'inherit'}}>
+              <Typography variant={"body1"} color={"inherit"}>
+                {Object.keys(path)[0]}
+              </Typography>
+            </Link>
+          ))}
         </Box>
       </Toolbar>
     </AppBar>

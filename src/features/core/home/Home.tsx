@@ -1,15 +1,19 @@
-import HeroSection from './hero_section/HeroSection.tsx';
-import ServicesOverviewSection from './service_section/ServicesOverviewSection.tsx';
-import CustomerTestimonialsSection from './customer_testimonials_section/CustomerTestimonialsSection.tsx';
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserAuthContext } from "../../shared/context/UserAuthContext.tsx";
+import GuestHome from "./guest_home/GuestHome.tsx";
 
 const Home = () => {
-  return (
-    <>
-      <HeroSection/>
-      <ServicesOverviewSection/>
-      <CustomerTestimonialsSection/>
-    </>
-  );
+  const { isUserAuthenticated } = useContext(UserAuthContext)!;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isUserAuthenticated()) {
+      navigate("/appointments");
+    }
+  }, [isUserAuthenticated, navigate]);
+
+  return <GuestHome />;
 };
 
 export default Home;

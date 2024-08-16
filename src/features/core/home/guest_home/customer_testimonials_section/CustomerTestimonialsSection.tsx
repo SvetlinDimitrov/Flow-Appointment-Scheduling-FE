@@ -2,7 +2,7 @@ import Testimonial from "./testimonial/Testimonial.tsx";
 import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/system";
 import {Box, Button} from "@mui/material";
-import {CoreHeader as SharedHeader} from "../../../shared/styles/headers.ts";
+import {CoreHeader as SharedHeader} from "../../../../shared/styles/headers.ts";
 
 const testimonials = [
   {

@@ -10,10 +10,14 @@ import Footer from "./features/core/footer/Footer.tsx";
 import LoadingSpinner from "./features/core/loading/LoadingSpinner.tsx";
 import {setupInterceptors} from "./utils/axios_config/axiosInstance.ts";
 import {useContext, useEffect} from "react";
-import Settings from "./features/users/settings/Settings.tsx";
+import Profile from "./features/users/settings/Profile.tsx";
 import AboutUs from "./features/core/about_us/AboutUs.tsx";
 import {UserAuthContext} from "./features/shared/context/UserAuthContext.tsx";
 import ContactUs from "./features/core/contact_us/ContactUs.tsx";
+import LeftSidebar from "./features/core/side_bar/LeftSidebar.tsx";
+import AppointmentInfo from "./features/appointments/appointment_info/AppointmentInfo.tsx";
+import {Box} from "@mui/material";
+import Service from "./features/services/Service.tsx";
 
 function App() {
 
@@ -24,24 +28,29 @@ function App() {
   }, []);
 
   return (
-    <>
+    <Box display="flex" flexDirection="column" minHeight="100vh">
       <Header/>
-        <LoadingSpinner/>
+      <LeftSidebar/>
+      <LoadingSpinner/>
+      <Box flexGrow={1}>
         <Routes>
           <Route path="*" element={<PageNotFound/>}/>
           <Route path="/" element={<Home/>}/>
           <Route path="/about-us" element={<AboutUs/>}/>
-          <Route path="/contant-us" element={<ContactUs/>}/>
+          <Route path="/contact-us" element={<ContactUs/>}/>
           <Route element={<GuestOnly/>}>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
           </Route>
           <Route element={<AuthenticatedUser/>}>
-            <Route path="/settings" element={<Settings/>}/>
+            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/appointments" element={<AppointmentInfo/>}/>
+            <Route path="/services" element={<Service/>}/>
           </Route>
         </Routes>
+      </Box>
       <Footer/>
-    </>
+    </Box>
   )
 }
 

@@ -16,7 +16,7 @@ const StyleButton = styled(Button)(() => ({
   flexGrow: 1,
 }));
 
-const Settings = () => {
+const Profile = () => {
 
   const {userId} = useContext(UserAuthContext)!;
 
@@ -92,4 +92,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default Profile;
