@@ -1,5 +1,8 @@
 import TeamMember from "./team_member/TeamMember.tsx";
-import {Header, JoinOurTeamButton, MainWrapper, Subheader, TeamMembersWrapper} from "./meetTeamSectionStyles.ts";
+import {styled} from "@mui/system";
+import {Box, Button} from "@mui/material";
+import {CoreHeader as SharedHeader} from "../../../shared/styles/headers.ts";
+import {CoreSubHeader as SharedSubHeader} from "../../../shared/styles/subHeaders.ts";
 
 const teamMembers = [
   {
@@ -22,18 +25,29 @@ const teamMembers = [
   }
 ];
 
+const MainWrapper = styled(Box)(({theme}) => ({
+  textAlign: 'center',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  gap: theme.spacing(4),
+  padding: theme.spacing(2),
+}));
+
 const MeetTeamSection = () => {
   return (
     <MainWrapper>
-      <Header variant="h4">
+      <SharedHeader variant={"h4"}>
         Meet Our Expert Team
-      </Header>
-      <Subheader variant="body1" paragraph>
+      </SharedHeader>
+      <SharedSubHeader variant={"body1"} paragraph>
         Our team is a group of passionate professionals dedicated to your wellness. From our skilled massage therapists
         to our energetic fitness instructors, every member of Flow brings a wealth of experience and a commitment to
         your well-being.
-      </Subheader>
-      <TeamMembersWrapper>
+      </SharedSubHeader>
+      <Box display={'flex'} justifyContent={'center'}
+           flexWrap={'wrap'} gap={4} mt={4}>
         {teamMembers.map((member, index) => (
           <TeamMember
             key={index}
@@ -43,10 +57,10 @@ const MeetTeamSection = () => {
             imageSrc={member.imageSrc}
           />
         ))}
-      </TeamMembersWrapper>
-      <JoinOurTeamButton variant="contained" color="primary">
+      </Box>
+      <Button variant={"contained"} color={"primary"} sx={{marginTop: 4}}>
         Join Our Team
-      </JoinOurTeamButton>
+      </Button>
     </MainWrapper>
   );
 };

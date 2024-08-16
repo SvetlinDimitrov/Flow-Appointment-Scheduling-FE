@@ -1,5 +1,6 @@
-import {CardsHolder, Header, MainWrapper, SubHeader} from './serviceSectionStyle.ts';
 import ServiceCard from "./service_card_props/ServiceCard.tsx";
+import {styled} from "@mui/system";
+import {Box, Stack, Typography} from "@mui/material";
 
 const serviceCardsData = [
   {
@@ -22,16 +23,38 @@ const serviceCardsData = [
   }
 ];
 
+const MainWrapper = styled(Stack)(({theme}) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  textAlign: 'center',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: theme.spacing(5),
+  padding: theme.spacing(2),
+  marginTop: theme.spacing(5),
+  marginBottom: theme.spacing(5),
+}));
+
+const CardsHolder = styled(Box)(({theme}) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  [theme.breakpoints.down('lg')]: {
+    flexDirection: 'column',
+  },
+  justifyContent: 'center',
+  gap: theme.spacing(5),
+}));
+
 const ServicesOverviewSection = () => {
   return (
     <MainWrapper>
-      <Header variant="h4">
+      <Typography variant={"h4"} fontWeight={'bold'} fontSize={'2.5rem'} color={'#333'}>
         Our Services
-      </Header>
-      <SubHeader variant="body1">
+      </Typography>
+      <Typography variant={"body1"} fontSize={'1.25rem'} lineHeight={1.5} color={'#666'}>
         We offer a variety of services to cater to your wellness needs, from fitness classes to massage therapy and
         skincare treatments.
-      </SubHeader>
+      </Typography>
       <CardsHolder>
         {serviceCardsData.map((card, index) => (
           <ServiceCard

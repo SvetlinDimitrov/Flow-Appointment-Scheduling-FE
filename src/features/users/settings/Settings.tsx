@@ -1,5 +1,4 @@
-// src/features/users/settings/Settings.tsx
-import {Stack, Typography} from '@mui/material';
+import {Box, Button, Stack, Typography} from '@mui/material';
 import useGetUserQuery from "../../../hooks/users/query/useGetUserQuery.ts";
 import {useContext, useState} from "react";
 import {UserAuthContext} from "../../shared/context/UserAuthContext.tsx";
@@ -9,8 +8,13 @@ import LoadingSpinner from "../../core/loading/LoadingSpinner.tsx";
 import useUpdateUserMutation from "../../../hooks/users/mutations/useUpdateUserMutation.ts";
 import {useNavigate} from "react-router-dom";
 import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserMutation.ts";
-import {BoxButtonWrapper, MainWrapper, SecondWrapper, StyleButton} from "./settingsStyle.ts";
 import UserInfoItem from "./user_info_item/UserInfoItem.tsx";
+import {UserMainWrapper, UserSecondWrapper} from "../../shared/styles/wrappers.ts";
+import {styled} from "@mui/system";
+
+const StyleButton = styled(Button)(() => ({
+  flexGrow: 1,
+}));
 
 const Settings = () => {
 
@@ -49,8 +53,8 @@ const Settings = () => {
   if (error) return <PageNotFound/>;
 
   return (
-    <MainWrapper>
-      <SecondWrapper elevation={4}>
+    <UserMainWrapper>
+      <UserSecondWrapper sx={{width: '100%'}} elevation={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Settings
         </Typography>
@@ -59,7 +63,7 @@ const Settings = () => {
           <UserInfoItem label="Last Name:" value={user.lastName}/>
           <UserInfoItem label="Email:" value={user.email}/>
           <UserInfoItem label="Role:" value={user.role}/>
-          <BoxButtonWrapper>
+          <Box display={'flex'} gap={2}>
             <StyleButton
               fullWidth
               variant="contained"
@@ -77,14 +81,14 @@ const Settings = () => {
             >
               Delete
             </StyleButton>
-          </BoxButtonWrapper>
+          </Box>
           <UpdateUser open={isUpdateOpen}
                       onClose={handleCloseUpdate}
                       onSubmit={handleUpdateUser}
                       data={user}/>
         </Stack>
-      </SecondWrapper>
-    </MainWrapper>
+      </UserSecondWrapper>
+    </UserMainWrapper>
   );
 };
 

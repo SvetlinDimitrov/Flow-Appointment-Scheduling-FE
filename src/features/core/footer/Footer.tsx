@@ -1,15 +1,20 @@
-import {Typography} from '@mui/material';
-import {StyledAppBar, StyledToolbar} from './footerStyles';
+import {AppBar, Toolbar, Typography} from '@mui/material';
 
 const Footer = () => {
   return (
-    <StyledAppBar>
-      <StyledToolbar>
-        <Typography variant="body1" color="inherit">
+    <AppBar position={'static'} sx={{
+      top: 'auto',
+      bottom: 0,
+    }}>
+      <Toolbar sx={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}>
+        <Typography variant={"body1"} color={"inherit"}>
           © 2024 Prime Holding
         </Typography>
-      </StyledToolbar>
-    </StyledAppBar>
+      </Toolbar>
+    </AppBar>
   );
 };
 

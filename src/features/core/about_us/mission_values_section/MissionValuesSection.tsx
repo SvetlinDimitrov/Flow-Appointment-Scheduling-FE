@@ -1,5 +1,8 @@
 import MissionValueItem from './mission_value_item/MissionValueItem';
-import {Header, MainWrapper, MissionValueWrapper, SecondaryWrapper, Subheader} from "./missionValuesSectionStyles.ts";
+import {styled} from "@mui/system";
+import {Box} from "@mui/material";
+import {CoreHeader as SharedHeader} from "../../../shared/styles/headers.ts";
+import {CoreSubHeader as SharedSubHeader} from "../../../shared/styles/subHeaders.ts";
 
 const missionValues = [
   {
@@ -19,19 +22,32 @@ const missionValues = [
   }
 ];
 
+const SecondaryWrapper = styled(Box)(({theme}) => ({
+  textAlign: 'center',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  gap: theme.spacing(4),
+  padding: theme.spacing(2),
+  marginTop: theme.spacing(4),
+  marginBottom: theme.spacing(4),
+}));
+
 const MissionValuesSection = () => {
   return (
-    <MainWrapper>
+    <Box width={'100%'} sx={{backgroundColor: 'rgba(0, 0, 0, 0.05)'}}>
       <SecondaryWrapper>
-        <Header variant="h4" gutterBottom>
+        <SharedHeader variant={"h4"} gutterBottom>
         Our Mission and Values
-        </Header>
-        <Subheader variant="body1" paragraph>
+        </SharedHeader>
+        <SharedSubHeader variant={"body1"} paragraph>
         At Flow, our mission is to enhance the well-being of every individual we serve through personalized wellness
         solutions. We are committed to creating an environment that fosters health, relaxation, and a sense of
         community.
-        </Subheader>
-        <MissionValueWrapper>
+        </SharedSubHeader>
+        <Box display={'flex'} justifyContent={'center'}
+             flexWrap={'wrap'} gap={5} mt={4}>
           {missionValues.map((value, index) => (
             <MissionValueItem
               key={index}
@@ -40,9 +56,9 @@ const MissionValuesSection = () => {
               description={value.description}
             />
           ))}
-        </MissionValueWrapper>
+        </Box>
       </SecondaryWrapper>
-    </MainWrapper>
+    </Box>
   );
 };
 

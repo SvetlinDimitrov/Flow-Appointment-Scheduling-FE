@@ -1,11 +1,11 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {TextField} from '@mui/material';
+import {Button, TextField, Typography} from '@mui/material';
 import useLoginUserMutation from "../../../hooks/users/mutations/useLoginUserMutation.ts";
 import {Link, useNavigate} from "react-router-dom";
-import {LoginButton, MainWrapper, RegisterLink, SecondWrapper, Title} from "./loginStyles.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {emailValidation, passwordValidation} from "../../shared/validation/users.validations.ts";
 import {z} from "zod";
+import {UserMainWrapper, UserSecondWrapper} from "../../shared/styles/wrappers.ts";
 
 interface IFormInput {
   email: string;
@@ -39,11 +39,11 @@ const Login = () => {
   };
 
   return (
-    <MainWrapper>
-      <SecondWrapper elevation={4}>
-        <Title variant="h4">
+    <UserMainWrapper>
+      <UserSecondWrapper elevation={4}>
+        <Typography mb={'2'} variant="h4">
           Login
-        </Title>
+        </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             label="Email"
@@ -63,15 +63,17 @@ const Login = () => {
             error={!!errors.password}
             helperText={errors.password ? errors.password.message : ''}
           />
-          <LoginButton variant="contained" fullWidth type="submit">
+          <Button variant="contained" fullWidth
+                  sx={{mt: 2, mb: 1}}
+                  type="submit">
             Login
-          </LoginButton>
-          <RegisterLink variant="body2" align="center">
+          </Button>
+          <Typography mt={2} textAlign={'center'} variant="body2" align="center">
             Don't have an account? <Link to="/register">Register here</Link>
-          </RegisterLink>
+          </Typography>
         </form>
-      </SecondWrapper>
-    </MainWrapper>
+      </UserSecondWrapper>
+    </UserMainWrapper>
   );
 };
 

@@ -1,6 +1,14 @@
-import {TextField} from '@mui/material';
+import {Box, Button, TextField} from '@mui/material';
 import {useForm} from 'react-hook-form';
-import {ContactUsButton, MainWrapper} from "./contactUsStyles.ts";
+import {styled} from "@mui/system";
+
+export const ContactUsButton = styled(Button)(() => ({
+  marginTop: '2rem',
+  paddingX: '4rem',
+  paddingY: '1.5rem',
+  fontSize: '1rem',
+  margin: 'auto',
+}));
 
 interface IFormInput {
   name: string;
@@ -16,7 +24,9 @@ const ContactForm = () => {
   };
 
   return (
-    <MainWrapper component="form" onSubmit={handleSubmit(onSubmit)}>
+    <Box width={'100%'} maxWidth={'500x'} display={'flex'}
+         component="form" flexDirection={'column'} gap={'0.9rem'}
+         onSubmit={handleSubmit(onSubmit)}>
       <TextField
         label="Name"
         variant="outlined"
@@ -52,10 +62,10 @@ const ContactForm = () => {
         helperText={errors.message ? errors.message.message : ''}
         sx={{backgroundColor: 'white', borderRadius: 1}}
       />
-      <ContactUsButton variant="contained" color="primary" type="submit">
+      <ContactUsButton variant={"contained"} color={"primary"} type="submit">
         Send Message
       </ContactUsButton>
-    </MainWrapper>
+    </Box>
   );
 };
 

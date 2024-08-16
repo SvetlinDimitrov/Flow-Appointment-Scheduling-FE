@@ -1,12 +1,12 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
-import {TextField, Typography} from '@mui/material';
+import {Button, TextField, Typography} from '@mui/material';
 import useCreateUserMutation from "../../../hooks/users/mutations/useCreateUserMutation.ts";
 import {Link, useNavigate} from "react-router-dom";
-import {LinkStyle, MainWrapper, RegisterButton, SecondWrapper} from "./registerStyle.ts";
 import {CreateUserRequest} from "../../../models/api/users.ts";
 import {emailValidation, nameValidation, passwordValidation} from "../../shared/validation/users.validations.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
+import {UserMainWrapper, UserSecondWrapper} from "../../shared/styles/wrappers.ts";
 
 interface IFormInput {
   email: string;
@@ -50,8 +50,8 @@ const Register = () => {
   };
 
   return (
-    <MainWrapper>
-      <SecondWrapper elevation={4}>
+    <UserMainWrapper>
+      <UserSecondWrapper elevation={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Register
         </Typography>
@@ -101,15 +101,18 @@ const Register = () => {
             error={!!errors.confirmPassword}
             helperText={errors.confirmPassword ? errors.confirmPassword.message : ''}
           />
-          <RegisterButton variant="contained" color="primary" type="submit">
+          <Button variant="contained" color="primary"
+                  sx={{mt: 2, mb: 1, width: '100%'}}
+                  type="submit">
             Register
-          </RegisterButton>
-          <LinkStyle variant="body2" align="center">
+          </Button>
+          <Typography variant="body2" align="center"
+                      mt={2} lineHeight={1.5}>
             Already have an account? <Link to="/login">Login here</Link>
-          </LinkStyle>
+          </Typography>
         </form>
-      </SecondWrapper>
-    </MainWrapper>
+      </UserSecondWrapper>
+    </UserMainWrapper>
   );
 };
 
