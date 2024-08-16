@@ -1,7 +1,17 @@
-import {Drawer} from '@mui/material';
+import {Button, Drawer} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import {ReactNode, useState} from 'react';
-import {StyledButton} from "./sandwitchStyles.ts";
+import {styled} from "@mui/system";
+
+const StyledButton = styled(Button)(({theme}) => ({
+  [theme.breakpoints.up('md')]: {
+    display: 'none',
+  },
+  [theme.breakpoints.down('md')]: {
+    display: 'block',
+  },
+  color: 'inherit'
+}));
 
 interface SandwichProps {
   menuItems: ReactNode;
@@ -16,10 +26,10 @@ const Sandwich = ({menuItems}: SandwichProps) => {
 
   return (
     <>
-      <StyledButton color="inherit" onClick={toggleDrawer(true)}>
+      <StyledButton onClick={toggleDrawer(true)}>
         <MenuIcon/>
       </StyledButton>
-      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+      <Drawer anchor={"right"} open={drawerOpen} onClose={toggleDrawer(false)}>
         {menuItems}
       </Drawer>
     </>
