@@ -68,7 +68,7 @@ const ContactUs = () => {
 
   return (
     <MainWrapper>
-      <SharedHeader variant="h4">
+      <SharedHeader variant={"h4"}>
         Contact Us
       </SharedHeader>
       <ContactInfoWrapper>
@@ -79,7 +79,7 @@ const ContactUs = () => {
           Email: contact@example.com
         </Typography>
       </ContactInfoWrapper>
-      <SharedSubHeader variant="body1" paragraph color={'#666'} textAlign={'center'}>
+      <SharedSubHeader variant={"body1"} paragraph color={'#666'} textAlign={'center'}>
         We would love to hear from you! Please fill out the form below and we will get in touch with you shortly.
       </SharedSubHeader>
       <SecondWrapper>

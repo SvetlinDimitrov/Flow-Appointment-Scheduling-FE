@@ -12,8 +12,12 @@ const UserInfoSection = ({user}: UserInfoSectionProps) => {
          justifyContent={'center'}>
       <Box width={'30%'} height={'80%'} bgcolor={'gray'} mr={3}/>
       <Box>
-        <Typography variant="h6">Name: {user.firstName} {user.lastName}</Typography>
-        <Typography variant="body1">Email: {user.email}</Typography>
+        <Typography variant="h6">
+          Name: {user.firstName} {user.lastName}
+        </Typography>
+        <Typography variant="body1">
+          Email: {user.email}
+        </Typography>
       </Box>
     </Box>
   );

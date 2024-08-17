@@ -17,7 +17,7 @@ import ContactUs from "./features/core/contact_us/ContactUs.tsx";
 import LeftSidebar from "./features/core/side_bar/LeftSidebar.tsx";
 import AppointmentInfo from "./features/appointments/appointment_info/AppointmentInfo.tsx";
 import {Box} from "@mui/material";
-import Service from "./features/services/Service.tsx";
+import AppointmentDetails from "./features/appointments/appointment_info/detailed_appointment/AppointmentDetails.tsx";
 
 function App() {
 
@@ -45,7 +45,7 @@ function App() {
           <Route element={<AuthenticatedUser/>}>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/appointments" element={<AppointmentInfo/>}/>
-            <Route path="/services" element={<Service/>}/>
+            <Route path="/appointments/:id" element={<AppointmentDetails/>}/>
           </Route>
         </Routes>
       </Box>

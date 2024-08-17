@@ -1,6 +1,7 @@
-import {Box, Typography} from '@mui/material';
+import {Box, Button, Typography} from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {styled} from '@mui/system';
+import {Appointment} from "../../../../../models/appointment.types.ts";
 
 const CalendarIconContainer = styled(Box)(({theme}) => ({
   display: 'flex',
@@ -14,18 +15,23 @@ const CalendarIconContainer = styled(Box)(({theme}) => ({
 }));
 
 interface HeaderAppointmentSectionProps {
-  date: Date;
+  appointment: Appointment;
 }
 
-const HeaderAppointmentSection = ({date}: HeaderAppointmentSectionProps) => {
+const HeaderAppointmentSection = ({appointment}: HeaderAppointmentSectionProps) => {
+  const date = appointment.date;
   const day = date.toLocaleString('en-US', {weekday: 'long'});
   const month = date.toLocaleString('en-US', {month: 'long'});
   const dayOfMonth = date.getDate();
   const year = date.getFullYear();
 
+  const onCancel = (appointment: Appointment) => {
+    console.log(appointment);
+  }
+
   return (
     <Box width={'800px'} height={'20%'} display={'flex'}
-         alignItems={'center'} border={'1px solid black'} >
+         alignItems={'center'} border={'1px solid black'}>
       <CalendarIconContainer>
         <CalendarTodayIcon fontSize="large"/>
       </CalendarIconContainer>
@@ -37,6 +43,14 @@ const HeaderAppointmentSection = ({date}: HeaderAppointmentSectionProps) => {
           {`${day}, ${dayOfMonth} ${month}, ${year}`}
         </Typography>
       </Box>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={() => onCancel(appointment)}
+        sx={{marginLeft: 'auto', marginRight: 2}}
+      >
+        Cancel Appointment
+      </Button>
     </Box>
   );
 };

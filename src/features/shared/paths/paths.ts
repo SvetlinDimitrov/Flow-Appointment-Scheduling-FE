@@ -8,8 +8,8 @@ export const paths = {
     { 'Register': '/register' }
   ],
   userPaths: [
+    { 'Home': '/' },
     { 'Profile': '/profile' },
     { 'Appointments': '/appointments' },
-    { 'Services': '/services' }
   ]
 };

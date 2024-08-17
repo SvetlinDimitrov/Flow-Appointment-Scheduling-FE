@@ -16,7 +16,7 @@ const Footer = () => {
         <Typography variant={"body1"} color={"inherit"}>
           © 2024 Prime Holding
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2 }}>
+        <Box display={'flex'} gap={2}>
           {paths.defaultPaths.map((path, index) => (
             <Link key={index} to={Object.values(path)[0]}
                   style={{textDecoration: 'none', color: 'inherit'}}>
