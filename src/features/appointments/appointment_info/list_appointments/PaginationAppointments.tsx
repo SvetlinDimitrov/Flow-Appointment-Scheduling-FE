@@ -1,23 +1,7 @@
 import {useState} from "react";
 import {Box, Button, Typography} from "@mui/material";
-import {styled} from "@mui/system";
 import {Appointment} from "../../../../models/appointment.types.ts";
 import AppointmentItem from "./appointment/AppointmentItem.tsx";
-
-const CenteredBox = styled(Box)(({theme}) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  border: `2px solid ${theme.palette.divider}`,
-  borderRadius: theme.shape.borderRadius,
-  padding: theme.spacing(1),
-  margin: theme.spacing(2),
-  textAlign: 'center',
-  maxWidth: 600,
-  width: '100%',
-  height: 460,
-}));
 
 interface PaginationProps {
   appointments: Appointment[];
@@ -49,8 +33,15 @@ const PaginationAppointments = ({appointments, onCancel, onViewMore}: Pagination
 
   return (
     <Box display={'flex'} justifyContent={'center'}
-         alignItems={'center'} flexDirection={'column'} width={'100%'}>
-      <CenteredBox>
+         alignItems={'center'} flexDirection={'column'} p={2}>
+      <Box display={'flex'} justifyContent={'center'} alignItems={'center'}
+           flexDirection={'column'} border={'2px solid gray'} p={1}
+            sx={{
+              width:{
+                sm: '500px',
+              },
+            }} borderRadius={2} mt={2}
+      >
         {currentAppointments.map((appointment, index) => (
           <AppointmentItem
             key={index}
@@ -61,7 +52,7 @@ const PaginationAppointments = ({appointments, onCancel, onViewMore}: Pagination
             onViewMore={onViewMore}
           />
         ))}
-      </CenteredBox>
+      </Box>
       <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} mt={2}>
         <Button onClick={handlePreviousPage} disabled={currentPage === 0}>
           Previous

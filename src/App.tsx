@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   return (
-    <Box display="flex" flexDirection="column" minHeight="100vh">
+    <Box display="flex" flexDirection="column" minHeight="100vh" minWidth={"280px"}>
       <Header/>
       <LeftSidebar/>
       <LoadingSpinner/>

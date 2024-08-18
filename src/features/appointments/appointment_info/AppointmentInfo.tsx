@@ -343,8 +343,15 @@ const AppointmentInfo = () => {
   return (
     <Box display={"flex"} flexDirection={"column"}
          alignItems={"center"} justifyContent={"center"} height={"86.1vh"}>
-      <Typography variant={"h4"} gutterBottom>
-        My Feature Appointments
+      <Typography variant={"h4"}
+      sx={{
+        fontWeight: 'bold',
+        fontSize: {
+          xs: '1.5rem',
+          sm: '2rem'
+        }
+      }}>
+        My Appointments
       </Typography>
       {appointmentsDummyData && appointmentsDummyData.length === 0 ? (
         <AppointmentEmpty/>

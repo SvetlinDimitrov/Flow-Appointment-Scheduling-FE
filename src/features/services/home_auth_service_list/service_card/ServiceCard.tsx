@@ -12,7 +12,7 @@ import {
   TableRow,
   Typography
 } from "@mui/material";
-import {ServiceWithUsers} from "../../../../../../models/service.types.ts";
+import {ServiceWithUsers} from "../../../../models/service.types.ts";
 
 interface ServiceCardProps {
   service: ServiceWithUsers;

@@ -1,6 +1,6 @@
 import {useState} from "react";
-import {Box, Button, Typography} from "@mui/material";
-import {ServiceWithUsers} from "../../../../../models/service.types.ts";
+import {Box, Button, Typography, useMediaQuery} from "@mui/material";
+import {ServiceWithUsers} from "../../../models/service.types.ts";
 import ServiceCard from "./service_card/ServiceCard.tsx";
 
 interface ServiceListProps {
@@ -10,7 +10,9 @@ interface ServiceListProps {
 
 const ServiceList = ({services, handleOpen}: ServiceListProps) => {
   const [currentPage, setCurrentPage] = useState(0);
-  const servicesPerPage = 2;
+
+  const isXs = useMediaQuery('(max-width:600px)');
+  const servicesPerPage = isXs ? 1 : 4;
 
   const totalPages = Math.ceil(services.length / servicesPerPage);
 
@@ -31,18 +33,19 @@ const ServiceList = ({services, handleOpen}: ServiceListProps) => {
   const currentServices = services.slice(startIndex, endIndex);
 
   return (
-    <Box p={4} width={"80%"} margin={"auto"}>
-      <Typography variant={"h5"} mb={2} textAlign={"center"}>
+    <Box p={2} display={'flex'} flexDirection={'column'}
+         justifyContent={'center'} alignItems={'center'} gap={3}>
+      <Typography variant={"h5"} textAlign={"center"}>
         Explore Our Services
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"}
-           gap={2} margin={"auto"}>
+           gap={2}>
         {currentServices.map((service, index) => (
           <ServiceCard key={index} service={service} handleOpen={handleOpen}/>
         ))}
       </Box>
-      <Box margin={"auto"} width={"50%"} display={"flex"}
-           justifyContent={"space-between"} alignItems={"center"} mt={2}>
+      <Box margin={"auto"} width={"50%"} display={"flex"} minWidth={200}
+           justifyContent={"center"} alignItems={"center"} mt={2}>
         <Button onClick={handlePreviousPage} disabled={currentPage === 0}>
           Previous
         </Button>
