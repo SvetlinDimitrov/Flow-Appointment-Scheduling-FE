@@ -18,6 +18,7 @@ interface UserContextType {
   login: (jwtToken: JwtToken, refreshToken: RefreshToken) => void;
   logout: () => void;
   isUserAuthenticated: () => boolean;
+  isAdmin: boolean;
 }
 
 export const UserAuthContext = createContext<UserContextType | undefined>(undefined);
@@ -28,6 +29,8 @@ export const UserAuthProvider = ({children}: { children: ReactNode }) => {
     if (jwt) return getUserIdFromJwt(jwt.token);
     return null;
   });
+
+  const isAdmin = true;
 
   const isUserAuthenticated = () => {
     let refreshToken: (RefreshToken | null) = getRefreshTokenFromLocalStorage();
@@ -53,6 +56,7 @@ export const UserAuthProvider = ({children}: { children: ReactNode }) => {
       login,
       logout,
       isUserAuthenticated,
+      isAdmin
     }}>
       {children}
     </UserAuthContext.Provider>

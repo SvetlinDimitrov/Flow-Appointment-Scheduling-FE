@@ -21,5 +21,25 @@ export interface ServiceWithUsers {
   duration: number;
   price: number;
   place: Location;
+  totalProfit: number;
+  totalAppointments: number;
   employees: User[];
 }
+
+export interface ModifyService {
+  name: string;
+  description: string;
+  duration: number;
+  price: number;
+  placeName: string;
+}
+
+export interface ServiceProps {
+  handleViewEmployees: (service: ServiceWithUsers) => void;
+}
+
+export interface AdminServiceProps extends ServiceProps {
+  handleDeleteService: (service: ServiceWithUsers) => void;
+  handleUpdateService: (service: ServiceWithUsers) => void;
+}
+

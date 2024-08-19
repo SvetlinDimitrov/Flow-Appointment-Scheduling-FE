@@ -6,12 +6,9 @@ import {UserAuthContext} from "../../shared/context/UserAuthContext.tsx";
 import {paths} from "../../shared/paths/paths.ts";
 
 const LeftSidebar = () => {
-  const {logout, isUserAuthenticated} = useContext(UserAuthContext)!;
-
+  const {logout, isUserAuthenticated, isAdmin} = useContext(UserAuthContext)!;
   const location = useLocation();
-
   const theme = useTheme();
-
   const [isOpen, setIsOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
@@ -59,7 +56,7 @@ const LeftSidebar = () => {
         }}
       >
         <Box width={'140px'} p={2} display={'flex'} flexDirection={'column'} gap={2}>
-          <Typography variant="h6" component="h6" fontWeight={'bold'} >Sidebar</Typography>
+          <Typography variant="h6" component="h6" fontWeight={'bold'}>Sidebar</Typography>
           {paths.userPaths.map((path, index) => (
             <Link
               style={{textDecoration: 'none', color: 'blue'}}
@@ -78,6 +75,29 @@ const LeftSidebar = () => {
               </Typography>
             </Link>
           ))}
+          {isAdmin && (
+            <Box width={'140px'} display={'flex'} flexDirection={'column'} gap={2}>
+              <Typography variant="h6" component="h6" fontWeight={'bold'}>Admin Panel</Typography>
+              {paths.adminPaths.map((path, index) => (
+                <Link
+                  style={{textDecoration: 'none', color: 'blue'}}
+                  key={index}
+                  to={Object.values(path)[0]}
+                  onClick={toggleDrawer}
+                >
+                  <Typography
+                    fontFamily={theme.typography.fontFamily}
+                    fontSize={theme.typography.body1.fontSize}
+                    fontWeight={'bolder'}
+                    color={isActive(Object.values(path)[0]) ? activeColor : theme.palette.primary.main}
+                    variant="body1"
+                  >
+                    {Object.keys(path)[0]}
+                  </Typography>
+                </Link>
+              ))}
+            </Box>
+          )}
           <Typography
             variant="body1"
             fontFamily={theme.typography.fontFamily}

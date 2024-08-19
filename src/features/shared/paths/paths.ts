@@ -11,5 +11,9 @@ export const paths = {
     { 'Home': '/' },
     { 'Profile': '/profile' },
     { 'Appointments': '/appointments' },
+  ],
+  adminPaths: [
+    { 'Services': '/admin/services' },
+    { 'Users': '/admin/users' }
   ]
 };

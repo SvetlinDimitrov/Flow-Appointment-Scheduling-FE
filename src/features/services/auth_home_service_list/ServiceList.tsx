@@ -1,14 +1,15 @@
 import {useState} from "react";
 import {Box, Button, Typography, useMediaQuery} from "@mui/material";
-import {ServiceWithUsers} from "../../../models/service.types.ts";
-import ServiceCard from "./service_card/ServiceCard.tsx";
+import ServiceCard from "../../shared/components/service/ServiceCard.tsx";
+import {ServiceProps, ServiceWithUsers} from "../../../models/service.types.ts";
 
 interface ServiceListProps {
   services: ServiceWithUsers[];
-  handleOpen: (service: ServiceWithUsers) => void;
+  props: ServiceProps;
 }
 
-const ServiceList = ({services, handleOpen}: ServiceListProps) => {
+const ServiceList = ({props, services}: ServiceListProps) => {
+
   const [currentPage, setCurrentPage] = useState(0);
 
   const isXs = useMediaQuery('(max-width:600px)');
@@ -41,7 +42,9 @@ const ServiceList = ({services, handleOpen}: ServiceListProps) => {
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"}
            gap={2}>
         {currentServices.map((service, index) => (
-          <ServiceCard key={index} service={service} handleOpen={handleOpen}/>
+          <ServiceCard key={index}
+                       selectedService={service}
+                       serviceContextProps={props}/>
         ))}
       </Box>
       <Box margin={"auto"} width={"50%"} display={"flex"} minWidth={200}

@@ -18,6 +18,10 @@ import LeftSidebar from "./features/core/side_bar/LeftSidebar.tsx";
 import AppointmentInfo from "./features/appointments/appointment_info/AppointmentInfo.tsx";
 import {Box} from "@mui/material";
 import AppointmentDetails from "./features/appointments/appointment_info/detailed_appointment/AppointmentDetails.tsx";
+import AdminOnly from "./features/core/layouts/AdminOnly.tsx";
+import ServiceProvider from "./features/shared/context/ServiceContext.tsx";
+import AdminServiceDashboard from "./features/admin/services/AdminServiceDashboard.tsx";
+import AdminDashboardUsers from "./features/admin/users/AdminDashboardUsers.tsx";
 
 function App() {
 
@@ -33,9 +37,13 @@ function App() {
       <LeftSidebar/>
       <LoadingSpinner/>
       <Box flexGrow={1}>
+        <ServiceProvider>
         <Routes>
-          <Route path="*" element={<PageNotFound/>}/>
           <Route path="/" element={<Home/>}/>
+          <Route element={<AdminOnly/>}>
+            <Route path="/admin/services" element={<AdminServiceDashboard/>}/>
+            <Route path="/admin/users" element={<AdminDashboardUsers/>}/>
+          </Route>
           <Route path="/about-us" element={<AboutUs/>}/>
           <Route path="/contact-us" element={<ContactUs/>}/>
           <Route element={<GuestOnly/>}>
@@ -47,7 +55,9 @@ function App() {
             <Route path="/appointments" element={<AppointmentInfo/>}/>
             <Route path="/appointments/:id" element={<AppointmentDetails/>}/>
           </Route>
+          <Route path="*" element={<PageNotFound/>}/>
         </Routes>
+        </ServiceProvider>
       </Box>
       <Footer/>
     </Box>

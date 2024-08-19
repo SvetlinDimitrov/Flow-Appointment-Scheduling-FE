@@ -1,13 +1,14 @@
 import {useState} from "react";
 import {Box, Button, Typography, useMediaQuery} from "@mui/material";
 import {ServiceWithUsers} from "../../../models/service.types.ts";
-import EmployeeCard from "./employee_card/EmployeeCard.tsx";
+import EmployeeCard from "../../shared/components/service_employee/EmployeeCard.tsx";
 
 interface ServiceEmployeesListProps {
   selectedService: ServiceWithUsers | null;
+  visualizeAdminBoard: boolean;
 }
 
-const ServiceEmployeesList = ({selectedService}: ServiceEmployeesListProps) => {
+const ServiceEmployeesList = ({selectedService, visualizeAdminBoard}: ServiceEmployeesListProps) => {
   const [currentPage, setCurrentPage] = useState(0);
   const isXs = useMediaQuery('(max-width:600px)');
   const isLg = useMediaQuery('(max-width:1200px)');
@@ -42,7 +43,11 @@ const ServiceEmployeesList = ({selectedService}: ServiceEmployeesListProps) => {
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}
       maxWidth={'1200px'}>
         {currentEmployees.map((employee) => (
-          <EmployeeCard key={employee.id} employee={employee} selectedServiceId={selectedService.id}/>
+          <EmployeeCard key={employee.id}
+                        employee={employee}
+                        selectedServiceId={selectedService.id}
+                        visualizeAdminBoard={visualizeAdminBoard}
+          />
         ))}
       </Box>
       <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mt={2}>
