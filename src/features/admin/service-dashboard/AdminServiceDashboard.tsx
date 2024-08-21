@@ -3,7 +3,7 @@ import {useServiceContext} from "../../../shared/context/ServiceContext.tsx";
 import ServiceList from "../../service/service-list/ServiceList.tsx";
 import StaffList from "../../users/staff-list/StaffList.tsx";
 import {useState} from "react";
-import {AdminServiceProps, ModifyService, ServiceWithUsers} from "../../../shared/models/service.types.ts";
+import {ModifyService, ServiceWithUsers} from "../../../shared/models/service.types.ts";
 import ServiceEditModal from "./edit/ServiceEditModal.tsx";
 
 const AdminServiceDashboard = () => {
@@ -33,12 +33,22 @@ const AdminServiceDashboard = () => {
     setEditModalOpen(false);
   }
 
-  const childProps = {handleViewEmployees, handleUpdateService, handleDeleteService} as AdminServiceProps;
+  const handleDeleteEmployeeFromService = (staffEmail: string, serviceId: number) => {
+    console.log("Delete employee " + staffEmail + " from service " + serviceId);
+  }
+
 
   return (
     <Box>
-      <ServiceList services={services} props={childProps}/>
-      <StaffList selectedService={selectedService} visualizeAdminBoard={true}/>
+      <ServiceList services={services}
+                   handleViewStaff={handleViewEmployees}
+                   handleUpdateService={handleUpdateService}
+                   handleDeleteService={handleDeleteService}/>
+      <StaffList selectedService={selectedService}
+                 handleDeleteEmployeeFromService={handleDeleteEmployeeFromService}
+                 handleBookWithStaff={null}
+      />
+
       {selectedService && (
         <ServiceEditModal
           open={isEditModalOpen}

@@ -11,6 +11,10 @@ interface ServiceCardProps {
   serviceContextProps: ServiceProps;
 }
 
+function isAdminServiceProps(props: ServiceProps | AdminServiceProps): props is AdminServiceProps {
+  return 'handleDeleteService' in props && 'handleUpdateService' in props;
+}
+
 const renderCardContent = (selectedService: ServiceWithUsers, table: ReactNode, actions: ReactNode) => (
   <Box>
     <Card sx={{maxWidth: 345, margin: "auto", boxShadow: 3}}>
@@ -36,14 +40,13 @@ const renderCardContent = (selectedService: ServiceWithUsers, table: ReactNode, 
 );
 
 const ServiceCard = ({selectedService, serviceContextProps}: ServiceCardProps) => {
-  if ('handleDeleteService' in serviceContextProps && 'handleUpdateService' in serviceContextProps) {
+  if (isAdminServiceProps(serviceContextProps)) {
     const {handleDeleteService, handleUpdateService, handleViewEmployees} =
       serviceContextProps as AdminServiceProps;
     return renderCardContent(
       selectedService,
       <AdminServiceDetailsTable service={selectedService}/>,
-      <AdminCardActions service={selectedService}
-                        handleDelete={handleDeleteService}
+      <AdminCardActions handleDelete={handleDeleteService}
                         handleEdit={handleUpdateService}
                         handleOpen={handleViewEmployees}/>
     );
@@ -52,7 +55,7 @@ const ServiceCard = ({selectedService, serviceContextProps}: ServiceCardProps) =
     return renderCardContent(
       selectedService,
       <UserServiceDetailsTable service={selectedService}/>,
-      <UserCardActions service={selectedService} handleOpen={handleViewEmployees}/>
+      <UserCardActions handleOpen={handleViewEmployees}/>
     );
   }
 };

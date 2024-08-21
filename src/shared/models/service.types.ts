@@ -35,11 +35,11 @@ export interface ModifyService {
 }
 
 export interface ServiceProps {
-  handleViewEmployees: (service: ServiceWithUsers) => void;
+  handleViewEmployees: () => void;
 }
 
 export interface AdminServiceProps extends ServiceProps {
-  handleDeleteService: (service: ServiceWithUsers) => void;
-  handleUpdateService: (service: ServiceWithUsers) => void;
+  handleDeleteService: () => void;
+  handleUpdateService: () => void;
 }
 

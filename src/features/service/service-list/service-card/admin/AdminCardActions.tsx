@@ -1,24 +1,22 @@
 import {Button, CardActions} from "@mui/material";
-import {ServiceWithUsers} from "../../../../../shared/models/service.types.ts";
 
 interface ServiceCardAdminActionsProps {
-  service: ServiceWithUsers;
-  handleOpen: (service: ServiceWithUsers) => void;
-  handleEdit: (service: ServiceWithUsers) => void;
-  handleDelete: (service: ServiceWithUsers) => void;
+  handleOpen: () => void;
+  handleEdit: () => void;
+  handleDelete: () => void;
 }
 
-const AdminCardActions = ({service, handleOpen, handleEdit, handleDelete}: ServiceCardAdminActionsProps) => {
+const AdminCardActions = ({handleOpen, handleEdit, handleDelete}: ServiceCardAdminActionsProps) => {
 
   return (
     <CardActions sx={{justifyContent: "space-between"}}>
-      <Button size="small" onClick={() => handleEdit(service)}>
+      <Button size="small" onClick={handleEdit}>
         Edit
       </Button>
-      <Button size="small" onClick={() => handleOpen(service)}>
+      <Button size="small" onClick={handleOpen}>
         Employees
       </Button>
-      <Button size="small" onClick={() => handleDelete(service)}>
+      <Button size="small" onClick={handleDelete}>
         Delete
       </Button>
     </CardActions>

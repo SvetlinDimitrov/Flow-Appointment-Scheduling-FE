@@ -1,18 +1,15 @@
 import {Button, CardActions} from "@mui/material";
-import {useNavigate} from "react-router-dom";
 
 interface BookButtonProps {
-  selectedServiceId: number;
-  employeeId: number;
+  bookWithStaff: () => void;
   employeeFirstName: string;
 }
 
-const UserCardActions = ({selectedServiceId, employeeId, employeeFirstName}: BookButtonProps) => {
-  const navigate = useNavigate();
+const UserCardActions = ({bookWithStaff, employeeFirstName}: BookButtonProps) => {
 
   return (
     <CardActions sx={{justifyContent: 'center'}}>
-      <Button size={"small"} onClick={() => navigate(`/book/${selectedServiceId}/${employeeId}`)}>
+      <Button size={"small"} onClick={bookWithStaff}>
         Book with {employeeFirstName}
       </Button>
     </CardActions>

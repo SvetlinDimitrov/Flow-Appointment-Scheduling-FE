@@ -1,16 +1,14 @@
 import {Button, CardActions} from "@mui/material";
-import {ServiceWithUsers} from "../../../../../shared/models/service.types.ts";
 
 interface ServiceCardUserActionsProps {
-  service: ServiceWithUsers;
-  handleOpen: (service: ServiceWithUsers) => void;
+  handleOpen: () => void;
 }
 
-const UserCardActions = ({service , handleOpen}: ServiceCardUserActionsProps) => {
+const UserCardActions = ({handleOpen}: ServiceCardUserActionsProps) => {
 
   return (
     <CardActions sx={{justifyContent: "center"}}>
-      <Button size="small" onClick={() => handleOpen(service)}>
+      <Button size="small" onClick={handleOpen}>
         Book Now
       </Button>
     </CardActions>

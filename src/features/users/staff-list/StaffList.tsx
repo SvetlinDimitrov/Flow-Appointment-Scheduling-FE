@@ -2,13 +2,16 @@ import {useState} from "react";
 import {Box, Button, Typography, useMediaQuery} from "@mui/material";
 import {ServiceWithUsers} from "../../../shared/models/service.types.ts";
 import StaffCard from "./staff-card/StaffCard.tsx";
+import {AdminStaffCardProps, UserStaffCardProps} from "../../../shared/models/user.types.ts";
 
-interface ServiceEmployeesListProps {
+interface StaffListProps {
   selectedService: ServiceWithUsers | null;
-  visualizeAdminBoard: boolean;
+  handleBookWithStaff: ((staffEmail: string, serviceId: number) => void) | null;
+  handleDeleteEmployeeFromService: ((staffEmail: string, serviceId: number) => void) | null;
 }
 
-const StaffList = ({selectedService, visualizeAdminBoard}: ServiceEmployeesListProps) => {
+const StaffList = (
+  {selectedService, handleDeleteEmployeeFromService, handleBookWithStaff}: StaffListProps) => {
   const [currentPage, setCurrentPage] = useState(0);
   const isXs = useMediaQuery('(max-width:600px)');
   const isLg = useMediaQuery('(max-width:1200px)');
@@ -42,13 +45,23 @@ const StaffList = ({selectedService, visualizeAdminBoard}: ServiceEmployeesListP
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}
       maxWidth={'1200px'}>
-        {currentEmployees.map((employee) => (
-          <StaffCard key={employee.id}
-                     employee={employee}
-                     selectedServiceId={selectedService.id}
-                     visualizeAdminBoard={visualizeAdminBoard}
-          />
-        ))}
+        {currentEmployees.map((employee) => {
+          if (handleDeleteEmployeeFromService) {
+            const adminProps: AdminStaffCardProps = {
+              employee,
+              handleDeleteEmployeeFromService: () => handleDeleteEmployeeFromService!(employee.email, selectedService.id)
+            };
+            return <StaffCard key={employee.id} {...adminProps} />;
+          } else if (handleBookWithStaff) {
+            const userProps: UserStaffCardProps = {
+              employee,
+              handleBookWithStaff: () => handleBookWithStaff!(employee.email, selectedService.id)
+            };
+            return <StaffCard key={employee.id} {...userProps} />;
+          } else {
+            return null;
+          }
+        })}
       </Box>
       <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mt={2}>
         <Button onClick={handlePreviousPage} disabled={currentPage === 0}>

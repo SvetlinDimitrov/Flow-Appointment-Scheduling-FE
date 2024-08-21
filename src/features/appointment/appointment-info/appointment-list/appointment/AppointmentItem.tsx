@@ -5,8 +5,8 @@ interface AppointmentItemProps {
   appointment: Appointment;
   index: number;
   currentAppointments: Appointment[];
-  onCancel: (appointment: Appointment) => void;
-  onViewMore: (appointment: Appointment) => void;
+  onCancel: () => void;
+  onViewMore: () => void;
 }
 
 const AppointmentItem = ({ appointment, index, currentAppointments, onCancel, onViewMore }: AppointmentItemProps) => {
@@ -50,7 +50,7 @@ const AppointmentItem = ({ appointment, index, currentAppointments, onCancel, on
           variant="body2"
           color="primary"
           sx={{cursor: 'pointer'}}
-          onClick={() => onCancel(appointment)}
+          onClick={onCancel}
         >
           Cancel
         </Typography>
@@ -58,7 +58,7 @@ const AppointmentItem = ({ appointment, index, currentAppointments, onCancel, on
           variant="body2"
           color="primary"
           sx={{cursor: 'pointer'}}
-          onClick={() => onViewMore(appointment)}
+          onClick={onViewMore}
         >
           View More
         </Typography>

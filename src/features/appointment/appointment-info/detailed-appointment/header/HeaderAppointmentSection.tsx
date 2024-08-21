@@ -16,18 +16,15 @@ const CalendarIconContainer = styled(Box)(({theme}) => ({
 
 interface HeaderAppointmentSectionProps {
   appointment: Appointment;
+  cancelAppointment: () => void;
 }
 
-const HeaderAppointmentSection = ({appointment}: HeaderAppointmentSectionProps) => {
+const HeaderAppointmentSection = ({appointment, cancelAppointment}: HeaderAppointmentSectionProps) => {
   const date = appointment.date;
   const day = date.toLocaleString('en-US', {weekday: 'long'});
   const month = date.toLocaleString('en-US', {month: 'long'});
   const dayOfMonth = date.getDate();
   const year = date.getFullYear();
-
-  const onCancel = (appointment: Appointment) => {
-    console.log(appointment);
-  }
 
   return (
     <Box width={'800px'} height={'20%'} display={'flex'}
@@ -46,7 +43,7 @@ const HeaderAppointmentSection = ({appointment}: HeaderAppointmentSectionProps) 
       <Button
         variant="contained"
         color="secondary"
-        onClick={() => onCancel(appointment)}
+        onClick={cancelAppointment}
         sx={{marginLeft: 'auto', marginRight: 2}}
       >
         Cancel Appointment

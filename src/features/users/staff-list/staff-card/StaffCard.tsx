@@ -1,18 +1,19 @@
 import {Box, Card, CardContent, Typography} from "@mui/material";
-import {ServiceWithUsers} from "../../../../shared/models/service.types.ts";
 import UserCardActions from "./user/UserCardActions.tsx";
-import {useServiceContext} from "../../../../shared/context/ServiceContext.tsx";
 import AdminCardActions from "./admin/AdminCardActions.tsx";
+import {AdminStaffCardProps, StaffCardProps, UserStaffCardProps} from "../../../../shared/models/user.types.ts";
 
-interface EmployeeCardProps {
-  employee: ServiceWithUsers["employees"][0];
-  selectedServiceId: number;
-  visualizeAdminBoard: boolean;
+function isAdminStaffCardProps(props: StaffCardProps): props is AdminStaffCardProps {
+  return (props as AdminStaffCardProps).handleDeleteEmployeeFromService !== undefined;
 }
 
-const StaffCard = ({employee, selectedServiceId, visualizeAdminBoard}: EmployeeCardProps) => {
+function isUserStaffCardProps(props: StaffCardProps): props is UserStaffCardProps {
+  return (props as UserStaffCardProps).handleBookWithStaff !== undefined;
+}
 
-  const {handleDeleteEmployeeFromService} = useServiceContext();
+const StaffCard = (props: StaffCardProps) => {
+
+  const {employee} = props;
 
   return (
     <Box key={employee.id}>
@@ -28,19 +29,16 @@ const StaffCard = ({employee, selectedServiceId, visualizeAdminBoard}: EmployeeC
             {employee.role}
           </Typography>
         </CardContent>
-        {visualizeAdminBoard ? (
+        {isAdminStaffCardProps(props) ? (
           <AdminCardActions
-            employeeEmail={employee.email}
-            selectedServiceId={selectedServiceId}
-            onDelete={handleDeleteEmployeeFromService}
+            onDelete={props.handleDeleteEmployeeFromService}
           />
-        ) : (
+        ) : isUserStaffCardProps(props) ? (
           <UserCardActions
-            selectedServiceId={selectedServiceId}
-            employeeId={employee.id}
+            bookWithStaff={props.handleBookWithStaff}
             employeeFirstName={employee.firstName}
           />
-        )}
+        ) : null}
       </Card>
     </Box>
   );

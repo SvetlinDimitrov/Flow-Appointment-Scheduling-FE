@@ -1,15 +1,13 @@
 import {Button, CardActions} from "@mui/material";
 
 interface UserCardActionsProps {
-  selectedServiceId: number;
-  employeeEmail: string;
-  onDelete: (employeeEmail: string, selectedServiceId: number) => void;
+  onDelete: () => void;
 }
 
-const AdminCardActions = ({employeeEmail, selectedServiceId, onDelete}: UserCardActionsProps) => {
+const AdminCardActions = ({onDelete}: UserCardActionsProps) => {
   return (
     <CardActions sx={{justifyContent: 'center'}}>
-      <Button size={"small"} onClick={() => onDelete(employeeEmail, selectedServiceId)}>
+      <Button size={"small"} onClick={onDelete}>
         Unassign
       </Button>
     </CardActions>

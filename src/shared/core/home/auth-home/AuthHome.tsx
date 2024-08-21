@@ -5,7 +5,7 @@ import ServiceList from "../../../../features/service/service-list/ServiceList.t
 import StaffList from "../../../../features/users/staff-list/StaffList.tsx";
 import {useServiceContext} from "../../../context/ServiceContext.tsx";
 import {useState} from "react";
-import {ServiceProps, ServiceWithUsers} from "../../../models/service.types.ts";
+import {ServiceWithUsers} from "../../../models/service.types.ts";
 
 const dummyMainUser: User = {
   id: 1,
@@ -22,21 +22,27 @@ const AuthHome = () => {
 
   const [selectedService, setSelectedService] = useState<ServiceWithUsers | null>(null);
 
-  const handleViewEmployees = (service: ServiceWithUsers) => {
+  const handleViewStaff = (service: ServiceWithUsers) => {
     setSelectedService(service);
   }
 
-  const childProps: ServiceProps = { handleViewEmployees };
-
-  const visualizeAdminBoard = false;
+  const handleBookWithStaff = (staffEmail: string, serviceId: number) => {
+    console.log("Book with staff" + staffEmail + " for service " + serviceId);
+  }
 
   return (
     <Box>
       <WelcomeSection user={dummyMainUser}/>
       <ServiceList services={services}
-                   props={childProps}/>
+                   handleViewStaff={handleViewStaff}
+                   handleUpdateService={null}
+                   handleDeleteService={null}/>
 
-      <StaffList selectedService={selectedService} visualizeAdminBoard={visualizeAdminBoard}/>
+      <StaffList
+        selectedService={selectedService}
+        handleBookWithStaff={handleBookWithStaff}
+        handleDeleteEmployeeFromService={null}
+      />
     </Box>
   );
 };

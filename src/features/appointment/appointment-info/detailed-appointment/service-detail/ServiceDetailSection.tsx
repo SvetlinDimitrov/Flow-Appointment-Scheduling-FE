@@ -3,9 +3,10 @@ import {Service} from "../../../../../shared/models/service.types.ts";
 
 interface ServiceDetailSectionProps {
   service: Service;
+  bookAgain: () => void;
 }
 
-const ServiceDetailSection = ({service}: ServiceDetailSectionProps) => {
+const ServiceDetailSection = ({service, bookAgain}: ServiceDetailSectionProps) => {
   return (
     <Box width={'100%'} height={'100%'} display={'flex'} flexDirection={'column'}
          justifyContent={'center'} alignItems={'center'}>
@@ -25,7 +26,7 @@ const ServiceDetailSection = ({service}: ServiceDetailSectionProps) => {
         <strong>Place:</strong> {service.place.name}
       </Typography>
       <Box mt={2}>
-        <Button variant="contained" color="primary">Book again</Button>
+        <Button variant="contained" color="primary" onClick={bookAgain}>Book again</Button>
       </Box>
     </Box>
   );

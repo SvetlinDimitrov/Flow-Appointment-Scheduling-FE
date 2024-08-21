@@ -48,8 +48,8 @@ const PaginationAppointments = ({appointments, onCancel, onViewMore}: Pagination
             appointment={appointment}
             index={index}
             currentAppointments={currentAppointments}
-            onCancel={onCancel}
-            onViewMore={onViewMore}
+            onCancel={() => onCancel(appointment)}
+            onViewMore={() => onViewMore(appointment)}
           />
         ))}
       </Box>

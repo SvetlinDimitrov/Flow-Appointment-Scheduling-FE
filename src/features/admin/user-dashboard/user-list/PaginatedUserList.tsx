@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Box, Button, Card, CardContent, Typography, useMediaQuery } from '@mui/material';
-import { User } from "../../../../shared/models/user.types.ts";
+import {useState} from 'react';
+import {Box, Button, Card, CardContent, Typography, useMediaQuery} from '@mui/material';
+import {User} from "../../../../shared/models/user.types.ts";
 import UserActions from "./UserActions.tsx";
 import StaffDataDetails from "./StaffDataDetails.tsx";
 
@@ -55,7 +55,10 @@ const PaginatedUserSection = ({ title, users, onEdit, onDelete, onAssignToServic
                 Role: {user.role}
               </Typography>
               {user.employeeData && <StaffDataDetails employeeData={user.employeeData} />}
-              <UserActions user={user} onEdit={onEdit} onDelete={onDelete} onAssignToService={onAssignToService} />
+              <UserActions userRole={user.role}
+                           onEdit={() => onEdit(user)}
+                           onDelete={() => onDelete(user)}
+                           onAssignToService={() => onAssignToService(user)}/>
             </CardContent>
           </Card>
         ))}

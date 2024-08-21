@@ -1,21 +1,21 @@
-import { Box, Typography } from '@mui/material';
-import { User, UserRole } from "../../../../shared/models/user.types.ts";
+import {Box, Typography} from '@mui/material';
+import {UserRole} from "../../../../shared/models/user.types.ts";
 
 interface UserActionsProps {
-  user: User;
-  onEdit: (user: User) => void;
-  onDelete: (user: User) => void;
-  onAssignToService: (user: User) => void;
+  userRole: UserRole;
+  onEdit: () => void;
+  onDelete: () => void;
+  onAssignToService: () => void;
 }
 
-const UserActions = ({ user, onEdit, onDelete, onAssignToService }: UserActionsProps) => (
+const UserActions = ({ userRole, onEdit, onDelete, onAssignToService }: UserActionsProps) => (
   <Box display={"flex"} justifyContent={"space-between"} mt={2} gap={1}>
-    {user.role === UserRole.CLIENT ? (
+    {userRole === UserRole.CLIENT ? (
       <Typography
         variant="body1"
         color="secondary"
         sx={{ cursor: 'pointer'}}
-        onClick={() => onDelete(user)}
+        onClick={onDelete}
       >
         Delete
       </Typography>
@@ -25,7 +25,7 @@ const UserActions = ({ user, onEdit, onDelete, onAssignToService }: UserActionsP
           variant="body1"
           color="primary"
           sx={{ cursor: 'pointer'}}
-          onClick={() => onEdit(user)}
+          onClick={onEdit}
         >
           Edit
         </Typography>
@@ -33,7 +33,7 @@ const UserActions = ({ user, onEdit, onDelete, onAssignToService }: UserActionsP
           variant="body1"
           color="secondary"
           sx={{ cursor: 'pointer'}}
-          onClick={() => onDelete(user)}
+          onClick={onDelete}
         >
           Delete
         </Typography>
@@ -41,7 +41,7 @@ const UserActions = ({ user, onEdit, onDelete, onAssignToService }: UserActionsP
           variant="body1"
           color="inherit"
           sx={{ cursor: 'pointer'}}
-          onClick={() => onAssignToService(user)}
+          onClick={onAssignToService}
         >
           Assign to Service
         </Typography>

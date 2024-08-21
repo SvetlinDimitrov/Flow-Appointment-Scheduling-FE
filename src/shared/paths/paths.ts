@@ -10,10 +10,10 @@ export const paths = {
   userPaths: [
     { 'Home': '/' },
     { 'Profile': '/profile' },
-    { 'Appointments': '/appointment' },
+    { 'Appointments': '/appointments' },
   ],
   adminPaths: [
-    { 'Services': '/admin/service' },
+    { 'Services': '/admin/services' },
     { 'Users': '/admin/users' }
   ]
 };

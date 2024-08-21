@@ -1,14 +1,16 @@
 import {useState} from "react";
 import {Box, Button, Typography, useMediaQuery} from "@mui/material";
 import ServiceCard from "./service-card/ServiceCard.tsx";
-import {ServiceProps, ServiceWithUsers} from "../../../shared/models/service.types.ts";
+import {AdminServiceProps, ServiceProps, ServiceWithUsers} from "../../../shared/models/service.types.ts";
 
 interface ServiceListProps {
   services: ServiceWithUsers[];
-  props: ServiceProps;
+  handleDeleteService: ((service: ServiceWithUsers) => void) | null;
+  handleUpdateService: ((service: ServiceWithUsers) => void) | null;
+  handleViewStaff: (service: ServiceWithUsers) => void;
 }
 
-const ServiceList = ({props, services}: ServiceListProps) => {
+const ServiceList = ({services, handleUpdateService, handleDeleteService, handleViewStaff}: ServiceListProps) => {
 
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -41,11 +43,22 @@ const ServiceList = ({props, services}: ServiceListProps) => {
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"}
            gap={2}>
-        {currentServices.map((service, index) => (
-          <ServiceCard key={index}
-                       selectedService={service}
-                       serviceContextProps={props}/>
-        ))}
+        {currentServices.map((service, index) => {
+          const serviceProps: ServiceProps | AdminServiceProps = {
+            handleViewEmployees: () => handleViewStaff(service),
+          };
+
+          if (handleUpdateService && handleDeleteService) {
+            (serviceProps as AdminServiceProps).handleUpdateService = () => handleUpdateService(service);
+            (serviceProps as AdminServiceProps).handleDeleteService = () => handleDeleteService(service);
+          }
+
+          return (
+            <ServiceCard key={index}
+                         selectedService={service}
+                         serviceContextProps={serviceProps}/>
+          );
+        })}
       </Box>
       <Box margin={"auto"} width={"50%"} display={"flex"} minWidth={200}
            justifyContent={"center"} alignItems={"center"} mt={2}>

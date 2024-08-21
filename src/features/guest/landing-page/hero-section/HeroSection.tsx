@@ -1,8 +1,8 @@
 import {Box, Button} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {styled} from "@mui/system";
-import {CoreHeader as SharedHeader} from "../../shared/styles/headers.ts";
-import {CoreSubHeader as SharedSubHeader} from "../../shared/styles/subHeaders.ts";
+import {CoreHeader} from "../../../../shared/styles/headers.ts";
+import {CoreSubHeader} from "../../../../shared/styles/subHeaders.ts";
 
 const MainBox = styled(Box)(({theme}) => ({
   position: 'relative',
@@ -39,12 +39,12 @@ const HeroSection = () => {
 
   return (
     <MainBox>
-      <SharedHeader variant={"h2"} gutterBottom>
+      <CoreHeader variant={"h2"} gutterBottom>
         Welcome to Flow: Your Wellness Journey Starts Here
-      </SharedHeader>
-      <SharedSubHeader variant={"h5"} gutterBottom>
+      </CoreHeader>
+      <CoreSubHeader variant={"h5"} gutterBottom>
         Book Appointments for Fitness, Spa, and Wellness Services with Ease
-      </SharedSubHeader>
+      </CoreSubHeader>
       <Button
         variant={"contained"}
         color={"primary"}
