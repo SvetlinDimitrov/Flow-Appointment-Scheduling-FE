@@ -1,8 +1,8 @@
-import {useState} from "react";
 import {Box, Button, Typography, useMediaQuery} from "@mui/material";
 import {ServiceWithUsers} from "../../../shared/models/service.types.ts";
 import StaffCard from "./staff-card/StaffCard.tsx";
 import {AdminStaffCardProps, UserStaffCardProps} from "../../../shared/models/user.types.ts";
+import usePagination from "../../../hooks/custom/usePagination.ts";
 
 interface StaffListProps {
   selectedService: ServiceWithUsers | null;
@@ -11,31 +11,25 @@ interface StaffListProps {
 }
 
 const StaffList = (
-  {selectedService, handleDeleteEmployeeFromService, handleBookWithStaff}: StaffListProps) => {
-  const [currentPage, setCurrentPage] = useState(0);
+  {
+    selectedService,
+    handleDeleteEmployeeFromService,
+    handleBookWithStaff
+  }: StaffListProps) => {
   const isXs = useMediaQuery('(max-width:600px)');
   const isLg = useMediaQuery('(max-width:1200px)');
+
   const employeesPerPage = isXs ? 1 : isLg ? 6 : 10;
 
+  const {
+    currentPage,
+    totalPages,
+    currentItems,
+    handleNextPage,
+    handlePreviousPage,
+  } = usePagination(selectedService ? selectedService.employees : [], employeesPerPage);
+
   if (!selectedService) return null;
-
-  const totalPages = Math.ceil(selectedService.employees.length / employeesPerPage);
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const startIndex = currentPage * employeesPerPage;
-  const endIndex = startIndex + employeesPerPage;
-  const currentEmployees = selectedService.employees.slice(startIndex, endIndex);
 
   return (
     <Box p={2} display={'flex'} flexDirection={'column'}
@@ -45,7 +39,7 @@ const StaffList = (
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}
       maxWidth={'1200px'}>
-        {currentEmployees.map((employee) => {
+        {currentItems.map((employee) => {
           if (handleDeleteEmployeeFromService) {
             const adminProps: AdminStaffCardProps = {
               employee,

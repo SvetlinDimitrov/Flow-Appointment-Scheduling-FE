@@ -1,8 +1,8 @@
-import {useState} from 'react';
 import {Box, Button, Card, CardContent, Typography, useMediaQuery} from '@mui/material';
 import {User} from "../../../../shared/models/user.types.ts";
 import UserActions from "./UserActions.tsx";
 import StaffDataDetails from "./StaffDataDetails.tsx";
+import usePagination from "../../../../hooks/custom/usePagination.ts";
 
 interface PaginatedUserSectionProps {
   title: string;
@@ -13,28 +13,18 @@ interface PaginatedUserSectionProps {
 }
 
 const PaginatedUserSection = ({ title, users, onEdit, onDelete, onAssignToService }: PaginatedUserSectionProps) => {
-  const [currentPage, setCurrentPage] = useState(0);
   const isXs = useMediaQuery('(max-width:600px)');
   const isLg = useMediaQuery('(max-width:1200px)');
+
   const usersPerPage = isXs ? 1 : isLg ? 3 : 5;
 
-  const totalPages = Math.ceil(users.length / usersPerPage);
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const startIndex = currentPage * usersPerPage;
-  const endIndex = startIndex + usersPerPage;
-  const currentUsers = users.slice(startIndex, endIndex);
+  const {
+    currentPage,
+    totalPages,
+    currentItems,
+    handleNextPage,
+    handlePreviousPage,
+  } = usePagination(users, usersPerPage);
 
   return (
     <Box p={2} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} gap={3}>
@@ -42,7 +32,7 @@ const PaginatedUserSection = ({ title, users, onEdit, onDelete, onAssignToServic
         {title}
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2} maxWidth={'1600px'}>
-        {currentUsers.map((user) => (
+        {currentItems.map((user) => (
           <Card key={user.id} sx={{ maxWidth: 300, boxShadow: 3 }}>
             <CardContent>
               <Typography variant={"h6"} fontWeight={'bold'} textAlign={'center'}>

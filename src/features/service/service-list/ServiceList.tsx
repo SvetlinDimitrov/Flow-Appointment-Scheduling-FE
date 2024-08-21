@@ -1,7 +1,7 @@
-import {useState} from "react";
 import {Box, Button, Typography, useMediaQuery} from "@mui/material";
 import ServiceCard from "./service-card/ServiceCard.tsx";
 import {AdminServiceProps, ServiceProps, ServiceWithUsers} from "../../../shared/models/service.types.ts";
+import usePagination from "../../../hooks/custom/usePagination.ts";
 
 interface ServiceListProps {
   services: ServiceWithUsers[];
@@ -11,29 +11,16 @@ interface ServiceListProps {
 }
 
 const ServiceList = ({services, handleUpdateService, handleDeleteService, handleViewStaff}: ServiceListProps) => {
-
-  const [currentPage, setCurrentPage] = useState(0);
-
   const isXs = useMediaQuery('(max-width:600px)');
   const servicesPerPage = isXs ? 1 : 4;
 
-  const totalPages = Math.ceil(services.length / servicesPerPage);
-
-  const handleNextPage = () => {
-    if ((currentPage + 1) * servicesPerPage < services.length) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const startIndex = currentPage * servicesPerPage;
-  const endIndex = startIndex + servicesPerPage;
-  const currentServices = services.slice(startIndex, endIndex);
+  const {
+    currentPage,
+    totalPages,
+    currentItems,
+    handleNextPage,
+    handlePreviousPage,
+  } = usePagination(services, servicesPerPage);
 
   return (
     <Box p={2} display={'flex'} flexDirection={'column'}
@@ -41,9 +28,8 @@ const ServiceList = ({services, handleUpdateService, handleDeleteService, handle
       <Typography variant={"h5"} textAlign={"center"}>
         Explore Our Services
       </Typography>
-      <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"}
-           gap={2}>
-        {currentServices.map((service, index) => {
+      <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}>
+        {currentItems.map((service, index) => {
           const serviceProps: ServiceProps | AdminServiceProps = {
             handleViewEmployees: () => handleViewStaff(service),
           };
@@ -54,9 +40,7 @@ const ServiceList = ({services, handleUpdateService, handleDeleteService, handle
           }
 
           return (
-            <ServiceCard key={index}
-                         selectedService={service}
-                         serviceContextProps={serviceProps}/>
+            <ServiceCard key={index} selectedService={service} serviceContextProps={serviceProps}/>
           );
         })}
       </Box>
@@ -68,7 +52,7 @@ const ServiceList = ({services, handleUpdateService, handleDeleteService, handle
         <Typography variant={"body2"}>
           {currentPage + 1} / {totalPages}
         </Typography>
-        <Button onClick={handleNextPage} disabled={endIndex >= services.length}>
+        <Button onClick={handleNextPage} disabled={currentPage + 1 >= totalPages}>
           Next
         </Button>
       </Box>

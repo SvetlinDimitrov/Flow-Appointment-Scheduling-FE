@@ -1,7 +1,7 @@
-import {useState} from "react";
 import {Box, Button, Typography} from "@mui/material";
 import {Appointment} from "../../../../shared/models/appointment.types.ts";
 import AppointmentItem from "./appointment/AppointmentItem.tsx";
+import usePagination from "../../../../hooks/custom/usePagination.ts";
 
 interface PaginationProps {
   appointments: Appointment[];
@@ -10,26 +10,15 @@ interface PaginationProps {
 }
 
 const PaginationAppointments = ({appointments, onCancel, onViewMore}: PaginationProps) => {
-  const [currentPage, setCurrentPage] = useState(0);
   const appointmentsPerPage = 6;
 
-  const totalPages = Math.ceil(appointments.length / appointmentsPerPage);
-
-  const handleNextPage = () => {
-    if ((currentPage + 1) * appointmentsPerPage < appointments.length) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const startIndex = currentPage * appointmentsPerPage;
-  const endIndex = startIndex + appointmentsPerPage;
-  const currentAppointments = appointments.slice(startIndex, endIndex);
+  const {
+    currentPage,
+    totalPages,
+    currentItems,
+    handleNextPage,
+    handlePreviousPage,
+  } = usePagination(appointments, appointmentsPerPage);
 
   return (
     <Box display={'flex'} justifyContent={'center'}
@@ -42,10 +31,10 @@ const PaginationAppointments = ({appointments, onCancel, onViewMore}: Pagination
               },
             }} borderRadius={2} mt={2}
       >
-        {currentAppointments.map((appointment, index) => (
+        {currentItems.map((appointment, index) => (
           <AppointmentItem
             key={index}
-            isLast={index === currentAppointments.length - 1}
+            isLast={index === currentItems.length - 1}
             appointment={appointment}
             onCancel={() => onCancel(appointment)}
             onViewMore={() => onViewMore(appointment)}
@@ -59,7 +48,7 @@ const PaginationAppointments = ({appointments, onCancel, onViewMore}: Pagination
         <Typography variant="body2">
           {currentPage + 1} / {totalPages}
         </Typography>
-        <Button onClick={handleNextPage} disabled={endIndex >= appointments.length}>
+        <Button onClick={handleNextPage} disabled={currentPage >= totalPages - 1}>
           Next
         </Button>
       </Box>
