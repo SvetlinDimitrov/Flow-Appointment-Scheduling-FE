@@ -3,18 +3,17 @@ import {Appointment} from "../../../../../shared/models/appointment.types.ts";
 
 interface AppointmentItemProps {
   appointment: Appointment;
-  index: number;
-  currentAppointments: Appointment[];
+  isLast: boolean;
   onCancel: () => void;
   onViewMore: () => void;
 }
 
-const AppointmentItem = ({ appointment, index, currentAppointments, onCancel, onViewMore }: AppointmentItemProps) => {
+const AppointmentItem = ({isLast, appointment, onCancel, onViewMore}: AppointmentItemProps) => {
   return (
     <Box display={'flex'} flexDirection={'column'}
          justifyContent={'center'} alignItems={'center'} gap={1}
          width={'100%'}
-         key={index} p={1} borderBottom={index === currentAppointments.length - 1 ? 'none' : 'inherit'}>
+         p={1} borderBottom={isLast ? 'none' : 'inherit'}>
       <Box justifyContent={'center'} alignItems={'center'} display={'flex'}
            sx={{
              flexDirection: {

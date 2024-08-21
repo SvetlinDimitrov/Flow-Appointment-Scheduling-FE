@@ -45,9 +45,8 @@ const PaginationAppointments = ({appointments, onCancel, onViewMore}: Pagination
         {currentAppointments.map((appointment, index) => (
           <AppointmentItem
             key={index}
+            isLast={index === currentAppointments.length - 1}
             appointment={appointment}
-            index={index}
-            currentAppointments={currentAppointments}
             onCancel={() => onCancel(appointment)}
             onViewMore={() => onViewMore(appointment)}
           />

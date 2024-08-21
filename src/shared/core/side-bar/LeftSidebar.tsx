@@ -12,7 +12,6 @@ const LeftSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
-  const activeColor = theme.palette.secondary.main;
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
@@ -68,7 +67,7 @@ const LeftSidebar = () => {
                 fontFamily={theme.typography.fontFamily}
                 fontSize={theme.typography.body1.fontSize}
                 fontWeight={'bolder'}
-                color={isActive(Object.values(path)[0]) ? activeColor : theme.palette.primary.main}
+                color={isActive(Object.values(path)[0]) ? 'secondary' : 'primary'}
                 variant="body1"
               >
                 {Object.keys(path)[0]}
@@ -89,7 +88,7 @@ const LeftSidebar = () => {
                     fontFamily={theme.typography.fontFamily}
                     fontSize={theme.typography.body1.fontSize}
                     fontWeight={'bolder'}
-                    color={isActive(Object.values(path)[0]) ? activeColor : theme.palette.primary.main}
+                    color={isActive(Object.values(path)[0]) ? 'secondary' : 'primary'}
                     variant="body1"
                   >
                     {Object.keys(path)[0]}

@@ -1,14 +1,16 @@
 import {MapContainer, Marker, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import React from "react";
 
 interface MapComponentProps {
   position: [number, number];
+  style: React.CSSProperties;
 }
 
-const MapComponent = ({position}: MapComponentProps) => {
+const MapComponent = ({position, style}: MapComponentProps) => {
   return (
     // @ts-ignore
-    <MapContainer center={position} zoom={13} style={{height: "320px", width: '500px'}}>
+    <MapContainer center={position} zoom={13} style={style}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         // @ts-ignore

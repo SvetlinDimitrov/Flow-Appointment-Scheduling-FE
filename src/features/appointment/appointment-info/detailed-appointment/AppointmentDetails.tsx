@@ -2,10 +2,10 @@ import {Box} from '@mui/material';
 import {styled} from '@mui/system';
 import HeaderAppointmentSection from './header/HeaderAppointmentSection.tsx';
 import UserInfoSection from './user-info/UserInfoSection.tsx';
-import MapSection from './map/MapSection.tsx';
 import ServiceDetailSection from './service-detail/ServiceDetailSection.tsx';
 import {Appointment} from "../../../../shared/models/appointment.types.ts";
 import {UserRole} from "../../../../shared/models/user.types.ts";
+import MapComponent from "../../../../shared/core/map/MapComponent.tsx";
 
 const appointmentDummyData: Appointment = {
   id: 1,
@@ -72,7 +72,7 @@ const DetailedAppointment = () => {
           {/*based on the role choose the client or employee*/}
           <UserInfoSection user={appointmentDummyData.client}/>
           <Box height={'60%'} display={'flex'} alignItems={'center'} border={'1px solid black'}>
-            <MapSection/>
+            <MapComponent position={[51.505, -0.09]} style={{height: '180px', width: '350px', margin: 'auto'}}/>
           </Box>
         </Box>
         <Box flexGrow={1} border={'1px solid black'}>

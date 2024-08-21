@@ -1,5 +1,5 @@
 import ContactForm from "./contact-us-form/ContactForm.tsx";
-import MapComponent from "./map/MapComponent.tsx";
+import MapComponent from "../../../shared/core/map/MapComponent.tsx";
 import {styled} from "@mui/system";
 import {Box, Typography} from "@mui/material";
 import {CoreHeader as SharedHeader} from "../../../shared/styles/headers.ts";
