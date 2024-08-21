@@ -53,7 +53,6 @@ const CenteredBox = styled(Box)(({theme}) => ({
   borderRadius: '10px',
 }));
 
-// @ts-ignore
 const DetailedAppointment = () => {
 
   const cancelAppointment = () => {

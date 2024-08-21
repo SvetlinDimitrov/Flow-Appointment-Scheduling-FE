@@ -9,14 +9,22 @@ import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import {BrowserRouter} from "react-router-dom";
 import {queryClient} from "./utils/react-query/queryClient.ts";
 import ToastNotification from "./shared/core/toast/ToastNotification.tsx";
-import {createTheme, Theme, ThemeProvider} from "@mui/material";
+import {createTheme, ThemeProvider} from "@mui/material";
 
-const theme: Theme = createTheme({
+let theme = createTheme({
   typography: {
     fontFamily: 'Arial, sans-serif',
     body1: {
-      fontSize: '16px',
-    },
+      [`@media (min-width:0px)`]: {
+        fontSize: '0.7rem',
+      },
+      [`@media (min-width:600px)`]: {
+        fontSize: '1.2rem',
+      },
+      [`@media (min-width:960px)`]: {
+        fontSize: '1.4rem',
+      },
+    }
   },
 });
 

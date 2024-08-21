@@ -7,19 +7,6 @@ import {styled} from "@mui/system";
 import UserMenu from "./user-menu/UserMenu.tsx";
 import {paths} from "../../paths/paths.ts";
 
-const StyledTypography = styled(Typography)(({theme}) => ({
-  flexGrow: 1,
-  [theme.breakpoints.up("xs")]: {
-    fontSize: "0.8rem",
-  },
-  [theme.breakpoints.up("sm")]: {
-    fontSize: "1.2rem",
-  },
-  [theme.breakpoints.up("md")]: {
-    fontSize: "1.6rem",
-  },
-}));
-
 const HorizontalLinks = styled(Box)(({theme}) => ({
   flexDirection: "row",
   [theme.breakpoints.up("md")]: {
@@ -46,9 +33,9 @@ const Header = () => {
         >
           <AssignmentIcon/>
         </IconButton>
-        <StyledTypography variant={"h6"}>
+        <Typography variant={"body1"} flexGrow={1}>
           Flow Appointment Scheduling
-        </StyledTypography>
+        </Typography>
         {isUserAuthenticated() ?
           <UserMenu/>
           :
