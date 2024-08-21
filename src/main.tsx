@@ -3,12 +3,12 @@ import {createRoot} from 'react-dom/client'
 import App from './App.tsx'
 import './reset.css'
 import './index.css'
-import UserAuthProvider from "./features/shared/context/UserAuthContext.tsx";
+import UserAuthProvider from "./shared/context/UserAuthContext.tsx";
 import {QueryClientProvider} from "@tanstack/react-query";
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import {BrowserRouter} from "react-router-dom";
-import {queryClient} from "./utils/react_query/queryClient.ts";
-import ToastNotification from "./features/core/toast/ToastNotification.tsx";
+import {queryClient} from "./utils/react-query/queryClient.ts";
+import ToastNotification from "./shared/core/toast/ToastNotification.tsx";
 import {createTheme, Theme, ThemeProvider} from "@mui/material";
 
 const theme: Theme = createTheme({

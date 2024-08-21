@@ -1,27 +1,27 @@
 import {Route, Routes} from "react-router-dom";
-import Home from "./features/core/home/Home.tsx";
-import GuestOnly from "./features/core/layouts/GuestOnly.tsx";
-import Login from "./features/users/login/Login.tsx";
-import Register from "./features/users/register/Register.tsx";
-import PageNotFound from "./features/core/not_found/PageNotFound.tsx";
-import AuthenticatedUser from "./features/core/layouts/AuthenticatedUser.tsx";
-import Header from "./features/core/header/Header.tsx";
-import Footer from "./features/core/footer/Footer.tsx";
-import LoadingSpinner from "./features/core/loading/LoadingSpinner.tsx";
-import {setupInterceptors} from "./utils/axios_config/axiosInstance.ts";
+import Home from "./shared/core/home/Home.tsx";
+import GuestOnly from "./shared/core/layouts/GuestOnly.tsx";
+import Login from "./features/guest/login/Login.tsx";
+import Register from "./features/guest/register/Register.tsx";
+import PageNotFound from "./shared/core/not-found/PageNotFound.tsx";
+import AuthenticatedUser from "./shared/core/layouts/AuthenticatedUser.tsx";
+import Header from "./shared/core/header/Header.tsx";
+import Footer from "./shared/core/footer/Footer.tsx";
+import LoadingSpinner from "./shared/core/loading/LoadingSpinner.tsx";
+import {setupInterceptors} from "./utils/axios-config/axiosInstance.ts";
 import {useContext, useEffect} from "react";
 import Profile from "./features/users/settings/Profile.tsx";
-import AboutUs from "./features/core/about_us/AboutUs.tsx";
-import {UserAuthContext} from "./features/shared/context/UserAuthContext.tsx";
-import ContactUs from "./features/core/contact_us/ContactUs.tsx";
-import LeftSidebar from "./features/core/side_bar/LeftSidebar.tsx";
-import AppointmentInfo from "./features/appointments/appointment_info/AppointmentInfo.tsx";
+import AboutUs from "./features/guest/about-us/AboutUs.tsx";
+import {UserAuthContext} from "./shared/context/UserAuthContext.tsx";
+import ContactUs from "./features/guest/contact-us/ContactUs.tsx";
+import LeftSidebar from "./shared/core/side-bar/LeftSidebar.tsx";
+import AppointmentInfo from "./features/appointment/appointment-info/AppointmentInfo.tsx";
 import {Box} from "@mui/material";
-import AppointmentDetails from "./features/appointments/appointment_info/detailed_appointment/AppointmentDetails.tsx";
-import AdminOnly from "./features/core/layouts/AdminOnly.tsx";
-import ServiceProvider from "./features/shared/context/ServiceContext.tsx";
-import AdminServiceDashboard from "./features/admin/services/AdminServiceDashboard.tsx";
-import AdminDashboardUsers from "./features/admin/users/AdminDashboardUsers.tsx";
+import AppointmentDetails from "./features/appointment/appointment-info/detailed-appointment/AppointmentDetails.tsx";
+import AdminOnly from "./shared/core/layouts/AdminOnly.tsx";
+import ServiceProvider from "./shared/context/ServiceContext.tsx";
+import AdminServiceDashboard from "./features/admin/service-dashboard/AdminServiceDashboard.tsx";
+import AdminDashboardUsers from "./features/admin/user-dashboard/AdminDashboardUsers.tsx";
 
 function App() {
 

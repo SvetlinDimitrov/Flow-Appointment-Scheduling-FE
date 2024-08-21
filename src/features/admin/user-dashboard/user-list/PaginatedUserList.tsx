@@ -1,0 +1,78 @@
+import { useState } from 'react';
+import { Box, Button, Card, CardContent, Typography, useMediaQuery } from '@mui/material';
+import { User } from "../../../../shared/models/user.types.ts";
+import UserActions from "./UserActions.tsx";
+import StaffDataDetails from "./StaffDataDetails.tsx";
+
+interface PaginatedUserSectionProps {
+  title: string;
+  users: User[];
+  onEdit: (user: User) => void;
+  onDelete: (user: User) => void;
+  onAssignToService: (user: User) => void;
+}
+
+const PaginatedUserSection = ({ title, users, onEdit, onDelete, onAssignToService }: PaginatedUserSectionProps) => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const isXs = useMediaQuery('(max-width:600px)');
+  const isLg = useMediaQuery('(max-width:1200px)');
+  const usersPerPage = isXs ? 1 : isLg ? 3 : 5;
+
+  const totalPages = Math.ceil(users.length / usersPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const startIndex = currentPage * usersPerPage;
+  const endIndex = startIndex + usersPerPage;
+  const currentUsers = users.slice(startIndex, endIndex);
+
+  return (
+    <Box p={2} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} gap={3}>
+      <Typography variant={"h5"} textAlign={"center"}>
+        {title}
+      </Typography>
+      <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2} maxWidth={'1600px'}>
+        {currentUsers.map((user) => (
+          <Card key={user.id} sx={{ maxWidth: 300, boxShadow: 3 }}>
+            <CardContent>
+              <Typography variant={"h6"} fontWeight={'bold'} textAlign={'center'}>
+                {user.firstName} {user.lastName}
+              </Typography>
+              <Typography variant={"body2"} textAlign={"center"} color={"gray"} fontStyle={"italic"} marginTop={1}>
+                {user.email}
+              </Typography>
+              <Typography variant={"body2"} textAlign={"center"} color={"gray"} fontStyle={"italic"} marginTop={1}>
+                Role: {user.role}
+              </Typography>
+              {user.employeeData && <StaffDataDetails employeeData={user.employeeData} />}
+              <UserActions user={user} onEdit={onEdit} onDelete={onDelete} onAssignToService={onAssignToService} />
+            </CardContent>
+          </Card>
+        ))}
+      </Box>
+      <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mt={2}>
+        <Button onClick={handlePreviousPage} disabled={currentPage === 0}>
+          Previous
+        </Button>
+        <Typography variant={"body2"}>
+          {currentPage + 1} / {totalPages}
+        </Typography>
+        <Button onClick={handleNextPage} disabled={currentPage >= totalPages - 1}>
+          Next
+        </Button>
+      </Box>
+    </Box>
+  );
+};
+
+export default PaginatedUserSection;

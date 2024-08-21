@@ -1,15 +1,15 @@
 import {Box, Button, Stack, Typography} from '@mui/material';
 import useGetUserQuery from "../../../hooks/users/query/useGetUserQuery.ts";
 import {useContext, useState} from "react";
-import {UserAuthContext} from "../../shared/context/UserAuthContext.tsx";
-import PageNotFound from "../../core/not_found/PageNotFound.tsx";
+import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
+import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import UpdateUser from "./update/UpdateUser.tsx";
-import LoadingSpinner from "../../core/loading/LoadingSpinner.tsx";
+import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
 import useUpdateUserMutation from "../../../hooks/users/mutations/useUpdateUserMutation.ts";
 import {useNavigate} from "react-router-dom";
 import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserMutation.ts";
-import UserInfoItem from "./user_info_item/UserInfoItem.tsx";
-import {UserMainWrapper, UserSecondWrapper} from "../../shared/styles/wrappers.ts";
+import UserInfoItem from "./user-info-item/UserInfoItem.tsx";
+import {UserMainWrapper, UserSecondWrapper} from "../../../shared/styles/wrappers.ts";
 import {styled} from "@mui/system";
 
 const StyleButton = styled(Button)(() => ({

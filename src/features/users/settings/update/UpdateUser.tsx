@@ -1,10 +1,10 @@
 import React from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, SxProps, TextField} from '@mui/material';
-import {User} from "../../../../models/user.types.ts";
+import {User} from "../../../../shared/models/user.types.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
-import {nameValidation} from "../../../shared/validation/users.validations.ts";
+import {nameValidation} from "../../../../shared/validation/users.validations.ts";
 import {styled} from "@mui/system";
 
 const mainWrapperStyle: SxProps = {

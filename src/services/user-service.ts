@@ -1,7 +1,7 @@
-import {axiosInstance} from '../utils/axios_config/axiosInstance';
-import Page from "../models/api/shared/Page.ts";
-import {User} from "../models/user.types.ts";
-import {CreateUserRequest, UpdateUserRequest} from "../models/api/users.ts";
+import {axiosInstance} from '../utils/axios-config/axiosInstance';
+import Page from "../shared/models/api/shared/Page.ts";
+import {User} from "../shared/models/user.types.ts";
+import {CreateUserRequest, UpdateUserRequest} from "../shared/models/api/users.ts";
 
 export const getAllUsers = async (page: number, size: number): Promise<Page<User>> => {
   const response = await axiosInstance.get(`/users`, {
