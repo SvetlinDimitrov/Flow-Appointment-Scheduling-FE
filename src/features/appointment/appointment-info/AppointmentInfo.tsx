@@ -4,6 +4,8 @@ import PaginationAppointments from "./appointment-list/PaginationAppointments.ts
 import {Appointment} from "../../../shared/models/appointment.types.ts";
 import {useNavigate} from "react-router-dom";
 import {UserRole} from "../../../shared/models/user.types.ts";
+import {useState} from "react";
+import ConfirmationModal from "../../../shared/core/confirm-model/ConfirmationModal.tsx";
 
 const appointmentsDummyData: Appointment[] = [
   {
@@ -427,13 +429,21 @@ const appointmentsDummyData: Appointment[] = [
 ];
 
 const AppointmentInfo = () => {
-
   const navigate = useNavigate();
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
 
   const cancelAppointment = (appointment: Appointment) => {
-    if (window.confirm("Are you sure you want to cancel this appointment?")) {
-      console.log(`Cancel appointment on: ${appointment.date}`);
+    setSelectedAppointment(appointment);
+    setConfirmModalOpen(true);
+  }
+
+  const handleConfirmCancel = () => {
+    if (selectedAppointment) {
+      console.log(`Cancel appointment on: ${selectedAppointment.date}`);
+      setSelectedAppointment(null);
     }
+    setConfirmModalOpen(false);
   }
 
   const onViewMore = (appointment: Appointment) => {
@@ -460,6 +470,13 @@ const AppointmentInfo = () => {
                                 onCancel={cancelAppointment}
                                 onViewMore={onViewMore}/>
       )}
+      <ConfirmationModal
+        open={isConfirmModalOpen}
+        title="Cancel Appointment"
+        message={`Are you sure you want to cancel the appointment on: ${selectedAppointment?.date}?`}
+        onConfirm={handleConfirmCancel}
+        onCancel={() => setConfirmModalOpen(false)}
+      />
     </Box>
   );
 };

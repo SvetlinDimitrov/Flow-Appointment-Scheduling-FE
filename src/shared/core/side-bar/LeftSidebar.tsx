@@ -4,17 +4,29 @@ import {Link, useLocation} from 'react-router-dom';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {UserAuthContext} from "../../context/UserAuthContext.tsx";
 import {paths} from "../../paths/paths.ts";
+import ConfirmationModal from "../confirm-model/ConfirmationModal.tsx";
 
 const LeftSidebar = () => {
   const {logout, isUserAuthenticated, isAdmin} = useContext(UserAuthContext)!;
   const location = useLocation();
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    setConfirmModalOpen(true);
+  };
+
+  const handleConfirmLogout = () => {
+    logout();
+    setConfirmModalOpen(false);
+    toggleDrawer();
   };
 
   if (!isUserAuthenticated()) return null;
@@ -103,17 +115,19 @@ const LeftSidebar = () => {
             fontSize={theme.typography.body1.fontSize}
             fontWeight={'bolder'}
             sx={{cursor: 'pointer', color: theme.palette.primary.main}}
-            onClick={() => {
-              if (window.confirm("Are you sure you want to logout?")) {
-                logout();
-                toggleDrawer();
-              }
-            }}
+            onClick={handleLogout}
           >
             Logout
           </Typography>
         </Box>
       </Drawer>
+      <ConfirmationModal
+        open={isConfirmModalOpen}
+        title="Logout"
+        message="Are you sure you want to logout?"
+        onConfirm={handleConfirmLogout}
+        onCancel={() => setConfirmModalOpen(false)}
+      />
     </Box>
   );
 };

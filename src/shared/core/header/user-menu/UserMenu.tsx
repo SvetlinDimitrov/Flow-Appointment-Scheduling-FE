@@ -4,13 +4,13 @@ import {useNavigate} from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {paths} from "../../../paths/paths.ts";
 import {UserAuthContext} from "../../../context/UserAuthContext.tsx";
+import ConfirmationModal from "../../confirm-model/ConfirmationModal.tsx";
 
 const UserMenu = () => {
   const navigate = useNavigate();
-
   const {logout} = useContext(UserAuthContext)!;
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -18,6 +18,16 @@ const UserMenu = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    setConfirmModalOpen(true);
+  };
+
+  const handleConfirmLogout = () => {
+    logout();
+    setConfirmModalOpen(false);
+    handleClose();
   };
 
   return (
@@ -52,15 +62,17 @@ const UserMenu = () => {
             {Object.keys(path)[0]}
           </MenuItem>
         ))}
-        <MenuItem onClick={() => {
-          if (window.confirm("Are you sure you want to logout?")) {
-            logout();
-            handleClose();
-          }
-        }}>
+        <MenuItem onClick={handleLogout}>
           Logout
         </MenuItem>
       </Menu>
+      <ConfirmationModal
+        open={isConfirmModalOpen}
+        title="Logout"
+        message="Are you sure you want to logout?"
+        onConfirm={handleConfirmLogout}
+        onCancel={() => setConfirmModalOpen(false)}
+      />
     </>
   );
 };

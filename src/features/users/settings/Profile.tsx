@@ -11,6 +11,7 @@ import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserM
 import UserInfoItem from "./user-info-item/UserInfoItem.tsx";
 import {UserMainWrapper, UserSecondWrapper} from "../../../shared/styles/wrappers.ts";
 import {styled} from "@mui/system";
+import ConfirmationModal from "../../../shared/core/confirm-model/ConfirmationModal.tsx";
 
 const StyleButton = styled(Button)(() => ({
   flexGrow: 1,
@@ -23,6 +24,7 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
 
   if (!userId) {
     navigate("/login");
@@ -43,10 +45,12 @@ const Profile = () => {
   }
 
   const handleDeleteUser = () => {
-    const isConfirmed = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
-    if (isConfirmed) {
-      deleteUserMutation.mutate(userId);
-    }
+    setConfirmModalOpen(true);
+  }
+
+  const handleConfirmDelete = () => {
+    deleteUserMutation.mutate(userId);
+    setConfirmModalOpen(false);
   }
 
   if (isLoading || !user) return <LoadingSpinner/>;
@@ -88,6 +92,13 @@ const Profile = () => {
                       data={user}/>
         </Stack>
       </UserSecondWrapper>
+      <ConfirmationModal
+        open={isConfirmModalOpen}
+        title="Delete Account"
+        message="Are you sure you want to delete your account? This action cannot be undone."
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setConfirmModalOpen(false)}
+      />
     </UserMainWrapper>
   );
 };

@@ -5,11 +5,13 @@ import StaffList from "../../users/staff-list/StaffList.tsx";
 import {useState} from "react";
 import {ModifyService, ServiceWithUsers} from "../../../shared/models/service.types.ts";
 import ServiceEditModal from "./edit/ServiceEditModal.tsx";
+import ConfirmationModal from "../../../shared/core/confirm-model/ConfirmationModal.tsx";
 
 const AdminServiceDashboard = () => {
   const {services} = useServiceContext();
   const [selectedService, setSelectedService] = useState<ServiceWithUsers | null>(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
 
   const handleViewEmployees = (service: ServiceWithUsers) => {
     setSelectedService(service);
@@ -21,12 +23,17 @@ const AdminServiceDashboard = () => {
   }
 
   const handleDeleteService = (service: ServiceWithUsers) => {
-  const isConfirmed = window.confirm(`Are you sure you want to delete the service: ${service.name}?`);
-  if (isConfirmed) {
-    console.log("Delete service: ", service);
-
+    setSelectedService(service);
+    setConfirmModalOpen(true);
   }
-}
+
+  const handleConfirmDelete = () => {
+    if (selectedService) {
+      console.log("Delete service: ", selectedService);
+      setSelectedService(null);
+    }
+    setConfirmModalOpen(false);
+  }
 
   const handleEditSubmit = (data: ModifyService) => {
     console.log("Updated service data: ", data);
@@ -36,7 +43,6 @@ const AdminServiceDashboard = () => {
   const handleDeleteEmployeeFromService = (staffEmail: string, serviceId: number) => {
     console.log("Delete employee " + staffEmail + " from service " + serviceId);
   }
-
 
   return (
     <Box>
@@ -63,6 +69,12 @@ const AdminServiceDashboard = () => {
           onSubmit={handleEditSubmit}
         />
       )}
+      <ConfirmationModal
+        open={isConfirmModalOpen}
+        title="Delete Service"
+        message={`Are you sure you want to delete the service: ${selectedService?.name}?`}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setConfirmModalOpen(false)}/>
     </Box>
   );
 };

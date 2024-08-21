@@ -1,5 +1,7 @@
-import { User, UserRole } from '../../../shared/models/user.types.ts';
+import {useState} from 'react';
+import {User, UserRole} from '../../../shared/models/user.types.ts';
 import PaginatedUserSection from "./user-list/PaginatedUserList.tsx";
+import ConfirmationModal from '../../../shared/core/confirm-model/ConfirmationModal.tsx';
 
 const users: User[] = [
   {
@@ -391,22 +393,31 @@ const users: User[] = [
   }
 ];
 
-const handleEdit = (user: User) => {
-  console.log('Edit user:', user);
-};
-
-const handleDelete = (user: User) => {
-  const isConfirmed = window.confirm(`Are you sure you want to delete the user: ${user.firstName} ${user.lastName}?`);
-  if (isConfirmed) {
-    console.log('Delete user:', user);
-  }
-};
-
-const handleAssignToService = (user: User) => {
-  console.log('Assign user to service:', user);
-};
-
 const AdminDashboardUsers = () => {
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
+
+  const handleEdit = (user: User) => {
+    console.log('Edit user:', user);
+  };
+
+  const handleDelete = (user: User) => {
+    setSelectedUser(user);
+    setConfirmModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (selectedUser) {
+      console.log('Delete user:', selectedUser);
+      setSelectedUser(null);
+    }
+    setConfirmModalOpen(false);
+  };
+
+  const handleAssignToService = (user: User) => {
+    console.log('Assign user to service:', user);
+  };
+
   const administrators = users.filter(user => user.role === UserRole.ADMINISTRATOR);
   const employees = users.filter(user => user.role === UserRole.EMPLOYEE);
   const clients = users.filter(user => user.role === UserRole.CLIENT);
@@ -433,6 +444,13 @@ const AdminDashboardUsers = () => {
         onEdit={handleEdit}
         onDelete={handleDelete}
         onAssignToService={handleAssignToService}
+      />
+      <ConfirmationModal
+        open={isConfirmModalOpen}
+        title="Delete User"
+        message={`Are you sure you want to delete the user: ${selectedUser?.firstName} ${selectedUser?.lastName}?`}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setConfirmModalOpen(false)}
       />
     </div>
   );
