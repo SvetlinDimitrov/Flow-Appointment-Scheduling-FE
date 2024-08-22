@@ -1,7 +1,7 @@
 import {createUser} from '../../../services/user-service.ts';
 import {useMutation} from "@tanstack/react-query";
 import {toast} from "react-toastify";
-import {CreateUserRequest} from "../../../models/api/users.ts";
+import {CreateUserRequest} from "../../../shared/models/api/users.ts";
 
 const useCreateUserMutation = () => {
 

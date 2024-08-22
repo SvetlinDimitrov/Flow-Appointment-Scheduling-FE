@@ -1,8 +1,8 @@
 import {useMutation} from "@tanstack/react-query";
 import {updateUser} from "../../../services/user-service.ts";
-import {queryClient} from "../../../utils/react_query/queryClient.ts";
+import {queryClient} from "../../../utils/react-query/queryClient.ts";
 import {toast} from "react-toastify";
-import {UpdateUserRequest} from "../../../models/api/users.ts";
+import {UpdateUserRequest} from "../../../shared/models/api/users.ts";
 
 const useUpdateUserMutation = () => {
   return useMutation({
