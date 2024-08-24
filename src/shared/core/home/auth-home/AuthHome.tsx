@@ -1,28 +1,26 @@
 import {Box} from "@mui/material";
-import {User, UserRole} from "../../../models/user.types.ts";
 import WelcomeSection from "./welcome_section/WelcomeSection.tsx";
 import ServiceList from "../../../../features/service/service-list/ServiceList.tsx";
 import StaffList from "../../../../features/users/staff-list/StaffList.tsx";
-import {useServiceContext} from "../../../context/ServiceContext.tsx";
-import {useState} from "react";
-import {ServiceWithUsers} from "../../../models/service.types.ts";
-
-const dummyMainUser: User = {
-  id: 1,
-  firstName: "John",
-  lastName: "Doe",
-  email: "test1@abv.bg",
-  role: UserRole.CLIENT,
-  employeeData: null
-};
+import {useContext, useState} from "react";
+import {Service} from "../../../models/service.types.ts";
+import {getAllUsersByServiceId} from "../../../../services/user-service.ts";
+import useGetUserQuery from "../../../../hooks/users/query/useGetUserQuery.ts";
+import {UserAuthContext} from "../../../context/UserAuthContext.tsx";
+import LoadingSpinner from "../../loading/LoadingSpinner.tsx";
+import PageNotFound from "../../not-found/PageNotFound.tsx";
 
 const AuthHome = () => {
 
-  const {services} = useServiceContext();
+  const {userId} = useContext(UserAuthContext)!;
 
-  const [selectedService, setSelectedService] = useState<ServiceWithUsers | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
 
-  const handleViewStaff = (service: ServiceWithUsers) => {
+  if (!userId) return <PageNotFound/>;
+
+  const {data, isLoading, error} = useGetUserQuery(userId);
+
+  const handleViewStaff = (service: Service) => {
     setSelectedService(service);
   }
 
@@ -30,19 +28,24 @@ const AuthHome = () => {
     console.log("Book with staff" + staffEmail + " for service " + serviceId);
   }
 
+  if (isLoading || !data) return <LoadingSpinner/>;
+  if (error) return <PageNotFound/>;
+
   return (
     <Box>
-      <WelcomeSection user={dummyMainUser}/>
-      <ServiceList services={services}
-                   handleViewStaff={handleViewStaff}
-                   handleUpdateService={null}
-                   handleDeleteService={null}/>
-
-      <StaffList
-        selectedService={selectedService}
-        handleBookWithStaff={handleBookWithStaff}
-        handleDeleteEmployeeFromService={null}
-      />
+      <WelcomeSection user={data}/>
+      <ServiceList
+        handleViewStaff={handleViewStaff}
+        handleUpdateService={null}
+        handleDeleteService={null}/>
+      {selectedService &&
+        <StaffList
+          fetchUsersByServiceId={getAllUsersByServiceId}
+          selectedService={selectedService}
+          handleBookWithStaff={handleBookWithStaff}
+          handleDeleteEmployeeFromService={null}
+        />
+      }
     </Box>
   );
 };

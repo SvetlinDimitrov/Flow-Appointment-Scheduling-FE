@@ -40,7 +40,7 @@ const appointmentsDummyData: Appointment[] = [
       price: 100,
       description: "A detailed consultation service.",
       duration: 60,
-      place: {
+      workSpace: {
         name: "Office 101",
         capacity: 5,
       },
@@ -78,7 +78,7 @@ const appointmentsDummyData: Appointment[] = [
       price: 100,
       description: "A detailed consultation service.",
       duration: 60,
-      place: {
+      workSpace: {
         name: "Office 101",
         capacity: 5,
       },
@@ -116,7 +116,7 @@ const appointmentsDummyData: Appointment[] = [
       price: 100,
       description: "A detailed consultation service.",
       duration: 60,
-      place: {
+      workSpace: {
         name: "Office 101",
         capacity: 5,
       },
@@ -154,7 +154,7 @@ const appointmentsDummyData: Appointment[] = [
       price: 100,
       description: "A detailed consultation service.",
       duration: 60,
-      place: {
+      workSpace: {
         name: "Office 101",
         capacity: 5,
       },
@@ -192,7 +192,7 @@ const appointmentsDummyData: Appointment[] = [
       price: 100,
       description: "A detailed consultation service.",
       duration: 60,
-      place: {
+      workSpace: {
         name: "Office 101",
         capacity: 5,
       },
@@ -230,7 +230,7 @@ const appointmentsDummyData: Appointment[] = [
       price: 100,
       description: "A detailed consultation service.",
       duration: 60,
-      place: {
+      workSpace: {
         name: "Office 101",
         capacity: 5,
       },
@@ -268,7 +268,7 @@ const appointmentsDummyData: Appointment[] = [
       price: 100,
       description: "A detailed consultation service.",
       duration: 60,
-      place: {
+      workSpace: {
         name: "Office 101",
         capacity: 5,
       },
@@ -306,7 +306,7 @@ const appointmentsDummyData: Appointment[] = [
       price: 100,
       description: "A detailed consultation service.",
       duration: 60,
-      place: {
+      workSpace: {
         name: "Office 101",
         capacity: 5,
       },
@@ -344,7 +344,7 @@ const appointmentsDummyData: Appointment[] = [
       price: 100,
       description: "A detailed consultation service.",
       duration: 60,
-      place: {
+      workSpace: {
         name: "Office 101",
         capacity: 5,
       },
@@ -382,7 +382,7 @@ const appointmentsDummyData: Appointment[] = [
       price: 100,
       description: "A detailed consultation service.",
       duration: 60,
-      place: {
+      workSpace: {
         name: "Office 101",
         capacity: 5,
       },
@@ -420,7 +420,7 @@ const appointmentsDummyData: Appointment[] = [
       price: 100,
       description: "A detailed consultation service.",
       duration: 60,
-      place: {
+      workSpace: {
         name: "Office 101",
         capacity: 5,
       },

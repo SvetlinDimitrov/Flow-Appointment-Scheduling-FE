@@ -13,6 +13,16 @@ export const getAllUsers = async (page: number, size: number): Promise<Page<User
   return response.data;
 };
 
+export const getAllUsersByServiceId = async (page: number, size: number, serviceId: number): Promise<Page<User>> => {
+  const response = await axiosInstance.get(`/users/service/${serviceId}`, {
+    params: {
+      page,
+      size
+    }
+  });
+  return response.data;
+};
+
 export const getUserById = async (id: number): Promise<User> => {
   const response = await axiosInstance.get(`/users/${id}`);
   return response.data;

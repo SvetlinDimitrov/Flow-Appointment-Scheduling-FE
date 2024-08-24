@@ -19,7 +19,6 @@ import AppointmentInfo from "./features/appointment/appointment-info/Appointment
 import {Box} from "@mui/material";
 import AppointmentDetails from "./features/appointment/appointment-info/detailed-appointment/AppointmentDetails.tsx";
 import AdminOnly from "./shared/core/layouts/AdminOnly.tsx";
-import ServiceProvider from "./shared/context/ServiceContext.tsx";
 import AdminServiceDashboard from "./features/admin/service-dashboard/AdminServiceDashboard.tsx";
 import AdminDashboardUsers from "./features/admin/user-dashboard/AdminDashboardUsers.tsx";
 
@@ -37,7 +36,6 @@ function App() {
       <LeftSidebar/>
       <LoadingSpinner/>
       <Box flexGrow={1}>
-        <ServiceProvider>
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route element={<AdminOnly/>}>
@@ -57,7 +55,6 @@ function App() {
           </Route>
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>
-        </ServiceProvider>
       </Box>
       <Footer/>
     </Box>

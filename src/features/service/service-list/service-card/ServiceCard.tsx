@@ -3,11 +3,11 @@ import UserCardActions from "./user/UserCardActions.tsx";
 import AdminCardActions from "./admin/AdminCardActions.tsx";
 import UserServiceDetailsTable from "./user/UserServiceDetailsTable.tsx";
 import AdminServiceDetailsTable from "./admin/AdminServiceDetailsTable.tsx";
-import {AdminServiceProps, ServiceProps, ServiceWithUsers} from "../../../../shared/models/service.types.ts";
+import {AdminServiceProps, Service, ServiceProps} from "../../../../shared/models/service.types.ts";
 import {ReactNode} from "react";
 
 interface ServiceCardProps {
-  selectedService: ServiceWithUsers;
+  selectedService: Service;
   serviceContextProps: ServiceProps;
 }
 
@@ -15,7 +15,7 @@ function isAdminServiceProps(props: ServiceProps | AdminServiceProps): props is 
   return 'handleDeleteService' in props && 'handleUpdateService' in props;
 }
 
-const renderCardContent = (selectedService: ServiceWithUsers, table: ReactNode, actions: ReactNode) => (
+const renderCardContent = (selectedService: Service, table: ReactNode, actions: ReactNode) => (
   <Box>
     <Card sx={{maxWidth: 345, margin: "auto", boxShadow: 3}}>
       <CardContent>

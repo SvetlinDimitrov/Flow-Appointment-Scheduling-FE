@@ -1,14 +1,13 @@
 import {Box} from "@mui/material";
-import {useServiceContext} from "../../../shared/context/ServiceContext.tsx";
 import ServiceList from "../../service/service-list/ServiceList.tsx";
 import StaffList from "../../users/staff-list/StaffList.tsx";
 import {useState} from "react";
-import {ModifyService, ServiceWithUsers} from "../../../shared/models/service.types.ts";
+import {ModifyService, Service, ServiceWithUsers} from "../../../shared/models/service.types.ts";
 import ServiceEditModal from "./edit/ServiceEditModal.tsx";
 import ConfirmationModal from "../../../shared/core/confirm-model/ConfirmationModal.tsx";
 
 const AdminServiceDashboard = () => {
-  const {services} = useServiceContext();
+  const [services, setServices] = useState<Service[]>([]);
   const [selectedService, setSelectedService] = useState<ServiceWithUsers | null>(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);

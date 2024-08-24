@@ -1,8 +1,8 @@
 import {TableBody, TableCell, TableRow} from "@mui/material";
-import {ServiceWithUsers} from "../../../../../shared/models/service.types.ts";
+import {Service} from "../../../../../shared/models/service.types.ts";
 
 interface ServiceDetailsTableProps {
-  service: ServiceWithUsers;
+  service: Service;
 }
 
 const UserServiceDetailsTable = ({service}: ServiceDetailsTableProps) => {
@@ -18,7 +18,7 @@ const UserServiceDetailsTable = ({service}: ServiceDetailsTableProps) => {
       </TableRow>
       <TableRow>
         <TableCell sx={{fontSize: "0.875rem"}}>Place</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>{service.place.name}</TableCell>
+        <TableCell sx={{fontSize: "0.875rem"}}>{service.workSpace.name}</TableCell>
       </TableRow>
     </TableBody>
   );

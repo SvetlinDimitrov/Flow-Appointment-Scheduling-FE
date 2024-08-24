@@ -1,8 +1,8 @@
 import {TableBody, TableCell, TableRow} from "@mui/material";
-import {ServiceWithUsers} from "../../../../../shared/models/service.types.ts";
+import {Service} from "../../../../../shared/models/service.types.ts";
 
 interface AdminServiceDetailsTableProps {
-  service: ServiceWithUsers;
+  service: Service;
 }
 
 const AdminServiceDetailsTable = ({service}: AdminServiceDetailsTableProps) => {
@@ -18,15 +18,15 @@ const AdminServiceDetailsTable = ({service}: AdminServiceDetailsTableProps) => {
       </TableRow>
       <TableRow>
         <TableCell sx={{fontSize: "0.875rem"}}>Place</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>{service.place.name}</TableCell>
+        <TableCell sx={{fontSize: "0.875rem"}}>{service.workSpace.name}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell sx={{fontSize: "0.875rem"}}>Total Profit</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>{service.totalProfit} $</TableCell>
+        <TableCell sx={{fontSize: "0.875rem"}}>1900 $</TableCell>
       </TableRow>
       <TableRow>
         <TableCell sx={{fontSize: "0.875rem"}}>Total Appointments</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>{service.totalAppointments}</TableCell>
+        <TableCell sx={{fontSize: "0.875rem"}}>190</TableCell>
       </TableRow>
     </TableBody>
   );

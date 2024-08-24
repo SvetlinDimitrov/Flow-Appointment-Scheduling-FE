@@ -1,35 +1,45 @@
 import {Box, Button, Typography, useMediaQuery} from "@mui/material";
 import ServiceCard from "./service-card/ServiceCard.tsx";
-import {AdminServiceProps, ServiceProps, ServiceWithUsers} from "../../../shared/models/service.types.ts";
-import usePagination from "../../../hooks/custom/usePagination.ts";
+import {AdminServiceProps, Service, ServiceProps} from "../../../shared/models/service.types.ts";
+import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
+import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
+import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
+import useGetAllServicesQuery from "../../../hooks/services/query/useGetAllServicesQuery.ts";
 
 interface ServiceListProps {
-  services: ServiceWithUsers[];
-  handleDeleteService: ((service: ServiceWithUsers) => void) | null;
-  handleUpdateService: ((service: ServiceWithUsers) => void) | null;
-  handleViewStaff: (service: ServiceWithUsers) => void;
+  handleDeleteService: ((service: Service) => void) | null;
+  handleUpdateService: ((service: Service) => void) | null;
+  handleViewStaff: (service: Service) => void;
 }
 
-const ServiceList = ({services, handleUpdateService, handleDeleteService, handleViewStaff}: ServiceListProps) => {
+const ServiceList = (
+  {
+    handleUpdateService,
+    handleDeleteService,
+    handleViewStaff
+  }: ServiceListProps) => {
   const isXs = useMediaQuery('(max-width:600px)');
   const servicesPerPage = isXs ? 1 : 4;
 
   const {
-    currentPage,
-    totalPages,
-    currentItems,
+    data,
+    isLoading,
+    error,
+    page,
     handleNextPage,
     handlePreviousPage,
-  } = usePagination(services, servicesPerPage);
+  } = usePaginatedQuery<Service>(useGetAllServicesQuery, 0, servicesPerPage);
+
+  if (isLoading) return <LoadingSpinner/>;
+  if (error) return <PageNotFound/>;
 
   return (
-    <Box p={2} display={'flex'} flexDirection={'column'}
-         justifyContent={'center'} alignItems={'center'} gap={3}>
+    <Box p={2} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} gap={3}>
       <Typography variant={"h5"} textAlign={"center"}>
         Explore Our Services
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}>
-        {currentItems.map((service, index) => {
+        {data?.content.map((service, index) => {
           const serviceProps: ServiceProps | AdminServiceProps = {
             handleViewEmployees: () => handleViewStaff(service),
           };
@@ -44,15 +54,15 @@ const ServiceList = ({services, handleUpdateService, handleDeleteService, handle
           );
         })}
       </Box>
-      <Box margin={"auto"} width={"50%"} display={"flex"} minWidth={200}
-           justifyContent={"center"} alignItems={"center"} mt={2}>
-        <Button onClick={handlePreviousPage} disabled={currentPage === 0}>
+      <Box margin={"auto"} width={"50%"} display={"flex"} minWidth={200} justifyContent={"center"} alignItems={"center"}
+           mt={2}>
+        <Button onClick={handlePreviousPage} disabled={page === 0}>
           Previous
         </Button>
         <Typography variant={"body2"}>
-          {currentPage + 1} / {totalPages}
+          {page + 1} / {data?.totalPages}
         </Typography>
-        <Button onClick={handleNextPage} disabled={currentPage + 1 >= totalPages}>
+        <Button onClick={handleNextPage} disabled={data && page >= data.totalPages - 1}>
           Next
         </Button>
       </Box>

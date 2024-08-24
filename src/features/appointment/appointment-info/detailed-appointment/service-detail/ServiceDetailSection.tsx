@@ -23,7 +23,7 @@ const ServiceDetailSection = ({service, bookAgain}: ServiceDetailSectionProps) =
         <strong>Duration:</strong> {service.duration} minutes
       </Typography>
       <Typography variant="body1" mb={1}>
-        <strong>Place:</strong> {service.place.name}
+        <strong>Place:</strong> {service.workSpace.name}
       </Typography>
       <Box mt={2}>
         <Button variant="contained" color="primary" onClick={bookAgain}>Book again</Button>

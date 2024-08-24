@@ -6,7 +6,8 @@ export interface Service {
   description: string;
   price: number;
   duration: number;
-  place: Location;
+  available: boolean;
+  workSpace: Location;
 }
 
 export interface Location{
