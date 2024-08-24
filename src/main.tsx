@@ -10,6 +10,7 @@ import {BrowserRouter} from "react-router-dom";
 import {queryClient} from "./utils/react-query/queryClient.ts";
 import ToastNotification from "./shared/core/toast/ToastNotification.tsx";
 import {createTheme, ThemeProvider} from "@mui/material";
+import {ConfirmationModalProvider} from "./shared/context/ConfirmationModalContext.tsx";
 
 let theme = createTheme({
   typography: {
@@ -32,6 +33,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <UserAuthProvider>
+        <ConfirmationModalProvider>
           <QueryClientProvider client={queryClient}>
             <BrowserRouter>
               <App/>
@@ -39,6 +41,7 @@ createRoot(document.getElementById('root')!).render(
             <ReactQueryDevtools/>
             <ToastNotification/>
           </QueryClientProvider>
+        </ConfirmationModalProvider>
       </UserAuthProvider>
     </ThemeProvider>
   </StrictMode>,

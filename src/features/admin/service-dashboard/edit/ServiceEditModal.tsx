@@ -2,8 +2,8 @@ import React from 'react';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {z} from 'zod';
-import {Box, Button, Modal, TextField, Typography} from '@mui/material';
-import {ModifyService} from '../../../../shared/models/service.types';
+import {Box, Button, Checkbox, FormControlLabel, Modal, TextField, Typography} from '@mui/material';
+import {ServiceDTO} from "../../../../shared/models/api/services.ts";
 
 const serviceSchema = z.object({
   name: z.string()
@@ -17,7 +17,8 @@ const serviceSchema = z.object({
   price: z.number()
     .gt(0, 'Price must be greater than 0')
     .nonnegative('Price is mandatory'),
-  placeName: z.string().min(1, 'Place name is required'),
+  workSpaceName: z.string().min(1, 'Place name is required'),
+  availability: z.boolean(),
 });
 
 type ServiceFormInputs = z.infer<typeof serviceSchema>;
@@ -25,7 +26,7 @@ type ServiceFormInputs = z.infer<typeof serviceSchema>;
 interface ServiceEditModalProps {
   open: boolean;
   onClose: () => void;
-  service: ModifyService;
+  service: ServiceDTO;
   onSubmit: (data: ServiceFormInputs) => void;
 }
 
@@ -86,10 +87,19 @@ const ServiceEditModal: React.FC<ServiceEditModalProps> = ({open, onClose, servi
           <TextField
             fullWidth
             label="Place Name"
-            {...register('placeName')}
-            error={!!errors.placeName}
-            helperText={errors.placeName?.message}
+            {...register('workSpaceName')}
+            error={!!errors.workSpaceName}
+            helperText={errors.workSpaceName?.message}
             margin="normal"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                {...register('availability')}
+                defaultChecked={service.availability}
+              />
+            }
+            label="Available"
           />
           <Button type="submit" variant="contained" color="primary" fullWidth>
             Save

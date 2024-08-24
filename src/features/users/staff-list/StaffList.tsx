@@ -33,10 +33,8 @@ const StaffList = (
     handlePreviousPage,
   } = usePaginatedQuery<User>(useGetUsersByServiceId, 0, employeesPerPage, selectedService.id);
 
-
   if (isLoading) return <LoadingSpinner/>;
-  if (error) return <PageNotFound/>;
-
+  if (error || !data) return <PageNotFound/>;
 
   return (
     <Box p={2} display={'flex'} flexDirection={'column'}
@@ -46,7 +44,7 @@ const StaffList = (
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}
       maxWidth={'1200px'}>
-        {data?.content?.map((employee) => {
+        {data.content.map((employee) => {
           if (handleDeleteEmployeeFromService) {
             const adminProps: AdminStaffCardProps = {
               employee,
@@ -69,7 +67,7 @@ const StaffList = (
           Previous
         </Button>
         <Typography variant={"body2"}>
-          {page + 1} / {data?.totalPages}
+          {page + 1} / {data.totalPages}
         </Typography>
         <Button onClick={handleNextPage} disabled={data && page >= data.totalPages - 1}>
           Next
