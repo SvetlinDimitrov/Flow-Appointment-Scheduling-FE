@@ -2,26 +2,25 @@ import {Box} from "@mui/material";
 import ServiceList from "../../service/service-list/ServiceList.tsx";
 import StaffList from "../../users/staff-list/StaffList.tsx";
 import {useState} from "react";
-import {ModifyService, Service, ServiceWithUsers} from "../../../shared/models/service.types.ts";
+import {ModifyService, Service} from "../../../shared/models/service.types.ts";
 import ServiceEditModal from "./edit/ServiceEditModal.tsx";
 import ConfirmationModal from "../../../shared/core/confirm-model/ConfirmationModal.tsx";
 
 const AdminServiceDashboard = () => {
-  const [services, setServices] = useState<Service[]>([]);
-  const [selectedService, setSelectedService] = useState<ServiceWithUsers | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
 
-  const handleViewEmployees = (service: ServiceWithUsers) => {
+  const handleViewEmployees = (service: Service) => {
     setSelectedService(service);
   }
 
-  const handleUpdateService = (service: ServiceWithUsers) => {
+  const handleUpdateService = (service: Service) => {
     setSelectedService(service);
     setEditModalOpen(true);
   }
 
-  const handleDeleteService = (service: ServiceWithUsers) => {
+  const handleDeleteService = (service: Service) => {
     setSelectedService(service);
     setConfirmModalOpen(true);
   }
@@ -45,14 +44,18 @@ const AdminServiceDashboard = () => {
 
   return (
     <Box>
-      <ServiceList services={services}
-                   handleViewStaff={handleViewEmployees}
-                   handleUpdateService={handleUpdateService}
-                   handleDeleteService={handleDeleteService}/>
-      <StaffList selectedService={selectedService}
-                 handleDeleteEmployeeFromService={handleDeleteEmployeeFromService}
-                 handleBookWithStaff={null}
-      />
+      <ServiceList
+        handleViewStaff={handleViewEmployees}
+        handleUpdateService={handleUpdateService}
+        handleDeleteService={handleDeleteService}/>
+      {selectedService &&
+        <StaffList
+          selectedService={selectedService}
+          handleDeleteEmployeeFromService={handleDeleteEmployeeFromService}
+          handleBookWithStaff={null}
+        />
+      }
+
 
       {selectedService && (
         <ServiceEditModal
@@ -63,7 +66,7 @@ const AdminServiceDashboard = () => {
             description: selectedService.description,
             duration: selectedService.duration,
             price: selectedService.price,
-            placeName: selectedService.place.name,
+            placeName: selectedService.workSpace.name,
           }}
           onSubmit={handleEditSubmit}
         />

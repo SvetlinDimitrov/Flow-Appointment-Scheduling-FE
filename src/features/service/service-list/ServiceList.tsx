@@ -16,7 +16,7 @@ const ServiceList = (
   {
     handleUpdateService,
     handleDeleteService,
-    handleViewStaff
+    handleViewStaff,
   }: ServiceListProps) => {
   const isXs = useMediaQuery('(max-width:600px)');
   const servicesPerPage = isXs ? 1 : 4;
@@ -27,11 +27,11 @@ const ServiceList = (
     error,
     page,
     handleNextPage,
-    handlePreviousPage,
+    handlePreviousPage
   } = usePaginatedQuery<Service>(useGetAllServicesQuery, 0, servicesPerPage);
 
   if (isLoading) return <LoadingSpinner/>;
-  if (error) return <PageNotFound/>;
+  if (error || !data) return <PageNotFound/>;
 
   return (
     <Box p={2} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} gap={3}>
@@ -39,7 +39,7 @@ const ServiceList = (
         Explore Our Services
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}>
-        {data?.content.map((service, index) => {
+        {data.content.map((service, index) => {
           const serviceProps: ServiceProps | AdminServiceProps = {
             handleViewEmployees: () => handleViewStaff(service),
           };
@@ -60,7 +60,7 @@ const ServiceList = (
           Previous
         </Button>
         <Typography variant={"body2"}>
-          {page + 1} / {data?.totalPages}
+          {page + 1} / {data.totalPages}
         </Typography>
         <Button onClick={handleNextPage} disabled={data && page >= data.totalPages - 1}>
           Next

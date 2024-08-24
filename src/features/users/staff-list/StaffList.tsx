@@ -1,7 +1,6 @@
 import {Box, Button, Typography, useMediaQuery} from "@mui/material";
 import StaffCard from "./staff-card/StaffCard.tsx";
 import {AdminStaffCardProps, User, UserStaffCardProps} from "../../../shared/models/user.types.ts";
-import Page from "../../../shared/models/api/shared/Page.ts";
 import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
 import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
@@ -10,7 +9,6 @@ import useGetUsersByServiceId from "../../../hooks/users/query/useGetUsersByServ
 
 interface StaffListProps {
   selectedService: Service;
-  fetchUsersByServiceId: (page: number, size: number, serviceId: number) => Promise<Page<User>>;
   handleBookWithStaff: ((staffEmail: string, serviceId: number) => void) | null;
   handleDeleteEmployeeFromService: ((staffEmail: string, serviceId: number) => void) | null;
 }

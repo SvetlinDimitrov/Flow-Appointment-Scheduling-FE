@@ -5,9 +5,10 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {UserAuthContext} from "../../context/UserAuthContext.tsx";
 import {paths} from "../../paths/paths.ts";
 import ConfirmationModal from "../confirm-model/ConfirmationModal.tsx";
+import {UserRole} from "../../models/user.types.ts";
 
 const LeftSidebar = () => {
-  const {logout, isUserAuthenticated, isAdmin} = useContext(UserAuthContext)!;
+  const {logout, isUserAuthenticated, role} = useContext(UserAuthContext)!;
   const location = useLocation();
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -86,7 +87,7 @@ const LeftSidebar = () => {
               </Typography>
             </Link>
           ))}
-          {isAdmin && (
+          {role === UserRole.ADMINISTRATOR && (
             <Box width={'140px'} display={'flex'} flexDirection={'column'} gap={2}>
               <Typography variant="h6" component="h6" fontWeight={'bold'}>Admin Panel</Typography>
               {paths.adminPaths.map((path, index) => (

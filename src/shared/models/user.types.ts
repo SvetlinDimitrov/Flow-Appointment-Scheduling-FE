@@ -1,4 +1,5 @@
 import {ServiceWithUsers} from "./service.types.ts";
+import {DateTime} from 'luxon';
 
 export enum UserRole {
   ADMINISTRATOR = 'ADMINISTRATOR',
@@ -12,16 +13,16 @@ export interface User {
   lastName: string;
   email: string;
   role: UserRole;
-  employeeData: EmployeeData | null;
+  staffDetails: StaffDetails | null;
 }
 
-export interface EmployeeData {
+export interface StaffDetails {
   salary: number;
   profit: number;
   completedAppointments: number;
   experience: number;
-  beginWorkingHour: Date;
-  endWorkingHour: Date;
+  beginWorkingHour: DateTime;
+  endWorkingHour: DateTime;
 }
 
 export interface StaffCardProps {

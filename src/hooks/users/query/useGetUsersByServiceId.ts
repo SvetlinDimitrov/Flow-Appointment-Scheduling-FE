@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-import { getAllUsersByServiceId } from '../../../services/user-service';
+import {useQuery} from '@tanstack/react-query';
+import {getAllUsersByServiceId} from '../../../services/user-service';
 import Page from '../../../shared/models/api/shared/Page';
-import { User } from '../../../shared/models/user.types';
+import {User} from '../../../shared/models/user.types';
 
 const useGetUsersByServiceId = (page: number, size: number, serviceId: number) => {
   return useQuery<Page<User>>({
-    queryKey: ['users', page, size, serviceId],
+    queryKey: ['users', "page", page, "size", size, "serviceId", serviceId],
     queryFn: () => getAllUsersByServiceId(page, size, serviceId)
   });
 };

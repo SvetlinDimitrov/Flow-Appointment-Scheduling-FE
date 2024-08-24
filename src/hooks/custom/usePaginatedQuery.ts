@@ -29,7 +29,6 @@ const usePaginatedQuery = <T>(
     isLoading,
     error,
     page,
-    totalPages: data?.totalPages,
     handleNextPage,
     handlePreviousPage,
   };
