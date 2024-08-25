@@ -9,33 +9,37 @@ import {ServiceDTO} from "../../../shared/models/api/services.ts";
 import useDeleteServiceMutation from "../../../hooks/services/mutations/useDeleteServiceMutation.ts";
 import useUnassignStaffFromServiceMutation
   from "../../../hooks/services/mutations/useUnassignStaffFromServiceMutation.ts";
-import ConfirmationModal from "../../../shared/core/confirm-model/ConfirmationModal.tsx";
 import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
+import WelcomeServiceSection from "./welcome-service-section/WelcomeServiceSection.tsx";
+import CreateServiceModal from "./create/CreateServiceModal.tsx";
+import useCreateServiceMutation from "../../../hooks/services/mutations/useCreateServiceMutation.ts";
+import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
 
 const AdminServiceDashboard = () => {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [isCreateModalOpen, setCreateModalOpen] = useState(false);
   const [showStaff, setShowStaff] = useState(false);
 
-  const {openModal, closeModal, modalData} = useConfirmationModal();
+  const {openModal, closeModal} = useConfirmationModal();
 
   const updateServiceMutation = useUpdateServiceMutation();
   const deleteServiceMutation = useDeleteServiceMutation();
   const unassignStaffFromServiceMutation = useUnassignStaffFromServiceMutation();
+  const createServiceMutation = useCreateServiceMutation();
 
   const handleViewEmployees = (service: Service) => {
     setSelectedService(service);
     setShowStaff(true);
   };
 
-  const handleSelectSpecificService = (service: Service) => {
+  const handleShowEditModal = (service: Service) => {
     setSelectedService(service);
     setShowStaff(false);
     setEditModalOpen(true);
   };
 
   const handleDeleteService = (service: Service) => {
-
     const onConfirm = () => {
       if (service) {
         deleteServiceMutation.mutate(service.id);
@@ -68,14 +72,20 @@ const AdminServiceDashboard = () => {
     setEditModalOpen(false);
   };
 
+  const handleCreateService = (data: ServiceDTO) => {
+    createServiceMutation.mutate({service: data});
+    setCreateModalOpen(false);
+  };
+
   return (
-    <Box>
+    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} gap={2}>
+      <WelcomeServiceSection onCreateService={() => setCreateModalOpen(true)}/>
       <ServiceList
         handleViewStaff={handleViewEmployees}
-        handleUpdateService={handleSelectSpecificService}
+        handleUpdateService={handleShowEditModal}
         handleDeleteService={handleDeleteService}
       />
-      {selectedService && showStaff &&(
+      {selectedService && showStaff && (
         <StaffList
           selectedService={selectedService}
           handleDeleteEmployeeFromService={handleUnassignStaffFromService}
@@ -98,13 +108,12 @@ const AdminServiceDashboard = () => {
           onSubmit={handleEditSubmit}
         />
       )}
-      <ConfirmationModal
-        open={modalData.isOpen}
-        title={modalData.title}
-        message={modalData.message}
-        onConfirm={modalData.onConfirm}
-        onCancel={closeModal}
+      <CreateServiceModal
+        open={isCreateModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        onSubmit={handleCreateService}
       />
+      <ConfirmationModalWrapper/>
     </Box>
   );
 };

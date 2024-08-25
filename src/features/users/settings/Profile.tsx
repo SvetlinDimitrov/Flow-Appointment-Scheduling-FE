@@ -7,11 +7,12 @@ import UpdateUser from "./update/UpdateUser.tsx";
 import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
 import useUpdateUserMutation from "../../../hooks/users/mutations/useUpdateUserMutation.ts";
 import {useNavigate} from "react-router-dom";
-import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserMutation.ts";
+import useLogoutDeleteUserMutation from "../../../hooks/users/mutations/useLogoutDeleteUserMutation.ts";
 import UserInfoItem from "./user-info-item/UserInfoItem.tsx";
 import {UserMainWrapper, UserSecondWrapper} from "../../../shared/styles/wrappers.ts";
 import {styled} from "@mui/system";
-import ConfirmationModal from "../../../shared/core/confirm-model/ConfirmationModal.tsx";
+import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
+import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
 
 const StyleButton = styled(Button)(() => ({
   flexGrow: 1,
@@ -24,16 +25,16 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
-  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
 
   if (!userId) {
     navigate("/login");
     return null;
   }
 
+  const {openModal, closeModal} = useConfirmationModal();
   const {data: user, error, isLoading} = useGetUserQuery(userId);
   const updateUserMutation = useUpdateUserMutation();
-  const deleteUserMutation = useDeleteUserMutation();
+  const logoutDeleteUserMutation = useLogoutDeleteUserMutation();
 
   const handleOpenUpdate = () => setIsUpdateOpen(true);
 
@@ -45,12 +46,12 @@ const Profile = () => {
   }
 
   const handleDeleteUser = () => {
-    setConfirmModalOpen(true);
-  }
+    const onConfirm = () => {
+      logoutDeleteUserMutation.mutate(userId);
+      closeModal();
+    };
 
-  const handleConfirmDelete = () => {
-    deleteUserMutation.mutate(userId);
-    setConfirmModalOpen(false);
+    openModal("Delete User", `Are you sure you want to delete the user: ${user?.email}?`, onConfirm);
   }
 
   if (isLoading || !user) return <LoadingSpinner/>;
@@ -92,13 +93,7 @@ const Profile = () => {
                       data={user}/>
         </Stack>
       </UserSecondWrapper>
-      <ConfirmationModal
-        open={isConfirmModalOpen}
-        title="Delete Account"
-        message="Are you sure you want to delete your account? This action cannot be undone."
-        onConfirm={handleConfirmDelete}
-        onCancel={() => setConfirmModalOpen(false)}
-      />
+      <ConfirmationModalWrapper/>
     </UserMainWrapper>
   );
 };

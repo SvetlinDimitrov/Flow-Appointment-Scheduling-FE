@@ -1,5 +1,11 @@
 import {TableBody, TableCell, TableRow} from "@mui/material";
 import {Service} from "../../../../../shared/models/service.types.ts";
+import {styled} from "@mui/system";
+
+const StyledTableCell = styled(TableCell)(() => ({
+  fontSize: '0.875rem',
+  fontFamily: 'Arial, sans-serif',
+}));
 
 interface AdminServiceDetailsTableProps {
   service: Service;
@@ -9,24 +15,28 @@ const AdminServiceDetailsTable = ({service}: AdminServiceDetailsTableProps) => {
   return (
     <TableBody>
       <TableRow>
-        <TableCell sx={{fontSize: "0.875rem"}}>Duration</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>{service.duration} min</TableCell>
+        <StyledTableCell>Duration</StyledTableCell>
+        <StyledTableCell>{service.duration} min</StyledTableCell>
       </TableRow>
       <TableRow>
-        <TableCell sx={{fontSize: "0.875rem"}}>Price</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>{service.price} $</TableCell>
+        <StyledTableCell>Price</StyledTableCell>
+        <StyledTableCell>{service.price} $</StyledTableCell>
       </TableRow>
       <TableRow>
-        <TableCell sx={{fontSize: "0.875rem"}}>Place</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>{service.workSpace.name}</TableCell>
+        <StyledTableCell>Place</StyledTableCell>
+        <StyledTableCell>{service.workSpace.name}</StyledTableCell>
       </TableRow>
       <TableRow>
-        <TableCell sx={{fontSize: "0.875rem"}}>Total Profit</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>1900 $</TableCell>
+        <StyledTableCell>Availability</StyledTableCell>
+        <StyledTableCell>{service.availability ? 'Yes' : 'No'}</StyledTableCell>
       </TableRow>
       <TableRow>
-        <TableCell sx={{fontSize: "0.875rem"}}>Total Appointments</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>190</TableCell>
+        <StyledTableCell>Total Profit</StyledTableCell>
+        <StyledTableCell>1900 $</StyledTableCell>
+      </TableRow>
+      <TableRow>
+        <StyledTableCell>Total Appointments</StyledTableCell>
+        <StyledTableCell>190</StyledTableCell>
       </TableRow>
     </TableBody>
   );

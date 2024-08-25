@@ -6,6 +6,8 @@ import usePaginatedQuery from "../../../../hooks/custom/usePaginatedQuery.ts";
 import LoadingSpinner from "../../../../shared/core/loading/LoadingSpinner.tsx";
 import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
 import useGetUsers from "../../../../hooks/users/query/useGetUsers.ts";
+import {useContext} from "react";
+import {UserAuthContext} from "../../../../shared/context/UserAuthContext.tsx";
 
 interface PaginatedUserSectionProps {
   title: string;
@@ -23,6 +25,9 @@ const PaginatedUserSection = (
     onDelete,
     onAssignToService,
   }: PaginatedUserSectionProps) => {
+
+  const {userId} = useContext(UserAuthContext)!;
+
   const isXs = useMediaQuery('(max-width:600px)');
   const isLg = useMediaQuery('(max-width:1200px)');
 
@@ -58,11 +63,15 @@ const PaginatedUserSection = (
               <Typography variant={"body2"} textAlign={"center"} color={"gray"} fontStyle={"italic"} marginTop={1}>
                 Role: {user.role}
               </Typography>
-              {user.staffDetails && <StaffDataDetails staffData={user.staffDetails} />}
-              <UserActions userRole={user.role}
-                           onEdit={() => onEdit(user)}
-                           onDelete={() => onDelete(user)}
-                           onAssignToService={() => onAssignToService(user)}/>
+              {user.staffDetails &&
+                <StaffDataDetails staffData={user.staffDetails}/>
+              }
+              {user.id !== userId &&
+                <UserActions userRole={user.role}
+                             onEdit={() => onEdit(user)}
+                             onDelete={() => onDelete(user)}
+                             onAssignToService={() => onAssignToService(user)}/>
+              }
             </CardContent>
           </Card>
         ))}

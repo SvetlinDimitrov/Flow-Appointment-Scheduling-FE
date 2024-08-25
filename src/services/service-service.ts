@@ -16,12 +16,8 @@ export const getServiceById = async (id: number) => {
   return response.data;
 };
 
-export const createService = async (service: ServiceDTO, username: string) => {
-  const response = await axiosInstance.post<Service>(API_URL, service, {
-    headers: {
-      'X-User-Name': username
-    }
-  });
+export const createService = async (service: ServiceDTO) => {
+  const response = await axiosInstance.post<Service>(API_URL, service);
   return response.data;
 };
 
@@ -47,3 +43,5 @@ export const updateService = async (id: number, service: ServiceDTO) => {
 export const deleteService = async (id: number) => {
   await axiosInstance.delete(`${API_URL}/${id}`);
 };
+
+export const availableServices = ['Gym', 'Spa', 'Clinic'];

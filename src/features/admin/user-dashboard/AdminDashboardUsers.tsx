@@ -1,27 +1,27 @@
-import {useState} from 'react';
 import {User, UserRole} from '../../../shared/models/user.types.ts';
 import PaginatedUserSection from "./user-list/PaginatedUserList.tsx";
-import ConfirmationModal from '../../../shared/core/confirm-model/ConfirmationModal.tsx';
+import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
+import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserMutation.ts";
+import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
 
 const AdminDashboardUsers = () => {
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
+
+  const {openModal, closeModal} = useConfirmationModal();
+  const deleteUserMutation = useDeleteUserMutation();
 
   const handleEdit = (user: User) => {
     console.log('Edit user:', user);
   };
 
   const handleDelete = (user: User) => {
-    setSelectedUser(user);
-    setConfirmModalOpen(true);
-  };
+    const onConfirm = () => {
+      if (user) {
+        deleteUserMutation.mutate(user.id);
+      }
+      closeModal();
+    };
 
-  const handleConfirmDelete = () => {
-    if (selectedUser) {
-      console.log('Delete user:', selectedUser);
-      setSelectedUser(null);
-    }
-    setConfirmModalOpen(false);
+    openModal("Delete User", `Are you sure you want to delete the user: ${user.email}?`, onConfirm);
   };
 
   const handleAssignToService = (user: User) => {
@@ -51,13 +51,7 @@ const AdminDashboardUsers = () => {
         onAssignToService={handleAssignToService}
         userRole={UserRole.CLIENT}
       />
-      <ConfirmationModal
-        open={isConfirmModalOpen}
-        title="Delete User"
-        message={`Are you sure you want to delete the user: ${selectedUser?.firstName} ${selectedUser?.lastName}?`}
-        onConfirm={handleConfirmDelete}
-        onCancel={() => setConfirmModalOpen(false)}
-      />
+      <ConfirmationModalWrapper/>
     </div>
   );
 };
