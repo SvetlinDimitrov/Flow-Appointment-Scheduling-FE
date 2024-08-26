@@ -7,14 +7,19 @@ import {useState} from "react";
 import EditUserModal from "./edit-staff/EditUserModal.tsx";
 import {UpdateUserAdminRequest} from "../../../shared/models/api/users.ts";
 import useModifyStaffMutation from "../../../hooks/users/mutations/useModifyStaffMutation.ts";
+import {Service} from "../../../shared/models/service.types.ts";
+import AssignServiceModal from "./assign-staff/AssignServiceModal.tsx";
+import useAssignStaffToServiceMutation from "../../../hooks/services/mutations/useAssignStaffToServiceMutation.ts";
 
 const AdminDashboardUsers = () => {
 
   const [editUser, setEditUser] = useState<User | null>(null);
+  const [assignUser, setAssignUser] = useState<User | null>(null);
 
   const {openModal, closeModal} = useConfirmationModal();
   const deleteUserMutation = useDeleteUserMutation();
   const modifyStaffMutation = useModifyStaffMutation();
+  const assignStaffToServiceMutation = useAssignStaffToServiceMutation();
 
   const handleDelete = (user: User) => {
     const onConfirm = () => {
@@ -28,7 +33,7 @@ const AdminDashboardUsers = () => {
   };
 
   const handleAssignToService = (user: User) => {
-    console.log('Assign user to service:', user);
+    setAssignUser(user);
   };
 
   const handleSaveEditModal = (data: UpdateUserAdminRequest) => {
@@ -36,6 +41,12 @@ const AdminDashboardUsers = () => {
       modifyStaffMutation.mutate({id: editUser.id, modifyDto: data});
     }
     setEditUser(null);
+  };
+
+  const handleAssignService = (service: Service) => {
+    if (assignUser && service)
+      assignStaffToServiceMutation.mutate({id: service.id, staffEmail: assignUser.email});
+    setAssignUser(null);
   };
 
   return (
@@ -74,6 +85,14 @@ const AdminDashboardUsers = () => {
             beginWorkingHour: editUser.staffDetails.beginWorkingHour.toString(),
             endWorkingHour: editUser.staffDetails.endWorkingHour.toString(),
           }}
+        />
+      )}
+      {assignUser && (
+        <AssignServiceModal
+          user={assignUser}
+          open={!!assignUser}
+          onClose={() => setAssignUser(null)}
+          onAssign={handleAssignService}
         />
       )}
     </div>

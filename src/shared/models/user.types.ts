@@ -23,6 +23,7 @@ export interface StaffDetails {
   startDate: Date,
   beginWorkingHour: DateTime;
   endWorkingHour: DateTime;
+  serviceIds: number[];
 }
 
 export interface StaffCardProps {
