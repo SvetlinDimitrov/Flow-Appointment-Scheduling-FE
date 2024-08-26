@@ -1,4 +1,4 @@
-import {Box, Button, Typography, useMediaQuery} from "@mui/material";
+import {Box, Pagination, Typography, useMediaQuery} from "@mui/material";
 import ServiceCard from "./service-card/ServiceCard.tsx";
 import {AdminServiceProps, Service, ServiceProps} from "../../../shared/models/service.types.ts";
 import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
@@ -26,8 +26,7 @@ const ServiceList = (
     isLoading,
     error,
     page,
-    handleNextPage,
-    handlePreviousPage
+    handlePageChange
   } = usePaginatedQuery<Service>(useGetAllServicesQuery, 0, servicesPerPage);
 
   if (isLoading) return <LoadingSpinner/>;
@@ -54,17 +53,13 @@ const ServiceList = (
           );
         })}
       </Box>
-      <Box margin={"auto"} width={"50%"} display={"flex"} minWidth={200} justifyContent={"center"} alignItems={"center"}
-           mt={2}>
-        <Button onClick={handlePreviousPage} disabled={page === 0}>
-          Previous
-        </Button>
-        <Typography variant={"body2"}>
-          {page + 1} / {data.totalPages}
-        </Typography>
-        <Button onClick={handleNextPage} disabled={data && page >= data.totalPages - 1}>
-          Next
-        </Button>
+      <Box display="flex" justifyContent="center" mt={2}>
+        <Pagination
+          count={data.totalPages}
+          page={page + 1}
+          onChange={(_, value) => handlePageChange(value)}
+          color="primary"
+        />
       </Box>
     </Box>
   );

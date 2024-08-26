@@ -1,4 +1,4 @@
-import {Box, Button, Typography, useMediaQuery} from "@mui/material";
+import {Box, Pagination, Typography, useMediaQuery} from "@mui/material";
 import StaffCard from "./staff-card/StaffCard.tsx";
 import {AdminStaffCardProps, User, UserStaffCardProps} from "../../../shared/models/user.types.ts";
 import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
@@ -29,8 +29,7 @@ const StaffList = (
     isLoading,
     error,
     page,
-    handleNextPage,
-    handlePreviousPage,
+    handlePageChange
   } = usePaginatedQuery<User>(useGetUsersByServiceId, 0, employeesPerPage, selectedService.id);
 
   if (isLoading) return <LoadingSpinner/>;
@@ -62,16 +61,13 @@ const StaffList = (
           }
         })}
       </Box>
-      <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mt={2}>
-        <Button onClick={handlePreviousPage} disabled={page === 0}>
-          Previous
-        </Button>
-        <Typography variant={"body2"}>
-          {page + 1} / {data.totalPages}
-        </Typography>
-        <Button onClick={handleNextPage} disabled={data && page >= data.totalPages - 1}>
-          Next
-        </Button>
+      <Box display="flex" justifyContent="center" mt={2}>
+        <Pagination
+          count={data.totalPages}
+          page={page + 1}
+          onChange={(_, value) => handlePageChange(value)}
+          color="primary"
+        />
       </Box>
     </Box>
   );

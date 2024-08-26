@@ -1,4 +1,4 @@
-import {Box, Button, Card, CardContent, Typography, useMediaQuery} from '@mui/material';
+import {Box, Card, CardContent, Pagination, Typography, useMediaQuery} from '@mui/material';
 import {User, UserRole} from "../../../../shared/models/user.types.ts";
 import UserActions from "./UserActions.tsx";
 import StaffDataDetails from "./StaffDataDetails.tsx";
@@ -38,8 +38,7 @@ const PaginatedUserSection = (
     isLoading,
     error,
     page,
-    handleNextPage,
-    handlePreviousPage,
+    handlePageChange
   } = usePaginatedQuery<User>(useGetUsers, 0, usersPerPage, userRole);
 
   if (isLoading) return <LoadingSpinner/>;
@@ -76,16 +75,13 @@ const PaginatedUserSection = (
           </Card>
         ))}
       </Box>
-      <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mt={2}>
-        <Button onClick={handlePreviousPage} disabled={page === 0}>
-          Previous
-        </Button>
-        <Typography variant={"body2"}>
-          {page + 1} / {data.totalPages}
-        </Typography>
-        <Button onClick={handleNextPage} disabled={page >= data.totalPages - 1}>
-          Next
-        </Button>
+      <Box display="flex" justifyContent="center" mt={2}>
+        <Pagination
+          count={data.totalPages}
+          page={page + 1}
+          onChange={(_, value) => handlePageChange(value)}
+          color="primary"
+        />
       </Box>
     </Box>
   );

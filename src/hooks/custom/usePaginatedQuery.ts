@@ -24,6 +24,14 @@ const usePaginatedQuery = <T>(
     }
   };
 
+  const handlePageChange = (value: number) => {
+    if (value > page + 1) {
+      handleNextPage();
+    } else {
+      handlePreviousPage();
+    }
+  };
+
   return {
     data,
     isLoading,
@@ -31,6 +39,7 @@ const usePaginatedQuery = <T>(
     page,
     handleNextPage,
     handlePreviousPage,
+    handlePageChange,
   };
 };
 

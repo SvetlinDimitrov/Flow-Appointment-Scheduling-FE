@@ -1,9 +1,11 @@
-import React, {FC} from 'react';
+import {FC} from 'react';
 import {Box, Button, Modal, Pagination, Typography} from '@mui/material';
 import {Service} from '../../../../shared/models/service.types.ts';
 import usePaginatedQuery from '../../../../hooks/custom/usePaginatedQuery.ts';
 import useGetAllServicesQuery from '../../../../hooks/services/query/useGetAllServicesQuery.ts';
 import {User} from "../../../../shared/models/user.types.ts";
+import LoadingSpinner from "../../../../shared/core/loading/LoadingSpinner.tsx";
+import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
 
 interface AssignServiceModalProps {
   user: User;
@@ -19,20 +21,11 @@ const AssignServiceModal: FC<AssignServiceModalProps> = ({user, open, onClose, o
     isLoading,
     error,
     page,
-    handleNextPage,
-    handlePreviousPage
+    handlePageChange
   } = usePaginatedQuery<Service>(useGetAllServicesQuery, 0, servicesPerPage);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error || !data) return <div>Error loading services</div>;
-
-  const handlePageChange = (value: number) => {
-    if (value > page + 1) {
-      handleNextPage();
-    } else {
-      handlePreviousPage();
-    }
-  };
+  if (isLoading) return <LoadingSpinner/>;
+  if (error || !data) return <PageNotFound/>;
 
   return (
     <Modal
