@@ -20,7 +20,7 @@ export interface StaffDetails {
   salary: number;
   profit: number;
   completedAppointments: number;
-  experience: number;
+  startDate: Date,
   beginWorkingHour: DateTime;
   endWorkingHour: DateTime;
 }

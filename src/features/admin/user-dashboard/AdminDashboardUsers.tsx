@@ -3,15 +3,18 @@ import PaginatedUserSection from "./user-list/PaginatedUserList.tsx";
 import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
 import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserMutation.ts";
 import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
+import {useState} from "react";
+import EditUserModal from "./edit-staff/EditUserModal.tsx";
+import {UpdateUserAdminRequest} from "../../../shared/models/api/users.ts";
+import useModifyStaffMutation from "../../../hooks/users/mutations/useModifyStaffMutation.ts";
 
 const AdminDashboardUsers = () => {
 
+  const [editUser, setEditUser] = useState<User | null>(null);
+
   const {openModal, closeModal} = useConfirmationModal();
   const deleteUserMutation = useDeleteUserMutation();
-
-  const handleEdit = (user: User) => {
-    console.log('Edit user:', user);
-  };
+  const modifyStaffMutation = useModifyStaffMutation();
 
   const handleDelete = (user: User) => {
     const onConfirm = () => {
@@ -28,30 +31,51 @@ const AdminDashboardUsers = () => {
     console.log('Assign user to service:', user);
   };
 
+  const handleSaveEditModal = (data: UpdateUserAdminRequest) => {
+    if (editUser) {
+      modifyStaffMutation.mutate({id: editUser.id, modifyDto: data});
+    }
+    setEditUser(null);
+  };
+
   return (
     <div>
       <PaginatedUserSection
         title="Administrators"
-        onEdit={handleEdit}
+        onEdit={(user) => setEditUser(user)}
         onDelete={handleDelete}
         onAssignToService={handleAssignToService}
         userRole={UserRole.ADMINISTRATOR}
       />
       <PaginatedUserSection
         title="Employees"
-        onEdit={handleEdit}
+        onEdit={(user) => setEditUser(user)}
         onDelete={handleDelete}
         onAssignToService={handleAssignToService}
         userRole={UserRole.EMPLOYEE}
       />
       <PaginatedUserSection
         title="Clients"
-        onEdit={handleEdit}
+        onEdit={(user) => setEditUser(user)}
         onDelete={handleDelete}
         onAssignToService={handleAssignToService}
         userRole={UserRole.CLIENT}
       />
       <ConfirmationModalWrapper/>
+      {editUser && editUser.staffDetails && (
+        <EditUserModal
+          open={!!editUser}
+          onClose={() => setEditUser(null)}
+          onSave={handleSaveEditModal}
+          initialData={{
+            userRole: editUser.role,
+            salary: editUser.staffDetails.salary || 0,
+            isAvailable: true,
+            beginWorkingHour: editUser.staffDetails.beginWorkingHour.toString(),
+            endWorkingHour: editUser.staffDetails.endWorkingHour.toString(),
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -11,9 +11,11 @@ export interface UpdateUserRequest {
 }
 
 export interface UpdateUserAdminRequest {
-  firstName: string;
-  lastName: string;
-  role: UserRole;
+  userRole: UserRole;
+  salary: number;
+  isAvailable: boolean;
+  beginWorkingHour: string; // LocalDate in format YYYY-MM-DD
+  endWorkingHour: string; // LocalDate in format YYYY-MM-DD
 }
 
 export enum UserRole {
