@@ -18,22 +18,9 @@ import {
 } from '@mui/material';
 import {ServiceDTO} from "../../../../shared/models/api/services.ts";
 import {availableServices} from "../../../../services/service-service.ts";
+import {serviceCreateUpdateValidations} from "../../../../shared/validation/services.validations.ts";
 
-const serviceSchema = z.object({
-  name: z.string()
-    .min(3, 'Name must be between 3 and 255 characters')
-    .max(255, 'Name must be between 3 and 255 characters'),
-  description: z.string()
-    .min(1, 'Description is mandatory'),
-  duration: z.number()
-    .min(1, 'Duration must be greater than 0')
-    .nonnegative('Duration is mandatory'),
-  price: z.number()
-    .gt(0, 'Price must be greater than 0')
-    .nonnegative('Price is mandatory'),
-  workSpaceName: z.string().min(1, 'Place name is required'),
-  availability: z.boolean(),
-});
+const serviceSchema = serviceCreateUpdateValidations;
 
 type ServiceFormInputs = z.infer<typeof serviceSchema>;
 
@@ -44,8 +31,8 @@ interface ServiceEditModalProps {
   onSubmit: (data: ServiceFormInputs) => void;
 }
 
-const ServiceEditModal: React.FC<ServiceEditModalProps> = ({open, onClose, service, onSubmit}) => {
-  const {register, handleSubmit, formState: {errors}, setValue} = useForm<ServiceFormInputs>({
+const ServiceEditModal: React.FC<ServiceEditModalProps> = ({ open, onClose, service, onSubmit }) => {
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<ServiceFormInputs>({
     resolver: zodResolver(serviceSchema),
     defaultValues: {
       ...service,
@@ -55,8 +42,18 @@ const ServiceEditModal: React.FC<ServiceEditModalProps> = ({open, onClose, servi
     },
   });
 
+  const handleFormSubmit = (data: ServiceFormInputs) => {
+    onSubmit(data);
+    reset();
+  };
+
+  const handleClose = () => {
+    onClose();
+    reset();
+  };
+
   return (
-    <Modal open={open} onClose={onClose} aria-labelledby="edit-service-modal">
+    <Modal open={open} onClose={handleClose} aria-labelledby="edit-service-modal">
       <Box position={'absolute'} top={'50%'} left={'50%'} width={400} bgcolor={'background.paper'}
            boxShadow={24} p={4} sx={{
         transform: 'translate(-50%, -50%)',
@@ -64,7 +61,7 @@ const ServiceEditModal: React.FC<ServiceEditModalProps> = ({open, onClose, servi
         <Typography id="edit-service-modal" variant="h6" component="h2">
           Edit Service
         </Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
           <TextField
             fullWidth
             label="Name"
@@ -85,7 +82,7 @@ const ServiceEditModal: React.FC<ServiceEditModalProps> = ({open, onClose, servi
             fullWidth
             label="Duration"
             type="number"
-            {...register('duration', {valueAsNumber: true})}
+            {...register('duration', { valueAsNumber: true })}
             error={!!errors.duration}
             helperText={errors.duration?.message}
             margin="normal"
@@ -94,7 +91,7 @@ const ServiceEditModal: React.FC<ServiceEditModalProps> = ({open, onClose, servi
             fullWidth
             label="Price"
             type="number"
-            {...register('price', {valueAsNumber: true})}
+            {...register('price', { valueAsNumber: true })}
             error={!!errors.price}
             helperText={errors.price?.message}
             margin="normal"

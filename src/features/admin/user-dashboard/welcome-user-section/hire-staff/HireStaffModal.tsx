@@ -12,6 +12,23 @@ import {
   staffDetailsCreateUpdateValidation
 } from "../../../../../shared/validation/users.validations.ts";
 
+interface HireStaffForm{
+  userInfo: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  };
+  staffDetailsDto: {
+    userRole: UserRole;
+    salary: number;
+    beginWorkingHour: string;
+    endWorkingHour: string;
+    isAvailable: boolean;
+  };
+}
+
 interface HireStaffModalProps {
   open: boolean;
   onClose: () => void;
@@ -24,19 +41,24 @@ const schema = z.object({
     lastName: nameValidation,
     email: emailValidation,
     password: passwordValidation,
+    confirmPassword: z.string(),
+  }).refine(data => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
   }),
   staffDetailsDto: staffDetailsCreateUpdateValidation
 });
 
 const HireStaffModal: FC<HireStaffModalProps> = ({open, onClose, onSubmit}) => {
-  const {register, handleSubmit, formState: {errors}} = useForm<HireStaffRequest>({
+  const {register, handleSubmit, formState: {errors} , reset} = useForm<HireStaffForm>({
     resolver: zodResolver(schema),
     defaultValues: {
       userInfo: {
         firstName: '',
         lastName: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
       },
       staffDetailsDto: {
         userRole: UserRole.EMPLOYEE,
@@ -48,14 +70,25 @@ const HireStaffModal: FC<HireStaffModalProps> = ({open, onClose, onSubmit}) => {
     },
   });
 
-  const onSubmitForm = (data: HireStaffRequest) => {
-    onSubmit(data);
+  const onSubmitForm = (data: HireStaffForm) => {
+    const { confirmPassword, ...userInfo } = data.userInfo;
+    const hireStaffRequest: HireStaffRequest = {
+      userInfo,
+      staffDetailsDto: data.staffDetailsDto
+    };
+    onSubmit(hireStaffRequest);
+    reset();
   };
+
+  const onCloseModal = () => {
+    reset();
+    onClose();
+  }
 
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={onCloseModal}
       style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
     >
       <Box p={4} bgcolor="background.paper" borderRadius={2} width={400} height={600} overflow={'auto'}>
@@ -97,6 +130,16 @@ const HireStaffModal: FC<HireStaffModalProps> = ({open, onClose, onSubmit}) => {
             margin="normal"
             error={!!errors.userInfo?.password}
             helperText={errors.userInfo?.password?.message}
+          />
+          <TextField
+            size={'small'}
+            label="Confirm Password"
+            type="password"
+            {...register("userInfo.confirmPassword")}
+            fullWidth
+            margin="normal"
+            error={!!errors.userInfo?.confirmPassword}
+            helperText={errors.userInfo?.confirmPassword?.message}
           />
           <TextField
             size={'small'}
