@@ -1,11 +1,14 @@
 import {Box, Button, Typography, useMediaQuery} from "@mui/material";
-import {ServiceWithUsers} from "../../../shared/models/service.types.ts";
 import StaffCard from "./staff-card/StaffCard.tsx";
-import {AdminStaffCardProps, UserStaffCardProps} from "../../../shared/models/user.types.ts";
-import usePagination from "../../../hooks/custom/usePagination.ts";
+import {AdminStaffCardProps, User, UserStaffCardProps} from "../../../shared/models/user.types.ts";
+import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
+import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
+import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
+import {Service} from "../../../shared/models/service.types.ts";
+import useGetUsersByServiceId from "../../../hooks/users/query/useGetUsersByServiceId.ts";
 
 interface StaffListProps {
-  selectedService: ServiceWithUsers | null;
+  selectedService: Service;
   handleBookWithStaff: ((staffEmail: string, serviceId: number) => void) | null;
   handleDeleteEmployeeFromService: ((staffEmail: string, serviceId: number) => void) | null;
 }
@@ -22,14 +25,16 @@ const StaffList = (
   const employeesPerPage = isXs ? 1 : isLg ? 6 : 10;
 
   const {
-    currentPage,
-    totalPages,
-    currentItems,
+    data,
+    isLoading,
+    error,
+    page,
     handleNextPage,
     handlePreviousPage,
-  } = usePagination(selectedService ? selectedService.employees : [], employeesPerPage);
+  } = usePaginatedQuery<User>(useGetUsersByServiceId, 0, employeesPerPage, selectedService.id);
 
-  if (!selectedService) return null;
+  if (isLoading) return <LoadingSpinner/>;
+  if (error || !data) return <PageNotFound/>;
 
   return (
     <Box p={2} display={'flex'} flexDirection={'column'}
@@ -39,7 +44,7 @@ const StaffList = (
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}
       maxWidth={'1200px'}>
-        {currentItems.map((employee) => {
+        {data.content.map((employee) => {
           if (handleDeleteEmployeeFromService) {
             const adminProps: AdminStaffCardProps = {
               employee,
@@ -58,13 +63,13 @@ const StaffList = (
         })}
       </Box>
       <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mt={2}>
-        <Button onClick={handlePreviousPage} disabled={currentPage === 0}>
+        <Button onClick={handlePreviousPage} disabled={page === 0}>
           Previous
         </Button>
         <Typography variant={"body2"}>
-          {currentPage + 1} / {totalPages}
+          {page + 1} / {data.totalPages}
         </Typography>
-        <Button onClick={handleNextPage} disabled={currentPage >= totalPages - 1}>
+        <Button onClick={handleNextPage} disabled={data && page >= data.totalPages - 1}>
           Next
         </Button>
       </Box>

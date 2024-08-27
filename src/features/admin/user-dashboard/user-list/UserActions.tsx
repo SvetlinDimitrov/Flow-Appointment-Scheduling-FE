@@ -12,7 +12,8 @@ const UserActions = ({ userRole, onEdit, onDelete, onAssignToService }: UserActi
   <Box display={"flex"} justifyContent={"space-between"} mt={2} gap={1}>
     {userRole === UserRole.CLIENT ? (
       <Typography
-        variant="body1"
+        variant={"body2"}
+        fontSize={"1rem"}
         color="secondary"
         sx={{ cursor: 'pointer'}}
         onClick={onDelete}
@@ -22,24 +23,27 @@ const UserActions = ({ userRole, onEdit, onDelete, onAssignToService }: UserActi
     ) : (
       <>
         <Typography
-          variant="body1"
           color="primary"
+          variant={"body2"}
+          fontSize={"1rem"}
           sx={{ cursor: 'pointer'}}
           onClick={onEdit}
         >
           Edit
         </Typography>
         <Typography
-          variant="body1"
           color="secondary"
+          variant={"body2"}
+          fontSize={"1rem"}
           sx={{ cursor: 'pointer'}}
           onClick={onDelete}
         >
           Delete
         </Typography>
         <Typography
-          variant="body1"
           color="inherit"
+          variant={"body2"}
+          fontSize={"1rem"}
           sx={{ cursor: 'pointer'}}
           onClick={onAssignToService}
         >

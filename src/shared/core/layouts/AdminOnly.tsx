@@ -1,11 +1,12 @@
 import {useContext} from "react";
 import {UserAuthContext} from "../../context/UserAuthContext.tsx";
 import {Navigate, Outlet} from "react-router-dom";
+import {UserRole} from "../../models/user.types.ts";
 
 const AdminOnly = () => {
-  const {isAdmin} = useContext(UserAuthContext)!;
+  const {role} = useContext(UserAuthContext)!;
 
-  if (!isAdmin) {
+  if (role !== UserRole.ADMINISTRATOR) {
     return <Navigate to="/"/>;
   }
 

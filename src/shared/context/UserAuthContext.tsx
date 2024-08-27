@@ -10,27 +10,32 @@ import {
   removeJwtTokenFromLocalStorage,
   setJwtTokenInLocalStorage
 } from "../../utils/local-storage/jwtToken.ts";
-import {getUserIdFromJwt} from "../../utils/jwt/jwtDecoder.ts";
+import {getUserIdFromJwt, getUserRoleFromJwt} from "../../utils/jwt/jwtDecoder.ts";
 import {JwtToken, RefreshToken} from "../models/auth.types.ts";
+import {UserRole} from "../models/user.types.ts";
 
 interface UserContextType {
   userId: number | null;
+  role: UserRole | null;
   login: (jwtToken: JwtToken, refreshToken: RefreshToken) => void;
   logout: () => void;
   isUserAuthenticated: () => boolean;
-  isAdmin: boolean;
 }
 
 export const UserAuthContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserAuthProvider = ({children}: { children: ReactNode }) => {
+
   const [userId, setUserId] = useState<number | null>(() => {
     const jwt: JwtToken = getJwtTokenFromLocalStorage()!;
     if (jwt) return getUserIdFromJwt(jwt.token);
     return null;
   });
-
-  const isAdmin = true;
+  const [role, setRole] = useState<UserRole | null>(() => {
+    const jwt: JwtToken = getJwtTokenFromLocalStorage()!;
+    if (jwt) return getUserRoleFromJwt(jwt.token);
+    return null;
+  });
 
   const isUserAuthenticated = () => {
     let refreshToken: (RefreshToken | null) = getRefreshTokenFromLocalStorage();
@@ -42,21 +47,24 @@ export const UserAuthProvider = ({children}: { children: ReactNode }) => {
     setJwtTokenInLocalStorage(jwtToken);
     const userId = getUserIdFromJwt(jwtToken.token);
     setUserId(userId);
+    const role = getUserRoleFromJwt(jwtToken.token);
+    setRole(role);
   }
 
   const logout = () => {
     removeRefreshTokenFromLocalStorage();
     removeJwtTokenFromLocalStorage();
     setUserId(null);
+    setRole(null);
   }
 
   return (
     <UserAuthContext.Provider value={{
       userId,
+      role,
       login,
       logout,
       isUserAuthenticated,
-      isAdmin
     }}>
       {children}
     </UserAuthContext.Provider>

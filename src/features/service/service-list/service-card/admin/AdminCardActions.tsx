@@ -14,7 +14,7 @@ const AdminCardActions = ({handleOpen, handleEdit, handleDelete}: ServiceCardAdm
         Edit
       </Button>
       <Button size="small" onClick={handleOpen}>
-        Employees
+        Staff
       </Button>
       <Button size="small" onClick={handleDelete}>
         Delete

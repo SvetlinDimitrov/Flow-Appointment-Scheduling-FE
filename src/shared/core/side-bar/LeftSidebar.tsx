@@ -4,14 +4,20 @@ import {Link, useLocation} from 'react-router-dom';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {UserAuthContext} from "../../context/UserAuthContext.tsx";
 import {paths} from "../../paths/paths.ts";
-import ConfirmationModal from "../confirm-model/ConfirmationModal.tsx";
+import {UserRole} from "../../models/user.types.ts";
+import ConfirmationModalWrapper from "../confirm-model/ConfirmationModalWrapper.tsx";
+import {useConfirmationModal} from "../../context/ConfirmationModalContext.tsx";
 
 const LeftSidebar = () => {
-  const {logout, isUserAuthenticated, isAdmin} = useContext(UserAuthContext)!;
+  const {logout, isUserAuthenticated, role} = useContext(UserAuthContext)!;
+
   const location = useLocation();
+
   const theme = useTheme();
+
   const [isOpen, setIsOpen] = useState(false);
-  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
+
+  const {openModal, closeModal} = useConfirmationModal();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -20,13 +26,14 @@ const LeftSidebar = () => {
   };
 
   const handleLogout = () => {
-    setConfirmModalOpen(true);
-  };
 
-  const handleConfirmLogout = () => {
-    logout();
-    setConfirmModalOpen(false);
-    toggleDrawer();
+    const onConfirm = () => {
+      logout();
+      toggleDrawer();
+      closeModal();
+    };
+
+    openModal("Logout", "Are you sure you want to logout?", onConfirm);
   };
 
   if (!isUserAuthenticated()) return null;
@@ -86,7 +93,7 @@ const LeftSidebar = () => {
               </Typography>
             </Link>
           ))}
-          {isAdmin && (
+          {role === UserRole.ADMINISTRATOR && (
             <Box width={'140px'} display={'flex'} flexDirection={'column'} gap={2}>
               <Typography variant="h6" component="h6" fontWeight={'bold'}>Admin Panel</Typography>
               {paths.adminPaths.map((path, index) => (
@@ -121,13 +128,7 @@ const LeftSidebar = () => {
           </Typography>
         </Box>
       </Drawer>
-      <ConfirmationModal
-        open={isConfirmModalOpen}
-        title="Logout"
-        message="Are you sure you want to logout?"
-        onConfirm={handleConfirmLogout}
-        onCancel={() => setConfirmModalOpen(false)}
-      />
+      <ConfirmationModalWrapper/>
     </Box>
   );
 };

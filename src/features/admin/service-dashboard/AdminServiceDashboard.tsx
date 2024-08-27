@@ -1,59 +1,97 @@
 import {Box} from "@mui/material";
-import {useServiceContext} from "../../../shared/context/ServiceContext.tsx";
 import ServiceList from "../../service/service-list/ServiceList.tsx";
 import StaffList from "../../users/staff-list/StaffList.tsx";
 import {useState} from "react";
-import {ModifyService, ServiceWithUsers} from "../../../shared/models/service.types.ts";
+import {Service} from "../../../shared/models/service.types.ts";
 import ServiceEditModal from "./edit/ServiceEditModal.tsx";
-import ConfirmationModal from "../../../shared/core/confirm-model/ConfirmationModal.tsx";
+import useUpdateServiceMutation from "../../../hooks/services/mutations/useUpdateServiceMutation.ts";
+import {ServiceDTO} from "../../../shared/models/api/services.ts";
+import useDeleteServiceMutation from "../../../hooks/services/mutations/useDeleteServiceMutation.ts";
+import useUnassignStaffFromServiceMutation
+  from "../../../hooks/services/mutations/useUnassignStaffFromServiceMutation.ts";
+import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
+import WelcomeServiceSection from "./welcome-service-section/WelcomeServiceSection.tsx";
+import CreateServiceModal from "./create/CreateServiceModal.tsx";
+import useCreateServiceMutation from "../../../hooks/services/mutations/useCreateServiceMutation.ts";
+import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
 
 const AdminServiceDashboard = () => {
-  const {services} = useServiceContext();
-  const [selectedService, setSelectedService] = useState<ServiceWithUsers | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [isCreateModalOpen, setCreateModalOpen] = useState(false);
+  const [showStaff, setShowStaff] = useState(false);
 
-  const handleViewEmployees = (service: ServiceWithUsers) => {
-    setSelectedService(service);
-  }
+  const {openModal, closeModal} = useConfirmationModal();
 
-  const handleUpdateService = (service: ServiceWithUsers) => {
+  const updateServiceMutation = useUpdateServiceMutation();
+  const deleteServiceMutation = useDeleteServiceMutation();
+  const unassignStaffFromServiceMutation = useUnassignStaffFromServiceMutation();
+  const createServiceMutation = useCreateServiceMutation();
+
+  const handleViewEmployees = (service: Service) => {
     setSelectedService(service);
+    setShowStaff(true);
+  };
+
+  const handleShowEditModal = (service: Service) => {
+    setSelectedService(service);
+    setShowStaff(false);
     setEditModalOpen(true);
-  }
+  };
 
-  const handleDeleteService = (service: ServiceWithUsers) => {
-    setSelectedService(service);
-    setConfirmModalOpen(true);
-  }
+  const handleDeleteService = (service: Service) => {
+    const onConfirm = () => {
+      if (service) {
+        deleteServiceMutation.mutate(service.id);
+        setSelectedService(null);
+      }
+      closeModal();
+    };
 
-  const handleConfirmDelete = () => {
-    if (selectedService) {
-      console.log("Delete service: ", selectedService);
-      setSelectedService(null);
-    }
-    setConfirmModalOpen(false);
-  }
+    openModal("Delete Service", `Are you sure you want to delete the service: ${service.name}?`, onConfirm);
+  };
 
-  const handleEditSubmit = (data: ModifyService) => {
-    console.log("Updated service data: ", data);
+  const handleUnassignStaffFromService = (staffEmail: string, serviceId: number) => {
+    const onConfirm = () => {
+      unassignStaffFromServiceMutation.mutate({
+        id: serviceId,
+        staffEmail: staffEmail,
+      });
+      closeModal();
+    };
+
+    openModal("Unassign Staff", `Are you sure you want to unassign the staff member: ${staffEmail}?`, onConfirm);
+  };
+
+  const handleEditSubmit = (data: ServiceDTO) => {
+    updateServiceMutation.mutate({
+      serviceId: selectedService!.id,
+      service: data,
+    });
+    setSelectedService(null);
     setEditModalOpen(false);
-  }
+  };
 
-  const handleDeleteEmployeeFromService = (staffEmail: string, serviceId: number) => {
-    console.log("Delete employee " + staffEmail + " from service " + serviceId);
-  }
+  const handleCreateService = (data: ServiceDTO) => {
+    createServiceMutation.mutate({service: data});
+    setCreateModalOpen(false);
+  };
 
   return (
-    <Box>
-      <ServiceList services={services}
-                   handleViewStaff={handleViewEmployees}
-                   handleUpdateService={handleUpdateService}
-                   handleDeleteService={handleDeleteService}/>
-      <StaffList selectedService={selectedService}
-                 handleDeleteEmployeeFromService={handleDeleteEmployeeFromService}
-                 handleBookWithStaff={null}
+    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} gap={2}>
+      <WelcomeServiceSection onCreateService={() => setCreateModalOpen(true)}/>
+      <ServiceList
+        handleViewStaff={handleViewEmployees}
+        handleUpdateService={handleShowEditModal}
+        handleDeleteService={handleDeleteService}
       />
+      {selectedService && showStaff && (
+        <StaffList
+          selectedService={selectedService}
+          handleDeleteEmployeeFromService={handleUnassignStaffFromService}
+          handleBookWithStaff={null}
+        />
+      )}
 
       {selectedService && (
         <ServiceEditModal
@@ -64,17 +102,18 @@ const AdminServiceDashboard = () => {
             description: selectedService.description,
             duration: selectedService.duration,
             price: selectedService.price,
-            placeName: selectedService.place.name,
+            availability: selectedService.availability,
+            workSpaceName: selectedService.workSpace.name,
           }}
           onSubmit={handleEditSubmit}
         />
       )}
-      <ConfirmationModal
-        open={isConfirmModalOpen}
-        title="Delete Service"
-        message={`Are you sure you want to delete the service: ${selectedService?.name}?`}
-        onConfirm={handleConfirmDelete}
-        onCancel={() => setConfirmModalOpen(false)}/>
+      <CreateServiceModal
+        open={isCreateModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        onSubmit={handleCreateService}
+      />
+      <ConfirmationModalWrapper/>
     </Box>
   );
 };

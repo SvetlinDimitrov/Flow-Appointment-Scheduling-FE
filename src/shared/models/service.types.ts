@@ -6,7 +6,8 @@ export interface Service {
   description: string;
   price: number;
   duration: number;
-  place: Location;
+  availability: boolean;
+  workSpace: Location;
 }
 
 export interface Location{
@@ -24,14 +25,6 @@ export interface ServiceWithUsers {
   totalProfit: number;
   totalAppointments: number;
   employees: User[];
-}
-
-export interface ModifyService {
-  name: string;
-  description: string;
-  duration: number;
-  price: number;
-  placeName: string;
 }
 
 export interface ServiceProps {

@@ -1,24 +1,30 @@
 import {TableBody, TableCell, TableRow} from "@mui/material";
-import {ServiceWithUsers} from "../../../../../shared/models/service.types.ts";
+import {Service} from "../../../../../shared/models/service.types.ts";
+import {styled} from "@mui/system";
+
+const StyledTableCell = styled(TableCell)(() => ({
+  fontSize: '0.875rem',
+  fontFamily: 'Arial, sans-serif',
+}));
 
 interface ServiceDetailsTableProps {
-  service: ServiceWithUsers;
+  service: Service;
 }
 
 const UserServiceDetailsTable = ({service}: ServiceDetailsTableProps) => {
   return (
     <TableBody>
       <TableRow>
-        <TableCell sx={{fontSize: "0.875rem"}}>Duration</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>{service.duration} min</TableCell>
+        <StyledTableCell>Duration</StyledTableCell>
+        <StyledTableCell>{service.duration} min</StyledTableCell>
       </TableRow>
       <TableRow>
-        <TableCell sx={{fontSize: "0.875rem"}}>Price</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>{service.price} $</TableCell>
+        <StyledTableCell>Price</StyledTableCell>
+        <StyledTableCell>{service.price} $</StyledTableCell>
       </TableRow>
       <TableRow>
-        <TableCell sx={{fontSize: "0.875rem"}}>Place</TableCell>
-        <TableCell sx={{fontSize: "0.875rem"}}>{service.place.name}</TableCell>
+        <StyledTableCell>Place</StyledTableCell>
+        <StyledTableCell>{service.workSpace.name}</StyledTableCell>
       </TableRow>
     </TableBody>
   );
