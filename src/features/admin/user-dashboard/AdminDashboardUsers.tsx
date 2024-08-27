@@ -5,71 +5,80 @@ import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserM
 import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
 import {useState} from "react";
 import EditUserModal from "./edit-staff/EditUserModal.tsx";
-import {UpdateUserAdminRequest} from "../../../shared/models/api/users.ts";
+import {CreateUpdateUserAdminRequest, HireStaffRequest} from "../../../shared/models/api/users.ts";
 import useModifyStaffMutation from "../../../hooks/users/mutations/useModifyStaffMutation.ts";
 import {Service} from "../../../shared/models/service.types.ts";
 import AssignServiceModal from "./assign-staff/AssignServiceModal.tsx";
 import useAssignStaffToServiceMutation from "../../../hooks/services/mutations/useAssignStaffToServiceMutation.ts";
+import WelcomeUserSection from "./welcome-user-section/WelcomeUserSection.tsx";
+import HireStaffModal from "./welcome-user-section/hire-staff/HireStaffModal.tsx";
+import useHireStaffMutation from "../../../hooks/users/mutations/useHireStuffMutation.ts";
 
 const AdminDashboardUsers = () => {
 
   const [editUser, setEditUser] = useState<User | null>(null);
   const [assignUser, setAssignUser] = useState<User | null>(null);
+  const [isHireModalOpen, setIsHireModalOpen] = useState(false);
 
   const {openModal, closeModal} = useConfirmationModal();
   const deleteUserMutation = useDeleteUserMutation();
   const modifyStaffMutation = useModifyStaffMutation();
   const assignStaffToServiceMutation = useAssignStaffToServiceMutation();
+  const hireStaffMutation = useHireStaffMutation();
 
   const handleDelete = (user: User) => {
     const onConfirm = () => {
-      if (user) {
-        deleteUserMutation.mutate(user.id);
-      }
-      closeModal();
+      if (user)
+        deleteUserMutation.mutate(user.id, {
+          onSuccess: () => closeModal()
+        });
     };
 
     openModal("Delete User", `Are you sure you want to delete the user: ${user.email}?`, onConfirm);
   };
 
-  const handleAssignToService = (user: User) => {
-    setAssignUser(user);
-  };
-
-  const handleSaveEditModal = (data: UpdateUserAdminRequest) => {
-    if (editUser) {
-      modifyStaffMutation.mutate({id: editUser.id, modifyDto: data});
-    }
-    setEditUser(null);
+  const handleSaveEditModal = (data: CreateUpdateUserAdminRequest) => {
+    if (editUser)
+      modifyStaffMutation.mutate({id: editUser.id, modifyDto: data}, {
+        onSuccess: () => setEditUser(null)
+      });
   };
 
   const handleAssignService = (service: Service) => {
     if (assignUser && service)
-      assignStaffToServiceMutation.mutate({id: service.id, staffEmail: assignUser.email});
-    setAssignUser(null);
+      assignStaffToServiceMutation.mutate({id: service.id, staffEmail: assignUser.email}, {
+        onSuccess: () => setAssignUser(null)
+      });
+  };
+
+  const handleHireStaffSubmit = (data: HireStaffRequest) => {
+    hireStaffMutation.mutate(data, {
+      onSuccess: () => setIsHireModalOpen(false)
+    });
   };
 
   return (
     <div>
+      <WelcomeUserSection onHireStaff={() => setIsHireModalOpen(true)}/>
       <PaginatedUserSection
-        title="Administrators"
+        title="Total Administrators: "
         onEdit={(user) => setEditUser(user)}
         onDelete={handleDelete}
-        onAssignToService={handleAssignToService}
+        onAssignToService={(user) => setAssignUser(user)}
         userRole={UserRole.ADMINISTRATOR}
       />
       <PaginatedUserSection
-        title="Employees"
+        title="Total Staff Members: "
         onEdit={(user) => setEditUser(user)}
         onDelete={handleDelete}
-        onAssignToService={handleAssignToService}
+        onAssignToService={(user) => setAssignUser(user)}
         userRole={UserRole.EMPLOYEE}
       />
       <PaginatedUserSection
-        title="Clients"
+        title="Total Clients: "
         onEdit={(user) => setEditUser(user)}
         onDelete={handleDelete}
-        onAssignToService={handleAssignToService}
+        onAssignToService={(user) => setAssignUser(user)}
         userRole={UserRole.CLIENT}
       />
       <ConfirmationModalWrapper/>
@@ -81,7 +90,7 @@ const AdminDashboardUsers = () => {
           initialData={{
             userRole: editUser.role,
             salary: editUser.staffDetails.salary || 0,
-            isAvailable: true,
+            isAvailable: editUser.staffDetails.isAvailable,
             beginWorkingHour: editUser.staffDetails.beginWorkingHour.toString(),
             endWorkingHour: editUser.staffDetails.endWorkingHour.toString(),
           }}
@@ -95,6 +104,11 @@ const AdminDashboardUsers = () => {
           onAssign={handleAssignService}
         />
       )}
+      <HireStaffModal
+        open={isHireModalOpen}
+        onClose={() => setIsHireModalOpen(false)}
+        onSubmit={handleHireStaffSubmit}
+      />
     </div>
   );
 };

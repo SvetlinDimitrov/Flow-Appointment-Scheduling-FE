@@ -9,7 +9,7 @@ interface UserActionsProps {
 }
 
 const UserActions = ({ userRole, onEdit, onDelete, onAssignToService }: UserActionsProps) => (
-  <Box display={"flex"} justifyContent={"space-between"} mt={2} gap={1}>
+  <Box display={"flex"} justifyContent={"space-between"} mt={2} gap={1} aria-modal={true}>
     {userRole === UserRole.CLIENT ? (
       <Typography
         variant={"body2"}

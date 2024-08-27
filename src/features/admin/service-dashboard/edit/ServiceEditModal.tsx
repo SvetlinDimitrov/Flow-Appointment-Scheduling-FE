@@ -2,8 +2,22 @@ import React from 'react';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {z} from 'zod';
-import {Box, Button, Checkbox, FormControlLabel, Modal, TextField, Typography} from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+  Typography
+} from '@mui/material';
 import {ServiceDTO} from "../../../../shared/models/api/services.ts";
+import {availableServices} from "../../../../services/service-service.ts";
 
 const serviceSchema = z.object({
   name: z.string()
@@ -31,12 +45,13 @@ interface ServiceEditModalProps {
 }
 
 const ServiceEditModal: React.FC<ServiceEditModalProps> = ({open, onClose, service, onSubmit}) => {
-  const {register, handleSubmit, formState: {errors}} = useForm<ServiceFormInputs>({
+  const {register, handleSubmit, formState: {errors}, setValue} = useForm<ServiceFormInputs>({
     resolver: zodResolver(serviceSchema),
     defaultValues: {
       ...service,
       duration: Number(service.duration),
       price: Number(service.price),
+      workSpaceName: service.workSpaceName,
     },
   });
 
@@ -84,14 +99,23 @@ const ServiceEditModal: React.FC<ServiceEditModalProps> = ({open, onClose, servi
             helperText={errors.price?.message}
             margin="normal"
           />
-          <TextField
-            fullWidth
-            label="Place Name"
-            {...register('workSpaceName')}
-            error={!!errors.workSpaceName}
-            helperText={errors.workSpaceName?.message}
-            margin="normal"
-          />
+          <FormControl error={!!errors.workSpaceName} fullWidth size="small">
+            <InputLabel id="workspace-label">Workspace Name</InputLabel>
+            <Select
+              labelId="workspace-label"
+              label="Workspace Name"
+              {...register("workSpaceName")}
+              size="small"
+              defaultValue={service.workSpaceName}
+            >
+              {availableServices.map((service) => (
+                <MenuItem key={service} value={service}>
+                  {service}
+                </MenuItem>
+              ))}
+            </Select>
+            {errors.workSpaceName && <FormHelperText>{errors.workSpaceName.message}</FormHelperText>}
+          </FormControl>
           <FormControlLabel
             control={
               <Checkbox

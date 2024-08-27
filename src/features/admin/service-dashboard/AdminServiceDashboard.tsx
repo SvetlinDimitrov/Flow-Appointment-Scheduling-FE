@@ -28,24 +28,15 @@ const AdminServiceDashboard = () => {
   const unassignStaffFromServiceMutation = useUnassignStaffFromServiceMutation();
   const createServiceMutation = useCreateServiceMutation();
 
-  const handleViewEmployees = (service: Service) => {
-    setSelectedService(service);
-    setShowStaff(true);
-  };
-
-  const handleShowEditModal = (service: Service) => {
-    setSelectedService(service);
-    setShowStaff(false);
-    setEditModalOpen(true);
-  };
-
   const handleDeleteService = (service: Service) => {
     const onConfirm = () => {
-      if (service) {
-        deleteServiceMutation.mutate(service.id);
-        setSelectedService(null);
-      }
-      closeModal();
+      if (service)
+        deleteServiceMutation.mutate(service.id, {
+          onSuccess: () => {
+            setSelectedService(null)
+            closeModal();
+          }
+        });
     };
 
     openModal("Delete Service", `Are you sure you want to delete the service: ${service.name}?`, onConfirm);
@@ -56,33 +47,46 @@ const AdminServiceDashboard = () => {
       unassignStaffFromServiceMutation.mutate({
         id: serviceId,
         staffEmail: staffEmail,
+      }, {
+        onSuccess: () => closeModal()
       });
-      closeModal();
     };
 
     openModal("Unassign Staff", `Are you sure you want to unassign the staff member: ${staffEmail}?`, onConfirm);
   };
 
-  const handleEditSubmit = (data: ServiceDTO) => {
+  const handleEditService = (data: ServiceDTO) => {
+    console.log(data);
     updateServiceMutation.mutate({
       serviceId: selectedService!.id,
       service: data,
+    }, {
+      onSuccess: () => {
+        setSelectedService(null);
+        setEditModalOpen(false);
+      }
     });
-    setSelectedService(null);
-    setEditModalOpen(false);
   };
 
   const handleCreateService = (data: ServiceDTO) => {
-    createServiceMutation.mutate({service: data});
-    setCreateModalOpen(false);
+    createServiceMutation.mutate({service: data}, {
+      onSuccess: () => setCreateModalOpen(false)
+    });
   };
 
   return (
     <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} gap={2}>
       <WelcomeServiceSection onCreateService={() => setCreateModalOpen(true)}/>
       <ServiceList
-        handleViewStaff={handleViewEmployees}
-        handleUpdateService={handleShowEditModal}
+        handleViewStaff={(service) => {
+          setSelectedService(service);
+          setShowStaff(true);
+        }}
+        handleUpdateService={(service) => {
+          setSelectedService(service);
+          setShowStaff(false);
+          setEditModalOpen(true);
+        }}
         handleDeleteService={handleDeleteService}
       />
       {selectedService && showStaff && (
@@ -105,7 +109,7 @@ const AdminServiceDashboard = () => {
             availability: selectedService.availability,
             workSpaceName: selectedService.workSpace.name,
           }}
-          onSubmit={handleEditSubmit}
+          onSubmit={handleEditService}
         />
       )}
       <CreateServiceModal

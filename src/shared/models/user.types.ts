@@ -21,6 +21,7 @@ export interface StaffDetails {
   profit: number;
   completedAppointments: number;
   startDate: Date,
+  isAvailable: boolean;
   beginWorkingHour: DateTime;
   endWorkingHour: DateTime;
   serviceIds: number[];

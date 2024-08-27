@@ -31,7 +31,7 @@ const PaginatedUserSection = (
   const isXs = useMediaQuery('(max-width:600px)');
   const isLg = useMediaQuery('(max-width:1200px)');
 
-  const usersPerPage = isXs ? 1 : isLg ? 3 : 5;
+  const usersPerPage = isXs ? 1 : isLg ? 2 : 5;
 
   const {
     data,
@@ -47,7 +47,7 @@ const PaginatedUserSection = (
   return (
     <Box p={2} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} gap={3}>
       <Typography variant={"h5"} textAlign={"center"}>
-        {title}
+        {title} {data.totalElements}
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2} maxWidth={'1600px'}>
         {data?.content.map((user) => (

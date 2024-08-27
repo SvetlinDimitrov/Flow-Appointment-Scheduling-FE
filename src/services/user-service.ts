@@ -1,7 +1,12 @@
 import {axiosInstance} from '../utils/axios-config/axiosInstance';
 import Page from "../shared/models/api/shared/Page.ts";
 import {User, UserRole} from "../shared/models/user.types.ts";
-import {CreateUserRequest, UpdateUserAdminRequest, UpdateUserRequest} from "../shared/models/api/users.ts";
+import {
+  CreateUserRequest,
+  CreateUpdateUserAdminRequest,
+  UpdateUserRequest,
+  HireStaffRequest
+} from "../shared/models/api/users.ts";
 
 export const getAllUsers = async (page: number, size: number, userRole: UserRole): Promise<Page<User>> => {
   const response = await axiosInstance.get(`/users`, {
@@ -44,7 +49,12 @@ export const deleteUser = async (id: number) => {
   return response.status;
 };
 
-export const modifyStaff = async (id: number, modifyDto: UpdateUserAdminRequest): Promise<User> => {
+export const modifyStaff = async (id: number, modifyDto: CreateUpdateUserAdminRequest): Promise<User> => {
   const response = await axiosInstance.put(`/users/${id}/staff`, modifyDto);
+  return response.data;
+};
+
+export const hireStaff = async (hireDto: HireStaffRequest): Promise<User> => {
+  const response = await axiosInstance.post(`/users/hire`, hireDto);
   return response.data;
 };
