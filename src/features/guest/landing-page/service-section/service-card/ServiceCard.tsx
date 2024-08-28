@@ -14,6 +14,7 @@ const ServiceCard = ({image, alt, title, navigateTo}: ServiceCardProps) => {
   return (
     <Card sx={{
       width: '100%',
+      maxWidth: '450px',
     }}>
       <CardMedia
         component={"img"}

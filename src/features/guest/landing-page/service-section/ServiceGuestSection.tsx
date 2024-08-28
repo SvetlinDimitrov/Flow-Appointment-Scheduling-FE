@@ -1,38 +1,22 @@
 import ServiceCard from "./service-card/ServiceCard.tsx";
 import {styled} from "@mui/system";
-import {Box, Stack, Typography} from "@mui/material";
-
-const serviceCardsData = [
-  {
-    image: "/static/images/home/fitness_service.jpg",
-    alt: "Fitness Classes",
-    title: "Fitness Classes",
-    navigateTo: "/service/fitness-classes"
-  },
-  {
-    image: "/static/images/home/massage_service.jpeg",
-    alt: "Massage Therapy",
-    title: "Massage Therapy",
-    navigateTo: "/service/massage-therapy"
-  },
-  {
-    image: "/static/images/home/skin_treatment_service.jpg",
-    alt: "Skincare Treatments",
-    title: "Skincare Treatments",
-    navigateTo: "/service/skincare-treatments"
-  }
-];
+import {Box, CircularProgress, Pagination, Stack, Typography, useMediaQuery} from "@mui/material";
+import usePaginatedQuery from "../../../../hooks/custom/usePaginatedQuery.ts";
+import {Service} from "../../../../shared/models/service.types.ts";
+import useGetAllServicesQuery from "../../../../hooks/services/query/useGetAllServicesQuery.ts";
+import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
+import {useEffect} from "react";
 
 const MainWrapper = styled(Stack)(({theme}) => ({
   display: 'flex',
   flexDirection: 'column',
   textAlign: 'center',
   justifyContent: 'center',
-  alignItems: 'center',
   gap: theme.spacing(5),
   padding: theme.spacing(2),
   marginTop: theme.spacing(5),
   marginBottom: theme.spacing(5),
+  minHeight: '80vh',
 }));
 
 const CardsHolder = styled(Box)(({theme}) => ({
@@ -43,9 +27,28 @@ const CardsHolder = styled(Box)(({theme}) => ({
   },
   justifyContent: 'center',
   gap: theme.spacing(5),
+  alignItems: 'center',
 }));
 
 const ServiceGuestSection = () => {
+  const isXs = useMediaQuery('(max-width:1200px)');
+  const servicesPerPage = isXs ? 1 : 3;
+
+  const {
+    data,
+    isLoading,
+    error,
+    page,
+    handlePageChange,
+    refetch
+  } = usePaginatedQuery<Service>(useGetAllServicesQuery, 0, servicesPerPage);
+
+  useEffect(() => {
+    refetch();
+  }, [servicesPerPage, refetch]);
+
+  if (error) return <PageNotFound/>;
+
   return (
     <MainWrapper>
       <Typography variant={"h4"} fontWeight={'bold'} fontSize={'2.5rem'} color={'#333'}>
@@ -55,17 +58,36 @@ const ServiceGuestSection = () => {
         We offer a variety of services to cater to your wellness needs, from fitness classes to massage therapy and
         skincare treatments.
       </Typography>
+
+      {isLoading &&
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="540px">
+          <CircularProgress/>
+        </Box>
+      }
+      {!isLoading && data && <>
       <CardsHolder>
-        {serviceCardsData.map((card, index) => (
+        {data.content.map((service, index) => (
           <ServiceCard
             key={index}
-            image={card.image}
-            alt={card.alt}
-            title={card.title}
-            navigateTo={card.navigateTo}
+            image={"/static/images/no-picture-found.jpg"}
+            alt={service.name}
+            title={service.name}
+            navigateTo={`/service/${service.id}`}
           />
         ))}
       </CardsHolder>
+        <Box display="flex" justifyContent="center" mt={2}>
+          <Pagination
+            count={data.totalPages}
+            page={page + 1}
+            onChange={(_, value) => handlePageChange(value)}
+            color="primary"
+            boundaryCount={isXs ? 0 : 1}
+            siblingCount={isXs ? 0 : 1}
+          />
+        </Box>
+      </>
+      }
     </MainWrapper>
   );
 };

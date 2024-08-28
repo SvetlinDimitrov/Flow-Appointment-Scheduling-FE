@@ -1,5 +1,4 @@
-import {Box, Button} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
+import {Box} from '@mui/material';
 import {styled} from "@mui/system";
 import {CoreHeader} from "../../../../shared/styles/headers.ts";
 import {CoreSubHeader} from "../../../../shared/styles/subHeaders.ts";
@@ -35,7 +34,6 @@ const MainBox = styled(Box)(({theme}) => ({
 }));
 
 const HeroSection = () => {
-  const navigate = useNavigate();
 
   return (
     <MainBox>
@@ -45,13 +43,6 @@ const HeroSection = () => {
       <CoreSubHeader variant={"h5"} gutterBottom>
         Book Appointments for Fitness, Spa, and Wellness Services with Ease
       </CoreSubHeader>
-      <Button
-        variant={"contained"}
-        color={"primary"}
-        onClick={() => navigate('/appointments')}
-      >
-        Book Now
-      </Button>
     </MainBox>
   );
 };

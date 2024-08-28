@@ -21,6 +21,7 @@ import AppointmentDetails from "./features/appointment/appointment-info/detailed
 import AdminOnly from "./shared/core/layouts/AdminOnly.tsx";
 import AdminServiceDashboard from "./features/admin/service-dashboard/AdminServiceDashboard.tsx";
 import AdminDashboardUsers from "./features/admin/user-dashboard/AdminDashboardUsers.tsx";
+import ServicePage from "./features/guest/service-id/ServiceIdPage.tsx";
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
           <Route element={<GuestOnly/>}>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
+            <Route path="/service/:id" element={<ServicePage/>} />
           </Route>
           <Route element={<AuthenticatedUser/>}>
             <Route path="/profile" element={<Profile/>}/>
