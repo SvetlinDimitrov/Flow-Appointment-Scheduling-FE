@@ -1,6 +1,6 @@
 import {Route, Routes} from "react-router-dom";
 import Home from "./shared/core/home/Home.tsx";
-import GuestOnly from "./shared/core/layouts/GuestOnly.tsx";
+import GuestRoutes from "./shared/core/layouts/GuestRoutes.tsx";
 import Login from "./features/guest/login/Login.tsx";
 import Register from "./features/guest/register/Register.tsx";
 import PageNotFound from "./shared/core/not-found/PageNotFound.tsx";
@@ -18,10 +18,12 @@ import LeftSidebar from "./shared/core/side-bar/LeftSidebar.tsx";
 import AppointmentInfo from "./features/appointment/appointment-info/AppointmentInfo.tsx";
 import {Box} from "@mui/material";
 import AppointmentDetails from "./features/appointment/appointment-info/detailed-appointment/AppointmentDetails.tsx";
-import AdminOnly from "./shared/core/layouts/AdminOnly.tsx";
+import AdminRoutes from "./shared/core/layouts/AdminRoutes.tsx";
 import AdminServiceDashboard from "./features/admin/service-dashboard/AdminServiceDashboard.tsx";
 import AdminDashboardUsers from "./features/admin/user-dashboard/AdminDashboardUsers.tsx";
 import ServicePage from "./features/guest/service-id/ServiceIdPage.tsx";
+import StaffRoutes from "./shared/core/layouts/StaffRoutes.tsx";
+import ClientRoutes from "./shared/core/layouts/ClientRoutes.tsx";
 
 function App() {
 
@@ -39,21 +41,29 @@ function App() {
       <Box flexGrow={1}>
         <Routes>
           <Route path="/" element={<Home/>}/>
-          <Route element={<AdminOnly/>}>
-            <Route path="/admin/services" element={<AdminServiceDashboard/>}/>
-            <Route path="/admin/users" element={<AdminDashboardUsers/>}/>
-          </Route>
           <Route path="/about-us" element={<AboutUs/>}/>
           <Route path="/contact-us" element={<ContactUs/>}/>
-          <Route element={<GuestOnly/>}>
+          <Route element={<GuestRoutes/>}>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/service/:id" element={<ServicePage/>} />
           </Route>
           <Route element={<AuthenticatedUser/>}>
-            <Route path="/profile" element={<Profile/>}/>
-            <Route path="/appointments" element={<AppointmentInfo/>}/>
-            <Route path="/appointments/:id" element={<AppointmentDetails/>}/>
+            <Route element={<AdminRoutes/>}>
+              <Route path="/admin/services" element={<AdminServiceDashboard/>}/>
+              <Route path="/admin/users" element={<AdminDashboardUsers/>}/>
+              <Route path="/admin/profile" element={<Profile/>}/>
+            </Route>
+            <Route element={<StaffRoutes/>}>
+              <Route path="/staff/profile" element={<Profile/>}/>
+              <Route path="/staff/appointments" element={<AppointmentInfo/>}/>
+              <Route path="/staff/appointments/:id" element={<AppointmentDetails/>}/>
+            </Route>
+            <Route element={<ClientRoutes/>}>
+              <Route path="/profile" element={<Profile/>}/>
+              <Route path="/appointments" element={<AppointmentInfo/>}/>
+              <Route path="/appointments/:id" element={<AppointmentDetails/>}/>
+            </Route>
           </Route>
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>

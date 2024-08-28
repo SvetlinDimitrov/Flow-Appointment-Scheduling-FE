@@ -2,7 +2,7 @@ import {Navigate, Outlet} from "react-router-dom";
 import {useContext} from "react";
 import {UserAuthContext} from "../../context/UserAuthContext.tsx";
 
-const GuestOnly = () => {
+const GuestRoutes = () => {
   const {isUserAuthenticated} = useContext(UserAuthContext)!;
 
   if (isUserAuthenticated()) {
@@ -12,4 +12,4 @@ const GuestOnly = () => {
   return <Outlet/>;
 };
 
-export default GuestOnly;
+export default GuestRoutes;
