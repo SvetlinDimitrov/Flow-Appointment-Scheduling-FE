@@ -9,19 +9,19 @@ const teamMembers = [
     name: "Jane Doe",
     role: "Lead Massage Therapist",
     description: "With over 10 years of experience, Jane specializes in deep tissue and sports massage, helping clients achieve optimal muscle recovery and relaxation.",
-    imageSrc: "/static/images/about-us/male_user_icon.webp"
+    imageSrc: "/static/images/about_us/male_user_icon.webp"
   },
   {
     name: "John Smith",
     role: "Fitness Instructor",
     description: "John is a certified fitness instructor with a passion for helping clients achieve their fitness goals through personalized training programs.",
-    imageSrc: "/static/images/about-us/male_user_icon.webp"
+    imageSrc: "/static/images/about_us/male_user_icon.webp"
   },
   {
     name: "Emily Johnson",
     role: "Yoga Instructor",
     description: "Emily is a dedicated yoga instructor who specializes in Vinyasa and Hatha yoga, helping clients find balance and peace through mindful practice.",
-    imageSrc: "/static/images/about-us/female_user_icon.png"
+    imageSrc: "/static/images/about_us/female_user_icon.png"
   }
 ];
 

@@ -84,7 +84,7 @@ const ContactUs = () => {
       </SharedSubHeader>
       <SecondWrapper>
         <MapWrapper>
-          <MapComponent position={position}/>
+          <MapComponent position={position} style={{height: '350px', width: '500px'}}/>
         </MapWrapper>
         <FormWrapper>
           <ContactForm/>

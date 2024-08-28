@@ -6,17 +6,17 @@ import {CoreSubHeader as SharedSubHeader} from "../../../../shared/styles/subHea
 
 const missionValues = [
   {
-    iconSrc: "/static/images/about-us/quality_icon.jpg",
+    iconSrc: "/static/images/about_us/quality_icon.jpg",
     title: "Quality",
     description: "We deliver exceptional service using the finest techniques and products."
   },
   {
-    iconSrc: "/static/images/about-us/integrity_icon.jpg",
+    iconSrc: "/static/images/about_us/integrity_icon.jpg",
     title: "Integrity",
     description: "We operate with honesty, transparency, and a deep respect for our clients."
   },
   {
-    iconSrc: "/static/images/about-us/innovation_icon.jpeg",
+    iconSrc: "/static/images/about_us/innovation_icon.jpeg",
     title: "Innovation",
     description: "We continually evolve to bring the latest trends and innovations in wellness."
   }
