@@ -10,33 +10,39 @@ import {useConfirmationModal} from "../../context/ConfirmationModalContext.tsx";
 
 const LeftSidebar = () => {
   const {logout, isUserAuthenticated, role} = useContext(UserAuthContext)!;
-
   const location = useLocation();
-
   const theme = useTheme();
-
   const [isOpen, setIsOpen] = useState(false);
-
   const {openModal, closeModal} = useConfirmationModal();
 
   const isActive = (path: string) => location.pathname === path;
-
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleDrawer = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
-
     const onConfirm = () => {
       logout();
       toggleDrawer();
       closeModal();
     };
-
     openModal("Logout", "Are you sure you want to logout?", onConfirm);
   };
 
+  const getPathsByRole = () => {
+    switch (role) {
+      case UserRole.ADMINISTRATOR:
+        return paths.adminPaths;
+      case UserRole.CLIENT:
+        return paths.clientPaths;
+      case UserRole.EMPLOYEE:
+        return paths.staffPaths;
+      default:
+        return [];
+    }
+  };
+
   if (!isUserAuthenticated()) return null;
+
+  const userPaths = getPathsByRole();
 
   return (
     <Box>
@@ -75,7 +81,7 @@ const LeftSidebar = () => {
       >
         <Box width={'140px'} p={2} display={'flex'} flexDirection={'column'} gap={2}>
           <Typography variant="h6" component="h6" fontWeight={'bold'}>Sidebar</Typography>
-          {paths.userPaths.map((path, index) => (
+          {userPaths.map((path, index) => (
             <Link
               style={{textDecoration: 'none', color: 'blue'}}
               key={index}
@@ -93,29 +99,6 @@ const LeftSidebar = () => {
               </Typography>
             </Link>
           ))}
-          {role === UserRole.ADMINISTRATOR && (
-            <Box width={'140px'} display={'flex'} flexDirection={'column'} gap={2}>
-              <Typography variant="h6" component="h6" fontWeight={'bold'}>Admin Panel</Typography>
-              {paths.adminPaths.map((path, index) => (
-                <Link
-                  style={{textDecoration: 'none', color: 'blue'}}
-                  key={index}
-                  to={Object.values(path)[0]}
-                  onClick={toggleDrawer}
-                >
-                  <Typography
-                    fontFamily={theme.typography.fontFamily}
-                    fontSize={theme.typography.body1.fontSize}
-                    fontWeight={'bolder'}
-                    color={isActive(Object.values(path)[0]) ? 'secondary' : 'primary'}
-                    variant="body1"
-                  >
-                    {Object.keys(path)[0]}
-                  </Typography>
-                </Link>
-              ))}
-            </Box>
-          )}
           <Typography
             variant="body1"
             fontFamily={theme.typography.fontFamily}

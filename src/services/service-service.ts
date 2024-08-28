@@ -47,4 +47,15 @@ export const deleteService = async (id: number) => {
 // This is a list of available workSpaces in my DB .
 // If provide something else in here it will not be accepted
 // In the feature i will change this to be fetched from the backend, just for now i want to keep it simple
-export const availableServices = ['Gym', 'Spa', 'Clinic'];
+export const availableServices = [
+  'Flow Building A - Floor 1',
+  'Flow Building A - Floor 2',
+  'Flow Building B - Floor 1',
+  'Flow Building B - Floor 2',
+  'Flow Building C - Floor 1',
+  'Flow Building C - Floor 2',
+  'Flow Building D - Floor 1',
+  'Flow Building D - Floor 2',
+  'Flow Building E - Floor 1',
+  'Flow Building E - Floor 2',
+];

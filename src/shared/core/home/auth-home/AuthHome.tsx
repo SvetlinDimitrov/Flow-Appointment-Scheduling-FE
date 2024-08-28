@@ -4,19 +4,28 @@ import ServiceList from "../../../../features/service/service-list/ServiceList.t
 import StaffList from "../../../../features/users/staff-list/StaffList.tsx";
 import {useContext, useState} from "react";
 import {Service} from "../../../models/service.types.ts";
-import {getAllUsersByServiceId} from "../../../../services/user-service.ts";
 import useGetUserQuery from "../../../../hooks/users/query/useGetUserQuery.ts";
 import {UserAuthContext} from "../../../context/UserAuthContext.tsx";
 import LoadingSpinner from "../../loading/LoadingSpinner.tsx";
 import PageNotFound from "../../not-found/PageNotFound.tsx";
+import {UserRole} from "../../../models/user.types.ts";
+import {useNavigate} from "react-router-dom";
 
 const AuthHome = () => {
 
-  const {userId} = useContext(UserAuthContext)!;
+  const navigate = useNavigate();
+
+  const {userId, role} = useContext(UserAuthContext)!;
 
   const [selectedService, setSelectedService] = useState<Service | null>(null);
 
   if (!userId) return <PageNotFound/>;
+
+  if (role === UserRole.ADMINISTRATOR) {
+    navigate('/admin/services');
+  } else if (role === UserRole.EMPLOYEE) {
+    navigate('/staff/appointments');
+  }
 
   const {data, isLoading, error} = useGetUserQuery(userId);
 
@@ -40,7 +49,6 @@ const AuthHome = () => {
         handleDeleteService={null}/>
       {selectedService &&
         <StaffList
-          fetchUsersByServiceId={getAllUsersByServiceId}
           selectedService={selectedService}
           handleBookWithStaff={handleBookWithStaff}
           handleDeleteEmployeeFromService={null}
