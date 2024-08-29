@@ -2,7 +2,7 @@ import {Box} from "@mui/material";
 import WelcomeSection from "./welcome_section/WelcomeSection.tsx";
 import ServiceList from "../../../../features/service/service-list/ServiceList.tsx";
 import StaffList from "../../../../features/users/staff-list/StaffList.tsx";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {Service} from "../../../models/service.types.ts";
 import useGetUserQuery from "../../../../hooks/users/query/useGetUserQuery.ts";
 import {UserAuthContext} from "../../../context/UserAuthContext.tsx";
@@ -21,11 +21,13 @@ const AuthHome = () => {
 
   if (!userId) return <PageNotFound/>;
 
-  if (role === UserRole.ADMINISTRATOR) {
-    navigate('/admin/services');
-  } else if (role === UserRole.EMPLOYEE) {
-    navigate('/staff/appointments');
-  }
+  useEffect(() => {
+    if (role === UserRole.ADMINISTRATOR) {
+      navigate('/admin/services');
+    } else if (role === UserRole.EMPLOYEE) {
+      navigate('/staff/appointments');
+    }
+  }, [role, navigate]);
 
   const {data, isLoading, error} = useGetUserQuery(userId);
 
