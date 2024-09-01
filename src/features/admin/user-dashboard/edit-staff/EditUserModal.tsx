@@ -1,4 +1,3 @@
-import {FC} from 'react';
 import {
   Button,
   Checkbox,
@@ -25,7 +24,7 @@ interface EditUserModalProps {
 
 const schema = staffDetailsCreateUpdateValidation;
 
-const EditUserModal: FC<EditUserModalProps> = ({open, onClose, onSave, initialData}) => {
+const EditUserModal = ({open, onClose, onSave, initialData} : EditUserModalProps) => {
 
   const {register, handleSubmit, formState: {errors}} = useForm<CreateUpdateUserAdminRequest>({
     defaultValues: initialData,
