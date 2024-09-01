@@ -26,8 +26,17 @@ const schema = staffDetailsCreateUpdateValidation;
 
 const EditUserModal = ({open, onClose, onSave, initialData} : EditUserModalProps) => {
 
+  const formatTime = (time: string) => {
+    const [hour, minute] = time.split(':').map(Number);
+    return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+  };
+
   const {register, handleSubmit, formState: {errors}} = useForm<CreateUpdateUserAdminRequest>({
-    defaultValues: initialData,
+    defaultValues: {
+      ...initialData,
+      beginWorkingHour: formatTime(initialData.beginWorkingHour),
+      endWorkingHour: formatTime(initialData.endWorkingHour),
+    },
     resolver: zodResolver(schema),
   });
 
