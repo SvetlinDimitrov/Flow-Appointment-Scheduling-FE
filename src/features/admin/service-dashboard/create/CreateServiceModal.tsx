@@ -15,10 +15,10 @@ import {
   TextField
 } from "@mui/material";
 import {useForm} from "react-hook-form";
-import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ServiceDTO} from "../../../../shared/models/api/services.ts";
 import {availableServices} from "../../../../services/service-service.ts";
+import {serviceCreateUpdateValidations} from "../../../../shared/validation/services.validations.ts";
 
 interface CreateServiceModalProps {
   open: boolean;
@@ -26,14 +26,7 @@ interface CreateServiceModalProps {
   onSubmit: (data: ServiceDTO) => void;
 }
 
-const serviceSchema = z.object({
-  name: z.string().min(3, "Name is required and must be at least 3 chars"),
-  description: z.string().min(1, "Description is required"),
-  duration: z.number().min(1, "Duration must be greater than 0"),
-  price: z.number().min(1, "Price must be a positive number"),
-  availability: z.boolean(),
-  workSpaceName: z.string().min(1, "Workspace Name is required"),
-});
+const serviceSchema = serviceCreateUpdateValidations;
 
 const CreateServiceModal = ({open, onClose, onSubmit}: CreateServiceModalProps) => {
   const { register, handleSubmit, formState: { errors }, setValue , reset } = useForm<ServiceDTO>({
@@ -45,8 +38,13 @@ const CreateServiceModal = ({open, onClose, onSubmit}: CreateServiceModalProps) 
     reset();
   };
 
+  const handleClose = () => {
+    onClose();
+    reset();
+  };
+
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Create New Service</DialogTitle>
       <form onSubmit={handleSubmit(onSubmitForm)}>
         <DialogContent>

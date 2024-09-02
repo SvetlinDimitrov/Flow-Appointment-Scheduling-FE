@@ -1,3 +1,5 @@
+import {UserRole} from "../user.types.ts";
+
 export interface CreateUserRequest {
   firstName: string;
   lastName: string;
@@ -10,14 +12,15 @@ export interface UpdateUserRequest {
   lastName: string;
 }
 
-export interface UpdateUserAdminRequest {
-  firstName: string;
-  lastName: string;
-  role: UserRole;
+export interface CreateUpdateUserAdminRequest {
+  userRole: UserRole;
+  salary: number;
+  isAvailable: boolean;
+  beginWorkingHour: string; // LocalDate in format YYYY-MM-DD
+  endWorkingHour: string; // LocalDate in format YYYY-MM-DD
 }
 
-export enum UserRole {
-  ADMINISTRATOR = "ADMINISTRATOR",
-  EMPLOYEE = "EMPLOYEE",
-  CLIENT = "CLIENT"
+export interface HireStaffRequest {
+  userInfo: CreateUserRequest;
+  staffDetailsDto: CreateUpdateUserAdminRequest;
 }

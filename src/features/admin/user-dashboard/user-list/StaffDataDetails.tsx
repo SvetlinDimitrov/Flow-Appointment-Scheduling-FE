@@ -1,14 +1,20 @@
 import {Box, Typography, useTheme} from '@mui/material';
 import {StaffDetails} from "../../../../shared/models/user.types.ts";
+import {DateTime} from "luxon";
 
 interface EmployeeDataDetailsProps {
   staffData: StaffDetails;
 }
 
+const experienceYears = (startDate: Date) => {
+  if (!(startDate instanceof Date) || isNaN(startDate.getTime())) {
+    return '0';
+  }
+  return DateTime.now().diff(DateTime.fromJSDate(startDate), 'years').years.toFixed(0);
+}
+
 const StaffDataDetails = ({staffData}: EmployeeDataDetailsProps) => {
   const theme = useTheme();
-
-  console.log(staffData.beginWorkingHour)
 
   return (
     <Box mt={2} p={2} border={`1px solid ${theme.palette.divider}`} borderRadius={2} bgcolor={theme.palette.background.paper}>
@@ -19,7 +25,7 @@ const StaffDataDetails = ({staffData}: EmployeeDataDetailsProps) => {
       <Typography variant={"body2"} fontWeight="bold">Completed Appointments: <span
         style={{fontWeight: 'normal'}}>{staffData.completedAppointments}</span></Typography>
       <Typography variant={"body2"} fontWeight="bold">Experience: <span
-        style={{fontWeight: 'normal'}}>{staffData.experience} years</span></Typography>
+        style={{fontWeight: 'normal'}}>{experienceYears(staffData.startDate)} years</span></Typography>
       <Typography variant={"body2"} fontWeight="bold">Working Hours: <span
         style={{fontWeight: 'normal'}}>{staffData.beginWorkingHour.toString()} - {staffData.endWorkingHour.toString()}</span></Typography>
     </Box>

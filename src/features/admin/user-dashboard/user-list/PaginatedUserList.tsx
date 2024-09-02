@@ -1,4 +1,4 @@
-import {Box, Button, Card, CardContent, Typography, useMediaQuery} from '@mui/material';
+import {Box, Card, CardContent, Pagination, Typography, useMediaQuery} from '@mui/material';
 import {User, UserRole} from "../../../../shared/models/user.types.ts";
 import UserActions from "./UserActions.tsx";
 import StaffDataDetails from "./StaffDataDetails.tsx";
@@ -31,15 +31,14 @@ const PaginatedUserSection = (
   const isXs = useMediaQuery('(max-width:600px)');
   const isLg = useMediaQuery('(max-width:1200px)');
 
-  const usersPerPage = isXs ? 1 : isLg ? 3 : 5;
+  const usersPerPage = isXs ? 1 : isLg ? 2 : 5;
 
   const {
     data,
     isLoading,
     error,
     page,
-    handleNextPage,
-    handlePreviousPage,
+    handlePageChange
   } = usePaginatedQuery<User>(useGetUsers, 0, usersPerPage, userRole);
 
   if (isLoading) return <LoadingSpinner/>;
@@ -48,7 +47,7 @@ const PaginatedUserSection = (
   return (
     <Box p={2} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} gap={3}>
       <Typography variant={"h5"} textAlign={"center"}>
-        {title}
+        {title} {data.totalElements}
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2} maxWidth={'1600px'}>
         {data?.content.map((user) => (
@@ -76,16 +75,13 @@ const PaginatedUserSection = (
           </Card>
         ))}
       </Box>
-      <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mt={2}>
-        <Button onClick={handlePreviousPage} disabled={page === 0}>
-          Previous
-        </Button>
-        <Typography variant={"body2"}>
-          {page + 1} / {data.totalPages}
-        </Typography>
-        <Button onClick={handleNextPage} disabled={page >= data.totalPages - 1}>
-          Next
-        </Button>
+      <Box display="flex" justifyContent="center" mt={2}>
+        <Pagination
+          count={data.totalPages}
+          page={page + 1}
+          onChange={(_, value) => handlePageChange(value)}
+          color="primary"
+        />
       </Box>
     </Box>
   );

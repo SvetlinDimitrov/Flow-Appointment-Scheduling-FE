@@ -1,6 +1,10 @@
-import { Box, Button, Typography } from "@mui/material";
+import {Box, Button, Typography} from "@mui/material";
 
-const WelcomeServiceSection = ({ onCreateService }: { onCreateService: () => void }) => {
+interface WelcomeServiceSectionProps {
+  onCreateService: () => void;
+}
+
+const WelcomeServiceSection = ({onCreateService}: WelcomeServiceSectionProps) => {
   return (
     <Box textAlign={'center'} mt={4} p={2} display={'flex'}
          flexDirection={'column'} justifyContent={'center'} gap={2}>

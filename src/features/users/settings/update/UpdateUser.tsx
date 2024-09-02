@@ -1,4 +1,3 @@
-import React from 'react';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, SxProps, TextField} from '@mui/material';
 import {User} from "../../../../shared/models/user.types.ts";
@@ -33,7 +32,7 @@ interface FormInputs {
   lastName: string;
 }
 
-const UpdateUser: React.FC<UpdateUserProps> = ({ open, onClose, onSubmit , data}) => {
+const UpdateUser = ({ open, onClose, onSubmit , data} : UpdateUserProps) => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>({
     defaultValues: {
       firstName: data.firstName,
