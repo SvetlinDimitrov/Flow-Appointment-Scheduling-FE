@@ -13,6 +13,15 @@ import {createTheme, ThemeProvider} from "@mui/material";
 import {ConfirmationModalProvider} from "./shared/context/ConfirmationModalContext.tsx";
 
 let theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
   typography: {
     fontFamily: 'Arial, sans-serif',
     body1: {
