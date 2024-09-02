@@ -1,4 +1,4 @@
-import {Box, Pagination, Typography, useMediaQuery} from "@mui/material";
+import {Box, Pagination, Typography, useMediaQuery, useTheme} from "@mui/material";
 import StaffCard from "./staff-card/StaffCard.tsx";
 import {User} from "../../../shared/models/user.types.ts";
 import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
@@ -19,8 +19,10 @@ const StaffList = (
     handleDeleteEmployeeFromService,
     handleBookWithStaff
   }: StaffListProps) => {
-  const isXs = useMediaQuery('(max-width:600px)');
-  const isLg = useMediaQuery('(max-width:1200px)');
+  const theme = useTheme();
+
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+  const isLg = useMediaQuery(theme.breakpoints.down('lg'));
 
   const employeesPerPage = isXs ? 1 : isLg ? 6 : 10;
 

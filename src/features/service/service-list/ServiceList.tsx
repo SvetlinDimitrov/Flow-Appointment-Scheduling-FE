@@ -1,4 +1,4 @@
-import {Box, Pagination, Typography, useMediaQuery} from "@mui/material";
+import {Box, Pagination, Typography, useMediaQuery, useTheme} from "@mui/material";
 import ServiceCard from "./service-card/ServiceCard.tsx";
 import {Service} from "../../../shared/models/service.types.ts";
 import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
@@ -18,7 +18,10 @@ const ServiceList = (
     handleDeleteService,
     handleViewStaff,
   }: ServiceListProps) => {
-  const isXs = useMediaQuery('(max-width:600px)');
+  const theme = useTheme();
+
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+
   const servicesPerPage = isXs ? 1 : 4;
 
   const {
