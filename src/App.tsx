@@ -14,7 +14,6 @@ import Profile from "./features/users/settings/Profile.tsx";
 import AboutUs from "./features/guest/about-us/AboutUs.tsx";
 import {UserAuthContext} from "./shared/context/UserAuthContext.tsx";
 import ContactUs from "./features/guest/contact-us/ContactUs.tsx";
-import LeftSidebar from "./shared/core/side-bar/LeftSidebar.tsx";
 import AppointmentInfo from "./features/appointment/appointment-info/AppointmentInfo.tsx";
 import {Box} from "@mui/material";
 import AppointmentDetails from "./features/appointment/appointment-info/detailed-appointment/AppointmentDetails.tsx";
@@ -36,7 +35,6 @@ function App() {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh" minWidth={"280px"}>
       <Header/>
-      <LeftSidebar/>
       <LoadingSpinner/>
       <Box flexGrow={1}>
         <Routes>

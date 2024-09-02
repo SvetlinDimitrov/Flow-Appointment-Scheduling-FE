@@ -10,7 +10,7 @@ export const paths = {
   adminPaths: [
     { 'Services': '/admin/services' },
     {'Users': '/admin/users'},
-    {'Profile': '/admin/profile'}
+    {'Profile': '/profile'}
   ],
   clientPaths: [
     {'Home': '/'},
@@ -18,7 +18,7 @@ export const paths = {
     {'Appointments': '/appointments'},
   ],
   staffPaths: [
-    {'Profile': '/staff/profile'},
+    {'Profile': '/profile'},
     {'Appointments': '/staff/appointments'}
   ]
 };
