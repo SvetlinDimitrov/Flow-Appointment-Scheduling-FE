@@ -1,6 +1,6 @@
 import {Box, Pagination, Typography, useMediaQuery} from "@mui/material";
 import StaffCard from "./staff-card/StaffCard.tsx";
-import {AdminStaffCardProps, User, UserStaffCardProps} from "../../../shared/models/user.types.ts";
+import {User} from "../../../shared/models/user.types.ts";
 import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
 import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
@@ -44,21 +44,20 @@ const StaffList = (
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}
       maxWidth={'1200px'}>
         {data.content.map((employee) => {
-          if (handleDeleteEmployeeFromService) {
-            const adminProps: AdminStaffCardProps = {
-              employee,
-              handleDeleteEmployeeFromService: () => handleDeleteEmployeeFromService!(employee.email, selectedService.id)
-            };
-            return <StaffCard key={employee.id} {...adminProps} />;
-          } else if (handleBookWithStaff) {
-            const userProps: UserStaffCardProps = {
-              employee,
-              handleBookWithStaff: () => handleBookWithStaff!(employee.email, selectedService.id)
-            };
-            return <StaffCard key={employee.id} {...userProps} />;
-          } else {
-            return null;
-          }
+          return (
+            <StaffCard
+              key={employee.id}
+              employee={employee}
+              handleDeleteEmployeeFromService={
+                handleDeleteEmployeeFromService ?
+                  () => handleDeleteEmployeeFromService(employee.email, selectedService.id) : undefined
+              }
+              handleBookWithStaff={
+                handleBookWithStaff ?
+                  () => handleBookWithStaff(employee.email, selectedService.id) : undefined
+              }
+            />
+          );
         })}
       </Box>
       <Box display="flex" justifyContent="center" mt={2}>

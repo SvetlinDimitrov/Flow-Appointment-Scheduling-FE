@@ -1,6 +1,6 @@
 import {Box, Pagination, Typography, useMediaQuery} from "@mui/material";
 import ServiceCard from "./service-card/ServiceCard.tsx";
-import {AdminServiceProps, Service, ServiceProps} from "../../../shared/models/service.types.ts";
+import {Service} from "../../../shared/models/service.types.ts";
 import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
 import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
@@ -38,20 +38,17 @@ const ServiceList = (
         Explore Our Services
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}>
-        {data.content.map((service, index) => {
-          const serviceProps: ServiceProps | AdminServiceProps = {
-            handleViewEmployees: () => handleViewStaff(service),
-          };
-
-          if (handleUpdateService && handleDeleteService) {
-            (serviceProps as AdminServiceProps).handleUpdateService = () => handleUpdateService(service);
-            (serviceProps as AdminServiceProps).handleDeleteService = () => handleDeleteService(service);
-          }
-
-          return (
-            <ServiceCard key={index} selectedService={service} serviceContextProps={serviceProps}/>
-          );
-        })}
+        {data.content.map((service, index) => (
+          <ServiceCard
+            key={index}
+            selectedService={service}
+            functionalities={{
+              handleDeleteService: handleDeleteService ? () => handleDeleteService(service) : undefined,
+              handleUpdateService: handleUpdateService ? () => handleUpdateService(service) : undefined,
+              handleViewEmployees: () => handleViewStaff(service),
+            }}
+          />
+        ))}
       </Box>
       <Box display="flex" justifyContent="center" mt={2}>
         <Pagination

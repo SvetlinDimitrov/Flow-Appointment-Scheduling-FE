@@ -1,4 +1,3 @@
-import {ServiceWithUsers} from "./service.types.ts";
 import {DateTime} from 'luxon';
 
 export enum UserRole {
@@ -25,16 +24,4 @@ export interface StaffDetails {
   beginWorkingHour: DateTime;
   endWorkingHour: DateTime;
   serviceIds: number[];
-}
-
-export interface StaffCardProps {
-  employee: ServiceWithUsers["employees"][0];
-}
-
-export interface AdminStaffCardProps extends StaffCardProps {
-  handleDeleteEmployeeFromService: () => void;
-}
-
-export interface UserStaffCardProps extends StaffCardProps {
-  handleBookWithStaff: () => void;
 }

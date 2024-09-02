@@ -3,61 +3,59 @@ import UserCardActions from "./user/UserCardActions.tsx";
 import AdminCardActions from "./admin/AdminCardActions.tsx";
 import UserServiceDetailsTable from "./user/UserServiceDetailsTable.tsx";
 import AdminServiceDetailsTable from "./admin/AdminServiceDetailsTable.tsx";
-import {AdminServiceProps, Service, ServiceProps} from "../../../../shared/models/service.types.ts";
-import {ReactNode} from "react";
+import {Service} from "../../../../shared/models/service.types.ts";
 
 interface ServiceCardProps {
   selectedService: Service;
-  serviceContextProps: ServiceProps;
+  functionalities: {
+    handleViewEmployees: () => void;
+    handleDeleteService?: () => void;
+    handleUpdateService?: () => void;
+  };
 }
 
-function isAdminServiceProps(props: ServiceProps | AdminServiceProps): props is AdminServiceProps {
-  return 'handleDeleteService' in props && 'handleUpdateService' in props;
-}
+/*
+  If handleDeleteService and handleUpdateService are defined, then the user is an admin.
+  I was not able to put this (handleDeleteService !== undefined && handleUpdateService !== undefined)
+  in function or in a const because typescript stills complains about the type that it can be undefined.
+*/
 
-const renderCardContent = (selectedService: Service, table: ReactNode, actions: ReactNode) => (
-  <Box>
-    <Card sx={{maxWidth: 345, margin: "auto", boxShadow: 3}}>
-      <CardContent>
-        <Typography variant={"h6"} fontWeight={'bold'} textAlign={'center'}>
-          {selectedService.name}
-        </Typography>
-        <Typography
-          variant={"body2"} maxWidth={300} margin={"auto"} textAlign={"center"}
-          color={"gray"} fontStyle={"italic"} marginTop={1}
-        >
-          {selectedService.description}
-        </Typography>
-        <TableContainer component={Paper} sx={{marginTop: 2}}>
-          <Table>
-            {table}
-          </Table>
-        </TableContainer>
-      </CardContent>
-      {actions}
-    </Card>
-  </Box>
-);
+const ServiceCard = ({selectedService, functionalities}: ServiceCardProps) => {
+  const {handleViewEmployees, handleDeleteService, handleUpdateService} = functionalities;
 
-const ServiceCard = ({selectedService, serviceContextProps}: ServiceCardProps) => {
-  if (isAdminServiceProps(serviceContextProps)) {
-    const {handleDeleteService, handleUpdateService, handleViewEmployees} =
-      serviceContextProps as AdminServiceProps;
-    return renderCardContent(
-      selectedService,
-      <AdminServiceDetailsTable service={selectedService}/>,
-      <AdminCardActions handleDelete={handleDeleteService}
-                        handleEdit={handleUpdateService}
-                        handleOpen={handleViewEmployees}/>
-    );
-  } else {
-    const {handleViewEmployees} = serviceContextProps;
-    return renderCardContent(
-      selectedService,
-      <UserServiceDetailsTable service={selectedService}/>,
-      <UserCardActions handleOpen={handleViewEmployees}/>
-    );
-  }
+  return (
+    <Box>
+      <Card sx={{maxWidth: 345, margin: "auto", boxShadow: 3}}>
+        <CardContent>
+          <Typography variant={"h6"} fontWeight={'bold'} textAlign={'center'}>
+            {selectedService.name}
+          </Typography>
+          <Typography
+            variant={"body2"} maxWidth={300} margin={"auto"} textAlign={"center"}
+            color={"gray"} fontStyle={"italic"} marginTop={1}
+          >
+            {selectedService.description}
+          </Typography>
+          <TableContainer component={Paper} sx={{marginTop: 2}}>
+            <Table>
+              {handleDeleteService !== undefined && handleUpdateService !== undefined ? (
+                <AdminServiceDetailsTable service={selectedService}/>
+              ) : (
+                <UserServiceDetailsTable service={selectedService}/>
+              )}
+            </Table>
+          </TableContainer>
+        </CardContent>
+        {handleDeleteService !== undefined && handleUpdateService !== undefined ? (
+          <AdminCardActions handleDelete={handleDeleteService}
+                            handleEdit={handleUpdateService}
+                            handleOpen={handleViewEmployees}/>
+        ) : (
+          <UserCardActions handleOpen={handleViewEmployees}/>
+        )}
+      </Card>
+    </Box>
+  );
 };
 
 export default ServiceCard;
