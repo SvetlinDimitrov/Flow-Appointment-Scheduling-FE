@@ -1,11 +1,10 @@
 import { Box, Button, Typography } from '@mui/material';
-import { FC } from 'react';
 
 interface WelcomeUserSectionProps {
   onHireStaff: () => void;
 }
 
-const WelcomeUserSection: FC<WelcomeUserSectionProps> = ({ onHireStaff }) => {
+const WelcomeUserSection = ({ onHireStaff } : WelcomeUserSectionProps) => {
   return (
     <Box p={2} display="flex" flexDirection="column" alignItems="center" gap={2}>
       <Typography variant="h4" textAlign="center">

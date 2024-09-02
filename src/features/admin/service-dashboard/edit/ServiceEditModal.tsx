@@ -1,4 +1,3 @@
-import React from 'react';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {z} from 'zod';
@@ -31,7 +30,7 @@ interface ServiceEditModalProps {
   onSubmit: (data: ServiceFormInputs) => void;
 }
 
-const ServiceEditModal: React.FC<ServiceEditModalProps> = ({ open, onClose, service, onSubmit }) => {
+const ServiceEditModal = ({ open, onClose, service, onSubmit } : ServiceEditModalProps) => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ServiceFormInputs>({
     resolver: zodResolver(serviceSchema),
     defaultValues: {

@@ -1,4 +1,3 @@
-import {FC} from 'react';
 import {Box, Button, Modal, Pagination, Typography} from '@mui/material';
 import {Service} from '../../../../shared/models/service.types.ts';
 import usePaginatedQuery from '../../../../hooks/custom/usePaginatedQuery.ts';
@@ -14,7 +13,7 @@ interface AssignServiceModalProps {
   onAssign: (service: Service) => void;
 }
 
-const AssignServiceModal: FC<AssignServiceModalProps> = ({user, open, onClose, onAssign}) => {
+const AssignServiceModal = ({user, open, onClose, onAssign} : AssignServiceModalProps) => {
   const servicesPerPage = 2;
   const {
     data,

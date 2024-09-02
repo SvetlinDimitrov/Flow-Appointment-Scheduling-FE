@@ -17,11 +17,14 @@ export const nameValidation = z.string()
 export const emailValidation = z.string()
   .email('Invalid email address');
 
+// checks for HH:MM format
+const timeFormatRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
 export const staffDetailsCreateUpdateValidation = z.object({
   userRole: z.nativeEnum(UserRole),
   salary: z.coerce.number().min(0, "Salary must be a positive number"),
-  beginWorkingHour: z.string().min(1, "Begin Working Hour is required"),
-  endWorkingHour: z.string().min(1, "End Working Hour is required"),
+  beginWorkingHour: z.string().regex(timeFormatRegex, "Begin Working Hour are required."),
+  endWorkingHour: z.string().regex(timeFormatRegex, "End Working Hour are required."),
   isAvailable: z.boolean(),
 }).refine(data => {
   const [beginHour, beginMinute] = data.beginWorkingHour.split(':').map(Number);

@@ -1,4 +1,3 @@
-import {FC} from 'react';
 import {Box, Button, Checkbox, FormControlLabel, MenuItem, Modal, TextField, Typography} from '@mui/material';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -49,7 +48,7 @@ const schema = z.object({
   staffDetailsDto: staffDetailsCreateUpdateValidation
 });
 
-const HireStaffModal: FC<HireStaffModalProps> = ({open, onClose, onSubmit}) => {
+const HireStaffModal = ({open, onClose, onSubmit} : HireStaffModalProps) => {
   const {register, handleSubmit, formState: {errors} , reset} = useForm<HireStaffForm>({
     resolver: zodResolver(schema),
     defaultValues: {
