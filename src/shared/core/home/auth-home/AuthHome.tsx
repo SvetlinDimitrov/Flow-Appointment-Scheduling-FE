@@ -41,6 +41,7 @@ const AuthHome = () => {
 
   if (isLoading || !data) return <LoadingSpinner/>;
   if (error) return <PageNotFound/>;
+  if (role === UserRole.ADMINISTRATOR || role === UserRole.EMPLOYEE) return null;
 
   return (
     <Box>
