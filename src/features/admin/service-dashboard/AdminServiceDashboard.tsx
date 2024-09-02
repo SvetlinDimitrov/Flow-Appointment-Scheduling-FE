@@ -56,7 +56,6 @@ const AdminServiceDashboard = () => {
   };
 
   const handleEditService = (data: ServiceDTO) => {
-    console.log(data);
     updateServiceMutation.mutate({
       serviceId: selectedService!.id,
       service: data,

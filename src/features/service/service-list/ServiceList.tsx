@@ -42,11 +42,9 @@ const ServiceList = (
           <ServiceCard
             key={index}
             selectedService={service}
-            functionalities={{
-              handleDeleteService: handleDeleteService ? () => handleDeleteService(service) : undefined,
-              handleUpdateService: handleUpdateService ? () => handleUpdateService(service) : undefined,
-              handleViewEmployees: () => handleViewStaff(service),
-            }}
+            handleDeleteService={handleDeleteService ? () => handleDeleteService(service) : undefined}
+            handleUpdateService={handleUpdateService ? () => handleUpdateService(service) : undefined}
+            handleViewEmployees={() => handleViewStaff(service)}
           />
         ))}
       </Box>

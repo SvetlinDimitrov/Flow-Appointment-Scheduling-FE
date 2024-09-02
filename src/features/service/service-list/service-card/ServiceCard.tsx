@@ -7,11 +7,9 @@ import {Service} from "../../../../shared/models/service.types.ts";
 
 interface ServiceCardProps {
   selectedService: Service;
-  functionalities: {
-    handleViewEmployees: () => void;
-    handleDeleteService?: () => void;
-    handleUpdateService?: () => void;
-  };
+  handleViewEmployees: () => void;
+  handleDeleteService?: () => void;
+  handleUpdateService?: () => void;
 }
 
 /*
@@ -20,9 +18,13 @@ interface ServiceCardProps {
   in function or in a const because typescript stills complains about the type that it can be undefined.
 */
 
-const ServiceCard = ({selectedService, functionalities}: ServiceCardProps) => {
-  const {handleViewEmployees, handleDeleteService, handleUpdateService} = functionalities;
-
+const ServiceCard = (
+  {
+    selectedService,
+    handleViewEmployees,
+    handleDeleteService,
+    handleUpdateService
+  }: ServiceCardProps) => {
   return (
     <Box>
       <Card sx={{maxWidth: 345, margin: "auto", boxShadow: 3}}>
