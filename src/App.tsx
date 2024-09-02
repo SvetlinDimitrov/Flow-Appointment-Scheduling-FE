@@ -52,18 +52,16 @@ function App() {
             <Route element={<AdminRoutes/>}>
               <Route path="/admin/services" element={<AdminServiceDashboard/>}/>
               <Route path="/admin/users" element={<AdminDashboardUsers/>}/>
-              <Route path="/admin/profile" element={<Profile/>}/>
             </Route>
             <Route element={<StaffRoutes/>}>
-              <Route path="/staff/profile" element={<Profile/>}/>
               <Route path="/staff/appointments" element={<AppointmentInfo/>}/>
               <Route path="/staff/appointments/:id" element={<AppointmentDetails/>}/>
             </Route>
             <Route element={<ClientRoutes/>}>
-              <Route path="/profile" element={<Profile/>}/>
               <Route path="/appointments" element={<AppointmentInfo/>}/>
               <Route path="/appointments/:id" element={<AppointmentDetails/>}/>
             </Route>
+            <Route path="/profile" element={<Profile/>}/>
           </Route>
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>
