@@ -16,8 +16,11 @@ import {
   Typography
 } from '@mui/material';
 import {ServiceDTO} from "../../../../shared/models/api/services.ts";
-import {availableServices} from "../../../../services/service-service.ts";
 import {serviceCreateUpdateValidations} from "../../../../shared/validation/services.validations.ts";
+import useGetAllWorkSpacesNamesQuery from "../../../../hooks/services/query/useGetAllWorkSpacesNamesQuery.ts";
+import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
+import LoadingSpinner from "../../../../shared/core/loading/LoadingSpinner.tsx";
+import {useEffect} from "react";
 
 const serviceSchema = serviceCreateUpdateValidations;
 
@@ -31,25 +34,33 @@ interface ServiceEditModalProps {
 }
 
 const ServiceEditModal = ({ open, onClose, service, onSubmit } : ServiceEditModalProps) => {
+
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ServiceFormInputs>({
     resolver: zodResolver(serviceSchema),
     defaultValues: {
-      ...service,
-      duration: Number(service.duration),
-      price: Number(service.price),
-      workSpaceName: service.workSpaceName,
+      ...service
     },
   });
 
+  useEffect(() => {
+    reset(service);
+  }, [service, reset]);
+
+  const {data, isLoading, error} = useGetAllWorkSpacesNamesQuery();
+
   const handleFormSubmit = (data: ServiceFormInputs) => {
+    data.duration *= 60;
+
     onSubmit(data);
     reset();
   };
 
   const handleClose = () => {
     onClose();
-    reset();
   };
+
+  if (isLoading || !data) return <LoadingSpinner/>;
+  if (error) return <PageNotFound/>;
 
   return (
     <Modal open={open} onClose={handleClose} aria-labelledby="edit-service-modal">
@@ -83,7 +94,7 @@ const ServiceEditModal = ({ open, onClose, service, onSubmit } : ServiceEditModa
             type="number"
             {...register('duration', { valueAsNumber: true })}
             error={!!errors.duration}
-            helperText={errors.duration?.message}
+            helperText={errors.duration ? errors.duration.message : "Please enter the duration in minutes"}
             margin="normal"
           />
           <TextField
@@ -104,7 +115,7 @@ const ServiceEditModal = ({ open, onClose, service, onSubmit } : ServiceEditModa
               size="small"
               defaultValue={service.workSpaceName}
             >
-              {availableServices.map((service) => (
+              {data.map((service) => (
                 <MenuItem key={service} value={service}>
                   {service}
                 </MenuItem>

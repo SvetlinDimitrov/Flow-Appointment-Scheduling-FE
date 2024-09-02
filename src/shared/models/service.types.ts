@@ -5,7 +5,7 @@ export interface Service {
   name: string;
   description: string;
   price: number;
-  duration: number;
+  duration: string; // duration in ISO 8601 format
   availability: boolean;
   workSpace: Location;
 }

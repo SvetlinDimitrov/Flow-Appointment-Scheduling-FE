@@ -14,6 +14,7 @@ import WelcomeServiceSection from "./welcome-service-section/WelcomeServiceSecti
 import CreateServiceModal from "./create/CreateServiceModal.tsx";
 import useCreateServiceMutation from "../../../hooks/services/mutations/useCreateServiceMutation.ts";
 import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
+import {Duration} from "luxon";
 
 const AdminServiceDashboard = () => {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
@@ -103,7 +104,7 @@ const AdminServiceDashboard = () => {
           service={{
             name: selectedService.name,
             description: selectedService.description,
-            duration: selectedService.duration,
+            duration: Duration.fromISO(selectedService.duration).as('minutes'),
             price: selectedService.price,
             availability: selectedService.availability,
             workSpaceName: selectedService.workSpace.name,

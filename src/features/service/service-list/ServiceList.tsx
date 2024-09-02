@@ -41,9 +41,9 @@ const ServiceList = (
         Explore Our Services
       </Typography>
       <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}>
-        {data.content.map((service, index) => (
+        {data.content.map((service) => (
           <ServiceCard
-            key={index}
+            key={service.id}
             selectedService={service}
             handleDeleteService={handleDeleteService ? () => handleDeleteService(service) : undefined}
             handleUpdateService={handleUpdateService ? () => handleUpdateService(service) : undefined}
