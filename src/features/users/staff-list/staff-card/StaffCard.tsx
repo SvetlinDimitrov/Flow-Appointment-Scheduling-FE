@@ -1,22 +1,21 @@
 import {Box, Card, CardContent, Typography} from "@mui/material";
 import UserCardActions from "./user/UserCardActions.tsx";
 import AdminCardActions from "./admin/AdminCardActions.tsx";
-import {AdminStaffCardProps, StaffCardProps, UserStaffCardProps} from "../../../../shared/models/user.types.ts";
+import {User} from "../../../../shared/models/user.types.ts";
 
-function isAdminStaffCardProps(props: StaffCardProps): props is AdminStaffCardProps {
-  return (props as AdminStaffCardProps).handleDeleteEmployeeFromService !== undefined;
-}
-
-function isUserStaffCardProps(props: StaffCardProps): props is UserStaffCardProps {
-  return (props as UserStaffCardProps).handleBookWithStaff !== undefined;
+export interface StaffCardProps {
+  employee: User;
+  handleDeleteEmployeeFromService: (() => void) | undefined;
+  handleBookWithStaff: (() => void) | undefined;
 }
 
 const StaffCard = (props: StaffCardProps) => {
+  const {handleDeleteEmployeeFromService, handleBookWithStaff} = props;
 
   const {employee} = props;
 
   return (
-    <Box key={employee.id}>
+    <Box>
       <Card>
         <CardContent sx={{maxWidth:'250px'}}>
           <Typography variant={"h6"} fontWeight={'bold'}>
@@ -29,13 +28,13 @@ const StaffCard = (props: StaffCardProps) => {
             {employee.role}
           </Typography>
         </CardContent>
-        {isAdminStaffCardProps(props) ? (
+        {handleDeleteEmployeeFromService ? (
           <AdminCardActions
-            onDelete={props.handleDeleteEmployeeFromService}
+            onDelete={handleDeleteEmployeeFromService}
           />
-        ) : isUserStaffCardProps(props) ? (
+        ) : handleBookWithStaff ? (
           <UserCardActions
-            bookWithStaff={props.handleBookWithStaff}
+            bookWithStaff={handleBookWithStaff}
             employeeFirstName={employee.firstName}
           />
         ) : null}

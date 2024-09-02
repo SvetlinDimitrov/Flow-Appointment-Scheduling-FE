@@ -26,13 +26,3 @@ export interface ServiceWithUsers {
   totalAppointments: number;
   employees: User[];
 }
-
-export interface ServiceProps {
-  handleViewEmployees: () => void;
-}
-
-export interface AdminServiceProps extends ServiceProps {
-  handleDeleteService: () => void;
-  handleUpdateService: () => void;
-}
-
