@@ -10,7 +10,7 @@ const WelcomeSection = ({user}: WelcomeSectionProps) => {
   const navigate = useNavigate();
 
   return (
-    <Box p={2} bgcolor={'#f5f5f5'} justifyContent={'center'} alignItems={'center'}
+    <Box p={2} mb={-3} bgcolor={'#f5f5f5'} justifyContent={'center'} alignItems={'center'}
          display={'flex'} gap={2} flexDirection={'column'}>
       <Typography variant={"h3"} fontWeight={"bold"} color={"primary"} textAlign={'center'}
                   sx={{

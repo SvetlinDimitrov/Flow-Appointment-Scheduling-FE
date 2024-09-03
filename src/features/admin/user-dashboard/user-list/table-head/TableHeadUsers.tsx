@@ -10,7 +10,7 @@ interface TableHeadUsersProps {
 }
 
 const TableHeadUsers = ({userRole, handleSort, renderSortIcon}: TableHeadUsersProps) => (
-  <TableHead sx={{position: 'sticky', top: 65, zIndex: 1, backgroundColor: 'white'}}>
+  <TableHead sx={{position: 'sticky', top: 61, zIndex: 1, backgroundColor: 'white'}}>
     <TableRow>
       <SortableTableCell column="Forename"
                          handleSort={() => handleSort("Forename", "firstName")} renderSortIcon={renderSortIcon}/>

@@ -22,9 +22,8 @@ const StaffList = (
   const theme = useTheme();
 
   const isXs = useMediaQuery(theme.breakpoints.down('sm'));
-  const isLg = useMediaQuery(theme.breakpoints.down('lg'));
 
-  const employeesPerPage = isXs ? 1 : isLg ? 6 : 10;
+  const employeesPerPage = isXs ? 1 : 2;
 
   const {
     data,
@@ -40,13 +39,14 @@ const StaffList = (
   return (
     <Box p={2} display={'flex'} flexDirection={'column'}
          justifyContent={'center'} alignItems={'center'} gap={3}>
-      <Typography variant={"h5"} textAlign={"center"}>
-        Our Experts for {selectedService.name}
-      </Typography>
-      <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}
-      maxWidth={'1200px'}>
-        {data.content.map((employee) => {
-          return (
+      {data && data.content.length !== 0 ? (
+        <>
+          <Typography variant={"h5"} textAlign={"center"}>
+            Our Experts for {selectedService.name}
+          </Typography>
+          <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={4}
+               maxWidth={'1200px'}>
+            {data.content.map((employee) => (
             <StaffCard
               key={employee.id}
               employee={employee}
@@ -59,17 +59,22 @@ const StaffList = (
                   () => handleBookWithStaff(employee.email, selectedService.id) : undefined
               }
             />
-          );
-        })}
-      </Box>
-      <Box display="flex" justifyContent="center" mt={2}>
-        <Pagination
-          count={data.totalPages}
-          page={page + 1}
-          onChange={(_, value) => handlePageChange(value)}
-          color="primary"
-        />
-      </Box>
+            ))}
+          </Box>
+          <Box display="flex" justifyContent="center" mt={2}>
+            <Pagination
+              count={data.totalPages}
+              page={page + 1}
+              onChange={(_, value) => handlePageChange(value)}
+              color="primary"
+            />
+          </Box>
+        </>
+      ) : (
+        <Typography variant={"h5"} textAlign={"center"}>
+          There are no experts for {selectedService.name} at the moment.
+        </Typography>
+      )}
     </Box>
   );
 };

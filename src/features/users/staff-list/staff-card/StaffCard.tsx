@@ -17,15 +17,21 @@ const StaffCard = (props: StaffCardProps) => {
   return (
     <Box>
       <Card>
-        <CardContent sx={{maxWidth:'250px'}}>
+        <CardContent sx={{maxWidth: '250px'}}>
+          <Box
+            component="img"
+            src="/static/images/no-picture-found.jpg"
+            alt={`${employee.firstName} ${employee.lastName}`}
+            width={'100%'}
+            height={'150px'}
+            mb={2}
+            sx={{objectFit: 'cover'}}
+          />
           <Typography variant={"h6"} fontWeight={'bold'}>
             {employee.firstName} {employee.lastName}
           </Typography>
           <Typography variant={"body2"} color={'gray'} mt={1}>
             {employee.email}
-          </Typography>
-          <Typography variant={"body2"} color={'gray'} mt={1}>
-            {employee.role}
           </Typography>
         </CardContent>
         {handleDeleteEmployeeFromService ? (
@@ -39,8 +45,7 @@ const StaffCard = (props: StaffCardProps) => {
           />
         ) : null}
       </Card>
-    </Box>
-  );
+    </Box>);
 };
 
 export default StaffCard;

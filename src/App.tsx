@@ -44,7 +44,6 @@ function App() {
           <Route element={<GuestRoutes/>}>
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
-            <Route path="/service/:id" element={<ServicePage/>} />
           </Route>
           <Route element={<AuthenticatedUser/>}>
             <Route element={<AdminRoutes/>}>
@@ -61,6 +60,7 @@ function App() {
             </Route>
             <Route path="/profile" element={<Profile/>}/>
           </Route>
+          <Route path="/service/:id" element={<ServicePage/>} />
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>
       </Box>

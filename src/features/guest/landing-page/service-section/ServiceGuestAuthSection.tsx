@@ -30,7 +30,13 @@ const CardsHolder = styled(Box)(({theme}) => ({
   alignItems: 'center',
 }));
 
-const ServiceGuestSection = () => {
+interface ServiceGuestAuthSectionProps {
+  title: string;
+  description?: string;
+  buttonText: string;
+}
+
+const ServiceGuestAuthSection = ({title, description , buttonText}: ServiceGuestAuthSectionProps) => {
   const theme = useTheme();
 
   const isLg = useMediaQuery(theme.breakpoints.down('lg'));
@@ -55,13 +61,13 @@ const ServiceGuestSection = () => {
   return (
     <MainWrapper>
       <Typography variant={"h4"} fontWeight={'bold'} fontSize={'2.5rem'} color={'#333'}>
-        Our Services
+        {title}
       </Typography>
+      {description &&
       <Typography variant={"body1"} fontSize={'1.25rem'} lineHeight={1.5} color={'#666'}>
-        We offer a variety of services to cater to your wellness needs, from fitness classes to massage therapy and
-        skincare treatments.
+        {description}
       </Typography>
-
+      }
       {isLoading &&
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="540px">
           <CircularProgress/>
@@ -76,6 +82,7 @@ const ServiceGuestSection = () => {
             alt={service.name}
             title={service.name}
             navigateTo={`/service/${service.id}`}
+            buttonText={buttonText}
           />
         ))}
       </CardsHolder>
@@ -95,4 +102,4 @@ const ServiceGuestSection = () => {
   );
 };
 
-export default ServiceGuestSection;
+export default ServiceGuestAuthSection;

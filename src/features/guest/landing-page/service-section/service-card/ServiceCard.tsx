@@ -6,9 +6,10 @@ interface ServiceCardProps {
   alt: string;
   title: string;
   navigateTo: string;
+  buttonText: string;
 }
 
-const ServiceCard = ({image, alt, title, navigateTo}: ServiceCardProps) => {
+const ServiceCard = ({image, alt, title, navigateTo , buttonText}: ServiceCardProps) => {
   const navigate = useNavigate();
 
   return (
@@ -29,7 +30,7 @@ const ServiceCard = ({image, alt, title, navigateTo}: ServiceCardProps) => {
           {title}
         </Typography>
         <Button variant="outlined" onClick={() => navigate(navigateTo)}>
-          Learn More
+          {buttonText}
         </Button>
       </CardContent>
     </Card>
