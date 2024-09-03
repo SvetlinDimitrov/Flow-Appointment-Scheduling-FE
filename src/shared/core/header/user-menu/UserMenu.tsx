@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { IconButton, Menu, MenuItem } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { paths } from "../../../paths/paths.ts";
 import { UserAuthContext } from "../../../context/UserAuthContext.tsx";
@@ -10,6 +10,7 @@ import { UserRole } from "../../../models/user.types.ts";
 
 const UserMenu = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { logout, role } = useContext(UserAuthContext)!;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { openModal, closeModal } = useConfirmationModal();
@@ -52,6 +53,7 @@ const UserMenu = () => {
         size={"large"} edge={"end"} aria-label={"account of current user"}
         aria-controls={"menu-appbar"} aria-haspopup={"true"}
         onClick={handleMenu} color={"inherit"}
+        sx={{ color: "white", backgroundColor: "primary.main", "&:hover": { backgroundColor: "primary.dark" } }}
       >
         <AccountCircleIcon />
       </IconButton>
@@ -71,14 +73,30 @@ const UserMenu = () => {
         onClose={handleClose}
       >
         {userPaths.map((path, index) => (
-          <MenuItem key={index} onClick={() => {
-            navigate(Object.values(path)[0]);
-            handleClose();
-          }}>
+          <MenuItem
+            key={index}
+            onClick={() => {
+              navigate(Object.values(path)[0]);
+              handleClose();
+            }}
+            sx={{
+              "&:hover": {
+                color: "primary.main"
+              },
+              color: location.pathname === Object.values(path)[0] ? "secondary.main" : "inherit"
+            }}
+          >
             {Object.keys(path)[0]}
           </MenuItem>
         ))}
-        <MenuItem onClick={handleLogout}>
+        <MenuItem
+          onClick={handleLogout}
+          sx={{
+            "&:hover": {
+              color: "primary.main"
+            }
+          }}
+        >
           Logout
         </MenuItem>
       </Menu>

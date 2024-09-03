@@ -26,13 +26,13 @@ let theme = createTheme({
     fontFamily: 'Arial, sans-serif',
     body1: {
       [`@media (min-width:0px)`]: {
-        fontSize: '0.7rem',
+        fontSize: '0.6rem',
       },
       [`@media (min-width:600px)`]: {
-        fontSize: '1.2rem',
+        fontSize: '0.8rem',
       },
       [`@media (min-width:960px)`]: {
-        fontSize: '1.4rem',
+        fontSize: '1.2rem',
       },
     }
   },
