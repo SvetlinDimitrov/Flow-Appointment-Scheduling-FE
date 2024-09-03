@@ -2,18 +2,22 @@ import {axiosInstance} from '../utils/axios-config/axiosInstance';
 import Page from "../shared/models/api/shared/Page.ts";
 import {User, UserRole} from "../shared/models/user.types.ts";
 import {
-  CreateUserRequest,
   CreateUpdateUserAdminRequest,
-  UpdateUserRequest,
-  HireStaffRequest
+  CreateUserRequest,
+  HireStaffRequest,
+  UpdateUserRequest
 } from "../shared/models/api/users.ts";
 
-export const getAllUsers = async (page: number, size: number, userRole: UserRole): Promise<Page<User>> => {
+export const getAllUsers = async (
+  page: number, size: number,
+  userRole: UserRole, sort?: string, search?: string | null): Promise<Page<User>> => {
   const response = await axiosInstance.get(`/users`, {
     params: {
       page,
       size,
-      userRole
+      userRole,
+      sort: sort? sort : undefined,
+      search: search? search : undefined
     }
   });
   return response.data;

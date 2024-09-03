@@ -1,90 +1,127 @@
-import {Box, Card, CardContent, Pagination, Typography, useMediaQuery, useTheme} from '@mui/material';
+import {Box, Paper, Table, TableContainer} from '@mui/material';
 import {User, UserRole} from "../../../../shared/models/user.types.ts";
-import UserActions from "./UserActions.tsx";
-import StaffDataDetails from "./StaffDataDetails.tsx";
-import usePaginatedQuery from "../../../../hooks/custom/usePaginatedQuery.ts";
 import LoadingSpinner from "../../../../shared/core/loading/LoadingSpinner.tsx";
 import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
-import useGetUsers from "../../../../hooks/users/query/useGetUsers.ts";
-import {useContext} from "react";
+import useInfiniteUsersByRole from "../../../../hooks/users/query/useInfiniteUsersByRole.ts";
+import {useContext, useEffect, useRef, useState} from 'react';
+import SearchAndSortBar from "./SearchAndSortBar.tsx";
+import TableHeadUsers from "./table-head/TableHeadUsers.tsx";
+import TableBodyUsers from "./table-body/TableBodyUsers.tsx";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import {UserAuthContext} from "../../../../shared/context/UserAuthContext.tsx";
 
 interface PaginatedUserSectionProps {
   title: string;
-  userRole?: UserRole;
+  userRole: UserRole;
   onEdit: (user: User) => void;
   onDelete: (user: User) => void;
   onAssignToService: (user: User) => void;
 }
 
+interface Sort {
+  realName: string | null;
+  column: string | null;
+  type: string | null;
+}
+//TODO: fix the pagination disappearing when any sort is applied
+//TODO: add a second loading spinner for the table
 const PaginatedUserSection = (
   {
-    title,
     userRole,
     onEdit,
     onDelete,
     onAssignToService,
   }: PaginatedUserSectionProps) => {
-
   const {userId} = useContext(UserAuthContext)!;
 
-  const theme = useTheme();
+  const [sort, setSort] = useState<Sort>({
+    realName: null,
+    column: null,
+    type: null,
+  });
+  const [search, setSearch] = useState('');
 
-  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
-  const isLg = useMediaQuery(theme.breakpoints.down('lg'));
-
-  const usersPerPage = isXs ? 1 : isLg ? 2 : 5;
+  const sortString = sort.realName ? `${sort.realName},${sort.type}` : '';
 
   const {
     data,
     isLoading,
     error,
-    page,
-    handlePageChange
-  } = usePaginatedQuery<User>(useGetUsers, 0, usersPerPage, userRole);
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteUsersByRole(0, 10, userRole, sortString, search);
 
-  if (isLoading) return <LoadingSpinner/>;
-  if (error || !data) return <PageNotFound/>;
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (tableContainerRef.current) {
+        const {scrollTop, scrollHeight, clientHeight} = tableContainerRef.current;
+        if (scrollTop + clientHeight >= scrollHeight - 5 && hasNextPage) {
+          fetchNextPage();
+        }
+      }
+    };
+
+    const tableContainerElement = tableContainerRef.current;
+    tableContainerElement?.addEventListener('scroll', handleScroll);
+
+    return () => {
+      tableContainerElement?.removeEventListener('scroll', handleScroll);
+    };
+  }, [fetchNextPage, hasNextPage]);
+
+  const renderSortIcon = (column: string) => {
+    if (column === sort.column && sort.type === 'asc') return <ArrowUpwardIcon/>;
+    if (column === sort.column && sort.type === 'desc') return <ArrowDownwardIcon/>;
+    return <UnfoldMoreIcon/>;
+  };
+
+  const handleSort = (column: string, realName: string) => {
+    let newType;
+    if (realName === sort.realName)
+      newType = sort.type === 'asc' ? 'desc' : sort.type === 'desc' ? null : 'asc';
+    else newType = 'asc';
+
+    setSort({
+      realName: newType ? realName : null,
+      column: newType ? column : null,
+      type: newType,
+    });
+  };
+
+  const handleSearch = () => {
+    console.log('Search executed with query:', search);
+  };
+
+  if (isLoading || !data) return <LoadingSpinner/>;
+  if (error) return <PageNotFound/>;
+
+  const numberOfColumns = userRole === UserRole.ADMINISTRATOR || userRole === UserRole.EMPLOYEE ? 10 : 4;
+  const maxWidth = numberOfColumns * 140;
 
   return (
-    <Box p={2} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} gap={3}>
-      <Typography variant={"h5"} textAlign={"center"}>
-        {title} {data.totalElements}
-      </Typography>
-      <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2} maxWidth={'1600px'}>
-        {data?.content.map((user) => (
-          <Card key={user.id} sx={{ maxWidth: 300, boxShadow: 3 }}>
-            <CardContent>
-              <Typography variant={"h6"} fontWeight={'bold'} textAlign={'center'}>
-                {user.firstName} {user.lastName}
-              </Typography>
-              <Typography variant={"body2"} textAlign={"center"} color={"gray"} fontStyle={"italic"} marginTop={1}>
-                {user.email}
-              </Typography>
-              <Typography variant={"body2"} textAlign={"center"} color={"gray"} fontStyle={"italic"} marginTop={1}>
-                Role: {user.role}
-              </Typography>
-              {user.staffDetails &&
-                <StaffDataDetails staffData={user.staffDetails}/>
-              }
-              {user.id !== userId &&
-                <UserActions userRole={user.role}
-                             onEdit={() => onEdit(user)}
-                             onDelete={() => onDelete(user)}
-                             onAssignToService={() => onAssignToService(user)}/>
-              }
-            </CardContent>
-          </Card>
-        ))}
-      </Box>
-      <Box display="flex" justifyContent="center" mt={2}>
-        <Pagination
-          count={data.totalPages}
-          page={page + 1}
-          onChange={(_, value) => handlePageChange(value)}
-          color="primary"
-        />
-      </Box>
+    <Box p={2} display={'flex'} flexDirection={'column'}
+         justifyContent={'center'} alignItems={'center'} gap={3}>
+      <TableContainer component={Paper} sx={{minWidth: 300, maxWidth: maxWidth, maxHeight: 500, overflow: 'auto'}}
+                      ref={tableContainerRef}>
+        <Box sx={{position: 'sticky', top: 0, zIndex: 2, backgroundColor: 'white'}}>
+          <SearchAndSortBar search={search} setSearch={setSearch} totalElements={data.pages[0].totalElements}
+                            onSearch={handleSearch}/>
+        </Box>
+        <Table stickyHeader>
+          <TableHeadUsers userRole={userRole} handleSort={handleSort} renderSortIcon={renderSortIcon}/>
+          <TableBodyUsers
+            data={data.pages.flatMap(page => page.content)}
+            userId={userId}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            onAssignToService={onAssignToService}
+          />
+        </Table>
+      </TableContainer>
     </Box>
   );
 };
