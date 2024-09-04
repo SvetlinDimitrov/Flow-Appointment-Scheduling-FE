@@ -44,7 +44,7 @@ export const deleteService = async (id: number) => {
   await axiosInstance.delete(`${API_URL}/${id}`);
 };
 
-// This is a list of available workSpaces in my DB .
-// If provide something else in here it will not be accepted
-// In the feature i will change this to be fetched from the backend, just for now i want to keep it simple
-export const availableServices = ['Gym', 'Spa', 'Clinic'];
+export const getAllWorkSpacesNames = async () => {
+  const response = await axiosInstance.get<string[]>(`${API_URL}/workspaces`);
+  return response.data;
+};

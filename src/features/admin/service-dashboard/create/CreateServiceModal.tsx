@@ -17,8 +17,10 @@ import {
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {ServiceDTO} from "../../../../shared/models/api/services.ts";
-import {availableServices} from "../../../../services/service-service.ts";
 import {serviceCreateUpdateValidations} from "../../../../shared/validation/services.validations.ts";
+import useGetAllWorkSpacesNamesQuery from "../../../../hooks/services/query/useGetAllWorkSpacesNamesQuery.ts";
+import LoadingSpinner from "../../../../shared/core/loading/LoadingSpinner.tsx";
+import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
 
 interface CreateServiceModalProps {
   open: boolean;
@@ -34,6 +36,8 @@ const CreateServiceModal = ({open, onClose, onSubmit}: CreateServiceModalProps) 
   });
 
   const onSubmitForm = (data: ServiceDTO) => {
+    data.duration *= 60;
+
     onSubmit(data);
     reset();
   };
@@ -42,6 +46,11 @@ const CreateServiceModal = ({open, onClose, onSubmit}: CreateServiceModalProps) 
     onClose();
     reset();
   };
+
+  const {data, isLoading, error} = useGetAllWorkSpacesNamesQuery();
+
+  if (isLoading || !data) return <LoadingSpinner/>;
+  if (error) return <PageNotFound/>;
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -71,7 +80,7 @@ const CreateServiceModal = ({open, onClose, onSubmit}: CreateServiceModalProps) 
               type="number"
               {...register("duration", {valueAsNumber: true})}
               error={!!errors.duration}
-              helperText={errors.duration?.message}
+              helperText={errors.duration ? errors.duration.message : "Please enter the duration in minutes"}
               fullWidth
               size="small"
             />
@@ -92,9 +101,9 @@ const CreateServiceModal = ({open, onClose, onSubmit}: CreateServiceModalProps) 
                 {...register("workSpaceName")}
                 onChange={(e) => setValue("workSpaceName", e.target.value as string)}
                 size="small"
-                defaultValue={availableServices[0]}
+                defaultValue={data[0]}
               >
-                {availableServices.map((service) => (
+                {data.map((service) => (
                   <MenuItem key={service} value={service}>
                     {service}
                   </MenuItem>

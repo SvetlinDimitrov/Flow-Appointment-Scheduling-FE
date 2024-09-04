@@ -4,6 +4,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import useGetServiceByIdQuery from "../../../hooks/services/query/useGetServiceByIdQuery.ts";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
+import {Duration} from "luxon";
 
 const ServicePage = () => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ const ServicePage = () => {
             <Grid item>
               <Box display="flex" alignItems="center">
                 <AccessTime sx={{mr: 1}}/>
-                <Typography variant="body1">{service.duration} minutes</Typography>
+                <Typography variant="body1">{Duration.fromISO(service.duration).as('minutes')} minutes</Typography>
               </Box>
             </Grid>
             <Grid item>

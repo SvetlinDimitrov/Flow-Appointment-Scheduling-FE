@@ -1,6 +1,6 @@
 import ServiceCard from "./service-card/ServiceCard.tsx";
 import {styled} from "@mui/system";
-import {Box, CircularProgress, Pagination, Stack, Typography, useMediaQuery} from "@mui/material";
+import {Box, CircularProgress, Pagination, Stack, Typography, useMediaQuery, useTheme} from "@mui/material";
 import usePaginatedQuery from "../../../../hooks/custom/usePaginatedQuery.ts";
 import {Service} from "../../../../shared/models/service.types.ts";
 import useGetAllServicesQuery from "../../../../hooks/services/query/useGetAllServicesQuery.ts";
@@ -31,8 +31,11 @@ const CardsHolder = styled(Box)(({theme}) => ({
 }));
 
 const ServiceGuestSection = () => {
-  const isXs = useMediaQuery('(max-width:1200px)');
-  const servicesPerPage = isXs ? 1 : 3;
+  const theme = useTheme();
+
+  const isLg = useMediaQuery(theme.breakpoints.down('lg'));
+
+  const servicesPerPage = isLg ? 1 : 3;
 
   const {
     data,
@@ -82,8 +85,8 @@ const ServiceGuestSection = () => {
             page={page + 1}
             onChange={(_, value) => handlePageChange(value)}
             color="primary"
-            boundaryCount={isXs ? 0 : 1}
-            siblingCount={isXs ? 0 : 1}
+            boundaryCount={isLg ? 0 : 1}
+            siblingCount={isLg ? 0 : 1}
           />
         </Box>
       </>

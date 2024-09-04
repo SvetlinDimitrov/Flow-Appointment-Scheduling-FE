@@ -1,4 +1,4 @@
-import {Box, Card, CardContent, Pagination, Typography, useMediaQuery} from '@mui/material';
+import {Box, Card, CardContent, Pagination, Typography, useMediaQuery, useTheme} from '@mui/material';
 import {User, UserRole} from "../../../../shared/models/user.types.ts";
 import UserActions from "./UserActions.tsx";
 import StaffDataDetails from "./StaffDataDetails.tsx";
@@ -28,8 +28,10 @@ const PaginatedUserSection = (
 
   const {userId} = useContext(UserAuthContext)!;
 
-  const isXs = useMediaQuery('(max-width:600px)');
-  const isLg = useMediaQuery('(max-width:1200px)');
+  const theme = useTheme();
+
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+  const isLg = useMediaQuery(theme.breakpoints.down('lg'));
 
   const usersPerPage = isXs ? 1 : isLg ? 2 : 5;
 

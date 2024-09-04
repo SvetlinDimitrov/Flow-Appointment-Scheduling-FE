@@ -13,6 +13,7 @@ import {UserMainWrapper, UserSecondWrapper} from "../../../shared/styles/wrapper
 import {styled} from "@mui/system";
 import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
 import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
+import {UserRole} from "../../../shared/models/user.types.ts";
 
 const StyleButton = styled(Button)(() => ({
   flexGrow: 1,
@@ -20,7 +21,7 @@ const StyleButton = styled(Button)(() => ({
 
 const Profile = () => {
 
-  const {userId} = useContext(UserAuthContext)!;
+  const {userId, role} = useContext(UserAuthContext)!;
 
   const navigate = useNavigate();
 
@@ -67,7 +68,9 @@ const Profile = () => {
           <UserInfoItem label="First Name:" value={user.firstName}/>
           <UserInfoItem label="Last Name:" value={user.lastName}/>
           <UserInfoItem label="Email:" value={user.email}/>
-          <UserInfoItem label="Role:" value={user.role}/>
+          {(role === UserRole.ADMINISTRATOR || role === UserRole.EMPLOYEE) &&
+            <UserInfoItem label="Role:" value={user.role}/>
+          }
           <Box display={'flex'} gap={2}>
             <StyleButton
               fullWidth

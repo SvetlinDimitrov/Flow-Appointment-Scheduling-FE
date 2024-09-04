@@ -1,6 +1,7 @@
 import {TableBody, TableCell, TableRow} from "@mui/material";
 import {Service} from "../../../../../shared/models/service.types.ts";
 import {styled} from "@mui/system";
+import {Duration} from "luxon";
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontSize: '0.875rem',
@@ -12,11 +13,12 @@ interface AdminServiceDetailsTableProps {
 }
 
 const AdminServiceDetailsTable = ({service}: AdminServiceDetailsTableProps) => {
+
   return (
     <TableBody>
       <TableRow>
         <StyledTableCell>Duration</StyledTableCell>
-        <StyledTableCell>{service.duration} min</StyledTableCell>
+        <StyledTableCell>{Duration.fromISO(service.duration).as('minutes')} min</StyledTableCell>
       </TableRow>
       <TableRow>
         <StyledTableCell>Price</StyledTableCell>
