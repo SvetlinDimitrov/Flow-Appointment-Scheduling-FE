@@ -1,5 +1,5 @@
 import {Box} from "@mui/material";
-import ServiceList from "../../service/service-list/ServiceList.tsx";
+import AdminServiceList from "./AdminServiceList.tsx";
 import StaffList from "../../users/staff-list/StaffList.tsx";
 import {useState} from "react";
 import {Service} from "../../../shared/models/service.types.ts";
@@ -77,7 +77,7 @@ const AdminServiceDashboard = () => {
   return (
     <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} gap={2}>
       <WelcomeServiceSection onCreateService={() => setCreateModalOpen(true)}/>
-      <ServiceList
+      <AdminServiceList
         handleViewStaff={(service) => {
           setSelectedService(service);
           setShowStaff(true);
@@ -94,6 +94,7 @@ const AdminServiceDashboard = () => {
           selectedService={selectedService}
           handleDeleteEmployeeFromService={handleUnassignStaffFromService}
           handleBookWithStaff={null}
+          showStaffNumbers={4}
         />
       )}
 

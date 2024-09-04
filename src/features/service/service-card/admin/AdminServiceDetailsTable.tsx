@@ -1,5 +1,5 @@
 import {TableBody, TableCell, TableRow} from "@mui/material";
-import {Service} from "../../../../../shared/models/service.types.ts";
+import {Service} from "../../../../shared/models/service.types.ts";
 import {styled} from "@mui/system";
 import {Duration} from "luxon";
 

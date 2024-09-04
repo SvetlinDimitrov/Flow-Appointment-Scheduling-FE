@@ -87,6 +87,7 @@ const ServicePage = () => {
                 selectedService={service}
                 handleDeleteEmployeeFromService={null}
                 handleBookWithStaff={() => console.log('Book with staff')}
+                showStaffNumbers={2}
               />
             </Box>
           </Grid>

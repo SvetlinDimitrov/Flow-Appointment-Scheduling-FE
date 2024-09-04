@@ -11,19 +11,21 @@ interface StaffListProps {
   selectedService: Service;
   handleBookWithStaff: ((staffEmail: string, serviceId: number) => void) | null;
   handleDeleteEmployeeFromService: ((staffEmail: string, serviceId: number) => void) | null;
+  showStaffNumbers: number
 }
 
 const StaffList = (
   {
     selectedService,
     handleDeleteEmployeeFromService,
-    handleBookWithStaff
+    handleBookWithStaff,
+    showStaffNumbers
   }: StaffListProps) => {
   const theme = useTheme();
 
   const isXs = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const employeesPerPage = isXs ? 1 : 2;
+  const employeesPerPage = isXs ? 1 : showStaffNumbers;
 
   const {
     data,

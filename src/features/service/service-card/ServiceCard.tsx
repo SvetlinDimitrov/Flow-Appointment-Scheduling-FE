@@ -3,7 +3,7 @@ import UserCardActions from "./user/UserCardActions.tsx";
 import AdminCardActions from "./admin/AdminCardActions.tsx";
 import UserServiceDetailsTable from "./user/UserServiceDetailsTable.tsx";
 import AdminServiceDetailsTable from "./admin/AdminServiceDetailsTable.tsx";
-import {Service} from "../../../../shared/models/service.types.ts";
+import {Service} from "../../../shared/models/service.types.ts";
 
 interface ServiceCardProps {
   selectedService: Service;
