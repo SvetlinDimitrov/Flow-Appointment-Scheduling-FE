@@ -1,12 +1,10 @@
 import {Box, Typography} from '@mui/material';
 import AppointmentEmpty from "./empty-appointment/AppointmentEmpty.tsx";
-import PaginationAppointments from "./appointment-list/PaginationAppointments.tsx";
 import {Appointment} from "../../../shared/models/appointment.types.ts";
 import {useNavigate} from "react-router-dom";
 import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
 import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
-
-const appointmentsDummyData: Appointment[] = [];
+import MyCalendar from "./appointment-list/MyCalendar.tsx";
 
 const AppointmentInfo = () => {
   const navigate = useNavigate();
@@ -41,12 +39,10 @@ const AppointmentInfo = () => {
       }}>
         My Appointments
       </Typography>
-      {appointmentsDummyData && appointmentsDummyData.length === 0 ? (
+      {[] && [].length === 0 ? (
         <AppointmentEmpty/>
       ) : (
-        <PaginationAppointments appointments={appointmentsDummyData}
-                                onCancel={cancelAppointment}
-                                onViewMore={onViewMore}/>
+        <MyCalendar events={[]}/>
       )}
       <ConfirmationModalWrapper/>
     </Box>
