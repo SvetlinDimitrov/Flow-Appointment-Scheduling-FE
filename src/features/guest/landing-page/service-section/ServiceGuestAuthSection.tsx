@@ -14,6 +14,8 @@ const MainWrapper = styled(Stack)(({theme}) => ({
   justifyContent: 'center',
   gap: theme.spacing(5),
   padding: theme.spacing(2),
+  paddingLeft: theme.spacing(4),
+  paddingRight: theme.spacing(4),
   marginTop: theme.spacing(5),
   marginBottom: theme.spacing(5),
   minHeight: '80vh',
@@ -60,11 +62,11 @@ const ServiceGuestAuthSection = ({title, description , buttonText}: ServiceGuest
 
   return (
     <MainWrapper>
-      <Typography variant={"h4"} fontWeight={'bold'} fontSize={'2.5rem'} color={'#333'}>
+      <Typography variant={"h2"} color={'#333'}>
         {title}
       </Typography>
       {description &&
-      <Typography variant={"body1"} fontSize={'1.25rem'} lineHeight={1.5} color={'#666'}>
+      <Typography variant={"h5"} color={'#666'}>
         {description}
       </Typography>
       }

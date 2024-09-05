@@ -40,16 +40,13 @@ const MissionItem = ({iconSrc, title, description}: MissionValueItemProps) => {
         }}
       />
       <Typography
-        variant={"h6"}
-        fontStyle={'bold'}
-        fontSize={'1.25rem'}
+        variant={"h5"}
       >
         {title}
       </Typography>
       <Typography
-        variant={"body2"}
+        variant={"subtitle2"}
         color={'dimgray'}
-        fontSize={'0.875rem'}
       >
         {description}
       </Typography>

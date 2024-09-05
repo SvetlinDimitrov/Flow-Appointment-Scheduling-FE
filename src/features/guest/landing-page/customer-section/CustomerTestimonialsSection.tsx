@@ -1,8 +1,7 @@
 import Testimonial from "./testimonial/Testimonial.tsx";
 import {useNavigate} from "react-router-dom";
 import {styled} from "@mui/system";
-import {Box, Button} from "@mui/material";
-import {CoreHeader as SharedHeader} from "../../../../shared/styles/headers.ts";
+import {Box, Button, Typography} from "@mui/material";
 
 const testimonials = [
   {
@@ -40,6 +39,8 @@ const MainWrapper = styled(Box)(({theme}) => ({
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   height: '100vh',
+  paddingLeft: theme.spacing(4),
+  paddingRight: theme.spacing(4),
   [theme.breakpoints.down('lg')]: {
     height: 'auto',
   },
@@ -83,9 +84,9 @@ const CustomerTestimonialsSection = () => {
 
   return (
     <MainWrapper>
-      <SharedHeader color={'white'} mb={4} variant={"h4"}>
+      <Typography color={'white'} mb={4} variant={"h2"}>
         Why Choose Flow?
-      </SharedHeader>
+      </Typography>
       <TestimonialWrapper>
         {testimonials.map((testimonial, index) => (
           <Testimonial key={index}

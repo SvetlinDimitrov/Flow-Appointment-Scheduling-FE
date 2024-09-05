@@ -1,7 +1,5 @@
-import {Box} from '@mui/material';
+import {Box, Typography} from '@mui/material';
 import {styled} from "@mui/system";
-import {CoreHeader} from "../../../../shared/styles/headers.ts";
-import {CoreSubHeader} from "../../../../shared/styles/subHeaders.ts";
 
 const MainBox = styled(Box)(({theme}) => ({
   position: 'relative',
@@ -17,6 +15,8 @@ const MainBox = styled(Box)(({theme}) => ({
   backgroundImage: 'url(/static/images/home/hero_section_bg.png)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
+  paddingLeft: theme.spacing(4),
+  paddingRight: theme.spacing(4),
   '::before': {
     content: '""',
     position: 'absolute',
@@ -37,12 +37,12 @@ const HeroSection = () => {
 
   return (
     <MainBox>
-      <CoreHeader variant={"h2"} gutterBottom>
+      <Typography variant="h2" gutterBottom>
         Welcome to Flow: Your Wellness Journey Starts Here
-      </CoreHeader>
-      <CoreSubHeader variant={"h5"} gutterBottom>
+      </Typography>
+      <Typography variant="h5" gutterBottom>
         Book Appointments for Fitness, Spa, and Wellness Services with Ease
-      </CoreSubHeader>
+      </Typography>
     </MainBox>
   );
 };
