@@ -4,7 +4,7 @@ import {useContext, useState} from "react";
 import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import UpdateUser from "./update/UpdateUser.tsx";
-import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
+import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
 import useUpdateUserMutation from "../../../hooks/users/mutations/useUpdateUserMutation.ts";
 import {useNavigate} from "react-router-dom";
 import useLogoutDeleteUserMutation from "../../../hooks/users/mutations/useLogoutDeleteUserMutation.ts";

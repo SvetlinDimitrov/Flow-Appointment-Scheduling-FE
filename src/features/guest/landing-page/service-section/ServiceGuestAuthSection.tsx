@@ -1,11 +1,12 @@
 import ServiceCard from "./service-card/ServiceCard.tsx";
 import {styled} from "@mui/system";
-import {Box, CircularProgress, Pagination, Stack, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {Box, Pagination, Stack, Typography, useMediaQuery, useTheme} from "@mui/material";
 import usePaginatedQuery from "../../../../hooks/custom/usePaginatedQuery.ts";
 import {Service} from "../../../../shared/models/service.types.ts";
 import useGetAllServicesQuery from "../../../../hooks/services/query/useGetAllServicesQuery.ts";
 import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
 import {useEffect, useState} from "react";
+import ContainerLoader from "../../../../shared/core/loading/container-loader/ContainerLoader.tsx";
 
 const MainWrapper = styled(Stack)(({theme}) => ({
   display: 'flex',
@@ -75,9 +76,7 @@ const ServiceGuestAuthSection = ({title, description , buttonText}: ServiceGuest
       </Typography>
       }
       {isLoading &&
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="540px">
-          <CircularProgress/>
-        </Box>
+        <ContainerLoader height={540}/>
       }
       {!isLoading && data && <>
       <CardsHolder>

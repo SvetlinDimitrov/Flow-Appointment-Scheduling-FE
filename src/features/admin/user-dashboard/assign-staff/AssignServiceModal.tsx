@@ -3,7 +3,7 @@ import {Service} from '../../../../shared/models/service.types.ts';
 import usePaginatedQuery from '../../../../hooks/custom/usePaginatedQuery.ts';
 import useGetAllServicesQuery from '../../../../hooks/services/query/useGetAllServicesQuery.ts';
 import {User} from "../../../../shared/models/user.types.ts";
-import LoadingSpinner from "../../../../shared/core/loading/LoadingSpinner.tsx";
+import LoadingSpinner from "../../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
 import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
 
 interface AssignServiceModalProps {

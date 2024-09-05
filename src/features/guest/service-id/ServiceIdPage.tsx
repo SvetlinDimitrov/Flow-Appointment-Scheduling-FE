@@ -3,11 +3,11 @@ import { AccessTime, Cancel, CheckCircle, LocationOn, MonetizationOn } from '@mu
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetServiceByIdQuery from "../../../hooks/services/query/useGetServiceByIdQuery.ts";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
-import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
+import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
 import { Duration } from "luxon";
 import StaffList from "../../users/staff-list/StaffList.tsx";
 import { UserAuthContext } from "../../../shared/context/UserAuthContext.tsx";
-import { useContext } from "react";
+import {useContext} from "react";
 
 const ServicePage = () => {
   const navigate = useNavigate();
@@ -25,8 +25,8 @@ const ServicePage = () => {
     navigate('/login');
   };
 
-  if (isLoading) return <LoadingSpinner />;
-  if (error || !service) return <PageNotFound />;
+  if (error) return <PageNotFound />;
+  if (isLoading || !service) return <LoadingSpinner />;
 
   return (
     <Container sx={{marginTop: 6 , marginBottom: 6}}>

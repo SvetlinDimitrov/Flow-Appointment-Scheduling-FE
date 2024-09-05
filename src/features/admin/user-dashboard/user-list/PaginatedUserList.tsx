@@ -1,6 +1,6 @@
 import {Box, Paper, Table, TableContainer} from '@mui/material';
 import {User, UserRole} from "../../../../shared/models/user.types.ts";
-import LoadingSpinner from "../../../../shared/core/loading/LoadingSpinner.tsx";
+import LoadingSpinner from "../../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
 import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
 import useInfiniteUsersByRole from "../../../../hooks/users/query/useInfiniteUsersByRole.ts";
 import {useContext, useEffect, useRef, useState} from 'react';
@@ -26,7 +26,6 @@ interface Sort {
   type: string | null;
 }
 //TODO: fix the pagination disappearing when any sort is applied
-//TODO: add a second loading spinner for the table
 const PaginatedUserSection = (
   {
     userRole,

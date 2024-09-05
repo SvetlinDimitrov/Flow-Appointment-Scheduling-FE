@@ -26,7 +26,7 @@ const ServiceCard = (
     handleUpdateService
   }: ServiceCardProps) => {
   return (
-    <Box pl={4} pr={4}>
+    <Box>
       <Card sx={{width: 325, margin: "auto", boxShadow: 3}}>
         <CardContent sx={{minHeight: 450}}>
           <Typography variant={"h5"} fontWeight={'bold'} textAlign={'center'}>

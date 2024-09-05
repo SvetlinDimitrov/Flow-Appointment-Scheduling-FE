@@ -19,7 +19,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {ServiceDTO} from "../../../../shared/models/api/services.ts";
 import {serviceCreateUpdateValidations} from "../../../../shared/validation/services.validations.ts";
 import useGetAllWorkSpacesNamesQuery from "../../../../hooks/services/query/useGetAllWorkSpacesNamesQuery.ts";
-import LoadingSpinner from "../../../../shared/core/loading/LoadingSpinner.tsx";
+import LoadingSpinner from "../../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
 import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
 
 interface CreateServiceModalProps {
