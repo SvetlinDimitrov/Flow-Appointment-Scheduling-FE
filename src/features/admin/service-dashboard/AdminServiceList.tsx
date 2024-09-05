@@ -1,5 +1,5 @@
 import {Box, Pagination, Typography, useMediaQuery, useTheme} from "@mui/material";
-import ServiceCard from "./service-card/ServiceCard.tsx";
+import ServiceCard from "../../service/service-card/ServiceCard.tsx";
 import {Service} from "../../../shared/models/service.types.ts";
 import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
 import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
@@ -7,12 +7,12 @@ import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import useGetAllServicesQuery from "../../../hooks/services/query/useGetAllServicesQuery.ts";
 
 interface ServiceListProps {
-  handleDeleteService: ((service: Service) => void) | null;
-  handleUpdateService: ((service: Service) => void) | null;
+  handleDeleteService: (service: Service) => void;
+  handleUpdateService: (service: Service) => void;
   handleViewStaff: (service: Service) => void;
 }
 
-const ServiceList = (
+const AdminServiceList = (
   {
     handleUpdateService,
     handleDeleteService,
@@ -45,8 +45,8 @@ const ServiceList = (
           <ServiceCard
             key={service.id}
             selectedService={service}
-            handleDeleteService={handleDeleteService ? () => handleDeleteService(service) : undefined}
-            handleUpdateService={handleUpdateService ? () => handleUpdateService(service) : undefined}
+            handleDeleteService={() => handleDeleteService(service)}
+            handleUpdateService={() => handleUpdateService(service)}
             handleViewEmployees={() => handleViewStaff(service)}
           />
         ))}
@@ -63,4 +63,4 @@ const ServiceList = (
   );
 };
 
-export default ServiceList;
+export default AdminServiceList;
