@@ -6,6 +6,7 @@ import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import {Service} from "../../../shared/models/service.types.ts";
 import useGetUsersByServiceId from "../../../hooks/users/query/useGetUsersByServiceId.ts";
+import {useEffect, useState} from "react";
 
 interface StaffListProps {
   selectedService: Service;
@@ -25,6 +26,8 @@ const StaffList = (
 
   const isXs = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const [prevIsXs, setPrevIsXs] = useState(isXs);
+
   const employeesPerPage = isXs ? 1 : showStaffNumbers;
 
   const {
@@ -32,8 +35,16 @@ const StaffList = (
     isLoading,
     error,
     page,
-    handlePageChange
+    handlePageChange,
+    setPage,
   } = usePaginatedQuery<User>(useGetUsersByServiceId, 0, employeesPerPage, selectedService.id);
+
+  useEffect(() => {
+    if (prevIsXs !== isXs) {
+      setPage(0);
+      setPrevIsXs(isXs);
+    }
+  }, [isXs, prevIsXs, setPage]);
 
   if (isLoading) return <LoadingSpinner/>;
   if (error || !data) return <PageNotFound/>;

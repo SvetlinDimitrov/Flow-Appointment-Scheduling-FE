@@ -10,7 +10,7 @@ const usePaginatedQuery = <T>(
 ) => {
   const [page, setPage] = useState(initialPage);
 
-  const { data, isLoading, error , refetch} = queryHook(page, size, ...args);
+  const { data, isLoading, error} = queryHook(page, size, ...args);
 
   const handleNextPage = () => {
     if (data && page < data.totalPages - 1) {
@@ -37,10 +37,8 @@ const usePaginatedQuery = <T>(
     isLoading,
     error,
     page,
-    handleNextPage,
-    handlePreviousPage,
     handlePageChange,
-    refetch
+    setPage
   };
 };
 

@@ -5,6 +5,7 @@ import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
 import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import useGetAllServicesQuery from "../../../hooks/services/query/useGetAllServicesQuery.ts";
+import {useEffect, useState} from "react";
 
 interface ServiceListProps {
   handleDeleteService: (service: Service) => void;
@@ -21,6 +22,7 @@ const AdminServiceList = (
   const theme = useTheme();
 
   const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+  const [prevIsXs, setPrevIsXs] = useState(isXs);
 
   const servicesPerPage = isXs ? 1 : 4;
 
@@ -29,8 +31,16 @@ const AdminServiceList = (
     isLoading,
     error,
     page,
-    handlePageChange
+    handlePageChange,
+    setPage,
   } = usePaginatedQuery<Service>(useGetAllServicesQuery, 0, servicesPerPage);
+
+  useEffect(() => {
+    if (prevIsXs !== isXs) {
+      setPage(0);
+      setPrevIsXs(isXs);
+    }
+  }, [isXs, prevIsXs, setPage]);
 
   if (isLoading) return <LoadingSpinner/>;
   if (error || !data) return <PageNotFound/>;

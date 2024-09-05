@@ -5,7 +5,7 @@ import usePaginatedQuery from "../../../../hooks/custom/usePaginatedQuery.ts";
 import {Service} from "../../../../shared/models/service.types.ts";
 import useGetAllServicesQuery from "../../../../hooks/services/query/useGetAllServicesQuery.ts";
 import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 const MainWrapper = styled(Stack)(({theme}) => ({
   display: 'flex',
@@ -42,6 +42,7 @@ const ServiceGuestAuthSection = ({title, description , buttonText}: ServiceGuest
   const theme = useTheme();
 
   const isLg = useMediaQuery(theme.breakpoints.down('lg'));
+  const [prevIsLg, setPrevIsLg] = useState(isLg);
 
   const servicesPerPage = isLg ? 1 : 3;
 
@@ -51,12 +52,15 @@ const ServiceGuestAuthSection = ({title, description , buttonText}: ServiceGuest
     error,
     page,
     handlePageChange,
-    refetch
+    setPage
   } = usePaginatedQuery<Service>(useGetAllServicesQuery, 0, servicesPerPage);
 
   useEffect(() => {
-    refetch();
-  }, [servicesPerPage, refetch]);
+    if (prevIsLg !== isLg) {
+      setPage(0);
+      setPrevIsLg(isLg);
+    }
+  }, [isLg, prevIsLg, setPage]);
 
   if (error) return <PageNotFound/>;
 
