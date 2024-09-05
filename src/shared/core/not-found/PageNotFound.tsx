@@ -31,10 +31,10 @@ const PageNotFound = () => {
 
   return (
     <StyledContainer>
-      <Typography variant={"h1"} component={"h1"} gutterBottom>
+      <Typography variant={"h2"} component={"h1"} gutterBottom>
         404
       </Typography>
-      <Typography variant={"h6"} component={"p"} gutterBottom>
+      <Typography variant={"h5"} component={"p"} gutterBottom>
         Page Not Found
       </Typography>
       <StyledButton onClick={handleGoHome}>

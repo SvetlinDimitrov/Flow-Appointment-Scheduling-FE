@@ -4,6 +4,7 @@ import {ReactElement} from "react";
 
 const StyledTableCell = styled(TableCell)(() => ({
   fontWeight: 'bold',
+  padding: 8,
 }));
 
 interface StyledTableCellProps {

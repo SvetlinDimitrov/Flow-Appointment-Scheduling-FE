@@ -100,7 +100,7 @@ const PaginatedUserSection = (
   if (error) return <PageNotFound/>;
 
   const numberOfColumns = userRole === UserRole.ADMINISTRATOR || userRole === UserRole.EMPLOYEE ? 10 : 4;
-  const maxWidth = numberOfColumns * 140;
+  const maxWidth = numberOfColumns * 130;
 
   return (
     <Box p={2} display={'flex'} flexDirection={'column'}

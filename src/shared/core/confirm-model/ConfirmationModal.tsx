@@ -24,6 +24,7 @@ const ConfirmationModal = ({open, title, message, onConfirm, onCancel}: Confirma
           boxShadow: theme.shadows[5],
           borderRadius: theme.shape.borderRadius,
           zIndex: 1000,
+          minWidth: 300
         },
       }}
       BackdropProps={{

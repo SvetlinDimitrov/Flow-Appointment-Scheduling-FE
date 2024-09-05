@@ -30,7 +30,7 @@ const StaffCard = (props: StaffCardProps) => {
           <Typography variant={"h6"} fontWeight={'bold'}>
             {employee.firstName} {employee.lastName}
           </Typography>
-          <Typography variant={"body2"} color={'gray'} mt={1}>
+          <Typography variant={"subtitle2"} color={'gray'} mt={1}>
             {employee.email}
           </Typography>
         </CardContent>

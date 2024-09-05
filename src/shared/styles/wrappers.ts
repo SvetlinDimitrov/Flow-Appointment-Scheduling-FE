@@ -6,7 +6,9 @@ export const UserMainWrapper = styled(Box)(({theme}) => ({
   justifyContent: 'center',
   alignItems: 'center',
   height: '80.9vh',
-  padding: theme.spacing(3),
+  padding: theme.spacing(2),
+  paddingRight: theme.spacing(4),
+  paddingLeft: theme.spacing(4),
 }));
 
 export const UserSecondWrapper = styled(Paper)(({theme}) => ({

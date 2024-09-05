@@ -15,6 +15,7 @@ import {ConfirmationModalProvider} from "./shared/context/ConfirmationModalConte
 /**
  * MUI Theme Customizations:
  * - Section: {section header - h2, section description - h5}
+ * - Form: {form header - h4}
  * - Header and Footer: {subtitle1}
  * - Card: {header - h5, description - subtitle2, more - subtitle1}
  */

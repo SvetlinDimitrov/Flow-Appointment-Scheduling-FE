@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Checkbox,
   Dialog,
@@ -45,74 +46,78 @@ const EditUserModal = ({open, onClose, onSave, initialData} : EditUserModalProps
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg" sx={{
+      minWidth: 300,
+    }}>
+      <Box minWidth={300}>
       <DialogTitle>Edit User</DialogTitle>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent>
-          <TextField
-            select
-            label="User Role"
-            {...register("userRole")}
-            fullWidth
-            margin="normal"
-            error={!!errors.userRole}
-            defaultValue={initialData.userRole}
-          >
-            <MenuItem value={UserRole.ADMINISTRATOR}>Administrator</MenuItem>
-            <MenuItem value={UserRole.EMPLOYEE}>Employee</MenuItem>
-          </TextField>
-          <TextField
-            {...register("salary")}
-            label="Salary"
-            type="number"
-            fullWidth
-            margin="normal"
-            error={!!errors.salary}
-            helperText={errors.salary?.message}
-          />
-          <TextField
-            {...register("beginWorkingHour")}
-            label="Begin Working Hour"
-            type="time"
-            fullWidth
-            margin="normal"
-            error={!!errors.beginWorkingHour}
-            helperText={errors.beginWorkingHour?.message}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            {...register("endWorkingHour")}
-            label="End Working Hour"
-            type="time"
-            fullWidth
-            margin="normal"
-            error={!!errors.endWorkingHour}
-            helperText={errors.endWorkingHour?.message}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                {...register("isAvailable")}
-                defaultChecked={initialData.isAvailable}
-              />
-            }
-            label="Is Available"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose} color="secondary">
-            Cancel
-          </Button>
-          <Button type="submit" color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </form>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <DialogContent>
+            <TextField
+              select
+              label="User Role"
+              {...register("userRole")}
+              fullWidth
+              margin="normal"
+              error={!!errors.userRole}
+              defaultValue={initialData.userRole}
+            >
+              <MenuItem value={UserRole.ADMINISTRATOR}>Administrator</MenuItem>
+              <MenuItem value={UserRole.EMPLOYEE}>Employee</MenuItem>
+            </TextField>
+            <TextField
+              {...register("salary")}
+              label="Salary"
+              type="number"
+              fullWidth
+              margin="normal"
+              error={!!errors.salary}
+              helperText={errors.salary?.message}
+            />
+            <TextField
+              {...register("beginWorkingHour")}
+              label="Begin Working Hour"
+              type="time"
+              fullWidth
+              margin="normal"
+              error={!!errors.beginWorkingHour}
+              helperText={errors.beginWorkingHour?.message}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              {...register("endWorkingHour")}
+              label="End Working Hour"
+              type="time"
+              fullWidth
+              margin="normal"
+              error={!!errors.endWorkingHour}
+              helperText={errors.endWorkingHour?.message}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  {...register("isAvailable")}
+                  defaultChecked={initialData.isAvailable}
+                />
+              }
+              label="Is Available"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={onClose} color="secondary">
+              Cancel
+            </Button>
+            <Button type="submit" color="primary">
+              Save
+            </Button>
+          </DialogActions>
+        </form>
+      </Box>
     </Dialog>
   );
 };

@@ -53,12 +53,18 @@ const CreateServiceModal = ({open, onClose, onSubmit}: CreateServiceModalProps) 
   if (error) return <PageNotFound/>;
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} sx={{
+      '& .MuiDialog-paper': {
+        width: '100%',
+        maxWidth: 500,
+        minWidth: 300,
+      }
+    }}>
       <DialogTitle>Create New Service</DialogTitle>
       <form onSubmit={handleSubmit(onSubmitForm)}>
         <DialogContent>
           <Box display={'flex'} flexDirection={'column'}
-               gap={3} p={2} width={'500px'}>
+               gap={3} p={2}>
             <TextField
               label="Name"
               {...register("name")}
