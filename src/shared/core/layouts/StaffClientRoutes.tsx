@@ -3,14 +3,14 @@ import {UserAuthContext} from "../../context/UserAuthContext.tsx";
 import {UserRole} from "../../models/user.types.ts";
 import {Navigate, Outlet} from "react-router-dom";
 
-const ClientRoutes = () => {
+const StaffClientRoutes = () => {
   const {role} = useContext(UserAuthContext)!;
 
-  if (role !== UserRole.CLIENT) {
+  if (role !== UserRole.EMPLOYEE && role !== UserRole.CLIENT) {
     return <Navigate to="/"/>;
   }
 
   return <Outlet/>;
 };
 
-export default ClientRoutes;
+export default StaffClientRoutes;
