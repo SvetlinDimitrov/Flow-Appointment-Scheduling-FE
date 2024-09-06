@@ -1,13 +1,17 @@
 import {Box, Typography} from '@mui/material';
-import AppointmentEmpty from "./empty-appointment/AppointmentEmpty.tsx";
 import {Appointment} from "../../../shared/models/appointment.types.ts";
 import {useNavigate} from "react-router-dom";
-import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
 import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
-import MyCalendar from "./appointment-list/MyCalendar.tsx";
+import MyCalendar from "./MyCalendar.tsx";
+import {useContext} from "react";
+import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 
 const AppointmentInfo = () => {
   const navigate = useNavigate();
+
+  const {userId} = useContext(UserAuthContext)!;
+
+  if (!userId) return null;
 
   const {openModal, closeModal} = useConfirmationModal();
 
@@ -29,22 +33,10 @@ const AppointmentInfo = () => {
   return (
     <Box display={"flex"} flexDirection={"column"}
          alignItems={"center"} justifyContent={"center"} height={"86.1vh"}>
-      <Typography variant={"h4"}
-      sx={{
-        fontWeight: 'bold',
-        fontSize: {
-          xs: '1.5rem',
-          sm: '2rem'
-        }
-      }}>
+      <Typography variant={"h3"} mb={5}>
         My Appointments
       </Typography>
-      {[] && [].length === 0 ? (
-        <AppointmentEmpty/>
-      ) : (
-        <MyCalendar events={[]}/>
-      )}
-      <ConfirmationModalWrapper/>
+      <MyCalendar userId={userId}/>
     </Box>
   );
 };

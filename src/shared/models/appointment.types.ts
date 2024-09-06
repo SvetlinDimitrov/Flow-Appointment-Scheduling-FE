@@ -8,6 +8,12 @@ export enum AppointmentStatus {
   CANCELED
 }
 
+export enum UpdateAppointmentStatus {
+  APPROVED,
+  COMPLETED,
+  CANCELED
+}
+
 export interface Appointment {
   id: number;
   client: User;
@@ -16,4 +22,22 @@ export interface Appointment {
   endDate: Date;
   status: AppointmentStatus;
   service: Service;
+}
+
+export interface ShortAppointment {
+  id: number;
+  serviceName: string;
+  startDate: Date;
+  endDate: Date;
+}
+
+export interface AppointmentCreate {
+  serviceId: number;
+  clientEmail: string;
+  staffEmail: string;
+  date: Date;
+}
+
+export interface AppointmentUpdate {
+  status: UpdateAppointmentStatus;
 }
