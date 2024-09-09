@@ -1,5 +1,5 @@
 import {useQuery} from '@tanstack/react-query';
-import {getAppointmentById} from "../../services/appintment-service.ts";
+import {getAppointmentById} from "../../../services/appintment-service.ts";
 
 const useGetAppointmentByIdQuery = (id: number | null) => {
   return useQuery({

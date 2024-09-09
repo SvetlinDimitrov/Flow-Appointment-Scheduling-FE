@@ -1,6 +1,6 @@
 import {useQuery} from '@tanstack/react-query';
-import {getAllAppointmentsByUserIdAndDate} from "../../services/appintment-service.ts";
-import {ShortAppointment} from "../../shared/models/appointment.types.ts";
+import {getAllAppointmentsByUserIdAndDate} from "../../../services/appintment-service.ts";
+import {ShortAppointment} from "../../../shared/models/appointment.types.ts";
 
 const useGetAllAppointmentsShortByUserId = (userId: number, startDate: Date, endDate: Date) => {
   const fetchAppointments = async () => {

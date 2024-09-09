@@ -45,8 +45,8 @@ export const createAppointment = async (appointment: AppointmentCreate) => {
   return response.data;
 };
 
-export const updateAppointment = async (id: number, appointment: AppointmentUpdate) => {
-  const response = await axiosInstance.put<Appointment>(`${API_URL}/${id}`, appointment);
+export const updateAppointment = async (id: number, dto: AppointmentUpdate) => {
+  const response = await axiosInstance.put<Appointment>(`${API_URL}/${id}`, dto);
   return response.data;
 };
 

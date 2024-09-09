@@ -4,6 +4,9 @@ import UserInfoSection from './user-info/UserInfoSection.tsx';
 import ServiceDetailSection from './service-detail/ServiceDetailSection.tsx';
 import MapComponent from '../../../../shared/core/map/MapComponent.tsx';
 import {Appointment} from '../../../../shared/models/appointment.types.ts';
+import {useContext} from "react";
+import {UserAuthContext} from "../../../../shared/context/UserAuthContext.tsx";
+import {UserRole} from "../../../../shared/models/user.types.ts";
 
 interface ClientAppointmentDetailsProps {
   appointment: Appointment;
@@ -21,6 +24,9 @@ const ClientAppointmentDetails = (
     open,
     onClose
   }: ClientAppointmentDetailsProps) => {
+
+  const {role} = useContext(UserAuthContext)!;
+
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle variant={'h5'}>
@@ -35,7 +41,8 @@ const ClientAppointmentDetails = (
             <HeaderAppointmentSection appointment={appointment} cancelAppointment={cancelAppointment}/>
           </Grid>
           <Grid item xs={12} md={6} border={'1px solid black'}>
-            <UserInfoSection user={appointment.client}/>
+            {role === UserRole.CLIENT && <UserInfoSection user={appointment.staff}/>}
+            {role === UserRole.EMPLOYEE && <UserInfoSection user={appointment.client}/>}
             <Box display={'flex'} alignItems={'center'} borderTop={'1px solid black'}
             sx={{
               borderBottom: {

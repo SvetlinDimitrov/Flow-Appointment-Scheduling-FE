@@ -9,9 +9,9 @@ export enum AppointmentStatus {
 }
 
 export enum UpdateAppointmentStatus {
-  APPROVED,
-  COMPLETED,
-  CANCELED
+  APPROVED = 'APPROVED',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED'
 }
 
 export interface Appointment {
