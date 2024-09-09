@@ -2,10 +2,10 @@ import {User} from "./user.types.ts";
 import {Service} from "./service.types.ts";
 
 export enum AppointmentStatus {
-  NOT_APPROVED,
-  APPROVED,
-  COMPLETED,
-  CANCELED
+  NOT_APPROVED = 'NOT_APPROVED',
+  APPROVED = 'APPROVED',
+  COMPLETED = 'COMPLETED',
+  CANCELED = 'CANCELED'
 }
 
 export enum UpdateAppointmentStatus {
@@ -29,6 +29,7 @@ export interface ShortAppointment {
   serviceName: string;
   startDate: Date;
   endDate: Date;
+  status: AppointmentStatus;
 }
 
 export interface AppointmentCreate {

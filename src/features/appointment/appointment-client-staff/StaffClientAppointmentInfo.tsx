@@ -1,11 +1,13 @@
 import {Box, Typography} from '@mui/material';
 import {Appointment, ShortAppointment} from "../../../shared/models/appointment.types.ts";
 import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
-import StaffClientCalendar from "./StaffClientCalendar.tsx";
+import MyCalendar from "../../../shared/core/calendar/MyCalendar.tsx";
 import {useContext, useState} from "react";
 import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 import ClientAppointmentDetails from "./client-detailed-appointment/ClientAppointmentDetails.tsx";
 import useGetAppointmentByIdQuery from "../../../hooks/appointments/useGetAppointmentByIdQuery.ts";
+import useGetAllAppointmentsShortByUserId from "../../../hooks/appointments/useGetAllAppointmentsShortByUserId.ts";
+import CustomToolbar from "./client/CustomToolbar.tsx";
 
 const StaffClientAppointmentInfo = () => {
 
@@ -33,12 +35,14 @@ const StaffClientAppointmentInfo = () => {
     <>
     <Box display={"flex"} flexDirection={"column"}
          alignItems={"center"} justifyContent={"center"} height={"86.1vh"}>
-      <Typography variant={"h3"} mb={5}>
+      <Typography variant={"h5"} mb={5}>
         My Appointments
       </Typography>
-      <StaffClientCalendar
-        userId={userId}
-        openDetails={(a: ShortAppointment) => setCurrentAppointmentId(a.id)}/>
+      <MyCalendar
+        openDetails={(a: ShortAppointment) => setCurrentAppointmentId(a.id)}
+        useGetAppointmentsHook={(start, end) => useGetAllAppointmentsShortByUserId(userId, start, end)}
+        CustomToolbar={CustomToolbar}
+      />
     </Box>
       {currentAppointmentId && !isLoading && appointment &&
         <ClientAppointmentDetails

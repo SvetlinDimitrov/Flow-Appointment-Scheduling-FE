@@ -11,6 +11,7 @@ import {queryClient} from "./utils/react-query/queryClient.ts";
 import ToastNotification from "./shared/core/toast/ToastNotification.tsx";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {ConfirmationModalProvider} from "./shared/context/ConfirmationModalContext.tsx";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 /**
  * MUI Theme Customizations:
