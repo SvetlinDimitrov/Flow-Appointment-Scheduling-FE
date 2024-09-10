@@ -65,7 +65,7 @@ const AdminDashboardUsers = () => {
   return (
     <div>
       <WelcomeUserSection onHireStaff={() => setIsHireModalOpen(true)}/>
-      <Box display={'flex'} justifyContent={'center'} mt={2} mb={2}>
+      <Box display={'flex'} justifyContent={'center'} mt={2} mb={2} pl={4} pr={4}>
         <FormControl sx={{width: 300}} size={'small'}>
           <InputLabel id="user-role-select-label">User Role</InputLabel>
           <Select

@@ -1,8 +1,6 @@
 import MissionItem from './mission-item/MissionItem.tsx';
 import {styled} from "@mui/system";
-import {Box} from "@mui/material";
-import {CoreHeader as SharedHeader} from "../../../../shared/styles/headers.ts";
-import {CoreSubHeader as SharedSubHeader} from "../../../../shared/styles/subHeaders.ts";
+import {Box, Typography} from "@mui/material";
 
 const missionValues = [
   {
@@ -36,16 +34,16 @@ const SecondaryWrapper = styled(Box)(({theme}) => ({
 
 const MissionSection = () => {
   return (
-    <Box width={'100%'} sx={{backgroundColor: 'rgba(0, 0, 0, 0.05)'}}>
+    <Box p={2} pl={4} pr={4} width={'100%'} sx={{backgroundColor: 'rgba(0, 0, 0, 0.05)'}}>
       <SecondaryWrapper>
-        <SharedHeader variant={"h4"} gutterBottom>
+        <Typography variant={"h2"} gutterBottom>
         Our Mission and Values
-        </SharedHeader>
-        <SharedSubHeader variant={"body1"} paragraph>
+        </Typography>
+        <Typography variant={"h5"} paragraph>
         At Flow, our mission is to enhance the well-being of every individual we serve through personalized wellness
         solutions. We are committed to creating an environment that fosters health, relaxation, and a sense of
         community.
-        </SharedSubHeader>
+        </Typography>
         <Box display={'flex'} justifyContent={'center'}
              flexWrap={'wrap'} gap={5} mt={4}>
           {missionValues.map((value, index) => (

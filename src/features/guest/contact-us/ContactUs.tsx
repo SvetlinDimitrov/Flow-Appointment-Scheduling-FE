@@ -2,8 +2,6 @@ import ContactForm from "./contact-us-form/ContactForm.tsx";
 import MapComponent from "../../../shared/core/map/MapComponent.tsx";
 import {styled} from "@mui/system";
 import {Box, Typography} from "@mui/material";
-import {CoreHeader as SharedHeader} from "../../../shared/styles/headers.ts";
-import {CoreSubHeader as SharedSubHeader} from "../../../shared/styles/subHeaders.ts";
 
 const MainWrapper = styled(Box)(({theme}) => ({
   display: 'flex',
@@ -11,6 +9,8 @@ const MainWrapper = styled(Box)(({theme}) => ({
   alignItems: 'center',
   justifyContent: 'center',
   gap: theme.spacing(1),
+  paddingLeft: theme.spacing(4),
+  paddingRight: theme.spacing(4),
   padding: '1rem',
   height: '82.6vh',
   [theme.breakpoints.down('lg')]: {
@@ -68,9 +68,9 @@ const ContactUs = () => {
 
   return (
     <MainWrapper>
-      <SharedHeader variant={"h4"}>
+      <Typography variant={"h2"}>
         Contact Us
-      </SharedHeader>
+      </Typography>
       <ContactInfoWrapper>
         <Typography variant={"body1"} fontSize={'1rem'} color={'#333'}>
           Telephone: +123456789
@@ -79,9 +79,9 @@ const ContactUs = () => {
           Email: contact@example.com
         </Typography>
       </ContactInfoWrapper>
-      <SharedSubHeader variant={"body1"} paragraph color={'#666'} textAlign={'center'}>
+      <Typography variant={"h5"} paragraph color={'#666'} textAlign={'center'}>
         We would love to hear from you! Please fill out the form below and we will get in touch with you shortly.
-      </SharedSubHeader>
+      </Typography>
       <SecondWrapper>
         <MapWrapper>
           <MapComponent position={position} style={{height: '350px', width: '500px'}}/>

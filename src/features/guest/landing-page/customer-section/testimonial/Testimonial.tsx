@@ -20,28 +20,12 @@ const MainWrapper = styled(Box)(({theme}) => ({
   backgroundColor: 'rgba(255, 255, 255, 0.1)',
 }));
 
-const MainParagraph = styled(Typography)(({theme}) => ({
-  fontSize: '1.5rem',
-  [theme.breakpoints.down('sm')]: {
-    fontSize: '1rem',
-  },
-  color: 'white',
-}));
-
-const ClientName = styled(Typography)(({theme}) => ({
-  fontSize: '1.8rem',
-  [theme.breakpoints.down('sm')]: {
-    fontSize: '1.4rem',
-  },
-  color: 'white',
-}));
-
 const Testimonial = ({ text, image, clientName }: TestimonialProps) => {
   return (
     <MainWrapper>
-      <MainParagraph variant={"body1"}>
+      <Typography variant={"h6"} color={'white'}>
     {text}
-      </MainParagraph>
+      </Typography>
       <Box display={'flex'} alignItems={'center'}
            justifyContent={'center'} gap={1}>
         <Avatar alt={clientName} src={image} sx={{
@@ -49,9 +33,9 @@ const Testimonial = ({ text, image, clientName }: TestimonialProps) => {
           height: 70,
           mb: 1,
         }}/>
-        <ClientName variant="body2">
+        <Typography variant="h5" color={'white'}>
           {clientName}
-        </ClientName>
+        </Typography>
       </Box>
     </MainWrapper>
   );

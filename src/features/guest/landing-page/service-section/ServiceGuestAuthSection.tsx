@@ -1,11 +1,12 @@
 import ServiceCard from "./service-card/ServiceCard.tsx";
 import {styled} from "@mui/system";
-import {Box, CircularProgress, Pagination, Stack, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {Box, Pagination, Stack, Typography, useMediaQuery, useTheme} from "@mui/material";
 import usePaginatedQuery from "../../../../hooks/custom/usePaginatedQuery.ts";
 import {Service} from "../../../../shared/models/service.types.ts";
 import useGetAllServicesQuery from "../../../../hooks/services/query/useGetAllServicesQuery.ts";
 import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import ContainerLoader from "../../../../shared/core/loading/container-loader/ContainerLoader.tsx";
 
 const MainWrapper = styled(Stack)(({theme}) => ({
   display: 'flex',
@@ -14,6 +15,8 @@ const MainWrapper = styled(Stack)(({theme}) => ({
   justifyContent: 'center',
   gap: theme.spacing(5),
   padding: theme.spacing(2),
+  paddingLeft: theme.spacing(4),
+  paddingRight: theme.spacing(4),
   marginTop: theme.spacing(5),
   marginBottom: theme.spacing(5),
   minHeight: '80vh',
@@ -40,6 +43,7 @@ const ServiceGuestAuthSection = ({title, description , buttonText}: ServiceGuest
   const theme = useTheme();
 
   const isLg = useMediaQuery(theme.breakpoints.down('lg'));
+  const [prevIsLg, setPrevIsLg] = useState(isLg);
 
   const servicesPerPage = isLg ? 1 : 3;
 
@@ -49,29 +53,30 @@ const ServiceGuestAuthSection = ({title, description , buttonText}: ServiceGuest
     error,
     page,
     handlePageChange,
-    refetch
+    setPage
   } = usePaginatedQuery<Service>(useGetAllServicesQuery, 0, servicesPerPage);
 
   useEffect(() => {
-    refetch();
-  }, [servicesPerPage, refetch]);
+    if (prevIsLg !== isLg) {
+      setPage(0);
+      setPrevIsLg(isLg);
+    }
+  }, [isLg, prevIsLg, setPage]);
 
   if (error) return <PageNotFound/>;
 
   return (
     <MainWrapper>
-      <Typography variant={"h4"} fontWeight={'bold'} fontSize={'2.5rem'} color={'#333'}>
+      <Typography variant={"h2"} color={'#333'}>
         {title}
       </Typography>
       {description &&
-      <Typography variant={"body1"} fontSize={'1.25rem'} lineHeight={1.5} color={'#666'}>
+      <Typography variant={"h5"} color={'#666'}>
         {description}
       </Typography>
       }
       {isLoading &&
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="540px">
-          <CircularProgress/>
-        </Box>
+        <ContainerLoader height={540}/>
       }
       {!isLoading && data && <>
       <CardsHolder>

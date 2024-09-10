@@ -7,7 +7,6 @@ import PageNotFound from "./shared/core/not-found/PageNotFound.tsx";
 import AuthenticatedUser from "./shared/core/layouts/AuthenticatedUser.tsx";
 import Header from "./shared/core/header/Header.tsx";
 import Footer from "./shared/core/footer/Footer.tsx";
-import LoadingSpinner from "./shared/core/loading/LoadingSpinner.tsx";
 import {setupInterceptors} from "./utils/axios-config/axiosInstance.ts";
 import {useContext, useEffect} from "react";
 import Profile from "./features/users/settings/Profile.tsx";
@@ -35,7 +34,6 @@ function App() {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh" minWidth={"280px"}>
       <Header/>
-      <LoadingSpinner/>
       <Box flexGrow={1}>
         <Routes>
           <Route path="/" element={<Home/>}/>

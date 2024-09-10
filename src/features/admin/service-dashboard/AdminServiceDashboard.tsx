@@ -75,7 +75,7 @@ const AdminServiceDashboard = () => {
   };
 
   return (
-    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} gap={2}>
+    <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} gap={2} pl={4} pr={4}>
       <WelcomeServiceSection onCreateService={() => setCreateModalOpen(true)}/>
       <AdminServiceList
         handleViewStaff={(service) => {

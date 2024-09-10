@@ -41,9 +41,9 @@ const TeamMember = ({name, role, description, imageSrc}: TeamMemberProps) => {
   return (
     <MainWrapper>
       <StyledAvatar src={imageSrc} alt={name}/>
-      <Typography variant={"h6"} fontWeight={"bold"} fontSize={'1.25rem'}>{name}</Typography>
-      <Typography variant={"body2"} color={'black'} fontStyle={"italic"}>{role}</Typography>
-      <Typography variant={"body2"} color={'dimgray'} fontSize={'0.875rem'}>{description}</Typography>
+      <Typography variant={"h5"} fontWeight={"bold"}>{name}</Typography>
+      <Typography variant={"subtitle1"} color={'black'}>{role}</Typography>
+      <Typography variant={"subtitle2"} color={'dimgray'}>{description}</Typography>
     </MainWrapper>
   );
 };

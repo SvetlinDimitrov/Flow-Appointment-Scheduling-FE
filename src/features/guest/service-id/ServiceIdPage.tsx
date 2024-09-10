@@ -3,11 +3,11 @@ import { AccessTime, Cancel, CheckCircle, LocationOn, MonetizationOn } from '@mu
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetServiceByIdQuery from "../../../hooks/services/query/useGetServiceByIdQuery.ts";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
-import LoadingSpinner from "../../../shared/core/loading/LoadingSpinner.tsx";
+import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
 import { Duration } from "luxon";
 import StaffList from "../../users/staff-list/StaffList.tsx";
 import { UserAuthContext } from "../../../shared/context/UserAuthContext.tsx";
-import { useContext } from "react";
+import {useContext} from "react";
 
 const ServicePage = () => {
   const navigate = useNavigate();
@@ -25,8 +25,8 @@ const ServicePage = () => {
     navigate('/login');
   };
 
-  if (isLoading) return <LoadingSpinner />;
-  if (error || !service) return <PageNotFound />;
+  if (error) return <PageNotFound />;
+  if (isLoading || !service) return <LoadingSpinner />;
 
   return (
     <Container sx={{marginTop: 6 , marginBottom: 6}}>
@@ -42,35 +42,35 @@ const ServicePage = () => {
           />
         </Grid>
         <Grid item xs={12} sm={8}>
-          <Typography textAlign={'center'} variant="h4" gutterBottom>
+          <Typography textAlign={'center'} variant="h2" gutterBottom>
             {service.name}
           </Typography>
-          <Typography textAlign={'center'} variant="body1" color="textSecondary" gutterBottom>
+          <Typography textAlign={'center'} variant="h6" color="textSecondary" gutterBottom>
             {service.description}
           </Typography>
           <Grid container spacing={2} mt={2} >
             <Grid item xs={12} sm={6}>
               <Box display="flex" alignItems="center">
                 <MonetizationOn sx={{ mr: 1 }} />
-                <Typography variant="body1">${service.price}</Typography>
+                <Typography variant="subtitle1">${service.price}</Typography>
               </Box>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Box display="flex" alignItems="center">
                 <AccessTime sx={{ mr: 1 }} />
-                <Typography variant="body1">{Duration.fromISO(service.duration).as('minutes')} minutes</Typography>
+                <Typography variant="subtitle1">{Duration.fromISO(service.duration).as('minutes')} minutes</Typography>
               </Box>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Box display="flex" alignItems="center">
                 {service.availability ? <CheckCircle sx={{ mr: 1, color: 'green' }} /> : <Cancel sx={{ mr: 1, color: 'red' }} />}
-                <Typography variant="body1">{service.availability ? 'Available' : 'Not Available'}</Typography>
+                <Typography variant="subtitle1">{service.availability ? 'Available' : 'Not Available'}</Typography>
               </Box>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Box display="flex" alignItems="center">
                 <LocationOn sx={{ mr: 1 }} />
-                <Typography variant="body1">{service.workSpace.name}</Typography>
+                <Typography variant="subtitle1">{service.workSpace.name}</Typography>
               </Box>
             </Grid>
           </Grid>

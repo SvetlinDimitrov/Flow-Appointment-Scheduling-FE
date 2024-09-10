@@ -19,7 +19,7 @@ import {ServiceDTO} from "../../../../shared/models/api/services.ts";
 import {serviceCreateUpdateValidations} from "../../../../shared/validation/services.validations.ts";
 import useGetAllWorkSpacesNamesQuery from "../../../../hooks/services/query/useGetAllWorkSpacesNamesQuery.ts";
 import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
-import LoadingSpinner from "../../../../shared/core/loading/LoadingSpinner.tsx";
+import LoadingSpinner from "../../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
 import {useEffect} from "react";
 
 const serviceSchema = serviceCreateUpdateValidations;
@@ -64,11 +64,12 @@ const ServiceEditModal = ({ open, onClose, service, onSubmit } : ServiceEditModa
 
   return (
     <Modal open={open} onClose={handleClose} aria-labelledby="edit-service-modal">
-      <Box position={'absolute'} top={'50%'} left={'50%'} width={400} bgcolor={'background.paper'}
+      <Box position={'absolute'} top={'50%'} left={'50%'} maxWidth={500}
+           minWidth={300} bgcolor={'background.paper'}
            boxShadow={24} p={4} sx={{
         transform: 'translate(-50%, -50%)',
       }}>
-        <Typography id="edit-service-modal" variant="h6" component="h2">
+        <Typography id="edit-service-modal" variant="h5" component="h2">
           Edit Service
         </Typography>
         <form onSubmit={handleSubmit(handleFormSubmit)}>

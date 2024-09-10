@@ -29,11 +29,11 @@ const ServiceCard = (
     <Box>
       <Card sx={{width: 325, margin: "auto", boxShadow: 3}}>
         <CardContent sx={{minHeight: 450}}>
-          <Typography variant={"h6"} fontWeight={'bold'} textAlign={'center'}>
+          <Typography variant={"h5"} fontWeight={'bold'} textAlign={'center'}>
             {selectedService.name}
           </Typography>
           <Typography
-            variant={"body2"} maxWidth={300} margin={"auto"} textAlign={"center"}
+            variant={"subtitle2"} maxWidth={300} margin={"auto"} textAlign={"center"}
             color={"gray"} fontStyle={"italic"} marginTop={1}
           >
             {selectedService.description}

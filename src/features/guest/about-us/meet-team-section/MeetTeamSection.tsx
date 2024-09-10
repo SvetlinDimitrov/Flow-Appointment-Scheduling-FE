@@ -1,8 +1,6 @@
 import TeamMember from "./team-member/TeamMember.tsx";
 import {styled} from "@mui/system";
-import {Box, Button} from "@mui/material";
-import {CoreHeader as SharedHeader} from "../../../../shared/styles/headers.ts";
-import {CoreSubHeader as SharedSubHeader} from "../../../../shared/styles/subHeaders.ts";
+import {Box, Button, Typography} from "@mui/material";
 
 const teamMembers = [
   {
@@ -33,19 +31,21 @@ const MainWrapper = styled(Box)(({theme}) => ({
   flexDirection: 'column',
   gap: theme.spacing(4),
   padding: theme.spacing(2),
+  paddingLeft: theme.spacing(4),
+  paddingRight: theme.spacing(4),
 }));
 
 const MeetTeamSection = () => {
   return (
     <MainWrapper>
-      <SharedHeader variant={"h4"}>
+      <Typography variant={"h2"}>
         Meet Our Expert Team
-      </SharedHeader>
-      <SharedSubHeader variant={"body1"} paragraph>
+      </Typography>
+      <Typography variant={"h5"} paragraph>
         Our team is a group of passionate professionals dedicated to your wellness. From our skilled massage therapists
         to our energetic fitness instructors, every member of Flow brings a wealth of experience and a commitment to
         your well-being.
-      </SharedSubHeader>
+      </Typography>
       <Box display={'flex'} justifyContent={'center'}
            flexWrap={'wrap'} gap={4} mt={4}>
         {teamMembers.map((member, index) => (

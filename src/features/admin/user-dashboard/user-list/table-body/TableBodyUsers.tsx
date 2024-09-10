@@ -6,6 +6,7 @@ import {styled} from "@mui/system";
 
 const CenteredTableCell = styled(TableCell)({
   textAlign: 'center',
+  padding: 8
 });
 
 interface TableBodyUsersProps {
@@ -40,7 +41,7 @@ const TableBodyUsers = ({data, userId, onEdit, onDelete, onAssignToService}: Tab
               <CenteredTableCell>{DateTime.fromISO(user.staffDetails.endWorkingHour.toString()).toFormat('HH:mm')}</CenteredTableCell>
             </>
           )}
-          <TableCell>
+          <TableCell sx={{padding: 1}}>
             {userId && user.id !== userId && (
               <UserActions
                 userRole={user.role}

@@ -90,8 +90,9 @@ const HireStaffModal = ({open, onClose, onSubmit} : HireStaffModalProps) => {
       onClose={onCloseModal}
       style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
     >
-      <Box p={4} bgcolor="background.paper" borderRadius={2} width={400} height={600} overflow={'auto'}>
-        <Typography variant="h6" mb={2}>Hire Staff Member</Typography>
+      <Box p={4} bgcolor="background.paper" borderRadius={2} minWidth={300}
+           height={600} maxWidth={500} overflow={'auto'}>
+        <Typography variant="h5" mb={2}>Hire Staff Member</Typography>
         <form onSubmit={handleSubmit(onSubmitForm)}>
           <TextField
             size={'small'}

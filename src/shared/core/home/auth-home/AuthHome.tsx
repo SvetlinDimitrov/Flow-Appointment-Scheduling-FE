@@ -3,7 +3,7 @@ import WelcomeSection from "./welcome_section/WelcomeSection.tsx";
 import {useContext, useEffect} from "react";
 import useGetUserQuery from "../../../../hooks/users/query/useGetUserQuery.ts";
 import {UserAuthContext} from "../../../context/UserAuthContext.tsx";
-import LoadingSpinner from "../../loading/LoadingSpinner.tsx";
+import LoadingSpinner from "../../loading/main-loader/LoadingSpinner.tsx";
 import PageNotFound from "../../not-found/PageNotFound.tsx";
 import {UserRole} from "../../../models/user.types.ts";
 import {useNavigate} from "react-router-dom";

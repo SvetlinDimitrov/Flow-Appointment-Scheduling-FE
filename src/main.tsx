@@ -12,6 +12,13 @@ import ToastNotification from "./shared/core/toast/ToastNotification.tsx";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {ConfirmationModalProvider} from "./shared/context/ConfirmationModalContext.tsx";
 
+/**
+ * MUI Theme Customizations:
+ * - Section: {section header - h2, section description - h5}
+ * - Form: {form header - h4}
+ * - Header and Footer: {subtitle1}
+ * - Card: {header - h5, description - subtitle2, more - subtitle1}
+ */
 let theme = createTheme({
   breakpoints: {
     values: {
@@ -24,15 +31,19 @@ let theme = createTheme({
   },
   typography: {
     fontFamily: 'Arial, sans-serif',
-    body1: {
-      [`@media (min-width:0px)`]: {
-        fontSize: '0.6rem',
+    h2: {
+      '@media (max-width:600px)': {
+        fontSize: '2.6rem',
       },
-      [`@media (min-width:600px)`]: {
-        fontSize: '0.8rem',
-      },
-      [`@media (min-width:960px)`]: {
+    },
+    h5: {
+      '@media (max-width:600px)': {
         fontSize: '1.2rem',
+      },
+    },
+    subtitle1: {
+      '@media (max-width:600px)': {
+        fontSize: '0.8rem',
       },
     }
   },
