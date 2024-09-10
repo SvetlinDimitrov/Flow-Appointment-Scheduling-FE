@@ -12,6 +12,8 @@ const useModifyStaffMutation = () => {
     mutationFn: (data: { id: number, modifyDto: CreateUpdateUserAdminRequest }) => modifyStaff(data.id, data.modifyDto),
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['users']});
+      queryClient.invalidateQueries({queryKey: ['appointments']});
+      queryClient.invalidateQueries({queryKey: ['appointment']});
       toast.success("Staff modified successfully.");
     },
     onError: (error: AxiosError) => {

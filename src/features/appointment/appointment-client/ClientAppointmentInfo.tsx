@@ -1,22 +1,25 @@
 import {Box, Typography} from '@mui/material';
-import {AppointmentStatus, ShortAppointment, UpdateAppointmentStatus} from "../../shared/models/appointment.types.ts";
-import {useConfirmationModal} from "../../shared/context/ConfirmationModalContext.tsx";
-import MyCalendar from "../../shared/core/calendar/MyCalendar.tsx";
+import {ShortAppointment, UpdateAppointmentStatus} from "../../../shared/models/appointment.types.ts";
+import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
+import MyCalendar from "../../../shared/core/calendar/MyCalendar.tsx";
 import {useContext, useState} from "react";
-import {UserAuthContext} from "../../shared/context/UserAuthContext.tsx";
-import ClientAppointmentDetails from "./appointment-client/detailed-appoitment/ClientAppointmentDetails.tsx";
-import useGetAppointmentByIdQuery from "../../hooks/appointments/query/useGetAppointmentByIdQuery.ts";
-import useGetAllAppointmentsShortByUserId from "../../hooks/appointments/query/useGetAllAppointmentsShortByUserId.ts";
-import useUpdateAppointmentMutation from "../../hooks/appointments/mutation/useUpdateAppointmentMutation.ts";
-import FullScreenLoader from "../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
-import ClientCustomToolbar from "./appointment-client/calendar-toolbars/ClientCustomToolbar.tsx";
+import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
+import ClientAppointmentDetails from "./detailed-appoitment/ClientAppointmentDetails.tsx";
+import useGetAppointmentByIdQuery from "../../../hooks/appointments/query/useGetAppointmentByIdQuery.ts";
+import useGetAllAppointmentsShortByUserId
+  from "../../../hooks/appointments/query/useGetAllAppointmentsShortByUserId.ts";
+import useUpdateAppointmentMutation from "../../../hooks/appointments/mutation/useUpdateAppointmentMutation.ts";
+import FullScreenLoader from "../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
+import BookAppointmentModal from "./book-modal/BookAppointmentModal.tsx";
+import ClientCustomToolbar from "./calendar-toolbars/ClientCustomToolbar.tsx";
 
-const StaffClientAppointmentInfo = () => {
+const ClientAppointmentInfo = () => {
 
   const {userId} = useContext(UserAuthContext)!;
 
   const [currentAppointmentId, setCurrentAppointmentId] = useState<number | null>(null);
   const [isCanceling, setIsCanceling] = useState(false);
+  const [isBooking, setIsBooking] = useState(false);
 
   const {data: appointment, isLoading} = useGetAppointmentByIdQuery(currentAppointmentId);
   const {openModal, closeModal} = useConfirmationModal();
@@ -25,9 +28,7 @@ const StaffClientAppointmentInfo = () => {
   if (!userId) return null;
 
   const handleOpenDetails = (a: ShortAppointment) => {
-    if (a.status === AppointmentStatus.APPROVED || a.status === AppointmentStatus.NOT_APPROVED) {
-      setCurrentAppointmentId(a.id);
-    }
+    setCurrentAppointmentId(a.id);
   }
 
   const cancelAppointment = () => {
@@ -50,12 +51,16 @@ const StaffClientAppointmentInfo = () => {
     openModal("Cancel Appointment", `Are you sure you want to cancel this appointment?`, onConfirm);
   }
 
-  const bookAgain = () => {
-    console.log("book again");
-  }
-
   return (
     <>
+      {appointment && isBooking &&
+        <BookAppointmentModal
+          open={isBooking}
+          onClose={() => setIsBooking(false)}
+          service={appointment.service}
+          staff={appointment.staff}
+        />
+      }
       <FullScreenLoader isLoading={isCanceling}/>
       <Box display={"flex"} flexDirection={"column"}
            alignItems={"center"} justifyContent={"center"} height={"86.1vh"}>
@@ -66,8 +71,8 @@ const StaffClientAppointmentInfo = () => {
           openDetails={handleOpenDetails}
           useGetAppointmentsHook={(start, end) => useGetAllAppointmentsShortByUserId(userId, start, end)}
           CustomToolbar={ClientCustomToolbar}
-          width={600}
-          height={600}
+          width={'90%'}
+          height={'80%'}
           startDate={undefined}
           endDate={undefined}
         />
@@ -78,10 +83,10 @@ const StaffClientAppointmentInfo = () => {
           open={!!currentAppointmentId}
           appointment={appointment}
           cancelAppointment={cancelAppointment}
-          bookAgain={bookAgain}
+          bookAgain={() => setIsBooking(true)}
         />}
     </>
   );
 };
 
-export default StaffClientAppointmentInfo;
+export default ClientAppointmentInfo;

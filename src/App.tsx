@@ -13,13 +13,13 @@ import Profile from "./features/users/settings/Profile.tsx";
 import AboutUs from "./features/guest/about-us/AboutUs.tsx";
 import {UserAuthContext} from "./shared/context/UserAuthContext.tsx";
 import ContactUs from "./features/guest/contact-us/ContactUs.tsx";
-import StaffClientAppointmentInfo from "./features/appointment/StaffClientAppointmentInfo.tsx";
 import {Box} from "@mui/material";
 import AdminRoutes from "./shared/core/layouts/AdminRoutes.tsx";
 import AdminServiceDashboard from "./features/admin/service-dashboard/AdminServiceDashboard.tsx";
 import AdminDashboardUsers from "./features/admin/user-dashboard/AdminDashboardUsers.tsx";
 import ServicePage from "./features/guest/service-id/ServiceIdPage.tsx";
 import StaffClientRoutes from "./shared/core/layouts/StaffClientRoutes.tsx";
+import AppointmentLayout from "./shared/core/layouts/AppointmentLayout.tsx";
 
 function App() {
 
@@ -47,7 +47,7 @@ function App() {
               <Route path="/admin/users" element={<AdminDashboardUsers/>}/>
             </Route>
             <Route element={<StaffClientRoutes/>}>
-              <Route path="/appointments" element={<StaffClientAppointmentInfo/>}/>
+              <Route path="/appointments" element={<AppointmentLayout/>}/>
             </Route>
             <Route path="/profile" element={<Profile/>}/>
           </Route>

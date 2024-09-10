@@ -11,6 +11,7 @@ const useUpdateAppointmentMutation = () => {
       updateAppointment(updatedAppointment.id, updatedAppointment.appointment),
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['appointments']});
+      queryClient.invalidateQueries({queryKey: ['appointment']});
       toast.success("Appointment updated successfully.");
     },
     onError: () => {

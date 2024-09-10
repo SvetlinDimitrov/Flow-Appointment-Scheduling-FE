@@ -22,7 +22,7 @@ const AuthHome = () => {
     if (role === UserRole.ADMINISTRATOR) {
       navigate('/admin/services');
     } else if (role === UserRole.EMPLOYEE) {
-      navigate('/staff/appointments');
+      navigate('/appointments');
     }
   }, [role, navigate]);
 
