@@ -4,6 +4,7 @@ import {EventProps} from "react-big-calendar";
 import getStatusColor from "../getStatusColor.ts";
 
 const DayCustomEvent = ({event}: EventProps<ShortAppointment>) => {
+
   const startTime = new Date(event.startDate).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
   const endTime = new Date(event.endDate).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 

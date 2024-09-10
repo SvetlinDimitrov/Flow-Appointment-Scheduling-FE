@@ -1,20 +1,15 @@
 import {Box, Typography} from '@mui/material';
-import {
-  AppointmentStatus,
-  ShortAppointment,
-  UpdateAppointmentStatus
-} from "../../../shared/models/appointment.types.ts";
-import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
-import MyCalendar from "../../../shared/core/calendar/MyCalendar.tsx";
+import {AppointmentStatus, ShortAppointment, UpdateAppointmentStatus} from "../../shared/models/appointment.types.ts";
+import {useConfirmationModal} from "../../shared/context/ConfirmationModalContext.tsx";
+import MyCalendar from "../../shared/core/calendar/MyCalendar.tsx";
 import {useContext, useState} from "react";
-import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
-import ClientAppointmentDetails from "./client-detailed-appointment/ClientAppointmentDetails.tsx";
-import useGetAppointmentByIdQuery from "../../../hooks/appointments/query/useGetAppointmentByIdQuery.ts";
-import useGetAllAppointmentsShortByUserId
-  from "../../../hooks/appointments/query/useGetAllAppointmentsShortByUserId.ts";
-import CustomToolbar from "./client/CustomToolbar.tsx";
-import useUpdateAppointmentMutation from "../../../hooks/appointments/mutation/useUpdateAppointmentMutation.ts";
-import FullScreenLoader from "../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
+import {UserAuthContext} from "../../shared/context/UserAuthContext.tsx";
+import ClientAppointmentDetails from "./appointment-client/detailed-appoitment/ClientAppointmentDetails.tsx";
+import useGetAppointmentByIdQuery from "../../hooks/appointments/query/useGetAppointmentByIdQuery.ts";
+import useGetAllAppointmentsShortByUserId from "../../hooks/appointments/query/useGetAllAppointmentsShortByUserId.ts";
+import useUpdateAppointmentMutation from "../../hooks/appointments/mutation/useUpdateAppointmentMutation.ts";
+import FullScreenLoader from "../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
+import ClientCustomToolbar from "./appointment-client/calendar-toolbars/ClientCustomToolbar.tsx";
 
 const StaffClientAppointmentInfo = () => {
 
@@ -70,7 +65,11 @@ const StaffClientAppointmentInfo = () => {
         <MyCalendar
           openDetails={handleOpenDetails}
           useGetAppointmentsHook={(start, end) => useGetAllAppointmentsShortByUserId(userId, start, end)}
-          CustomToolbar={CustomToolbar}
+          CustomToolbar={ClientCustomToolbar}
+          width={600}
+          height={600}
+          startDate={undefined}
+          endDate={undefined}
         />
       </Box>
       {currentAppointmentId && !isLoading && appointment &&

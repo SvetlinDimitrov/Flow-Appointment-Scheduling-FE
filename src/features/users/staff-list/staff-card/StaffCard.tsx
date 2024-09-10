@@ -2,6 +2,7 @@ import {Box, Card, CardContent, Typography} from "@mui/material";
 import UserCardActions from "./user/UserCardActions.tsx";
 import AdminCardActions from "./admin/AdminCardActions.tsx";
 import {User} from "../../../../shared/models/user.types.ts";
+import {DateTime} from "luxon";
 
 export interface StaffCardProps {
   employee: User;
@@ -33,6 +34,15 @@ const StaffCard = (props: StaffCardProps) => {
           <Typography variant={"subtitle2"} color={'gray'} mt={1}>
             {employee.email}
           </Typography>
+          {employee.staffDetails && <>
+            <Typography variant={"subtitle2"} color={'gray'} mt={1}>
+              Hours: {DateTime.fromISO(employee.staffDetails.beginWorkingHour.toString()).toFormat('HH:mm')} - {DateTime.fromISO(employee.staffDetails.endWorkingHour.toString()).toFormat('HH:mm')}
+            </Typography>
+            <Typography variant={"subtitle2"} color={employee.staffDetails.isAvailable ? 'green' : 'red'} mt={1}>
+              {employee.staffDetails.isAvailable ? 'Available' : 'Not Available'}
+            </Typography>
+          </>
+          }
         </CardContent>
         {handleDeleteEmployeeFromService ? (
           <AdminCardActions
@@ -42,6 +52,7 @@ const StaffCard = (props: StaffCardProps) => {
           <UserCardActions
             bookWithStaff={handleBookWithStaff}
             employeeFirstName={employee.firstName}
+            available={employee.staffDetails?.isAvailable || false}
           />
         ) : null}
       </Card>

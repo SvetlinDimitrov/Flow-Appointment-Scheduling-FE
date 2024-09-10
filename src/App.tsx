@@ -13,7 +13,7 @@ import Profile from "./features/users/settings/Profile.tsx";
 import AboutUs from "./features/guest/about-us/AboutUs.tsx";
 import {UserAuthContext} from "./shared/context/UserAuthContext.tsx";
 import ContactUs from "./features/guest/contact-us/ContactUs.tsx";
-import StaffClientAppointmentInfo from "./features/appointment/appointment-client-staff/StaffClientAppointmentInfo.tsx";
+import StaffClientAppointmentInfo from "./features/appointment/StaffClientAppointmentInfo.tsx";
 import {Box} from "@mui/material";
 import AdminRoutes from "./shared/core/layouts/AdminRoutes.tsx";
 import AdminServiceDashboard from "./features/admin/service-dashboard/AdminServiceDashboard.tsx";

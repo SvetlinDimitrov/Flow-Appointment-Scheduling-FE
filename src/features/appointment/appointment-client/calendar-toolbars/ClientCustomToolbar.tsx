@@ -1,7 +1,7 @@
 import {Box, Button, Typography} from '@mui/material';
 import {ToolbarProps} from 'react-big-calendar';
 
-const CustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => {
+const ClientCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => {
   return (
     <Box display="flex" justifyContent="space-between" mb={2} gap={2}
     sx={{
@@ -34,4 +34,4 @@ const CustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => {
   );
 };
 
-export default CustomToolbar;
+export default ClientCustomToolbar;

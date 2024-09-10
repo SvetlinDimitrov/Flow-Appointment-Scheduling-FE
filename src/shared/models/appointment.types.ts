@@ -36,7 +36,7 @@ export interface AppointmentCreate {
   serviceId: number;
   clientEmail: string;
   staffEmail: string;
-  date: Date;
+  date: string; // yyyy-MM-dd'T'HH:mm:ss
 }
 
 export interface AppointmentUpdate {

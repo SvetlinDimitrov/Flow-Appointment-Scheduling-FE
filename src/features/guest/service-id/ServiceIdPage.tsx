@@ -1,13 +1,15 @@
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
-import { AccessTime, Cancel, CheckCircle, LocationOn, MonetizationOn } from '@mui/icons-material';
-import { useNavigate, useParams } from 'react-router-dom';
+import {Box, Button, Container, Grid, Typography} from '@mui/material';
+import {AccessTime, Cancel, CheckCircle, LocationOn, MonetizationOn} from '@mui/icons-material';
+import {useNavigate, useParams} from 'react-router-dom';
 import useGetServiceByIdQuery from "../../../hooks/services/query/useGetServiceByIdQuery.ts";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
-import { Duration } from "luxon";
+import {Duration} from "luxon";
 import StaffList from "../../users/staff-list/StaffList.tsx";
-import { UserAuthContext } from "../../../shared/context/UserAuthContext.tsx";
-import {useContext} from "react";
+import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
+import {useContext, useState} from "react";
+import BookAppointmentModal from "../../appointment/appointment-client/book-modal/BookAppointmentModal.tsx";
+import {User} from "../../../shared/models/user.types.ts";
 
 const ServicePage = () => {
   const navigate = useNavigate();
@@ -15,21 +17,28 @@ const ServicePage = () => {
 
   const { userId } = useContext(UserAuthContext)!;
 
+  const [selectedStaff, setSelectedStaff] = useState<User | null>(null);
+
   if (!id) return <PageNotFound />;
 
   const serviceId = parseInt(id);
 
   const { data: service, isLoading, error } = useGetServiceByIdQuery(serviceId);
 
-  const handleBookNowClick = () => {
-    navigate('/login');
-  };
-
   if (error) return <PageNotFound />;
   if (isLoading || !service) return <LoadingSpinner />;
 
   return (
-    <Container sx={{marginTop: 6 , marginBottom: 6}}>
+    <>
+      {service && selectedStaff &&
+        <BookAppointmentModal
+          open={!!selectedStaff}
+          onClose={() => setSelectedStaff(null)}
+          service={service}
+          staff={selectedStaff}
+        />
+      }
+      <Container sx={{marginTop: 6, marginBottom: 6}}>
       <Grid container spacing={2} mt={5} sx={{ maxWidth: 800, margin: 'auto', backgroundColor: 'background.paper', padding: 2 }}>
         <Grid item xs={12} sm={4}>
           <Box
@@ -76,7 +85,8 @@ const ServicePage = () => {
           </Grid>
           {!userId && (
             <Box display="flex" justifyContent="center" sx={{ mt: 3 }}>
-              <Button variant="contained" color="primary" onClick={handleBookNowClick}>Book Now</Button>
+              <Button variant="contained" color="primary"
+                      onClick={() => navigate('/login')}>Book Now</Button>
             </Box>
           )}
         </Grid>
@@ -86,7 +96,7 @@ const ServicePage = () => {
               <StaffList
                 selectedService={service}
                 handleDeleteEmployeeFromService={null}
-                handleBookWithStaff={() => console.log('Book with staff')}
+                handleBookWithStaff={(staff) => setSelectedStaff(staff)}
                 showStaffNumbers={2}
               />
             </Box>
@@ -94,6 +104,7 @@ const ServicePage = () => {
         )}
       </Grid>
     </Container>
+    </>
   );
 };
 
