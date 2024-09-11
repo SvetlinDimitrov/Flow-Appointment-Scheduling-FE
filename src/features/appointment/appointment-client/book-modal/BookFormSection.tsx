@@ -1,13 +1,13 @@
-import { Avatar, Box, Button, TextField, Typography } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import {Avatar, Box, Button, TextField, Typography} from '@mui/material';
+import {useForm} from 'react-hook-form';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {z} from 'zod';
 import MapComponent from '../../../../shared/core/map/MapComponent.tsx';
-import { User } from '../../../../shared/models/user.types.ts';
-import { Service } from '../../../../shared/models/service.types.ts';
-import { DateTime, Duration } from 'luxon';
-import { ChangeEvent } from "react";
-import { AppointmentCreate } from "../../../../shared/models/appointment.types.ts";
+import {User} from '../../../../shared/models/user.types.ts';
+import {Service} from '../../../../shared/models/service.types.ts';
+import {DateTime, Duration} from 'luxon';
+import {ChangeEvent} from "react";
+import {AppointmentCreate} from "../../../../shared/models/appointment.types.ts";
 
 interface FormData {
   from: string;
@@ -31,7 +31,7 @@ const createSchema = (beginWorkingHour: string, endWorkingHour: string) => z.obj
       const date = DateTime.fromISO(val);
       return date.toFormat('HH:mm') >= beginWorkingHour && date.toFormat('HH:mm') <= endWorkingHour;
     }, {
-      message: `The date must be between ${beginWorkingHour} and ${endWorkingHour}`
+      message: `The date must be between ${DateTime.fromISO(beginWorkingHour).toFormat('hh:mm a')} and ${DateTime.fromISO(endWorkingHour).toFormat('hh:mm a')}`
     })
     .refine((val) => {
       const date = DateTime.fromISO(val);
@@ -45,7 +45,14 @@ const createSchema = (beginWorkingHour: string, endWorkingHour: string) => z.obj
     }, {
       message: 'The date must be at least 30 minutes from now'
     }),
-  to: z.string().optional(),
+  to: z.string().optional()
+    .refine((val) => {
+      if (!val) return true;
+      const date = DateTime.fromISO(val);
+      return date.toFormat('HH:mm') <= endWorkingHour;
+    }, {
+      message: `The end date must be before ${DateTime.fromISO(endWorkingHour).toFormat('hh:mm a')}`
+    }),
 });
 
 /**
@@ -93,7 +100,9 @@ const BookFormSection = ({ service, staff, onSubmit, client }: BookFormSectionPr
 
   return (
     <Box flex={1}>
-      <Typography variant="h5">Information about participate in {service.name}</Typography>
+      <Typography variant="h5" textAlign={'center'}>
+        You are about to participate in the {service.name} service, which lasts for {Duration.fromISO(service.duration).as('minutes')} min.
+      </Typography>
       <form onSubmit={handleSubmit(handleFormSubmit)} style={{
         display: 'flex',
         flexDirection: 'column',
@@ -112,7 +121,7 @@ const BookFormSection = ({ service, staff, onSubmit, client }: BookFormSectionPr
             shrink: true,
           }}
           error={!!errors.from}
-          helperText={errors.from ? errors.from.message : ''}
+          helperText={errors.from ? errors.from.message : 'Please select the date you want to book'}
           onChange={handleFromChange}
         />
         {watch('from') && (
@@ -127,6 +136,8 @@ const BookFormSection = ({ service, staff, onSubmit, client }: BookFormSectionPr
               shrink: true,
             }}
             disabled
+            error={!!errors.to}
+            helperText={errors.to ? errors.to.message : ''}
           />
         )}
         <Typography variant="subtitle1">Your mentor information:</Typography>

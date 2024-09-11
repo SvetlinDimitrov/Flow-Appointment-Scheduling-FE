@@ -48,7 +48,7 @@ const HeaderAppointmentSection = ({appointment, cancelAppointment}: HeaderAppoin
       </Box>
       <Box display={'flex'} flexDirection={'column'} gap={2}>
         <Chip label={`Status: ${appointment.status}`} color="primary" variant="outlined" sx={{marginTop: 1}}/>
-        {appointment.status !== AppointmentStatus.CANCELED && (
+        {appointment.status !== AppointmentStatus.CANCELED && appointment.status !== AppointmentStatus.COMPLETED && (
           <Button
             variant="outlined"
             color="secondary"
