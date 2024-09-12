@@ -9,14 +9,14 @@ interface Range {
 }
 
 interface UseCalendarProps {
-  useGetAppointmentsHook: (start: Date, end: Date) => UseQueryResult<ShortAppointment[], Error>;
+  fetchHook: (start: Date, end: Date) => UseQueryResult<ShortAppointment[], Error>;
 }
 
-const useCalendarData = ({useGetAppointmentsHook,}: UseCalendarProps) => {
+const useCalendarData = ({fetchHook}: UseCalendarProps) => {
   const [view, setView] = useState<View>('day');
   const [range, setRange] = useState<Range>({start: new Date(), end: new Date()});
 
-  const {data: events = [], isLoading, error} = useGetAppointmentsHook(range.start, range.end);
+  const {data: events = [], isLoading, error} = fetchHook(range.start, range.end);
 
   const handleRangeChange = (range: { start: Date; end: Date } | Date[]) => {
     let startDate, endDate;
@@ -32,7 +32,7 @@ const useCalendarData = ({useGetAppointmentsHook,}: UseCalendarProps) => {
     setRange({start: startDate, end: endDate});
   };
 
-  return {view, setView, range, handleRangeChange, events, isLoading, error};
+  return {setupCalendar: {view, setView, range, handleRangeChange, events, isLoading, error}};
 };
 
 export default useCalendarData;

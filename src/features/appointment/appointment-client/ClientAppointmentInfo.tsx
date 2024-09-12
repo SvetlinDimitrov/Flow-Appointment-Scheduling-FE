@@ -12,6 +12,7 @@ import useUpdateAppointmentMutation from "../../../hooks/appointments/mutation/u
 import FullScreenLoader from "../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
 import BookAppointmentModal from "./book-modal/BookAppointmentModal.tsx";
 import ClientCustomToolbar from "./calendar-toolbars/ClientCustomToolbar.tsx";
+import useCalendarData from "../../../hooks/custom/useCalendarData.ts";
 
 const ClientAppointmentInfo = () => {
 
@@ -26,6 +27,10 @@ const ClientAppointmentInfo = () => {
   const updateAppointmentMutation = useUpdateAppointmentMutation();
 
   if (!userId) return null;
+
+  const {setupCalendar} = useCalendarData({
+    fetchHook: (start, end) => useGetAllAppointmentsShortByUserId(userId, start, end)
+  });
 
   const handleOpenDetails = (a: ShortAppointment) => {
     setCurrentAppointmentId(a.id);
@@ -73,7 +78,7 @@ const ClientAppointmentInfo = () => {
         </Typography>
         <MyCalendar
           openDetails={handleOpenDetails}
-          useGetAppointmentsHook={(start, end) => useGetAllAppointmentsShortByUserId(userId, start, end)}
+          setupCalendar={setupCalendar}
           CustomToolbar={ClientCustomToolbar}
           width={'90%'}
           height={'80%'}

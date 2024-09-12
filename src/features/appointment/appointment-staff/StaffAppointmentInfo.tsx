@@ -11,19 +11,25 @@ import useGetAllAppointmentsShortByUserId
 import StaffCustomToolbar from "./calendar-toolbars/StaffCustomToolbar.tsx";
 import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 import StaffEventView from "./appointment-view/StaffEventView.tsx";
+import useCalendarData from "../../../hooks/custom/useCalendarData.ts";
+import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
+import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 
 const StaffAppointmentInfo = () => {
 
   const {userId} = useContext(UserAuthContext)!;
 
+  if (!userId) return null;
+
   const [currentAppointmentId, setCurrentAppointmentId] = useState<number | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const {data: appointment, isLoading} = useGetAppointmentByIdQuery(currentAppointmentId);
+  const {data: appointment, isLoading, error} = useGetAppointmentByIdQuery(currentAppointmentId);
   const {openModal, closeModal} = useConfirmationModal();
   const updateAppointmentMutation = useUpdateAppointmentMutation();
-
-  if (!userId) return null;
+  const {setupCalendar} = useCalendarData({
+    fetchHook: (start, end) => useGetAllAppointmentsShortByUserId(userId, start, end)
+  });
 
   const handleOpenDetails = (a: ShortAppointment) => {
     setCurrentAppointmentId(a.id);
@@ -47,6 +53,9 @@ const StaffAppointmentInfo = () => {
     openModal("Cancel Appointment", `Are you sure you want to cancel this appointment?`, onConfirm);
   }
 
+  if (isLoading) return <LoadingSpinner/>;
+  if (error) return <PageNotFound/>;
+
   return (
     <>
       <FullScreenLoader isLoading={isProcessing}/>
@@ -62,8 +71,8 @@ const StaffAppointmentInfo = () => {
         </Typography>
         <MyCalendar
           openDetails={handleOpenDetails}
-          useGetAppointmentsHook={(start, end) => useGetAllAppointmentsShortByUserId(userId, start, end)}
           CustomToolbar={StaffCustomToolbar}
+          setupCalendar={setupCalendar}
           width={'90%'}
           height={'80%'}
           startDate={undefined}

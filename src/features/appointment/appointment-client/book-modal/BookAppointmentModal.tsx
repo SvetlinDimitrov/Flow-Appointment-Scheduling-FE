@@ -16,6 +16,7 @@ import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
 import FullScreenLoader from "../../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
 import {useConfirmationModal} from "../../../../shared/context/ConfirmationModalContext.tsx";
 import useCreateAppointmentMutation from "../../../../hooks/appointments/mutation/useCreateAppointmentMutation.ts";
+import useCalendarData from "../../../../hooks/custom/useCalendarData.ts";
 
 interface BookAppointmentModalProps {
   service: Service;
@@ -40,9 +41,12 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
     return null;
   }
 
-  const {data, error, isLoading} = useGetUserQuery(userId)
+  const {data, error: isGetUserError, isLoading: isGetUserLoading} = useGetUserQuery(userId)
   const {openModal, closeModal} = useConfirmationModal();
   const createAppointmentMutation = useCreateAppointmentMutation();
+  const {setupCalendar} = useCalendarData({
+    fetchHook: (start, end) => useGetAllAppointmentsShortByUserId(staff.id, start, end)
+  });
 
   const onSubmit = (data: AppointmentCreate) => {
     const onConfirm = () => {
@@ -61,8 +65,8 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
     openModal("Confirm Booking", "Are you sure you want to book this appointment?", onConfirm);
   };
 
-  if (isLoading) return <LoadingSpinner/>
-  if (error) return <PageNotFound/>
+  if (isGetUserLoading) return <LoadingSpinner/>
+  if (isGetUserError) return <PageNotFound/>
 
   return (
     staff && service && data && (
@@ -100,9 +104,7 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
                 </Typography>
                 <MyCalendar
                   openDetails={undefined}
-                  useGetAppointmentsHook={
-                    (start, end) => useGetAllAppointmentsShortByUserId(staff.id, start, end)
-                  }
+                  setupCalendar={setupCalendar}
                   CustomToolbar={BookToolbar}
                   width={'100%'}
                   height={'95%'}

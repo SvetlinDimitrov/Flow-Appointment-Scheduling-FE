@@ -1,17 +1,15 @@
 import {ComponentType} from 'react';
-import {Calendar, momentLocalizer} from 'react-big-calendar';
+import {Calendar, momentLocalizer, View} from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import PageNotFound from '../not-found/PageNotFound.tsx';
-import ContainerLoader from '../loading/container-loader/ContainerLoader.tsx';
-import {Box} from '@mui/material';
 import {ShortAppointment} from '../../models/appointment.types.ts';
 import './index.css';
 import MonthCustomEvent from './events/MonthCustomEvent.tsx';
 import DayCustomEvent from './events/DayCustomEvent.tsx';
 import WeekCustomEvent from './events/WeekCustomEvent.tsx';
-import {UseQueryResult} from "@tanstack/react-query";
-import useCalendarData from "../../../hooks/custom/useCalendarData.ts";
+import PageNotFound from "../not-found/PageNotFound.tsx";
+import {Box} from "@mui/material";
+import ContainerLoader from "../loading/container-loader/ContainerLoader.tsx";
 
 const localize = momentLocalizer(moment);
 
@@ -26,27 +24,33 @@ const localize = momentLocalizer(moment);
 
 interface MyCalendarProps {
   openDetails: ((a: ShortAppointment) => void) | undefined;
-  useGetAppointmentsHook: (start: Date, end: Date) => UseQueryResult<ShortAppointment[], Error>;
+  setupCalendar: {
+    view: View;
+    setView: (view: View) => void;
+    handleRangeChange: (range: { start: Date; end: Date } | Date[]) => void;
+    events: ShortAppointment[];
+    isLoading: boolean;
+    error: any;
+  };
   CustomToolbar: ComponentType<any>;
   height: number | string;
   width: number | string;
-  startDate: Date | undefined,
-  endDate: Date | undefined,
+  startDate: Date | undefined;
+  endDate: Date | undefined;
 }
 
 const MyCalendar = (
   {
     openDetails,
-    useGetAppointmentsHook,
+    setupCalendar,
     CustomToolbar,
     height,
     width,
     startDate,
     endDate
   }: MyCalendarProps) => {
-  const {view, setView, handleRangeChange, events, isLoading, error} =
-    useCalendarData({useGetAppointmentsHook}
-  );
+
+  const {view, setView, handleRangeChange, events, isLoading, error} = setupCalendar;
 
   if (error) return <PageNotFound/>;
 
