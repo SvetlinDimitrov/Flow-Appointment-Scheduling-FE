@@ -53,7 +53,12 @@ const MyCalendar = (
   return (
     <>
       {isLoading && (
-        <Box position="absolute" width="100%" display="flex" top={30}>
+        <Box
+          position="absolute"
+          width="100%"
+          display="flex"
+          top={30}
+        >
           <ContainerLoader height={200}/>
         </Box>
       )}

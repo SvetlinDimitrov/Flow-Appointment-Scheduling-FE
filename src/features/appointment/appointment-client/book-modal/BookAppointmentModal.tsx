@@ -68,12 +68,23 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
     staff && service && data && (
       <>
         <FullScreenLoader isLoading={isBooking}/>
-        <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
-          <DialogTitle>Book Appointment</DialogTitle>
+        <Dialog
+          open={open}
+          onClose={onClose}
+          maxWidth="lg"
+          fullWidth
+        >
+          <DialogTitle>
+            Book Appointment
+          </DialogTitle>
           <DialogContent>
-            <Box display="flex" p={1} minWidth={300} sx={{
-              flexDirection: {xs: 'column', md: 'row'},
-            }} gap={3}>
+            <Box
+              display="flex"
+              p={1}
+              minWidth={300}
+              sx={{flexDirection: {xs: 'column', md: 'row'}}}
+              gap={3}
+            >
               <BookFormSection
                 service={service}
                 staff={staff}
@@ -81,7 +92,10 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
                 onSubmit={onSubmit}
               />
               <Box flex={1}>
-                <Typography variant="h5" mb={2}>
+                <Typography
+                  variant="h5"
+                  mb={2}
+                >
                   Working Scheduler
                 </Typography>
                 <MyCalendar

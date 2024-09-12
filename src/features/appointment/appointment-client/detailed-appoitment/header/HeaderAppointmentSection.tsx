@@ -23,32 +23,49 @@ interface HeaderAppointmentSectionProps {
 const HeaderAppointmentSection = ({appointment, cancelAppointment}: HeaderAppointmentSectionProps) => {
 
   return (
-    <Box display={'flex'} alignItems={'center'} gap={1} p={1}
-         justifyContent={'space-around'} sx={{
-      flexDirection: {
-        sm: 'row',
-        xs: 'column'
-      }
-    }}>
-      <CalendarIconContainer sx={{
-        display: {
-          sm: 'flex',
-          xs: 'none',
-        }
-      }}>
+    <Box
+      display={'flex'}
+      alignItems={'center'}
+      gap={1}
+      p={1}
+      justifyContent={'space-around'}
+      sx={{flexDirection: {sm: 'row', xs: 'column'}}}
+    >
+      <CalendarIconContainer
+        sx={{display: {sm: 'flex', xs: 'none'}}}>
         <CalendarTodayIcon fontSize="large"/>
       </CalendarIconContainer>
-      <Box display={'flex'} flexDirection={'column'}>
-        <Typography variant="h5" fontWeight={'bold'} mb={2} textAlign={'center'}>
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+      >
+        <Typography
+          variant="h5"
+          fontWeight={'bold'}
+          mb={2}
+          textAlign={'center'}>
           Scheduled appointment for
         </Typography>
-        <Typography variant="subtitle2" textAlign={'center'}>
+        <Typography
+          variant="subtitle2"
+          textAlign={'center'}
+        >
           {formatAppointmentDate(appointment)}
         </Typography>
       </Box>
-      <Box display={'flex'} flexDirection={'column'} gap={2}>
-        <Chip label={`Status: ${appointment.status}`} color="primary" variant="outlined" sx={{marginTop: 1}}/>
-        {appointment.status !== AppointmentStatus.CANCELED && appointment.status !== AppointmentStatus.COMPLETED && (
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+        gap={2}
+      >
+        <Chip
+          label={`Status: ${appointment.status}`}
+          color="primary"
+          variant="outlined"
+          sx={{marginTop: 1}}
+        />
+        {appointment.status !== AppointmentStatus.CANCELED &&
+          appointment.status !== AppointmentStatus.COMPLETED && (
           <Button
             variant="outlined"
             color="secondary"

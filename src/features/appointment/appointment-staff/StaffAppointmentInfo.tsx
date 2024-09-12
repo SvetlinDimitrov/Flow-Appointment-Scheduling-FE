@@ -50,8 +50,13 @@ const StaffAppointmentInfo = () => {
   return (
     <>
       <FullScreenLoader isLoading={isProcessing}/>
-      <Box display={"flex"} flexDirection={"column"}
-           alignItems={"center"} justifyContent={"center"} height={"86.1vh"}>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        height={"86.1vh"}
+      >
         <Typography variant={"h5"} mb={5}>
           My Appointments
         </Typography>

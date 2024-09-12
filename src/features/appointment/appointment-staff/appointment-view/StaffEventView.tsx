@@ -1,6 +1,7 @@
 import {
   Box,
-  Button, Chip,
+  Button,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -39,12 +40,28 @@ const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: Staff
   const {status, service, client} = appointment;
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="md"
+      fullWidth
+    >
       <Box minWidth={300}>
         <DialogTitle>
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="h5">Appointment Information</Typography>
-            <Chip size={'small'} label={`Status: ${status}`} color="primary" variant="outlined"/>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography variant="h5">
+              Appointment Information
+            </Typography>
+            <Chip
+              size={'small'}
+              label={`Status: ${status}`}
+              color="primary"
+              variant="outlined"
+            />
           </Box>
         </DialogTitle>
         <DialogContent>
@@ -54,7 +71,10 @@ const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: Staff
                 <ListItemIcon>
                   <Build/>
                 </ListItemIcon>
-                <ListItemText primary="Service" secondary={service.name}/>
+                <ListItemText
+                  primary="Service"
+                  secondary={service.name}
+                />
               </ListItem>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -62,7 +82,10 @@ const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: Staff
                 <ListItemIcon>
                   <AccessTime/>
                 </ListItemIcon>
-                <ListItemText primary="Time" secondary={formatAppointmentDate(appointment)}/>
+                <ListItemText
+                  primary="Time"
+                  secondary={formatAppointmentDate(appointment)}
+                />
               </ListItem>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -70,7 +93,10 @@ const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: Staff
                 <ListItemIcon>
                   <Person/>
                 </ListItemIcon>
-                <ListItemText primary="Client" secondary={`${client.firstName} ${client.lastName}`}/>
+                <ListItemText
+                  primary="Client"
+                  secondary={`${client.firstName} ${client.lastName}`}
+                />
               </ListItem>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -78,7 +104,10 @@ const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: Staff
                 <ListItemIcon>
                   <Email/>
                 </ListItemIcon>
-                <ListItemText primary="Email" secondary={client.email}/>
+                <ListItemText
+                  primary="Email"
+                  secondary={client.email}
+                />
               </ListItem>
             </Grid>
           </Grid>
@@ -86,27 +115,53 @@ const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: Staff
         <DialogActions>
           {status === AppointmentStatus.NOT_APPROVED && (
             <>
-              <Button variant={'outlined'}
-                      size={'small'}
-                      onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.APPROVED)}
-                      color="primary">Approve Appointment</Button>
-              <Button variant={'outlined'}
-                      size={'small'}
-                      onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.CANCELED)}
-                      color="secondary">Cancel Appointment</Button>
+              <Button
+                variant={'outlined'}
+                size={'small'}
+                onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.APPROVED)}
+                color="primary"
+              >
+                Approve Appointment
+              </Button>
+              <Button
+                variant={'outlined'}
+                size={'small'}
+                onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.CANCELED)}
+                color="secondary"
+              >
+                Cancel Appointment
+              </Button>
             </>
           )}
           {status === AppointmentStatus.APPROVED && (
             <>
-              <Button variant={'outlined'}
-                      size={'small'}
-                      onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.COMPLETED)}
-                      color="primary">Complete Appointment</Button>
-              <Button variant={'outlined'}
-                      size={'small'}
-                      onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.CANCELED)}
-                      color="secondary">Cancel Appointment</Button>
+              <Button
+                variant={'outlined'}
+                size={'small'}
+                onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.COMPLETED)}
+                color="primary"
+              >
+                Complete Appointment
+              </Button>
+              <Button
+                variant={'outlined'}
+                size={'small'}
+                onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.CANCELED)}
+                color="secondary"
+              >
+                Cancel Appointment
+              </Button>
             </>
+          )}
+          {status === AppointmentStatus.COMPLETED && (
+            <Button
+              variant={'outlined'}
+              size={'small'}
+              onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.CANCELED)}
+              color="secondary"
+            >
+              Cancel Appointment
+            </Button>
           )}
         </DialogActions>
       </Box>

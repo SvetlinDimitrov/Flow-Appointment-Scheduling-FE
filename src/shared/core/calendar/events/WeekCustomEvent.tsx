@@ -5,8 +5,16 @@ import getStatusColor from "../getStatusColor.ts";
 
 const WeekCustomEvent = ({event}: EventProps<ShortAppointment>) => {
   return (
-    <Box bgcolor={getStatusColor(event.status)} color={'white'} borderRadius={1} height={'100%'}
-         overflow={'auto'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+    <Box
+      bgcolor={getStatusColor(event.status)}
+      color={'white'}
+      borderRadius={1}
+      height={'100%'}
+      overflow={'auto'}
+      display={'flex'}
+      alignItems={'center'}
+      justifyContent={'center'}
+    >
       <Typography variant="subtitle2">{event.serviceName}</Typography>
     </Box>
   );

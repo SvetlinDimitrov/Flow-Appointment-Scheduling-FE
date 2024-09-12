@@ -9,9 +9,16 @@ const DayCustomEvent = ({event}: EventProps<ShortAppointment>) => {
   const endTime = new Date(event.endDate).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
   return (
-    <Box bgcolor={getStatusColor(event.status)} color={'white'} display={'flex'}
-         flexDirection={'column'} borderRadius={1} height={'100%'} p={0.2}
-         overflow={'auto'}>
+    <Box
+      bgcolor={getStatusColor(event.status)}
+      color={'white'}
+      display={'flex'}
+      flexDirection={'column'}
+      borderRadius={1}
+      height={'100%'}
+      p={0.2}
+      overflow={'auto'}
+    >
       <Typography variant="caption">{startTime} - {endTime}</Typography>
       <Typography variant="caption">{event.serviceName}</Typography>
     </Box>

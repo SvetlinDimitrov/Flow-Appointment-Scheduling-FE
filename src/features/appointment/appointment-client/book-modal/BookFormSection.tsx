@@ -100,16 +100,22 @@ const BookFormSection = ({ service, staff, onSubmit, client }: BookFormSectionPr
 
   return (
     <Box flex={1}>
-      <Typography variant="h5" textAlign={'center'}>
+      <Typography
+        variant="h5"
+        textAlign={'center'}
+      >
         You are about to participate in the {service.name} service, which lasts for {Duration.fromISO(service.duration).as('minutes')} min.
       </Typography>
-      <form onSubmit={handleSubmit(handleFormSubmit)} style={{
+      <form
+        onSubmit={handleSubmit(handleFormSubmit)}
+        style={{
         display: 'flex',
         flexDirection: 'column',
         gap: '1rem',
         justifyContent: 'center',
         alignItems: 'center',
-      }}>
+        }}
+      >
         <TextField
           {...register('from')}
           size={'small'}
@@ -140,25 +146,47 @@ const BookFormSection = ({ service, staff, onSubmit, client }: BookFormSectionPr
             helperText={errors.to ? errors.to.message : ''}
           />
         )}
-        <Typography variant="subtitle1">Your mentor information:</Typography>
-        <Box display="flex" alignItems="center">
-          <Avatar src={"/static/images/no-picture-found"} alt={`${staff.firstName} ${staff.lastName}`} />
+        <Typography variant="subtitle1">
+          Your mentor information:
+        </Typography>
+        <Box
+          display="flex"
+          alignItems="center"
+        >
+          <Avatar
+            src={"/static/images/no-picture-found"}
+            alt={`${staff.firstName} ${staff.lastName}`}
+          />
           <Box ml={2}>
-            <Typography variant="subtitle2">{staff.firstName} {staff.lastName}</Typography>
-            <Typography variant="subtitle2">{staff.email}</Typography>
+            <Typography variant="subtitle2">
+              {staff.firstName} {staff.lastName}
+            </Typography>
+            <Typography variant="subtitle2">
+              {staff.email}
+            </Typography>
           </Box>
         </Box>
-        <Typography variant="subtitle1">Location for the event can be found here:</Typography>
-        <MapComponent position={[51.505, -0.09]} style={{ height: '180px', width: '100%', margin: 'auto' }} />
+        <Typography variant="subtitle1">
+          Location for the event can be found here:
+        </Typography>
+        <MapComponent
+          position={[51.505, -0.09]}
+          style={{height: '180px', width: '100%', margin: 'auto'}}
+        />
         <Box mt={2}>
           <Typography variant="subtitle2">
             If you have any questions about the event, feel free to contact your mentor. Once you submit the form, we will
             reach out to you for confirmation.
           </Typography>
-          <Button style={{
-            marginTop: '1rem',
-            width: '100%',
-          }} type="submit" variant="contained" color="primary" fullWidth>Book</Button>
+          <Button
+            style={{marginTop: '1rem', width: '100%'}}
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+          >
+            Book
+          </Button>
         </Box>
       </form>
     </Box>
