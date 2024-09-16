@@ -3,9 +3,13 @@ import {Service} from "../../../../shared/models/service.types.ts";
 import {styled} from "@mui/system";
 import {Duration} from "luxon";
 
-const StyledTableCell = styled(TableCell)(() => ({
+const StyledTableCell = styled(TableCell)(({theme}) => ({
   fontSize: '0.875rem',
   fontFamily: 'Arial, sans-serif',
+  padding: '16px',
+  [theme.breakpoints.down('sm')]: {
+    padding: '8px',
+  },
 }));
 
 interface AdminServiceDetailsTableProps {
