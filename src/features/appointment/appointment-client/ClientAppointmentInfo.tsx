@@ -6,16 +6,12 @@ import {useContext, useState} from "react";
 import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 import ClientAppointmentDetails from "./detailed-appoitment/ClientAppointmentDetails.tsx";
 import useGetAppointmentByIdQuery from "../../../hooks/appointments/query/useGetAppointmentByIdQuery.ts";
-import useGetAllAppointmentsShortByUserId
-  from "../../../hooks/appointments/query/useGetAllAppointmentsShortByUserId.ts";
 import useUpdateAppointmentMutation from "../../../hooks/appointments/mutation/useUpdateAppointmentMutation.ts";
 import FullScreenLoader from "../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
 import BookAppointmentModal from "./book-modal/BookAppointmentModal.tsx";
 import ClientCustomToolbar from "./calendar-toolbars/ClientCustomToolbar.tsx";
-import useCalendarData from "../../../hooks/custom/useCalendarData.ts";
 
 const ClientAppointmentInfo = () => {
-
   const {userId} = useContext(UserAuthContext)!;
 
   const [currentAppointmentId, setCurrentAppointmentId] = useState<number | null>(null);
@@ -25,12 +21,6 @@ const ClientAppointmentInfo = () => {
   const {data: appointment, isLoading} = useGetAppointmentByIdQuery(currentAppointmentId);
   const {openModal, closeModal} = useConfirmationModal();
   const updateAppointmentMutation = useUpdateAppointmentMutation();
-
-  if (!userId) return null;
-
-  const {setupCalendar} = useCalendarData({
-    fetchHook: (start, end) => useGetAllAppointmentsShortByUserId(userId, start, end)
-  });
 
   const handleOpenDetails = (a: ShortAppointment) => {
     setCurrentAppointmentId(a.id);
@@ -57,6 +47,7 @@ const ClientAppointmentInfo = () => {
   }
 
   return (
+    (userId &&
     <>
       {appointment && isBooking &&
         <BookAppointmentModal
@@ -78,7 +69,7 @@ const ClientAppointmentInfo = () => {
         </Typography>
         <MyCalendar
           openDetails={handleOpenDetails}
-          setupCalendar={setupCalendar}
+          userId={userId}
           CustomToolbar={ClientCustomToolbar}
           width={'90%'}
           height={'80%'}
@@ -95,6 +86,7 @@ const ClientAppointmentInfo = () => {
           bookAgain={() => setIsBooking(true)}
         />}
     </>
+    )
   );
 };
 

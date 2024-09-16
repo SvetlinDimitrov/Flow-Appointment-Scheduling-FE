@@ -11,12 +11,9 @@ import ServiceGuestAuthSection
   from "../../../../features/guest/landing-page/service-section/ServiceGuestAuthSection.tsx";
 
 const AuthHome = () => {
-
   const navigate = useNavigate();
 
   const {userId, role} = useContext(UserAuthContext)!;
-
-  if (!userId) return <PageNotFound/>;
 
   useEffect(() => {
     if (role === UserRole.ADMINISTRATOR) {

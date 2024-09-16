@@ -6,20 +6,14 @@ import {ShortAppointment, UpdateAppointmentStatus} from "../../../shared/models/
 import FullScreenLoader from "../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
 import {Box, Typography} from "@mui/material";
 import MyCalendar from "../../../shared/core/calendar/MyCalendar.tsx";
-import useGetAllAppointmentsShortByUserId
-  from "../../../hooks/appointments/query/useGetAllAppointmentsShortByUserId.ts";
 import StaffCustomToolbar from "./calendar-toolbars/StaffCustomToolbar.tsx";
-import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 import StaffEventView from "./appointment-view/StaffEventView.tsx";
-import useCalendarData from "../../../hooks/custom/useCalendarData.ts";
 import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
+import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 
 const StaffAppointmentInfo = () => {
-
   const {userId} = useContext(UserAuthContext)!;
-
-  if (!userId) return null;
 
   const [currentAppointmentId, setCurrentAppointmentId] = useState<number | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -27,9 +21,6 @@ const StaffAppointmentInfo = () => {
   const {data: appointment, isLoading, error} = useGetAppointmentByIdQuery(currentAppointmentId);
   const {openModal, closeModal} = useConfirmationModal();
   const updateAppointmentMutation = useUpdateAppointmentMutation();
-  const {setupCalendar} = useCalendarData({
-    fetchHook: (start, end) => useGetAllAppointmentsShortByUserId(userId, start, end)
-  });
 
   const handleOpenDetails = (a: ShortAppointment) => {
     setCurrentAppointmentId(a.id);
@@ -57,37 +48,41 @@ const StaffAppointmentInfo = () => {
   if (error) return <PageNotFound/>;
 
   return (
+    userId && (
     <>
       <FullScreenLoader isLoading={isProcessing}/>
       <Box
-        display={"flex"}
-        flexDirection={"column"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        height={"86.1vh"}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        height="86.1vh"
       >
-        <Typography variant={"h5"} mb={5}>
+        <Typography variant="h5" mb={5}>
           My Appointments
         </Typography>
         <MyCalendar
           openDetails={handleOpenDetails}
           CustomToolbar={StaffCustomToolbar}
-          setupCalendar={setupCalendar}
-          width={'90%'}
-          height={'80%'}
+          userId={userId}
+          width="90%"
+          height="80%"
           startDate={undefined}
           endDate={undefined}
         />
       </Box>
-      {currentAppointmentId && !isLoading && appointment &&
+      {currentAppointmentId && !isLoading && appointment && (
         <StaffEventView
           open={!!currentAppointmentId}
           onClose={() => setCurrentAppointmentId(null)}
           appointment={appointment}
-          onAppointmentUpdate={(status: UpdateAppointmentStatus) => modifyAppointment(currentAppointmentId, status)}
+          onAppointmentUpdate={(status: UpdateAppointmentStatus) =>
+            modifyAppointment(currentAppointmentId, status)
+          }
         />
-      }
+      )}
     </>
+    )
   );
 };
 

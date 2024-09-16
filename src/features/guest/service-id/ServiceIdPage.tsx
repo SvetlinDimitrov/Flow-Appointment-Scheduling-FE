@@ -19,11 +19,7 @@ const ServicePage = () => {
 
   const [selectedStaff, setSelectedStaff] = useState<User | null>(null);
 
-  if (!id) return <PageNotFound />;
-
-  const serviceId = parseInt(id);
-
-  const { data: service, isLoading, error } = useGetServiceByIdQuery(serviceId);
+  const { data: service, isLoading, error } = useGetServiceByIdQuery(id);
 
   if (error) return <PageNotFound />;
   if (isLoading || !service) return <LoadingSpinner />;

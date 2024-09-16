@@ -70,7 +70,7 @@ const HireStaffModal = ({open, onClose, onSubmit} : HireStaffModalProps) => {
   });
 
   const onSubmitForm = (data: HireStaffForm) => {
-    const { confirmPassword, ...userInfo } = data.userInfo;
+    const {...userInfo } = data.userInfo;
     const hireStaffRequest: HireStaffRequest = {
       userInfo,
       staffDetailsDto: data.staffDetailsDto

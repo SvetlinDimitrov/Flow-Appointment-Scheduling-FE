@@ -3,9 +3,10 @@ import {getAllAppointmentsByUserIdAndDate} from "../../../services/appintment-se
 import {ShortAppointment} from "../../../shared/models/appointment.types.ts";
 
 const useGetAllAppointmentsShortByUserId = (userId: number, startDate: Date, endDate: Date) => {
+  
   const fetchAppointments = async () => {
     const dates = [];
-    let currentDate = new Date(startDate);
+    const currentDate = new Date(startDate);
 
     while (currentDate <= endDate) {
       dates.push(new Date(currentDate));

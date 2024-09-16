@@ -6,7 +6,6 @@ import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import UpdateUser from "./update/UpdateUser.tsx";
 import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
 import useUpdateUserMutation from "../../../hooks/users/mutations/useUpdateUserMutation.ts";
-import {useNavigate} from "react-router-dom";
 import useLogoutDeleteUserMutation from "../../../hooks/users/mutations/useLogoutDeleteUserMutation.ts";
 import UserInfoItem from "./user-info-item/UserInfoItem.tsx";
 import {UserMainWrapper, UserSecondWrapper} from "../../../shared/styles/wrappers.ts";
@@ -20,17 +19,9 @@ const StyleButton = styled(Button)(() => ({
 }));
 
 const Profile = () => {
-
   const {userId, role} = useContext(UserAuthContext)!;
 
-  const navigate = useNavigate();
-
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
-
-  if (!userId) {
-    navigate("/login");
-    return null;
-  }
 
   const {openModal, closeModal} = useConfirmationModal();
   const {data: user, error, isLoading} = useGetUserQuery(userId);

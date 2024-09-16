@@ -27,7 +27,7 @@ function App() {
 
   useEffect(() => {
     setupInterceptors(userContext);
-  }, []);
+  }, [userContext]);
 
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh" minWidth={"280px"}>

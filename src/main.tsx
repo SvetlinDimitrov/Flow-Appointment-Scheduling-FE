@@ -20,7 +20,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
  * - Header and Footer: {subtitle1}
  * - Card: {header - h5, description - subtitle2, more - subtitle1}
  */
-let theme = createTheme({
+const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,

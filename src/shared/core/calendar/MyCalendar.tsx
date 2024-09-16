@@ -1,5 +1,5 @@
-import {ComponentType} from 'react';
-import {Calendar, momentLocalizer, View} from 'react-big-calendar';
+import {ComponentType, useState} from 'react';
+import {Calendar, momentLocalizer, ToolbarProps, View} from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import {ShortAppointment} from '../../models/appointment.types.ts';
@@ -8,49 +8,52 @@ import MonthCustomEvent from './events/MonthCustomEvent.tsx';
 import DayCustomEvent from './events/DayCustomEvent.tsx';
 import WeekCustomEvent from './events/WeekCustomEvent.tsx';
 import PageNotFound from "../not-found/PageNotFound.tsx";
-import {Box} from "@mui/material";
 import ContainerLoader from "../loading/container-loader/ContainerLoader.tsx";
+import useGetAllAppointmentsShortByUserId
+  from "../../../hooks/appointments/query/useGetAllAppointmentsShortByUserId.ts";
+import {Box} from "@mui/material";
 
 const localize = momentLocalizer(moment);
 
-/**
- * This is the main calendar that every component will reuse. To reuse it, I have put some props:
- * - `openDetails`: defines what will happen if you click on a specific event.
- * - `useGetAppointmentsHook`: requires a React Query hook that will return `ShortAppointment[]`.
- * - `CustomToolbar`: shows all the available buttons that can be used (for example, the client will see only the day button, but the staff can see the week, month, agenda views).
- * - `height` and `width`: for managing the view of the calendar.
- * - `startDate` and `endDate`: which is a little tricky because I am not setting the year, month, day but only the hours that the calendar will show.
- */
-
 interface MyCalendarProps {
   openDetails: ((a: ShortAppointment) => void) | undefined;
-  setupCalendar: {
-    view: View;
-    setView: (view: View) => void;
-    handleRangeChange: (range: { start: Date; end: Date } | Date[]) => void;
-    events: ShortAppointment[];
-    isLoading: boolean;
-    error: any;
-  };
-  CustomToolbar: ComponentType<any>;
+  CustomToolbar: ComponentType<ToolbarProps<ShortAppointment>>;
   height: number | string;
   width: number | string;
   startDate: Date | undefined;
   endDate: Date | undefined;
+  userId: number;
 }
 
 const MyCalendar = (
   {
     openDetails,
-    setupCalendar,
     CustomToolbar,
     height,
     width,
     startDate,
-    endDate
+    endDate,
+    userId
   }: MyCalendarProps) => {
 
-  const {view, setView, handleRangeChange, events, isLoading, error} = setupCalendar;
+  const [view, setView] = useState<View>('day');
+  const [range, setRange] = useState<{ start: Date; end: Date }>({start: new Date(), end: new Date()});
+
+  const {data: events = [], isLoading, error} = useGetAllAppointmentsShortByUserId(userId, range.start, range.end);
+
+  const handleRangeChange = (range: { start: Date; end: Date } | Date[]) => {
+    let startDate, endDate;
+
+    if (Array.isArray(range)) {
+      startDate = range[0];
+      endDate = range[range.length - 1];
+    } else {
+      startDate = range.start;
+      endDate = range.end;
+    }
+
+    setRange({start: startDate, end: endDate});
+  };
 
   if (error) return <PageNotFound/>;
 

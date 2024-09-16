@@ -1,8 +1,6 @@
 import {Box, Dialog, DialogContent, DialogTitle, Typography} from '@mui/material';
 import MyCalendar from '../../../../shared/core/calendar/MyCalendar.tsx';
 import BookToolbar from '../calendar-toolbars/BookToolbar.tsx';
-import useGetAllAppointmentsShortByUserId
-  from '../../../../hooks/appointments/query/useGetAllAppointmentsShortByUserId.ts';
 import {User} from '../../../../shared/models/user.types.ts';
 import {Service} from '../../../../shared/models/service.types.ts';
 import {DateTime} from 'luxon';
@@ -16,7 +14,6 @@ import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
 import FullScreenLoader from "../../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
 import {useConfirmationModal} from "../../../../shared/context/ConfirmationModalContext.tsx";
 import useCreateAppointmentMutation from "../../../../hooks/appointments/mutation/useCreateAppointmentMutation.ts";
-import useCalendarData from "../../../../hooks/custom/useCalendarData.ts";
 
 interface BookAppointmentModalProps {
   service: Service;
@@ -30,23 +27,16 @@ const getWorkingHourValue = (workingHour?: DateTime): Date | undefined => {
 };
 
 const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentModalProps) => {
-  const [isBooking, setIsBooking] = useState(false);
-
   const {userId} = useContext(UserAuthContext)!;
 
-  const startDateValue = getWorkingHourValue(staff.staffDetails?.beginWorkingHour);
-  const endDateValue = getWorkingHourValue(staff.staffDetails?.endWorkingHour);
-
-  if (!userId) {
-    return null;
-  }
+  const [isBooking, setIsBooking] = useState(false);
 
   const {data, error: isGetUserError, isLoading: isGetUserLoading} = useGetUserQuery(userId)
   const {openModal, closeModal} = useConfirmationModal();
   const createAppointmentMutation = useCreateAppointmentMutation();
-  const {setupCalendar} = useCalendarData({
-    fetchHook: (start, end) => useGetAllAppointmentsShortByUserId(staff.id, start, end)
-  });
+
+  const startDateValue = getWorkingHourValue(staff.staffDetails?.beginWorkingHour);
+  const endDateValue = getWorkingHourValue(staff.staffDetails?.endWorkingHour);
 
   const onSubmit = (data: AppointmentCreate) => {
     const onConfirm = () => {
@@ -69,7 +59,7 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
   if (isGetUserError) return <PageNotFound/>
 
   return (
-    staff && service && data && (
+    userId && staff && service && data && (
       <>
         <FullScreenLoader isLoading={isBooking}/>
         <Dialog
@@ -104,7 +94,7 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
                 </Typography>
                 <MyCalendar
                   openDetails={undefined}
-                  setupCalendar={setupCalendar}
+                  userId={userId}
                   CustomToolbar={BookToolbar}
                   width={'100%'}
                   height={'95%'}
