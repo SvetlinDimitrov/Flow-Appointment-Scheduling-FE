@@ -14,6 +14,7 @@ import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
 import FullScreenLoader from "../../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
 import {useConfirmationModal} from "../../../../shared/context/ConfirmationModalContext.tsx";
 import useCreateAppointmentMutation from "../../../../hooks/appointments/mutation/useCreateAppointmentMutation.ts";
+import {CalendarType, FetchType} from "../../../../shared/models/react-big-calendar.ts";
 
 interface BookAppointmentModalProps {
   service: Service;
@@ -93,8 +94,9 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
                   Working Scheduler
                 </Typography>
                 <MyCalendar
-                  openDetails={undefined}
-                  userId={userId}
+                  calendarType={CalendarType.BOOK}
+                  fetchId={staff.id}
+                  fetchType={FetchType.USER}
                   CustomToolbar={BookToolbar}
                   width={'100%'}
                   height={'95%'}

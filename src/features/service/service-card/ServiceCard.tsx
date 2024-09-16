@@ -10,6 +10,7 @@ interface ServiceCardProps {
   handleViewEmployees: () => void;
   handleDeleteService?: () => void;
   handleUpdateService?: () => void;
+  handleAppointments?: () => void;
 }
 
 /*
@@ -17,14 +18,19 @@ interface ServiceCardProps {
   I was not able to put this (handleDeleteService !== undefined && handleUpdateService !== undefined)
   in function or in a const because typescript stills complains about the type that it can be undefined.
 */
-
 const ServiceCard = (
   {
     selectedService,
     handleViewEmployees,
     handleDeleteService,
-    handleUpdateService
+    handleUpdateService,
+    handleAppointments
   }: ServiceCardProps) => {
+
+  const isAdmin = handleDeleteService !== undefined &&
+    handleUpdateService !== undefined &&
+    handleAppointments !== undefined;
+
   return (
     <Box>
       <Card sx={{width: '100%', margin: "auto", boxShadow: 3}}>
@@ -33,14 +39,19 @@ const ServiceCard = (
             {selectedService.name}
           </Typography>
           <Typography
-            variant={"subtitle2"} maxWidth={300} margin={"auto"} textAlign={"center"}
-            color={"gray"} fontStyle={"italic"} marginTop={1}
+            variant={"subtitle2"}
+            maxWidth={300}
+            margin={"auto"}
+            textAlign={"center"}
+            color={"gray"}
+            fontStyle={"italic"}
+            marginTop={1}
           >
             {selectedService.description}
           </Typography>
           <TableContainer component={Paper} sx={{marginTop: 2}}>
             <Table>
-              {handleDeleteService !== undefined && handleUpdateService !== undefined ? (
+              {isAdmin ? (
                 <AdminServiceDetailsTable service={selectedService}/>
               ) : (
                 <UserServiceDetailsTable service={selectedService}/>
@@ -48,10 +59,12 @@ const ServiceCard = (
             </Table>
           </TableContainer>
         </CardContent>
-        {handleDeleteService !== undefined && handleUpdateService !== undefined ? (
+        {isAdmin ? (
           <AdminCardActions handleDelete={handleDeleteService}
                             handleEdit={handleUpdateService}
-                            handleOpen={handleViewEmployees}/>
+                            handleOpen={handleViewEmployees}
+                            handleAppointments={handleAppointments}
+          />
         ) : (
           <UserCardActions handleOpen={handleViewEmployees}/>
         )}

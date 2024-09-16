@@ -4,8 +4,10 @@ import {Service} from "../../../shared/models/service.types.ts";
 import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
 import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import useGetAllServicesQuery from "../../../hooks/services/query/useGetAllServicesQuery.ts";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import ContainerLoader from "../../../shared/core/loading/container-loader/ContainerLoader.tsx";
+import ServiceCalendarModal from "../../appointment/appoitment-admin/ServiceCalendarModal.tsx";
+import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 
 interface ServiceListProps {
   handleDeleteService: (service: Service) => void;
@@ -24,6 +26,13 @@ const AdminServiceList = (
   const isMd = useMediaQuery(theme.breakpoints.down('md'));
   const isLg = useMediaQuery(theme.breakpoints.down('lg'));
   const [prevBreakpoints, setPrevBreakpoints] = useState({ isMd, isLg });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
+
+  console.log(selectedServiceId);
+
+  const {userId} = useContext(UserAuthContext)!;
 
   const servicesPerPage = isMd ? 1 : isLg ? 2 : 3;
   const {
@@ -42,7 +51,13 @@ const AdminServiceList = (
     }
   }, [isMd, isLg, prevBreakpoints, setPage]);
 
+  const handleOpenModal = (serviceId: number) => {
+    setIsModalOpen(true);
+    setSelectedServiceId(serviceId);
+  };
+
   if (error) return <PageNotFound/>;
+  if (!userId) return null;
 
   return (
     <Box
@@ -67,6 +82,7 @@ const AdminServiceList = (
                 handleDeleteService={() => handleDeleteService(service)}
                 handleUpdateService={() => handleUpdateService(service)}
                 handleViewEmployees={() => handleViewStaff(service)}
+                handleAppointments={() => handleOpenModal(service.id)}
               />
             ))}
           </Box>
@@ -81,6 +97,15 @@ const AdminServiceList = (
             />
           </Box>
         </>
+      }
+      {selectedServiceId &&
+        <ServiceCalendarModal
+          serviceId={selectedServiceId}
+          open={isModalOpen}
+          handleClose={() => {
+            setIsModalOpen(false);
+            setSelectedServiceId(null);
+          }}/>
       }
     </Box>
   );
