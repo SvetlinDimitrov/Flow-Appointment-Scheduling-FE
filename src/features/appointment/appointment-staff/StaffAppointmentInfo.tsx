@@ -46,9 +46,9 @@ const StaffAppointmentInfo = () => {
 
   if (isLoading) return <LoadingSpinner/>;
   if (error) return <PageNotFound/>;
+  if(!userId) return null;
 
   return (
-    userId && (
     <>
       <FullScreenLoader isLoading={isProcessing}/>
       <Box
@@ -82,7 +82,6 @@ const StaffAppointmentInfo = () => {
         />
       )}
     </>
-    )
   );
 };
 

@@ -8,7 +8,7 @@ import AuthenticatedUser from "./shared/core/layouts/AuthenticatedUser.tsx";
 import Header from "./shared/core/header/Header.tsx";
 import Footer from "./shared/core/footer/Footer.tsx";
 import {setupInterceptors} from "./utils/axios-config/axiosInstance.ts";
-import {useContext, useEffect} from "react";
+import {useCallback, useContext, useEffect} from "react";
 import Profile from "./features/users/settings/Profile.tsx";
 import AboutUs from "./features/guest/about-us/AboutUs.tsx";
 import {UserAuthContext} from "./shared/context/UserAuthContext.tsx";
@@ -20,14 +20,23 @@ import AdminDashboardUsers from "./features/admin/user-dashboard/AdminDashboardU
 import ServicePage from "./features/guest/service-id/ServiceIdPage.tsx";
 import StaffClientRoutes from "./shared/core/layouts/StaffClientRoutes.tsx";
 import AppointmentLayout from "./shared/core/layouts/AppointmentLayout.tsx";
+import {JwtToken, RefreshToken} from "./shared/models/auth.types.ts";
 
 function App() {
 
   const userContext = useContext(UserAuthContext)!;
 
+  const login = useCallback((jwtToken: JwtToken, refreshToken: RefreshToken) => {
+    userContext.login(jwtToken, refreshToken);
+  }, []);
+
+  const logout = useCallback(() => {
+    userContext.logout();
+  }, []);
+
   useEffect(() => {
-    setupInterceptors(userContext);
-  }, [userContext]);
+    setupInterceptors({login, logout});
+  }, [login, logout]);
 
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh" minWidth={"280px"}>

@@ -38,7 +38,7 @@ export const UserAuthProvider = ({children}: { children: ReactNode }) => {
   });
 
   const isUserAuthenticated = () => {
-    let refreshToken: (RefreshToken | null) = getRefreshTokenFromLocalStorage();
+    const refreshToken: (RefreshToken | null) = getRefreshTokenFromLocalStorage();
     return !!(refreshToken && new Date(refreshToken.expirationTime) > new Date());
   };
 

@@ -57,9 +57,9 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
 
   if (isGetUserLoading) return <LoadingSpinner/>
   if (isGetUserError) return <PageNotFound/>
+  if (!userId || !staff || !service || !data) return null;
 
   return (
-    userId && staff && service && data && (
       <>
         <FullScreenLoader isLoading={isBooking}/>
         <Dialog
@@ -106,7 +106,6 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
           </DialogContent>
         </Dialog>
       </>
-    )
   );
 };
 

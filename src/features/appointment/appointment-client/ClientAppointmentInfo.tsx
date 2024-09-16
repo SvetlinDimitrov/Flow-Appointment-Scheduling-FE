@@ -46,8 +46,9 @@ const ClientAppointmentInfo = () => {
     openModal("Cancel Appointment", `Are you sure you want to cancel this appointment?`, onConfirm);
   }
 
+  if (!userId) return null;
+
   return (
-    (userId &&
     <>
       {appointment && isBooking &&
         <BookAppointmentModal
@@ -86,7 +87,6 @@ const ClientAppointmentInfo = () => {
           bookAgain={() => setIsBooking(true)}
         />}
     </>
-    )
   );
 };
 
