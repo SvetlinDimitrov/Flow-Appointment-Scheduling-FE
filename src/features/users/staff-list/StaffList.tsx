@@ -10,7 +10,7 @@ import ContainerLoader from "../../../shared/core/loading/container-loader/Conta
 
 interface StaffListProps {
   selectedService: Service;
-  handleBookWithStaff: ((staffEmail: string, serviceId: number) => void) | null;
+  handleBookWithStaff: ((staff: User) => void) | null;
   handleDeleteEmployeeFromService: ((staffEmail: string, serviceId: number) => void) | null;
   showStaffNumbers: number
 }
@@ -69,7 +69,7 @@ const StaffList = (
                 }
                 handleBookWithStaff={
                   handleBookWithStaff ?
-                    () => handleBookWithStaff(employee.email, selectedService.id) : undefined
+                    () => handleBookWithStaff(employee) : undefined
                 }
               />
             ))}

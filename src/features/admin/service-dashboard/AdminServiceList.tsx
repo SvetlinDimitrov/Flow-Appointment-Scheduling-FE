@@ -45,14 +45,21 @@ const AdminServiceList = (
   if (error) return <PageNotFound/>;
 
   return (
-    <Box p={2} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} gap={3}>
+    <Box
+      p={2}
+      display={'flex'}
+      flexDirection={'column'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      gap={3}
+    >
       <Typography variant={"h5"} textAlign={"center"}>
         Explore Our Services
       </Typography>
-      {isLoading && <ContainerLoader height={660}/>}
+      {isLoading && <ContainerLoader height={'80%'}/>}
       {!isLoading && data &&
         <>
-          <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={2}>
+          <Box display={"flex"} justifyContent={"center"} gap={2}>
             {data.content.map((service) => (
               <ServiceCard
                 key={service.id}

@@ -19,6 +19,6 @@ export const paths = {
   ],
   staffPaths: [
     {'Profile': '/profile'},
-    {'Appointments': '/staff/appointments'}
+    {'Appointments': '/appointments'}
   ]
 };

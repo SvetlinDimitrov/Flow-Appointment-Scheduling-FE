@@ -11,6 +11,7 @@ import {queryClient} from "./utils/react-query/queryClient.ts";
 import ToastNotification from "./shared/core/toast/ToastNotification.tsx";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {ConfirmationModalProvider} from "./shared/context/ConfirmationModalContext.tsx";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 /**
  * MUI Theme Customizations:
@@ -19,7 +20,7 @@ import {ConfirmationModalProvider} from "./shared/context/ConfirmationModalConte
  * - Header and Footer: {subtitle1}
  * - Card: {header - h5, description - subtitle2, more - subtitle1}
  */
-let theme = createTheme({
+const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,

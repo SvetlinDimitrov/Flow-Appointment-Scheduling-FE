@@ -27,8 +27,8 @@ const ServiceCard = (
   }: ServiceCardProps) => {
   return (
     <Box>
-      <Card sx={{width: 325, margin: "auto", boxShadow: 3}}>
-        <CardContent sx={{minHeight: 450}}>
+      <Card sx={{width: '100%', margin: "auto", boxShadow: 3}}>
+        <CardContent>
           <Typography variant={"h5"} fontWeight={'bold'} textAlign={'center'}>
             {selectedService.name}
           </Typography>

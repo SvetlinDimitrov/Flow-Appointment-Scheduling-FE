@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useState} from 'react';
+import {createContext, ReactNode, useCallback, useState} from 'react';
 import {
   getRefreshTokenFromLocalStorage,
   removeRefreshTokenFromLocalStorage,
@@ -38,25 +38,25 @@ export const UserAuthProvider = ({children}: { children: ReactNode }) => {
   });
 
   const isUserAuthenticated = () => {
-    let refreshToken: (RefreshToken | null) = getRefreshTokenFromLocalStorage();
+    const refreshToken: (RefreshToken | null) = getRefreshTokenFromLocalStorage();
     return !!(refreshToken && new Date(refreshToken.expirationTime) > new Date());
   };
 
-  const login = (jwtToken: JwtToken, refreshToken: RefreshToken) => {
+  const login = useCallback((jwtToken: JwtToken, refreshToken: RefreshToken) => {
     setRefreshTokenInLocalStorage(refreshToken);
     setJwtTokenInLocalStorage(jwtToken);
     const userId = getUserIdFromJwt(jwtToken.token);
     setUserId(userId);
     const role = getUserRoleFromJwt(jwtToken.token);
     setRole(role);
-  }
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     removeRefreshTokenFromLocalStorage();
     removeJwtTokenFromLocalStorage();
     setUserId(null);
     setRole(null);
-  }
+  }, []);
 
   return (
     <UserAuthContext.Provider value={{

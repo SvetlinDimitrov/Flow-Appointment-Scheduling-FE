@@ -3,10 +3,10 @@ import { UseQueryResult } from '@tanstack/react-query';
 import Page from '../../shared/models/api/shared/Page';
 
 const usePaginatedQuery = <T>(
-  queryHook: (page: number, size: number, ...args: any[]) => UseQueryResult<Page<T>>,
+  queryHook: (page: number, size: number, ...args: string[]) => UseQueryResult<Page<T>>,
   initialPage: number = 0,
   size: number = 10,
-  ...args: any[]
+  ...args: string[]
 ) => {
   const [page, setPage] = useState(initialPage);
 

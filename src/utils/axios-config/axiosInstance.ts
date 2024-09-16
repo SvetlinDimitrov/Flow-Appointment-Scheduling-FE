@@ -32,6 +32,7 @@ const setupInterceptors = ({login, logout}: InterceptorProps) => {
                 const response = await refreshToken({ token: refreshTokenValue.token });
                 login(response.jwtToken, refreshTokenValue);
                 config.headers['Authorization'] = `Bearer ${response.jwtToken.token}`;
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
               } catch (error) {
                 logout();
               }

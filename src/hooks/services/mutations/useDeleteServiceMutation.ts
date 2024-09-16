@@ -9,6 +9,8 @@ const useDeleteServiceMutation = () => {
     mutationFn: (serviceId: number) => deleteService(serviceId),
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['services']});
+      queryClient.invalidateQueries({queryKey: ['appointments']});
+      queryClient.invalidateQueries({queryKey: ['appointment']});
       toast.success("Service deleted successfully.");
     },
   });

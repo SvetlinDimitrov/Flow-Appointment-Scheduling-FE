@@ -13,23 +13,21 @@ import Profile from "./features/users/settings/Profile.tsx";
 import AboutUs from "./features/guest/about-us/AboutUs.tsx";
 import {UserAuthContext} from "./shared/context/UserAuthContext.tsx";
 import ContactUs from "./features/guest/contact-us/ContactUs.tsx";
-import AppointmentInfo from "./features/appointment/appointment-info/AppointmentInfo.tsx";
 import {Box} from "@mui/material";
-import AppointmentDetails from "./features/appointment/appointment-info/detailed-appointment/AppointmentDetails.tsx";
 import AdminRoutes from "./shared/core/layouts/AdminRoutes.tsx";
 import AdminServiceDashboard from "./features/admin/service-dashboard/AdminServiceDashboard.tsx";
 import AdminDashboardUsers from "./features/admin/user-dashboard/AdminDashboardUsers.tsx";
 import ServicePage from "./features/guest/service-id/ServiceIdPage.tsx";
-import StaffRoutes from "./shared/core/layouts/StaffRoutes.tsx";
-import ClientRoutes from "./shared/core/layouts/ClientRoutes.tsx";
+import StaffClientRoutes from "./shared/core/layouts/StaffClientRoutes.tsx";
+import AppointmentLayout from "./shared/core/layouts/AppointmentLayout.tsx";
 
 function App() {
 
-  const userContext = useContext(UserAuthContext)!;
+  const {login, logout} = useContext(UserAuthContext)!;
 
   useEffect(() => {
-    setupInterceptors(userContext);
-  }, []);
+    setupInterceptors({login, logout});
+  }, [login, logout]);
 
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh" minWidth={"280px"}>
@@ -48,13 +46,8 @@ function App() {
               <Route path="/admin/services" element={<AdminServiceDashboard/>}/>
               <Route path="/admin/users" element={<AdminDashboardUsers/>}/>
             </Route>
-            <Route element={<StaffRoutes/>}>
-              <Route path="/staff/appointments" element={<AppointmentInfo/>}/>
-              <Route path="/staff/appointments/:id" element={<AppointmentDetails/>}/>
-            </Route>
-            <Route element={<ClientRoutes/>}>
-              <Route path="/appointments" element={<AppointmentInfo/>}/>
-              <Route path="/appointments/:id" element={<AppointmentDetails/>}/>
+            <Route element={<StaffClientRoutes/>}>
+              <Route path="/appointments" element={<AppointmentLayout/>}/>
             </Route>
             <Route path="/profile" element={<Profile/>}/>
           </Route>

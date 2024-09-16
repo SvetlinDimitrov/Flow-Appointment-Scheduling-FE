@@ -6,7 +6,12 @@ import {UpdateUserRequest} from "../../../shared/models/api/users.ts";
 
 const useUpdateUserMutation = () => {
   return useMutation({
-    mutationFn: (data: { id: number; user: UpdateUserRequest }) => updateUser(data.id, data.user),
+    mutationFn: (data: { id: number | null; user: UpdateUserRequest }) => {
+      if (data.id === null) {
+        return Promise.reject(new Error("User ID is null"));
+      }
+      return updateUser(data.id, data.user);
+    },
     onSuccess: (data) => {
       queryClient.invalidateQueries({queryKey: ['user', data.id]});
       toast.success("User updated successfully.");
