@@ -1,8 +1,6 @@
 import {Box, CircularProgress} from '@mui/material';
 
 const FullScreenLoader = ({isLoading}: { isLoading: boolean }) => {
-
-
   if (!isLoading) return null;
 
   return (

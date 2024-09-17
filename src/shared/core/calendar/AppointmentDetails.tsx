@@ -1,5 +1,5 @@
 import {CalendarType} from '../../models/react-big-calendar.ts';
-import AdminEventView from '../../../features/appointment/appoitment-admin/appointment-view/AdminEventView.tsx';
+import AdminEventView from '../../../features/appointment/appoitment-admin/service/appointment-view/AdminEventView.tsx';
 import StaffEventView from '../../../features/appointment/appointment-staff/appointment-view/StaffEventView.tsx';
 import ClientAppointmentDetails
   from '../../../features/appointment/appointment-client/detailed-appoitment/ClientAppointmentDetails.tsx';

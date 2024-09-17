@@ -6,7 +6,7 @@ import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import useGetAllServicesQuery from "../../../hooks/services/query/useGetAllServicesQuery.ts";
 import {useContext, useEffect, useState} from "react";
 import ContainerLoader from "../../../shared/core/loading/container-loader/ContainerLoader.tsx";
-import ServiceCalendarModal from "../../appointment/appoitment-admin/ServiceCalendarModal.tsx";
+import ServiceCalendarModal from "../../appointment/appoitment-admin/service/ServiceCalendarModal.tsx";
 import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 
 interface ServiceListProps {
@@ -28,7 +28,7 @@ const AdminServiceList = (
   const [prevBreakpoints, setPrevBreakpoints] = useState({ isMd, isLg });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
 
   const {userId} = useContext(UserAuthContext)!;
 
@@ -49,9 +49,9 @@ const AdminServiceList = (
     }
   }, [isMd, isLg, prevBreakpoints, setPage]);
 
-  const handleOpenModal = (serviceId: number) => {
+  const handleOpenModal = (service: Service) => {
     setIsModalOpen(true);
-    setSelectedServiceId(serviceId);
+    setSelectedService(service);
   };
 
   if (error) return <PageNotFound/>;
@@ -80,7 +80,7 @@ const AdminServiceList = (
                 handleDeleteService={() => handleDeleteService(service)}
                 handleUpdateService={() => handleUpdateService(service)}
                 handleViewEmployees={() => handleViewStaff(service)}
-                handleAppointments={() => handleOpenModal(service.id)}
+                handleAppointments={() => handleOpenModal(service)}
               />
             ))}
           </Box>
@@ -96,13 +96,13 @@ const AdminServiceList = (
           </Box>
         </>
       }
-      {selectedServiceId &&
+      {selectedService &&
         <ServiceCalendarModal
-          serviceId={selectedServiceId}
+          service={selectedService}
           open={isModalOpen}
           handleClose={() => {
             setIsModalOpen(false);
-            setSelectedServiceId(null);
+            setSelectedService(null);
           }}/>
       }
     </Box>

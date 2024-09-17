@@ -1,9 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
-import { getAllAppointmentsByUserIdAndDate, getAllAppointmentsByServiceIdAndDate } from "../../../services/appintment-service.ts";
-import { ShortAppointment } from "../../../shared/models/appointment.types.ts";
 import {FetchType} from "../../../shared/models/react-big-calendar.ts";
+import {ShortAppointment} from "../../../shared/models/appointment.types.ts";
+import {
+  getAllAppointmentsByServiceIdAndDate,
+  getAllAppointmentsByUserIdAndDate
+} from "../../../services/appintment-service.ts";
+import {useQuery} from "@tanstack/react-query";
 
-const useGetAllAppointmentsShort = (id: number, startDate: Date, endDate: Date, fetchType: FetchType) => {
+const useGetAllAppointmentsShort = (
+  id: number,
+  startDate: Date,
+  endDate: Date,
+  fetchType: FetchType
+) => {
 
   const fetchAppointments = async () => {
     const dates = [];

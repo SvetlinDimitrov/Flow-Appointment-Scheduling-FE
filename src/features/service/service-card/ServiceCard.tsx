@@ -60,10 +60,11 @@ const ServiceCard = (
           </TableContainer>
         </CardContent>
         {isAdmin ? (
-          <AdminCardActions handleDelete={handleDeleteService}
-                            handleEdit={handleUpdateService}
-                            handleOpen={handleViewEmployees}
-                            handleAppointments={handleAppointments}
+          <AdminCardActions
+            handleDelete={handleDeleteService}
+            handleEdit={handleUpdateService}
+            handleOpen={handleViewEmployees}
+            handleAppointments={handleAppointments}
           />
         ) : (
           <UserCardActions handleOpen={handleViewEmployees}/>
