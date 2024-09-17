@@ -16,10 +16,9 @@ import FullScreenLoader from "../loading/full-screen-loader/FullScreenLoader.tsx
 import MonthCustomEvent from "./events/MonthCustomEvent.tsx";
 import DayCustomEvent from "./events/DayCustomEvent.tsx";
 import WeekCustomEvent from "./events/WeekCustomEvent.tsx";
-import StaffEventView from "../../../features/appointment/appointment-staff/appointment-view/StaffEventView.tsx";
-import ClientAppointmentDetails
-  from "../../../features/appointment/appointment-client/detailed-appoitment/ClientAppointmentDetails.tsx";
 import BookAppointmentModal from "../../../features/appointment/appointment-client/book-modal/BookAppointmentModal.tsx";
+import AppointmentDetailsPopup from "./AppointmentDetails.tsx";
+import useDeleteAppointmentMutation from "../../../hooks/appointments/mutation/useDeleteAppointmentMutation.ts";
 
 const localize = momentLocalizer(moment);
 
@@ -63,6 +62,7 @@ const MyCalendar = (
   } = useGetAllAppointmentsShort(fetchId, range.start, range.end, fetchType);
   const {openModal, closeModal} = useConfirmationModal();
   const updateAppointmentMutation = useUpdateAppointmentMutation();
+  const deleteAppointmentMutation = useDeleteAppointmentMutation();
 
   const handleOpenAppointmentDetails = (e: ShortAppointment) => {
     if (calendarType !== CalendarType.BOOK) setCurrentAppointmentId(e.id);
@@ -70,19 +70,31 @@ const MyCalendar = (
 
   const modifyAppointment = (appointmentId: number, status: UpdateAppointmentStatus) => {
     const onConfirm = () => {
-      if (appointment) {
-        setIsProcessing(true);
-        updateAppointmentMutation.mutate({id: appointmentId, appointment: {status}}, {
-          onSettled: () => {
-            setIsProcessing(false);
-            setCurrentAppointmentId(null);
-            closeModal();
-          }
-        });
-      }
+      setIsProcessing(true);
+      updateAppointmentMutation.mutate({id: appointmentId, appointment: {status}}, {
+        onSettled: () => {
+          setIsProcessing(false);
+          setCurrentAppointmentId(null);
+          closeModal();
+        }
+      });
     };
 
     openModal("Cancel Appointment", `Are you sure you want to cancel this appointment?`, onConfirm);
+  };
+
+  const deleteAppointment = (appointmentId: number) => {
+    const onConfirm = () => {
+      setIsProcessing(true);
+      deleteAppointmentMutation.mutate(appointmentId, {
+        onSettled: () => {
+          setIsProcessing(false);
+          setCurrentAppointmentId(null);
+          closeModal();
+        }
+      });
+    };
+    openModal("Delete Appointment", `Are you sure you want to delete this appointment?`, onConfirm);
   };
 
   const handleRangeChange = (range: { start: Date; end: Date } | Date[]) => {
@@ -132,31 +144,16 @@ const MyCalendar = (
           }}
         />
       </div>
-      {currentAppointmentId && !appointmentLoading && appointment && (
-        <>
-          {(calendarType === CalendarType.STAFF || calendarType === CalendarType.ADMIN) && (
-            <StaffEventView
-              open={!!currentAppointmentId}
-              onClose={() => setCurrentAppointmentId(null)}
-              appointment={appointment}
-              onAppointmentUpdate={(status: UpdateAppointmentStatus) =>
-                modifyAppointment(currentAppointmentId, status)
-              }
-            />
-          )}
-          {calendarType === CalendarType.CLIENT && (
-            <ClientAppointmentDetails
-              onClose={() => setCurrentAppointmentId(null)}
-              open={!!currentAppointmentId}
-              appointment={appointment}
-              cancelAppointment={() =>
-                modifyAppointment(currentAppointmentId, UpdateAppointmentStatus.CANCELED)
-              }
-              bookAgain={() => setIsBooking(true)}
-            />
-          )}
-        </>
-      )}
+      <AppointmentDetailsPopup
+        calendarType={calendarType}
+        currentAppointmentId={currentAppointmentId}
+        appointment={appointment}
+        appointmentLoading={appointmentLoading}
+        modifyAppointment={modifyAppointment}
+        deleteAppointment={deleteAppointment}
+        setIsBooking={setIsBooking}
+        setCurrentAppointmentId={setCurrentAppointmentId}
+      />
       {appointment && isBooking && (
         <BookAppointmentModal
           open={isBooking}

@@ -30,8 +30,6 @@ const AdminServiceList = (
 
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
 
-  console.log(selectedServiceId);
-
   const {userId} = useContext(UserAuthContext)!;
 
   const servicesPerPage = isMd ? 1 : isLg ? 2 : 3;
