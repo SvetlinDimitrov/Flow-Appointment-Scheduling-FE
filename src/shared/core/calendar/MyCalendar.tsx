@@ -18,6 +18,7 @@ import WeekCustomEvent from './events/WeekCustomEvent.tsx';
 import BookAppointmentModal from '../../../features/appointment/appointment-client/book-modal/BookAppointmentModal.tsx';
 import AppointmentDetailsPopup from './AppointmentDetails.tsx';
 import useDeleteAppointmentMutation from '../../../hooks/appointments/mutation/useDeleteAppointmentMutation.ts';
+import AgendaCustomView from "./events/AgendaCustomView.tsx";
 
 const localize = momentLocalizer(moment);
 
@@ -165,6 +166,7 @@ const MyCalendar = (
             month: {event: MonthCustomEvent},
             day: {event: DayCustomEvent},
             week: {event: WeekCustomEvent},
+            agenda: {event: AgendaCustomView},
           }}
         />
       </div>
