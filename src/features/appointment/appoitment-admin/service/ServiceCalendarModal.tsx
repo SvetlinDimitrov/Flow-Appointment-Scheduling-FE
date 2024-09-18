@@ -1,11 +1,10 @@
-import {useCallback, useState} from 'react';
 import {Box, Chip, Modal, Typography} from '@mui/material';
 import AccordionGridModal from "./calendar-modal/AccordionGridModal.tsx";
 import MyCalendar from "../../../../shared/core/calendar/MyCalendar.tsx";
-import ClientCustomToolbar from "../../appointment-client/calendar-toolbars/ClientCustomToolbar.tsx";
 import {CalendarType, FetchType} from "../../../../shared/models/react-big-calendar.ts";
-import {AppointmentStatus} from "../../../../shared/models/appointment.types.ts";
 import {Service} from "../../../../shared/models/service.types.ts";
+import AdminCustomToolbar from "./calendar-toolbar/AdminCustomToolbar.tsx";
+import useAdditionalFilteringCalendar from "../../../../hooks/custom/useAdditionalFilteringCalendar.ts";
 
 interface ServiceCalendarModalProps {
   open: boolean;
@@ -14,29 +13,13 @@ interface ServiceCalendarModalProps {
 }
 
 const ServiceCalendarModal = ({open, handleClose, service}: ServiceCalendarModalProps) => {
-  const [selectedStatuses, setSelectedStatuses] = useState<AppointmentStatus[]>([
-    AppointmentStatus.NOT_APPROVED,
-    AppointmentStatus.APPROVED,
-    AppointmentStatus.COMPLETED,
-    AppointmentStatus.CANCELED,
-  ]);
 
-  const [appointmentCounts, setAppointmentCounts] = useState({
-    [AppointmentStatus.NOT_APPROVED]: 0,
-    [AppointmentStatus.APPROVED]: 0,
-    [AppointmentStatus.COMPLETED]: 0,
-    [AppointmentStatus.CANCELED]: 0,
-  });
-
-  const handleStatusChange = (status: AppointmentStatus) => {
-    setSelectedStatuses((prev) =>
-      prev.includes(status) ? prev.filter((s) => s !== status) : [...prev, status]
-    );
-  };
-
-  const updateAppointmentCounts = useCallback((newCounts: Record<AppointmentStatus, number>) => {
-    setAppointmentCounts(newCounts);
-  }, []);
+  const {
+    selectedStatuses,
+    appointmentCounts,
+    handleStatusChange,
+    updateAppointmentCounts
+  } = useAdditionalFilteringCalendar();
 
   return (
     <Modal
@@ -83,11 +66,9 @@ const ServiceCalendarModal = ({open, handleClose, service}: ServiceCalendarModal
           calendarType={CalendarType.ADMIN}
           fetchId={service.id}
           fetchType={FetchType.SERVICE}
-          CustomToolbar={ClientCustomToolbar}
+          CustomToolbar={AdminCustomToolbar}
           width={'90%'}
           height={'80%'}
-          startDate={undefined}
-          endDate={undefined}
           updateAppointmentCounts={updateAppointmentCounts}
         />
       </Box>

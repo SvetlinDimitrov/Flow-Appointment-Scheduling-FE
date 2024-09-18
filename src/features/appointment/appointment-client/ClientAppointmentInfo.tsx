@@ -29,8 +29,6 @@ const ClientAppointmentInfo = () => {
           CustomToolbar={ClientCustomToolbar}
           width={'90%'}
           height={'80%'}
-          startDate={undefined}
-          endDate={undefined}
         />
       </Box>
     </>

@@ -5,7 +5,7 @@ import {User} from '../../../../shared/models/user.types.ts';
 import {Service} from '../../../../shared/models/service.types.ts';
 import {DateTime} from 'luxon';
 import BookFormSection from './BookFormSection.tsx';
-import {AppointmentCreate} from "../../../../shared/models/appointment.types.ts";
+import {AppointmentCreate, AppointmentStatus} from "../../../../shared/models/appointment.types.ts";
 import useGetUserQuery from "../../../../hooks/users/query/useGetUserQuery.ts";
 import {useContext, useState} from "react";
 import {UserAuthContext} from "../../../../shared/context/UserAuthContext.tsx";
@@ -94,6 +94,7 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
                   Working Scheduler
                 </Typography>
                 <MyCalendar
+                  filterByStatus={[AppointmentStatus.NOT_APPROVED , AppointmentStatus.APPROVED]}
                   calendarType={CalendarType.BOOK}
                   fetchId={staff.id}
                   fetchType={FetchType.USER}

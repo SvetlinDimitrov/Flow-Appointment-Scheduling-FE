@@ -23,29 +23,33 @@ const localize = momentLocalizer(moment);
 
 interface MyCalendarProps {
   CustomToolbar: ComponentType<ToolbarProps<ShortAppointment>>;
-  filterByStatus: AppointmentStatus[];
+  filterByStatus?: AppointmentStatus[];
   height: number | string;
   width: number | string;
-  startDate: Date | undefined;
-  endDate: Date | undefined;
+  startDate?: Date
+  endDate?: Date;
   fetchId: number;
   fetchType: FetchType;
   calendarType: CalendarType;
   updateAppointmentCounts?: (newCounts: Record<AppointmentStatus, number>) => void;
 }
 
-const MyCalendar = ({
-                      filterByStatus,
-                      calendarType,
-                      CustomToolbar,
-                      height,
-                      width,
-                      startDate,
-                      endDate,
-                      fetchId,
-                      fetchType,
-                      updateAppointmentCounts,
-                    }: MyCalendarProps) => {
+const MyCalendar = (
+  {
+    filterByStatus = [
+      AppointmentStatus.APPROVED, AppointmentStatus.COMPLETED,
+      AppointmentStatus.CANCELED, AppointmentStatus.NOT_APPROVED
+    ],
+    calendarType,
+    CustomToolbar,
+    height,
+    width,
+    startDate,
+    endDate,
+    fetchId,
+    fetchType,
+    updateAppointmentCounts,
+  }: MyCalendarProps) => {
   const [view, setView] = useState<View>('day');
   const [range, setRange] = useState<{ start: Date; end: Date }>({start: new Date(), end: new Date()});
   const [currentAppointmentId, setCurrentAppointmentId] = useState<number | null>(null);

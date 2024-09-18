@@ -4,9 +4,18 @@ import MyCalendar from "../../../shared/core/calendar/MyCalendar.tsx";
 import StaffCustomToolbar from "./calendar-toolbars/StaffCustomToolbar.tsx";
 import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 import {CalendarType, FetchType} from "../../../shared/models/react-big-calendar.ts";
+import AccordionGridModal from "../appoitment-admin/service/calendar-modal/AccordionGridModal.tsx";
+import useAdditionalFilteringCalendar from "../../../hooks/custom/useAdditionalFilteringCalendar.ts";
 
 const StaffAppointmentInfo = () => {
   const {userId} = useContext(UserAuthContext)!;
+
+  const {
+    selectedStatuses,
+    appointmentCounts,
+    handleStatusChange,
+    updateAppointmentCounts
+  } = useAdditionalFilteringCalendar();
 
   if(!userId) return null;
   return (
@@ -21,15 +30,22 @@ const StaffAppointmentInfo = () => {
         <Typography variant="h5" mb={5}>
           My Appointments
         </Typography>
+
+        <AccordionGridModal
+          appointmentCounts={appointmentCounts}
+          selectedStatuses={selectedStatuses}
+          handleStatusChange={handleStatusChange}
+        />
+
         <MyCalendar
+          filterByStatus={selectedStatuses}
           calendarType={CalendarType.STAFF}
           CustomToolbar={StaffCustomToolbar}
           fetchId={userId}
           fetchType={FetchType.USER}
           width="90%"
           height="80%"
-          startDate={undefined}
-          endDate={undefined}
+          updateAppointmentCounts={updateAppointmentCounts}
         />
       </Box>
 

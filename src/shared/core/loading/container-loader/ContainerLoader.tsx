@@ -12,6 +12,7 @@ const ContainerLoader = ({height}: LoaderProps) => {
       alignItems="center"
       width="100%"
       height={height}
+      zIndex={1000}
     >
       <CircularProgress />
     </Box>
