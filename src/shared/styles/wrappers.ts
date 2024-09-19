@@ -13,7 +13,7 @@ export const UserMainWrapper = styled(Box)(({theme}) => ({
 
 export const UserSecondWrapper = styled(Paper)(({theme}) => ({
   padding: theme.spacing(4),
-  maxWidth: 500,
   borderRadius: theme.shape.borderRadius,
+  width: '60%',
 }));
 
