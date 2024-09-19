@@ -26,10 +26,19 @@ const ServiceCard = ({image, alt, title, navigateTo , buttonText}: ServiceCardPr
       <CardContent sx={{
         textAlign: 'center',
       }}>
-        <Typography variant={"h5"} gutterBottom>
+        <Typography variant={"h5"} gutterBottom noWrap>
           {title}
         </Typography>
-        <Button variant="outlined" onClick={() => navigate(navigateTo)}>
+        <Button
+          variant="outlined"
+          onClick={() => navigate(navigateTo)}
+          sx={{
+            maxWidth: '100%',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+          }}
+        >
           {buttonText}
         </Button>
       </CardContent>
