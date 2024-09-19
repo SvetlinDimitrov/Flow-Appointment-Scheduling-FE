@@ -1,12 +1,12 @@
-import React, { useContext, useState } from "react";
-import { IconButton, Menu, MenuItem } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, {useContext, useState} from "react";
+import {IconButton, Menu, MenuItem} from "@mui/material";
+import {useLocation, useNavigate} from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { paths } from "../../../paths/paths.ts";
-import { UserAuthContext } from "../../../context/UserAuthContext.tsx";
+import {paths} from "../../../paths/paths.ts";
+import {UserAuthContext} from "../../../context/UserAuthContext.tsx";
 import ConfirmationModalWrapper from "../../confirm-model/ConfirmationModalWrapper.tsx";
-import { useConfirmationModal } from "../../../context/ConfirmationModalContext.tsx";
-import { UserRole } from "../../../models/user.types.ts";
+import {useConfirmationModal} from "../../../context/ConfirmationModalContext.tsx";
+import {UserRole} from "../../../models/user.types.ts";
 
 const UserMenu = () => {
   const navigate = useNavigate();
@@ -28,6 +28,7 @@ const UserMenu = () => {
       logout();
       handleClose();
       closeModal();
+      navigate("/");
     };
     openModal("Logout", "Are you sure you want to logout?", onConfirm);
   };
