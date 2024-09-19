@@ -71,7 +71,7 @@ const ServicePage = () => {
               </Box>
             )}
           </Grid>
-          {userId && (
+          {userId && service.availability &&(
             <Grid item xs={12}>
               <Box display="flex" justifyContent="center" sx={{mt: 3}}>
                 <StaffList

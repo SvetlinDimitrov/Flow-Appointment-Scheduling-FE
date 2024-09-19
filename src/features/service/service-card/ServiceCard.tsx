@@ -1,10 +1,24 @@
-import {Box, Card, CardContent, Divider, IconButton, Menu, MenuItem, Typography} from "@mui/material";
+import {Box, Card, CardContent, Divider, IconButton, Menu, MenuItem, MenuItemProps, Typography} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {MouseEvent, useState} from "react";
 import {Service} from "../../../shared/models/service.types.ts";
 import AdminButtons from "./AdminButtons";
 import UserButton from "./UserButton";
 import CardBody from "./CardBody";
+
+const StyledMenuItem = (props: MenuItemProps) => {
+  return (
+    <MenuItem
+      sx={{
+        "&:hover": {
+          color: "primary.main"
+        },
+      }}
+      {...props}
+    />
+  );
+};
+
 
 interface ServiceCardProps {
   selectedService: Service;
@@ -61,11 +75,32 @@ const ServiceCard = (
           open={open}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleViewEmployees}>Staff</MenuItem>
+          <StyledMenuItem
+            onClick={() => {
+              handleViewEmployees();
+              handleClose();
+            }}
+          >
+            Staff
+          </StyledMenuItem>
           {isAdmin && (
             <>
-              <MenuItem onClick={handleAppointments}>Events</MenuItem>
-              <MenuItem onClick={() => console.log(123)}>Statistics</MenuItem>
+              <StyledMenuItem
+                onClick={() => {
+                  handleAppointments();
+                  handleClose();
+                }}
+              >
+                Events
+              </StyledMenuItem>
+              <StyledMenuItem
+                onClick={() => {
+                  console.log(123);
+                  handleClose();
+                }}
+              >
+                Statistics
+              </StyledMenuItem>
             </>
           )}
         </Menu>
