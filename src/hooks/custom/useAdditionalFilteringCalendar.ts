@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import {useCallback, useState} from 'react';
 import {AppointmentStatus} from "../../shared/models/appointment.types.ts";
 
 const useAdditionalFilteringCalendar = () => {
@@ -9,7 +9,7 @@ const useAdditionalFilteringCalendar = () => {
     AppointmentStatus.CANCELED,
   ]);
 
-  const [appointmentCounts, setAppointmentCounts] = useState({
+  const [appointmentCounts, setAppointmentCounts] = useState<Record<AppointmentStatus, number>>({
     [AppointmentStatus.NOT_APPROVED]: 0,
     [AppointmentStatus.APPROVED]: 0,
     [AppointmentStatus.COMPLETED]: 0,

@@ -101,8 +101,8 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
                   CustomToolbar={BookToolbar}
                   width={'100%'}
                   height={'95%'}
-                  startDate={startDateValue}
-                  endDate={endDateValue}
+                  startHourBoundary={startDateValue}
+                  endHourBoundary={endDateValue}
                 />
               </Box>
             </Box>

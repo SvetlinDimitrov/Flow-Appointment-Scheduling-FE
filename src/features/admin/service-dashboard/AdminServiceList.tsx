@@ -6,7 +6,7 @@ import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import useGetAllServicesQuery from "../../../hooks/services/query/useGetAllServicesQuery.ts";
 import {useContext, useEffect, useState} from "react";
 import ContainerLoader from "../../../shared/core/loading/container-loader/ContainerLoader.tsx";
-import ServiceCalendarModal from "../../appointment/appoitment-admin/service/ServiceCalendarModal.tsx";
+import AdminCalendarModal from "../../appointment/appoitment-admin/AdminCalendarModal.tsx";
 import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 
 interface ServiceListProps {
@@ -97,13 +97,14 @@ const AdminServiceList = (
         </>
       }
       {selectedService &&
-        <ServiceCalendarModal
-          service={selectedService}
+        <AdminCalendarModal
+          type={selectedService}
           open={isModalOpen}
           handleClose={() => {
             setIsModalOpen(false);
             setSelectedService(null);
-          }}/>
+          }}
+        />
       }
     </Box>
   );

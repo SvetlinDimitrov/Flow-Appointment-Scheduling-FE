@@ -4,7 +4,7 @@ import MyCalendar from "../../../shared/core/calendar/MyCalendar.tsx";
 import StaffCustomToolbar from "./calendar-toolbars/StaffCustomToolbar.tsx";
 import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
 import {CalendarType, FetchType} from "../../../shared/models/react-big-calendar.ts";
-import AccordionGridModal from "../appoitment-admin/service/calendar-modal/AccordionGridModal.tsx";
+import AccordionGridModal from "../appoitment-admin/calendar-modal/AccordionGridModal.tsx";
 import useAdditionalFilteringCalendar from "../../../hooks/custom/useAdditionalFilteringCalendar.ts";
 
 const StaffAppointmentInfo = () => {

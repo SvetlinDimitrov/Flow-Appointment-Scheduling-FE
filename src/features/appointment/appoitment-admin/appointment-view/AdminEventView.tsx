@@ -13,8 +13,8 @@ import {
   Typography
 } from '@mui/material';
 import {AccessTime, Build, Email, Person} from '@mui/icons-material';
-import {Appointment, AppointmentStatus, UpdateAppointmentStatus} from "../../../../../shared/models/appointment.types.ts";
-import {formatAppointmentDate} from "../../../appointment-staff/appointment-view/StaffEventView.tsx";
+import {Appointment, AppointmentStatus, UpdateAppointmentStatus} from "../../../../shared/models/appointment.types.ts";
+import {formatAppointmentDate} from "../../appointment-staff/appointment-view/StaffEventView.tsx";
 
 interface AdminEventViewProps {
   open: boolean;

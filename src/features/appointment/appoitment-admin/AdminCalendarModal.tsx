@@ -1,18 +1,23 @@
 import {Box, Chip, Modal, Typography} from '@mui/material';
 import AccordionGridModal from "./calendar-modal/AccordionGridModal.tsx";
-import MyCalendar from "../../../../shared/core/calendar/MyCalendar.tsx";
-import {CalendarType, FetchType} from "../../../../shared/models/react-big-calendar.ts";
-import {Service} from "../../../../shared/models/service.types.ts";
+import MyCalendar from "../../../shared/core/calendar/MyCalendar.tsx";
+import {CalendarType, FetchType} from "../../../shared/models/react-big-calendar.ts";
+import {Service} from "../../../shared/models/service.types.ts";
 import AdminCustomToolbar from "./calendar-toolbar/AdminCustomToolbar.tsx";
-import useAdditionalFilteringCalendar from "../../../../hooks/custom/useAdditionalFilteringCalendar.ts";
+import useAdditionalFilteringCalendar from "../../../hooks/custom/useAdditionalFilteringCalendar.ts";
+import {User} from "../../../shared/models/user.types.ts";
 
 interface ServiceCalendarModalProps {
   open: boolean;
-  service: Service;
+  type: Service | User;
   handleClose: () => void;
 }
 
-const ServiceCalendarModal = ({open, handleClose, service}: ServiceCalendarModalProps) => {
+const isService = (type: Service | User): type is Service => {
+  return (type as Service).name !== undefined;
+};
+
+const AdminCalendarModal = ({open, handleClose, type}: ServiceCalendarModalProps) => {
 
   const {
     selectedStatuses,
@@ -46,12 +51,17 @@ const ServiceCalendarModal = ({open, handleClose, service}: ServiceCalendarModal
            borderRadius={2}
            boxShadow={24}
       >
-        <Box display="flex" flexDirection="row" alignItems="center" mb={3}>
+        <Box
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          mb={3}
+        >
           <Typography variant={"h5"} mr={2}>
-            {service.name} Calendar
+            {isService(type) ? type.name : `${type.firstName} ${type.lastName}`} Calendar
           </Typography>
           <Chip
-            label={`Total: ${Object.values(appointmentCounts).reduce((total, count) => total + count, 0)}`}
+            label={`Total: ${selectedStatuses.reduce((total, status) => total + appointmentCounts[status], 0)}`}
             color="primary"
             variant="outlined"
           />
@@ -64,8 +74,8 @@ const ServiceCalendarModal = ({open, handleClose, service}: ServiceCalendarModal
         <MyCalendar
           filterByStatus={selectedStatuses}
           calendarType={CalendarType.ADMIN}
-          fetchId={service.id}
-          fetchType={FetchType.SERVICE}
+          fetchId={type.id}
+          fetchType={isService(type) ? FetchType.SERVICE : FetchType.USER}
           CustomToolbar={AdminCustomToolbar}
           width={'90%'}
           height={'80%'}
@@ -76,4 +86,4 @@ const ServiceCalendarModal = ({open, handleClose, service}: ServiceCalendarModal
   );
 };
 
-export default ServiceCalendarModal;
+export default AdminCalendarModal;

@@ -1,5 +1,5 @@
 import {Box} from '@mui/material';
-import {Assignment, Delete, Edit} from '@mui/icons-material';
+import {Assignment, Delete, Edit, Event} from '@mui/icons-material';
 import {UserRole} from "../../../../../shared/models/user.types.ts";
 
 interface UserActionsProps {
@@ -7,16 +7,38 @@ interface UserActionsProps {
   onEdit: () => void;
   onDelete: () => void;
   onAssignToService: () => void;
+  onViewAppointments: () => void;
 }
 
-const UserActions = ({ userRole, onEdit, onDelete, onAssignToService }: UserActionsProps) => (
-  <Box display={"flex"} justifyContent={"space-between"} mt={2} gap={1} aria-modal={true}>
+const UserActions = (
+  {
+    userRole,
+    onEdit,
+    onDelete,
+    onAssignToService,
+    onViewAppointments
+  }: UserActionsProps) => (
+  <Box
+    display={"flex"}
+    justifyContent={"space-between"}
+    mt={2}
+    gap={1}
+    aria-modal={true}
+  >
     {userRole === UserRole.CLIENT ? (
-      <Delete
-        color="secondary"
-        sx={{cursor: 'pointer'}}
-        onClick={onDelete}
-      />
+      <>
+        <Delete
+          color="secondary"
+          sx={{cursor: 'pointer'}}
+          onClick={onDelete}
+        />
+        <Event
+          color="action"
+          sx={{cursor: 'pointer'}}
+          onClick={onViewAppointments}
+        />
+      </>
+
     ) : (
       <>
         <Edit
@@ -33,6 +55,11 @@ const UserActions = ({ userRole, onEdit, onDelete, onAssignToService }: UserActi
           color="inherit"
           sx={{cursor: 'pointer'}}
           onClick={onAssignToService}
+        />
+        <Event
+          color="action"
+          sx={{cursor: 'pointer'}}
+          onClick={onViewAppointments}
         />
       </>
     )}

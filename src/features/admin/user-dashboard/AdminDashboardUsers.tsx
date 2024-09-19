@@ -14,11 +14,13 @@ import WelcomeUserSection from "./welcome-user-section/WelcomeUserSection.tsx";
 import HireStaffModal from "./welcome-user-section/hire-staff/HireStaffModal.tsx";
 import useHireStaffMutation from "../../../hooks/users/mutations/useHireStuffMutation.ts";
 import {Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mui/material';
+import AdminCalendarModal from "../../appointment/appoitment-admin/AdminCalendarModal.tsx";
 
 const AdminDashboardUsers = () => {
   const [editUser, setEditUser] = useState<User | null>(null);
   const [assignUser, setAssignUser] = useState<User | null>(null);
   const [isHireModalOpen, setIsHireModalOpen] = useState(false);
+  const [eventsUser, setEventsUser] = useState<User | null>(null);
   const [selectedRole, setSelectedRole] = useState<UserRole | ''>('');
 
   const {openModal, closeModal} = useConfirmationModal();
@@ -65,7 +67,14 @@ const AdminDashboardUsers = () => {
   return (
     <div>
       <WelcomeUserSection onHireStaff={() => setIsHireModalOpen(true)}/>
-      <Box display={'flex'} justifyContent={'center'} mt={2} mb={2} pl={4} pr={4}>
+      <Box
+        display={'flex'}
+        justifyContent={'center'}
+        mt={2}
+        mb={2}
+        pl={4}
+        pr={4}
+      >
         <FormControl sx={{width: 300}} size={'small'}>
           <InputLabel id="user-role-select-label">User Role</InputLabel>
           <Select
@@ -89,6 +98,7 @@ const AdminDashboardUsers = () => {
           onDelete={handleDelete}
           onAssignToService={(user) => setAssignUser(user)}
           userRole={UserRole.ADMINISTRATOR}
+          onViewAppointments={(user) => setEventsUser(user)}
         />
       )}
       {selectedRole === UserRole.EMPLOYEE && (
@@ -98,6 +108,7 @@ const AdminDashboardUsers = () => {
           onDelete={handleDelete}
           onAssignToService={(user) => setAssignUser(user)}
           userRole={UserRole.EMPLOYEE}
+          onViewAppointments={(user) => setEventsUser(user)}
         />
       )}
       {selectedRole === UserRole.CLIENT && (
@@ -107,6 +118,7 @@ const AdminDashboardUsers = () => {
           onDelete={handleDelete}
           onAssignToService={(user) => setAssignUser(user)}
           userRole={UserRole.CLIENT}
+          onViewAppointments={(user) => setEventsUser(user)}
         />
       )}
       <ConfirmationModalWrapper/>
@@ -132,6 +144,15 @@ const AdminDashboardUsers = () => {
           onAssign={handleAssignService}
         />
       )}
+      {eventsUser &&
+        <AdminCalendarModal
+          type={eventsUser}
+          open={!!eventsUser}
+          handleClose={() => {
+            setEventsUser(null);
+          }}
+        />
+      }
       <HireStaffModal
         open={isHireModalOpen}
         onClose={() => setIsHireModalOpen(false)}

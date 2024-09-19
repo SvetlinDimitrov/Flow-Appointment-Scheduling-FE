@@ -1,6 +1,6 @@
 import {Box, Button, Typography} from '@mui/material';
 import {ToolbarProps} from 'react-big-calendar';
-import {NavigationAction, ViewOption} from "../../../../../shared/models/react-big-calendar.ts";
+import {NavigationAction, ViewOption} from "../../../../shared/models/react-big-calendar.ts";
 
 const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => {
   return (

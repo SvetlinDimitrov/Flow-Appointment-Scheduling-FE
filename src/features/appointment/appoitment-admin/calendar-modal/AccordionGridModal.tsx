@@ -3,7 +3,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
   Checkbox,
   Collapse,
   FormControlLabel,
@@ -12,8 +11,8 @@ import {
   Typography
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {AppointmentStatus} from '../../../../../shared/models/appointment.types.ts';
-import getStatusColor from '../../../../../shared/core/calendar/getStatusColor.ts';
+import {AppointmentStatus} from '../../../../shared/models/appointment.types.ts';
+import getStatusColor from '../../../../shared/core/calendar/getStatusColor.ts';
 
 interface AccordionGridProps {
   appointmentCounts: Record<AppointmentStatus, number>;
@@ -51,47 +50,17 @@ const AccordionGridModal = ({appointmentCounts, selectedStatuses, handleStatusCh
   }, []);
 
   return (
-    <Grid container spacing={2} mb={3} width={'80%'} ref={accordionRef}>
-      <Grid item sm={6} xs={12}>
+    <Grid
+      container
+      spacing={2}
+      mb={3}
+      width={'80%'}
+      ref={accordionRef}
+    >
+      <Grid item xs={12}>
         <Accordion
           expanded={expanded === 'panel1'}
           onChange={handleAccordionChange('panel1')}
-          sx={{position: 'relative', width: '100%'}}
-        >
-          <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-            <Typography variant={'subtitle1'}>Appointments by Status</Typography>
-          </AccordionSummary>
-          <AccordionDetails
-            sx={{
-              position: 'absolute',
-              top: '100%',
-              left: 0,
-              right: 0,
-              zIndex: 10,
-              backgroundColor: 'white',
-              boxShadow: 3,
-              width: 'calc(100% - 48px)',
-            }}
-          >
-            <Collapse in={expanded === 'panel1'}>
-              <Grid container spacing={2}>
-                {Object.values(AppointmentStatus).map((status) => (
-                  <Grid item xs={12} display="flex" alignItems="center" key={status}>
-                    <Box width={16} height={16} bgcolor={getStatusColor(status)} mr={1}/>
-                    <Typography variant={'subtitle1'}>
-                      {formatStatus(status)}: {appointmentCounts[status]}
-                    </Typography>
-                  </Grid>
-                ))}
-              </Grid>
-            </Collapse>
-          </AccordionDetails>
-        </Accordion>
-      </Grid>
-      <Grid item sm={6} xs={12}>
-        <Accordion
-          expanded={expanded === 'panel2'}
-          onChange={handleAccordionChange('panel2')}
           sx={{position: 'relative', width: '100%'}}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
@@ -109,24 +78,45 @@ const AccordionGridModal = ({appointmentCounts, selectedStatuses, handleStatusCh
               width: 'calc(100% - 48px)',
             }}
           >
-            <Collapse in={expanded === 'panel2'}>
+            <Collapse in={expanded === 'panel1'}>
               <FormGroup>
                 <Grid container spacing={2}>
                   {Object.values(AppointmentStatus).map((status) => (
-                    <Grid item xs={12} key={status}>
+                    <Grid
+                      item
+                      xs={12}
+                      key={status}
+                      display="flex"
+                      alignItems="center"
+                    >
                       <FormControlLabel
                         control={
                           <Checkbox
                             checked={selectedStatuses.includes(status)}
                             onChange={() => handleStatusChange(status)}
+                            sx={{
+                              '&.Mui-checked': {
+                                color: getStatusColor(status),
+                              },
+                            }}
                           />
                         }
                         label={
-                          <Typography variant={'subtitle1'}>
-                            {formatStatus(status)}
-                          </Typography>
+                          <Grid container alignItems="center" spacing={1}>
+                            <Grid item>
+                              <Typography variant="subtitle1">
+                                {formatStatus(status)}
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <Typography variant="subtitle1">
+                                {appointmentCounts[status]}
+                              </Typography>
+                            </Grid>
+                          </Grid>
                         }
                       />
+
                     </Grid>
                   ))}
                 </Grid>

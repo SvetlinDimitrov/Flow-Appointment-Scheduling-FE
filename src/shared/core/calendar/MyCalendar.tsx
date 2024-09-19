@@ -27,8 +27,9 @@ interface MyCalendarProps {
   filterByStatus?: AppointmentStatus[];
   height: number | string;
   width: number | string;
-  startDate?: Date
-  endDate?: Date;
+  startHourBoundary?: Date
+  endHourBoundary?: Date;
+  startDate?: Date;
   fetchId: number;
   fetchType: FetchType;
   calendarType: CalendarType;
@@ -41,18 +42,19 @@ const MyCalendar = (
       AppointmentStatus.APPROVED, AppointmentStatus.COMPLETED,
       AppointmentStatus.CANCELED, AppointmentStatus.NOT_APPROVED
     ],
+    startDate = new Date(),
     calendarType,
     CustomToolbar,
     height,
     width,
-    startDate,
-    endDate,
+    startHourBoundary,
+    endHourBoundary,
     fetchId,
     fetchType,
     updateAppointmentCounts,
   }: MyCalendarProps) => {
   const [view, setView] = useState<View>('day');
-  const [range, setRange] = useState<{ start: Date; end: Date }>({start: new Date(), end: new Date()});
+  const [range, setRange] = useState<{ start: Date; end: Date }>({start: startDate, end: startDate});
   const [currentAppointmentId, setCurrentAppointmentId] = useState<number | null>(null);
   const [isBooking, setIsBooking] = useState(false);
 
@@ -157,8 +159,8 @@ const MyCalendar = (
           view={view}
           step={20}
           timeslots={3}
-          min={startDate && new Date(startDate)}
-          max={endDate && new Date(endDate)}
+          min={startHourBoundary && new Date(startHourBoundary)}
+          max={endHourBoundary && new Date(endHourBoundary)}
           onRangeChange={handleRangeChange}
           onSelectEvent={handleOpenAppointmentDetails}
           components={{
