@@ -72,7 +72,7 @@ const AdminServiceList = (
       {isLoading && <ContainerLoader height={'80%'}/>}
       {!isLoading && data &&
         <>
-          <Box display={"flex"} justifyContent={"center"} gap={2}>
+          <Box display={"flex"} justifyContent={"center"} gap={2} p={2}>
             {data.content.map((service) => (
               <ServiceCard
                 key={service.id}
