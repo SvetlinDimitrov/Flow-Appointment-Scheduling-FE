@@ -14,8 +14,8 @@ const UserCardActions = ({ bookWithStaff, employeeFirstName, available }: BookBu
         onClick={bookWithStaff}
         disabled={!available}
         sx={{
-          width: '200px', // Set a fixed width
-          display: 'block', // Ensure text is treated as a block element
+          width: '200px',
+          display: 'block',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap'

@@ -7,9 +7,18 @@ interface ServiceCardProps {
   title: string;
   navigateTo: string;
   buttonText: string;
+  serviceAvailable?: boolean;
 }
 
-const ServiceCard = ({image, alt, title, navigateTo , buttonText}: ServiceCardProps) => {
+const ServiceCard = (
+  {
+    image,
+    alt,
+    title,
+    navigateTo ,
+    buttonText ,
+    serviceAvailable
+  }: ServiceCardProps) => {
   const navigate = useNavigate();
 
   return (
@@ -38,6 +47,7 @@ const ServiceCard = ({image, alt, title, navigateTo , buttonText}: ServiceCardPr
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap'
           }}
+          disabled={!serviceAvailable}
         >
           {buttonText}
         </Button>

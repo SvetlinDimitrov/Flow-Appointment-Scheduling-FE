@@ -64,6 +64,7 @@ const ServicePage = () => {
                   variant="contained"
                   color="primary"
                   onClick={() => navigate('/login')}
+                  disabled={!service.availability}
                 >
                   Book Now
                 </Button>

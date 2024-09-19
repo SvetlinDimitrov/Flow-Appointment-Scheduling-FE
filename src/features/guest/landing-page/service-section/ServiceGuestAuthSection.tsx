@@ -88,6 +88,7 @@ const ServiceGuestAuthSection = ({title, description , buttonText}: ServiceGuest
             title={service.name}
             navigateTo={`/service/${service.id}`}
             buttonText={buttonText}
+            serviceAvailable={service.availability}
           />
         ))}
       </CardsHolder>
