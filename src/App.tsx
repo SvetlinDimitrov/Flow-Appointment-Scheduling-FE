@@ -20,6 +20,7 @@ import AdminDashboardUsers from "./features/admin/user-dashboard/AdminDashboardU
 import ServicePage from "./features/guest/service-id/ServiceIdPage.tsx";
 import StaffClientRoutes from "./shared/core/layouts/StaffClientRoutes.tsx";
 import AppointmentLayout from "./shared/core/layouts/AppointmentLayout.tsx";
+import ErrorPage from "./shared/core/error-page/ErrorPage.tsx";
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
       <Box flexGrow={1}>
         <Routes>
           <Route path="/" element={<Home/>}/>
+          <Route path={"/error"} element={<ErrorPage/>}/>
           <Route path="/about-us" element={<AboutUs/>}/>
           <Route path="/contact-us" element={<ContactUs/>}/>
           <Route element={<GuestRoutes/>}>
