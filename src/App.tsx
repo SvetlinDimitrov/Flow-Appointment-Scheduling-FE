@@ -9,7 +9,7 @@ import Header from "./shared/core/header/Header.tsx";
 import Footer from "./shared/core/footer/Footer.tsx";
 import {setupInterceptors} from "./utils/axios-config/axiosInstance.ts";
 import {useContext, useEffect} from "react";
-import Profile from "./features/users/settings/Profile.tsx";
+import Profile from "./features/users/profile/Profile.tsx";
 import AboutUs from "./features/guest/about-us/AboutUs.tsx";
 import {UserAuthContext} from "./shared/context/UserAuthContext.tsx";
 import ContactUs from "./features/guest/contact-us/ContactUs.tsx";
