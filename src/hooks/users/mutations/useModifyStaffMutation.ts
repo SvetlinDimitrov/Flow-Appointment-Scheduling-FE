@@ -10,8 +10,10 @@ const useModifyStaffMutation = () => {
 
   return useMutation({
     mutationFn: (data: { id: number, modifyDto: CreateUpdateUserAdminRequest }) => modifyStaff(data.id, data.modifyDto),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
+      const {id} = variables;
       queryClient.invalidateQueries({queryKey: ['users']});
+      queryClient.invalidateQueries({queryKey: ['user', id]});
       queryClient.invalidateQueries({queryKey: ['appointments']});
       queryClient.invalidateQueries({queryKey: ['appointment']});
       toast.success("Staff modified successfully.");

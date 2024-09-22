@@ -2,22 +2,18 @@ import {Box, Chip, Modal, Typography} from '@mui/material';
 import AccordionGridModal from "./calendar-modal/AccordionGridModal.tsx";
 import MyCalendar from "../../../shared/core/calendar/MyCalendar.tsx";
 import {CalendarType, FetchType} from "../../../shared/models/react-big-calendar.ts";
-import {Service} from "../../../shared/models/service.types.ts";
 import AdminCustomToolbar from "./calendar-toolbar/AdminCustomToolbar.tsx";
 import useAdditionalFilteringCalendar from "../../../hooks/custom/useAdditionalFilteringCalendar.ts";
-import {User} from "../../../shared/models/user.types.ts";
 
 interface ServiceCalendarModalProps {
   open: boolean;
-  type: Service | User;
+  type: FetchType;
+  name: string;
+  id: number;
   handleClose: () => void;
 }
 
-const isService = (type: Service | User): type is Service => {
-  return (type as Service).name !== undefined;
-};
-
-const AdminCalendarModal = ({open, handleClose, type}: ServiceCalendarModalProps) => {
+const AdminCalendarModal = ({open, handleClose, type, id , name}: ServiceCalendarModalProps) => {
 
   const {
     selectedStatuses,
@@ -58,7 +54,7 @@ const AdminCalendarModal = ({open, handleClose, type}: ServiceCalendarModalProps
           mb={3}
         >
           <Typography variant={"h5"} mr={2}>
-            {isService(type) ? type.name : `${type.firstName} ${type.lastName}`} Calendar
+            {name} Calendar
           </Typography>
           <Chip
             label={`Total: ${selectedStatuses.reduce((total, status) => total + appointmentCounts[status], 0)}`}
@@ -74,8 +70,8 @@ const AdminCalendarModal = ({open, handleClose, type}: ServiceCalendarModalProps
         <MyCalendar
           filterByStatus={selectedStatuses}
           calendarType={CalendarType.ADMIN}
-          fetchId={type.id}
-          fetchType={isService(type) ? FetchType.SERVICE : FetchType.USER}
+          fetchId={id}
+          fetchType={type}
           CustomToolbar={AdminCustomToolbar}
           width={'90%'}
           height={'80%'}

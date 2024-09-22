@@ -1,152 +1,175 @@
+import {Box, IconButton} from '@mui/material';
+import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useState} from 'react';
-import {User, UserRole} from '../../../shared/models/user.types.ts';
-import PaginatedUserSection from "./user-list/PaginatedUserList.tsx";
+import {UserRole} from '../../../shared/models/user.types.ts';
 import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
 import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserMutation.ts";
 import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
-import EditUserModal from "./edit-staff/EditUserModal.tsx";
-import {CreateUpdateUserAdminRequest, HireStaffRequest} from "../../../shared/models/api/users.ts";
-import useModifyStaffMutation from "../../../hooks/users/mutations/useModifyStaffMutation.ts";
-import {Service} from "../../../shared/models/service.types.ts";
-import AssignServiceModal from "./assign-staff/AssignServiceModal.tsx";
-import useAssignStaffToServiceMutation from "../../../hooks/services/mutations/useAssignStaffToServiceMutation.ts";
-import WelcomeUserSection from "./welcome-user-section/WelcomeUserSection.tsx";
-import HireStaffModal from "./welcome-user-section/hire-staff/HireStaffModal.tsx";
+import EditUserModal from "./EditUserModal.tsx";
+import {HireStaffRequest} from "../../../shared/models/api/users.ts";
+import AssignServiceModal from "./AssignServiceModal.tsx";
 import useHireStaffMutation from "../../../hooks/users/mutations/useHireStuffMutation.ts";
-import {Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectChangeEvent} from '@mui/material';
 import AdminCalendarModal from "../../appointment/appoitment-admin/AdminCalendarModal.tsx";
+import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
+import ErrorPage from "../../../shared/core/error-page/ErrorPage.tsx";
+import useGetUsers from "../../../hooks/users/query/useGetUsers.ts";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import EventIcon from '@mui/icons-material/Event';
+import HireStaffModal from "./HireStaffModal.tsx";
+import AdminDashboardHeader from "./AdminDashboardHeader.tsx";
+import {FetchType} from "../../../shared/models/react-big-calendar.ts";
 
+const pageSizes = [25, 50, 100];
+
+//TODO: Add processing loader
 const AdminDashboardUsers = () => {
-  const [editUser, setEditUser] = useState<User | null>(null);
-  const [assignUser, setAssignUser] = useState<User | null>(null);
+  const [editUserId, setEditUserId] = useState<number | null>(null);
+  const [assignUserId, setAssignUserId] = useState<number | null>(null);
+  const [eventsUser, setEventsUser] = useState<{ name: string, id: number } | null>(null);
   const [isHireModalOpen, setIsHireModalOpen] = useState(false);
-  const [eventsUser, setEventsUser] = useState<User | null>(null);
-  const [selectedRole, setSelectedRole] = useState<UserRole | ''>('');
+  const [paginationModel, setPaginationModel] = useState({page: 0, pageSize: pageSizes[0]});
+  const [selectedRole, setSelectedRole] = useState<UserRole>(UserRole.EMPLOYEE);
 
   const {openModal, closeModal} = useConfirmationModal();
   const deleteUserMutation = useDeleteUserMutation();
-  const modifyStaffMutation = useModifyStaffMutation();
-  const assignStaffToServiceMutation = useAssignStaffToServiceMutation();
   const hireStaffMutation = useHireStaffMutation();
+  const {data, isLoading, error} =
+    useGetUsers(paginationModel.page, paginationModel.pageSize, selectedRole);
 
-  const handleDelete = (user: User) => {
+  const handleDelete = (userId: number, userEmail: string) => {
     const onConfirm = () => {
-      if (user)
-        deleteUserMutation.mutate(user.id, {
-          onSuccess: () => closeModal()
-        });
+      deleteUserMutation.mutate(userId, {
+        onSettled: () => closeModal()
+      });
     };
-
-    openModal("Delete User", `Are you sure you want to delete the user: ${user.email}?`, onConfirm);
-  };
-
-  const handleSaveEditModal = (data: CreateUpdateUserAdminRequest) => {
-    if (editUser)
-      modifyStaffMutation.mutate({id: editUser.id, modifyDto: data}, {
-        onSuccess: () => setEditUser(null)
-      });
-  };
-
-  const handleAssignService = (service: Service) => {
-    if (assignUser && service)
-      assignStaffToServiceMutation.mutate({id: service.id, staffEmail: assignUser.email}, {
-        onSuccess: () => setAssignUser(null)
-      });
-  };
+    openModal("Delete User", `Are you sure you want to delete the user: ${userEmail}?`, onConfirm);
+  }
 
   const handleHireStaffSubmit = (data: HireStaffRequest) => {
-    hireStaffMutation.mutate(data, {
-      onSuccess: () => setIsHireModalOpen(false)
-    });
+    const onConfirm = () => {
+      hireStaffMutation.mutate(data, {
+        onSettled: () => {
+          setIsHireModalOpen(false)
+          closeModal();
+        }
+      });
+    };
+    openModal("Hire Staff", `Are you sure you want to hire the user: ${data.userInfo.email}?`, onConfirm);
   };
 
-  const handleRoleChange = (event: SelectChangeEvent<UserRole | ''>) => {
-    setSelectedRole(event.target.value as UserRole);
-  };
+  const columns: GridColDef[] = [
+    {field: 'firstName', headerName: 'Forename', width: 150, editable: true},
+    {field: 'lastName', headerName: 'Surname', width: 150},
+    {field: 'email', headerName: 'Email', width: 200},
+    {field: 'salary', headerName: 'Salary', width: 100},
+    {field: 'profit', headerName: 'Profit', width: 100},
+    {field: 'completedAppointments', headerName: 'Appointments', width: 150},
+    {field: 'startDate', headerName: 'Years', width: 100},
+    {field: 'beginWorkingHour', headerName: 'Start', width: 100},
+    {field: 'endWorkingHour', headerName: 'End', width: 100},
+    {
+      field: 'actions',
+      headerName: 'Operations',
+      width: 200,
+      renderCell: (params) => (
+        <div>
+          <IconButton
+            onClick={() => setEditUserId(params.row.id)}
+            aria-label="edit"
+          >
+            <EditIcon/>
+          </IconButton>
+          <IconButton
+            onClick={() => handleDelete(params.row.id, params.row.email)}
+            aria-label="delete"
+          >
+            <DeleteIcon/>
+          </IconButton>
+          <IconButton
+            onClick={() => setAssignUserId(params.row.id)} aria-label="assign"
+          >
+            <AssignmentIcon/>
+          </IconButton>
+          <IconButton
+            onClick={() => setEventsUser({id: params.row.id, name: params.row.name})}
+            aria-label="view appointments"
+          >
+            <EventIcon/>
+          </IconButton>
+        </div>
+      ),
+    },
+  ];
+
+  const filteredColumns = columns.filter(column => {
+    if (column.field === 'firstName') return data?.content.some(user => user.firstName);
+    if (column.field === 'lastName') return data?.content.some(user => user.lastName);
+    if (column.field === 'email') return data?.content.some(user => user.email);
+    if (column.field === 'salary') return data?.content.some(user => user.staffDetails?.salary);
+    if (column.field === 'profit') return data?.content.some(user => user.staffDetails?.profit);
+    if (column.field === 'completedAppointments') return data?.content.some(user => user.staffDetails?.completedAppointments);
+    if (column.field === 'startDate') return data?.content.some(user => user.staffDetails?.startDate);
+    if (column.field === 'beginWorkingHour') return data?.content.some(user => user.staffDetails?.beginWorkingHour);
+    if (column.field === 'endWorkingHour') return data?.content.some(user => user.staffDetails?.endWorkingHour);
+    return true;
+  });
+
+  const rows = data ? data.content.map(user => ({
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    salary: user.staffDetails?.salary,
+    profit: user.staffDetails?.profit,
+    completedAppointments: user.staffDetails?.completedAppointments,
+    startDate: user.staffDetails?.startDate,
+    beginWorkingHour: user.staffDetails?.beginWorkingHour,
+    endWorkingHour: user.staffDetails?.endWorkingHour,
+  })) : [];
+
+  if (isLoading) return <LoadingSpinner/>;
+  if (error) return <ErrorPage/>;
 
   return (
     <div>
-      <WelcomeUserSection onHireStaff={() => setIsHireModalOpen(true)}/>
-      <Box
-        display={'flex'}
-        justifyContent={'center'}
-        mt={2}
-        mb={2}
-        pl={4}
-        pr={4}
-      >
-        <FormControl sx={{width: 300}} size={'small'}>
-          <InputLabel id="user-role-select-label">User Role</InputLabel>
-          <Select
-            labelId="user-role-select-label"
-            value={selectedRole}
-            onChange={handleRoleChange}
-            label="User Role"
-            variant="outlined"
-          >
-            <MenuItem value={UserRole.ADMINISTRATOR}>Administrators</MenuItem>
-            <MenuItem value={UserRole.EMPLOYEE}>Staff Members</MenuItem>
-            <MenuItem value={UserRole.CLIENT}>Clients</MenuItem>
-          </Select>
-          <FormHelperText>Select the user role to filter the list.</FormHelperText>
-        </FormControl>
+      <AdminDashboardHeader
+        selectedRole={selectedRole}
+        setSelectedRole={setSelectedRole}
+        setIsHireModalOpen={setIsHireModalOpen}
+      />
+      <Box sx={{height: '600px', width: '90%', margin: 'auto'}}>
+        <DataGrid
+          rows={rows}
+          columns={filteredColumns}
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
+          rowCount={data?.totalElements || 0}
+          paginationMode="server"
+          pageSizeOptions={pageSizes}
+        />
       </Box>
-      {selectedRole === UserRole.ADMINISTRATOR && (
-        <PaginatedUserSection
-          title="Total: "
-          onEdit={(user) => setEditUser(user)}
-          onDelete={handleDelete}
-          onAssignToService={(user) => setAssignUser(user)}
-          userRole={UserRole.ADMINISTRATOR}
-          onViewAppointments={(user) => setEventsUser(user)}
-        />
-      )}
-      {selectedRole === UserRole.EMPLOYEE && (
-        <PaginatedUserSection
-          title="Total: "
-          onEdit={(user) => setEditUser(user)}
-          onDelete={handleDelete}
-          onAssignToService={(user) => setAssignUser(user)}
-          userRole={UserRole.EMPLOYEE}
-          onViewAppointments={(user) => setEventsUser(user)}
-        />
-      )}
-      {selectedRole === UserRole.CLIENT && (
-        <PaginatedUserSection
-          title="Total: "
-          onEdit={(user) => setEditUser(user)}
-          onDelete={handleDelete}
-          onAssignToService={(user) => setAssignUser(user)}
-          userRole={UserRole.CLIENT}
-          onViewAppointments={(user) => setEventsUser(user)}
-        />
-      )}
       <ConfirmationModalWrapper/>
-      {editUser && editUser.staffDetails && (
+      {editUserId && (
         <EditUserModal
-          open={!!editUser}
-          onClose={() => setEditUser(null)}
-          onSave={handleSaveEditModal}
-          initialData={{
-            userRole: editUser.role,
-            salary: editUser.staffDetails.salary || 0,
-            isAvailable: editUser.staffDetails.isAvailable,
-            beginWorkingHour: editUser.staffDetails.beginWorkingHour.toString(),
-            endWorkingHour: editUser.staffDetails.endWorkingHour.toString(),
-          }}
+          open={!!editUserId}
+          onClose={() => setEditUserId(null)}
+          userId={editUserId}
         />
       )}
-      {assignUser && (
+      {assignUserId && (
         <AssignServiceModal
-          user={assignUser}
-          open={!!assignUser}
-          onClose={() => setAssignUser(null)}
-          onAssign={handleAssignService}
+          userId={assignUserId}
+          open={!!assignUserId}
+          onClose={() => setAssignUserId(null)}
         />
       )}
       {eventsUser &&
         <AdminCalendarModal
-          type={eventsUser}
+          type={FetchType.USER}
+          id={eventsUser.id}
+          name={eventsUser.name}
           open={!!eventsUser}
           handleClose={() => {
             setEventsUser(null);
