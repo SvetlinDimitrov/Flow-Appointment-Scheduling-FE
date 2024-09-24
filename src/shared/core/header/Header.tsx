@@ -1,10 +1,10 @@
-import {AppBar, Box, IconButton, Toolbar, Typography} from "@mui/material";
+import {AppBar, IconButton, Toolbar, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {useContext} from "react";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import {UserAuthContext} from "../../context/UserAuthContext.tsx";
-import UserMenu from "./user-menu/UserMenu.tsx";
-import {paths} from "../../paths/paths.ts";
+import UserMenu from "./UserMenu.tsx";
+import GuestMenu from "./GuestMenu.tsx";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -25,35 +25,7 @@ const Header = () => {
         <Typography variant={"subtitle1"} flexGrow={1}>
           Flow Appointment Scheduling
         </Typography>
-        {isUserAuthenticated() ?
-          <UserMenu/>
-          :
-          <Box display={'flex'} gap={2}
-          sx={{
-            flexDirection: {
-              xs: "column",
-              sm: "row"
-            },
-            gap: {
-              xs: 0,
-              sm: 2
-            }
-          }}>
-            {paths.guestPaths.map((path, index) => (
-              <Typography
-                variant={"subtitle1"}
-                sx={{
-                  color: "inherit",
-                  cursor: "pointer"
-                }}
-                key={index}
-                onClick={() => navigate(Object.values(path)[0])}
-              >
-                {Object.keys(path)[0]}
-              </Typography>
-            ))}
-          </Box>
-        }
+        {isUserAuthenticated() ? <UserMenu/> : <GuestMenu/>}
       </Toolbar>
     </AppBar>
   );
