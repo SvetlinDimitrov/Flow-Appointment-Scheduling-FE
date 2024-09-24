@@ -4,7 +4,6 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import {AppointmentStatus, ShortAppointment, UpdateAppointmentStatus} from '../../models/appointment.types.ts';
 import './index.css';
-import PageNotFound from '../not-found/PageNotFound.tsx';
 import ContainerLoader from '../loading/container-loader/ContainerLoader.tsx';
 import useGetAllAppointmentsShort from '../../../hooks/appointments/query/useGetAllAppointmentsShortByUserId.ts';
 import {Box} from '@mui/material';
@@ -19,6 +18,7 @@ import BookAppointmentModal from '../../../features/appointment/appointment-clie
 import AppointmentDetailsPopup from './AppointmentDetails.tsx';
 import useDeleteAppointmentMutation from '../../../hooks/appointments/mutation/useDeleteAppointmentMutation.ts';
 import AgendaCustomView from "./events/AgendaCustomView.tsx";
+import ErrorPage from "../error-page/ErrorPage.tsx";
 
 const localize = momentLocalizer(moment);
 
@@ -139,7 +139,7 @@ const MyCalendar = (
     updateCounts();
   }, [events, updateAppointmentCounts]);
 
-  if (allAppointmentsError || appointmentError) return <PageNotFound/>;
+  if (allAppointmentsError || appointmentError) return <ErrorPage/>;
 
   return (
     <>

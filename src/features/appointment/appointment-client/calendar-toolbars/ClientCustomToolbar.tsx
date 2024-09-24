@@ -1,9 +1,10 @@
-import {Box, Button, Typography, useTheme} from '@mui/material';
+import {Box, Button, Typography} from '@mui/material';
 import {ToolbarProps} from 'react-big-calendar';
 import {NavigationAction, ViewOption} from "../../../../shared/models/react-big-calendar.ts";
+import {useIsFetching} from '@tanstack/react-query';
 
 const ClientCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => {
-  const theme = useTheme();
+  const isFetching = useIsFetching() > 0;
 
   return (
     <Box
@@ -12,10 +13,13 @@ const ClientCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) =>
       mb={2}
       gap={2}
       sx={{
-        [theme.breakpoints.down('sm')]: {
-          flexDirection: 'column',
-          gap: 1,
+        flexDirection: {
+          xs: 'column',
+          md: 'row',
         },
+        gap: {
+          sm: 1,
+        }
       }}
     >
       <Box
@@ -27,7 +31,9 @@ const ClientCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) =>
           variant={'outlined'}
           color={'primary'}
           size={'small'}
-          onClick={() => onNavigate(NavigationAction.TODAY)}>
+          onClick={() => onNavigate(NavigationAction.TODAY)}
+          disabled={isFetching}
+        >
           Today
         </Button>
         <Button
@@ -35,6 +41,7 @@ const ClientCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) =>
           color={'primary'}
           size={'small'}
           onClick={() => onNavigate(NavigationAction.PREV)}
+          disabled={isFetching}
         >
           Previous
         </Button>
@@ -43,6 +50,7 @@ const ClientCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) =>
           color={'primary'}
           size={'small'}
           onClick={() => onNavigate(NavigationAction.NEXT)}
+          disabled={isFetching}
         >
           Next
         </Button>
@@ -56,12 +64,14 @@ const ClientCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) =>
       <Box
         display={'flex'}
         gap={1}
-        justifyContent={'center'}>
+        justifyContent={'center'}
+      >
         <Button
           variant={'outlined'}
           color={'primary'}
           size={'small'}
-          onClick={() => onView(ViewOption.DAY)} disabled={view === ViewOption.DAY}
+          onClick={() => onView(ViewOption.DAY)}
+          disabled={view === ViewOption.DAY || isFetching}
         >
           Day
         </Button>
@@ -69,7 +79,8 @@ const ClientCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) =>
           variant={'outlined'}
           color={'primary'}
           size={'small'}
-          onClick={() => onView(ViewOption.WEEK)} disabled={view === ViewOption.WEEK}
+          onClick={() => onView(ViewOption.WEEK)}
+          disabled={view === ViewOption.WEEK || isFetching}
         >
           Week
         </Button>
@@ -77,7 +88,8 @@ const ClientCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) =>
           variant={'outlined'}
           color={'primary'}
           size={'small'}
-          onClick={() => onView(ViewOption.MONTH)} disabled={view === ViewOption.MONTH}
+          onClick={() => onView(ViewOption.MONTH)}
+          disabled={view === ViewOption.MONTH || isFetching}
         >
           Month
         </Button>

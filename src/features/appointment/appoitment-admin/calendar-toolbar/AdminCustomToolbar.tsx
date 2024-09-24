@@ -1,8 +1,11 @@
 import {Box, Button, Typography} from '@mui/material';
 import {ToolbarProps} from 'react-big-calendar';
 import {NavigationAction, ViewOption} from "../../../../shared/models/react-big-calendar.ts";
+import {useIsFetching} from '@tanstack/react-query';
 
 const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => {
+  const isFetching = useIsFetching() > 0;
+
   return (
     <Box
       display="flex"
@@ -10,10 +13,11 @@ const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
       mb={2}
       gap={2}
       sx={{
-        '@media (max-width: 600px)': {
-          flexDirection: 'column',
-          gap: 1,
+        flexDirection: {
+          xs: 'column',
+          md: 'row',
         },
+        gap: 1,
       }}>
       <Box
         display={'flex'}
@@ -25,6 +29,7 @@ const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
           color={'primary'}
           size={'small'}
           onClick={() => onNavigate(NavigationAction.TODAY)}
+          disabled={isFetching}
         >
           Today
         </Button>
@@ -33,6 +38,7 @@ const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
           color={'primary'}
           size={'small'}
           onClick={() => onNavigate(NavigationAction.PREV)}
+          disabled={isFetching}
         >
           Previous
         </Button>
@@ -41,6 +47,7 @@ const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
           color={'primary'}
           size={'small'}
           onClick={() => onNavigate(NavigationAction.NEXT)}
+          disabled={isFetching}
         >
           Next
         </Button>
@@ -61,7 +68,7 @@ const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
           color={'primary'}
           size={'small'}
           onClick={() => onView(ViewOption.DAY)}
-          disabled={view === ViewOption.DAY}
+          disabled={view === ViewOption.DAY || isFetching}
         >
           Day
         </Button>
@@ -70,7 +77,7 @@ const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
           color={'primary'}
           size={'small'}
           onClick={() => onView(ViewOption.WEEK)}
-          disabled={true}
+          disabled={view === ViewOption.WEEK || isFetching}
         >
           Week
         </Button>
@@ -79,7 +86,7 @@ const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
           color={'primary'}
           size={'small'}
           onClick={() => onView(ViewOption.MONTH)}
-          disabled={view === ViewOption.MONTH}
+          disabled={view === ViewOption.MONTH || isFetching}
         >
           Month
         </Button>
@@ -88,7 +95,7 @@ const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
           color={'primary'}
           size={'small'}
           onClick={() => onView(ViewOption.AGENDA)}
-          disabled={view === ViewOption.AGENDA}
+          disabled={view === ViewOption.AGENDA || isFetching}
         >
           Agenda
         </Button>
