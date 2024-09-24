@@ -3,7 +3,7 @@ import {ToolbarProps} from 'react-big-calendar';
 import {NavigationAction, ViewOption} from "../../../../shared/models/react-big-calendar.ts";
 import {useIsFetching} from '@tanstack/react-query';
 
-const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => {
+const AdminStaffCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => {
   const isFetching = useIsFetching() > 0;
 
   return (
@@ -81,6 +81,7 @@ const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
         >
           Week
         </Button>
+
         <Button
           variant={'outlined'}
           color={'primary'}
@@ -104,4 +105,4 @@ const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
   );
 };
 
-export default AdminCustomToolbar;
+export default AdminStaffCustomToolbar;
