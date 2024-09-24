@@ -1,9 +1,18 @@
-import {useQuery} from '@tanstack/react-query';
-import {getAllAppointmentsByUserIdAndDate} from "../../../services/appintment-service.ts";
+import {FetchType} from "../../../shared/models/react-big-calendar.ts";
 import {ShortAppointment} from "../../../shared/models/appointment.types.ts";
+import {
+  getAllAppointmentsByServiceIdAndDate,
+  getAllAppointmentsByUserIdAndDate
+} from "../../../services/appintment-service.ts";
+import {useQuery} from "@tanstack/react-query";
 
-const useGetAllAppointmentsShortByUserId = (userId: number, startDate: Date, endDate: Date) => {
-  
+const useGetAllAppointmentsShort = (
+  id: number,
+  startDate: Date,
+  endDate: Date,
+  fetchType: FetchType
+) => {
+
   const fetchAppointments = async () => {
     const dates = [];
     const currentDate = new Date(startDate);
@@ -15,8 +24,10 @@ const useGetAllAppointmentsShortByUserId = (userId: number, startDate: Date, end
 
     const results = await Promise.all(
       dates.map(date => {
-        const formattedDate = date.toLocaleDateString('en-CA', {timeZone: 'Europe/Sofia'});
-        return getAllAppointmentsByUserIdAndDate(userId, formattedDate);
+        const formattedDate = date.toLocaleDateString('en-CA', { timeZone: 'Europe/Sofia' });
+        return fetchType === FetchType.SERVICE
+          ? getAllAppointmentsByServiceIdAndDate(id, formattedDate)
+          : getAllAppointmentsByUserIdAndDate(id, formattedDate);
       })
     );
 
@@ -33,7 +44,7 @@ const useGetAllAppointmentsShortByUserId = (userId: number, startDate: Date, end
   return useQuery<ShortAppointment[]>({
     queryKey: [
       'appointments', 'short',
-      'userId', userId,
+      fetchType === FetchType.SERVICE ? 'serviceId' : 'userId', id,
       'start-date', formatDate(startDate),
       'end-date', formatDate(endDate)
     ],
@@ -41,4 +52,4 @@ const useGetAllAppointmentsShortByUserId = (userId: number, startDate: Date, end
   });
 };
 
-export default useGetAllAppointmentsShortByUserId;
+export default useGetAllAppointmentsShort;

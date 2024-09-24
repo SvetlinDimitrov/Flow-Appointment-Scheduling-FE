@@ -2,7 +2,7 @@ import {Box, Button, Typography} from '@mui/material';
 import {ToolbarProps} from 'react-big-calendar';
 import {NavigationAction, ViewOption} from "../../../../shared/models/react-big-calendar.ts";
 
-const StaffCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => {
+const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => {
   return (
     <Box
       display="flex"
@@ -68,7 +68,7 @@ const StaffCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
           color={'primary'}
           size={'small'}
           onClick={() => onView(ViewOption.WEEK)}
-          disabled={view === ViewOption.WEEK}
+          disabled={true}
         >
           Week
         </Button>
@@ -95,4 +95,4 @@ const StaffCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
   );
 };
 
-export default StaffCustomToolbar;
+export default AdminCustomToolbar;
