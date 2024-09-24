@@ -16,29 +16,32 @@ import {
 } from "@mui/material";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {ServiceDTO} from "../../../../shared/models/api/services.ts";
-import {serviceCreateUpdateValidations} from "../../../../shared/validation/services.validations.ts";
-import useGetAllWorkSpacesNamesQuery from "../../../../hooks/services/query/useGetAllWorkSpacesNamesQuery.ts";
-import LoadingSpinner from "../../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
-import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
+import {ServiceDTO} from "../../../shared/models/api/services.ts";
+import {serviceCreateUpdateValidations} from "../../../shared/validation/services.validations.ts";
+import useGetAllWorkSpacesNamesQuery from "../../../hooks/services/query/useGetAllWorkSpacesNamesQuery.ts";
+import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
+import useCreateServiceMutation from "../../../hooks/services/mutations/useCreateServiceMutation.ts";
+import ErrorPage from "../../../shared/core/error-page/ErrorPage.tsx";
 
 interface CreateServiceModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: ServiceDTO) => void;
 }
 
 const serviceSchema = serviceCreateUpdateValidations;
 
-const CreateServiceModal = ({open, onClose, onSubmit}: CreateServiceModalProps) => {
+const CreateServiceModal = ({open, onClose}: CreateServiceModalProps) => {
   const { register, handleSubmit, formState: { errors }, setValue , reset } = useForm<ServiceDTO>({
     resolver: zodResolver(serviceSchema),
   });
+  const {data, isLoading, error} = useGetAllWorkSpacesNamesQuery();
+  const createServiceMutation = useCreateServiceMutation();
 
   const onSubmitForm = (data: ServiceDTO) => {
     data.duration *= 60;
-
-    onSubmit(data);
+    createServiceMutation.mutate({service: data}, {
+      onSettled: () => handleClose()
+    });
     reset();
   };
 
@@ -47,10 +50,10 @@ const CreateServiceModal = ({open, onClose, onSubmit}: CreateServiceModalProps) 
     reset();
   };
 
-  const {data, isLoading, error} = useGetAllWorkSpacesNamesQuery();
+  if (isLoading) return <LoadingSpinner/>;
+  if (error) return <ErrorPage/>;
 
-  if (isLoading || !data) return <LoadingSpinner/>;
-  if (error) return <PageNotFound/>;
+  if (!data) return null;
 
   return (
     <Dialog open={open} onClose={handleClose} sx={{
@@ -86,7 +89,9 @@ const CreateServiceModal = ({open, onClose, onSubmit}: CreateServiceModalProps) 
               type="number"
               {...register("duration", {valueAsNumber: true})}
               error={!!errors.duration}
-              helperText={errors.duration ? errors.duration.message : "Please enter the duration in minutes"}
+              helperText={errors.duration ?
+                errors.duration.message : "Please enter the duration in minutes"
+              }
               fullWidth
               size="small"
             />
@@ -128,7 +133,12 @@ const CreateServiceModal = ({open, onClose, onSubmit}: CreateServiceModalProps) 
           <Button onClick={onClose} color="primary" size="small">
             Cancel
           </Button>
-          <Button type="submit" color="primary" variant="contained" size="small">
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            size="small"
+          >
             Create
           </Button>
 
