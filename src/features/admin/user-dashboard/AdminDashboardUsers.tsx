@@ -6,9 +6,7 @@ import {useConfirmationModal} from "../../../shared/context/ConfirmationModalCon
 import useDeleteUserMutation from "../../../hooks/users/mutations/useDeleteUserMutation.ts";
 import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
 import EditUserModal from "./EditUserModal.tsx";
-import {HireStaffRequest} from "../../../shared/models/api/users.ts";
 import AssignServiceModal from "./AssignServiceModal.tsx";
-import useHireStaffMutation from "../../../hooks/users/mutations/useHireStuffMutation.ts";
 import AdminCalendarModal from "../../appointment/appoitment-admin/AdminCalendarModal.tsx";
 import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
 import ErrorPage from "../../../shared/core/error-page/ErrorPage.tsx";
@@ -33,7 +31,7 @@ const AdminDashboardUsers = () => {
 
   const {openModal, closeModal} = useConfirmationModal();
   const deleteUserMutation = useDeleteUserMutation();
-  const hireStaffMutation = useHireStaffMutation();
+
   const {data, isLoading, error} =
     useGetUsers(paginationModel.page, paginationModel.pageSize, selectedRole);
 
@@ -45,18 +43,6 @@ const AdminDashboardUsers = () => {
     };
     openModal("Delete User", `Are you sure you want to delete the user: ${userEmail}?`, onConfirm);
   }
-
-  const handleHireStaffSubmit = (data: HireStaffRequest) => {
-    const onConfirm = () => {
-      hireStaffMutation.mutate(data, {
-        onSettled: () => {
-          setIsHireModalOpen(false)
-          closeModal();
-        }
-      });
-    };
-    openModal("Hire Staff", `Are you sure you want to hire the user: ${data.userInfo.email}?`, onConfirm);
-  };
 
   const columns: GridColDef[] = [
     {field: 'firstName', headerName: 'Forename', width: 150},
@@ -185,7 +171,6 @@ const AdminDashboardUsers = () => {
       <HireStaffModal
         open={isHireModalOpen}
         onClose={() => setIsHireModalOpen(false)}
-        onSubmit={handleHireStaffSubmit}
       />
     </div>
   );
