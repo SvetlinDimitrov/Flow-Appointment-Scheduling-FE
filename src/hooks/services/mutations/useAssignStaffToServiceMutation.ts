@@ -6,10 +6,16 @@ const useAssignStaffToServiceMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({id, staffEmail}: { id: number; staffEmail: string }) => assignStaffToService(id, staffEmail),
+    mutationFn: ({id, staffEmail}: { id: number; staffEmail: string | undefined }) => {
+      if (!staffEmail) {
+        return Promise.reject(new Error('Staff email is required'));
+      }
+      return assignStaffToService(id, staffEmail);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['services']});
       queryClient.invalidateQueries({queryKey: ['users']});
+      queryClient.invalidateQueries({queryKey: ['user']});
       toast.success('Staff assigned successfully.');
     },
   });

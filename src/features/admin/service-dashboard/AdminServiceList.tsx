@@ -8,6 +8,7 @@ import {useContext, useEffect, useState} from "react";
 import ContainerLoader from "../../../shared/core/loading/container-loader/ContainerLoader.tsx";
 import AdminCalendarModal from "../../appointment/appoitment-admin/AdminCalendarModal.tsx";
 import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
+import {FetchType} from "../../../shared/models/react-big-calendar.ts";
 
 interface ServiceListProps {
   handleDeleteService: (service: Service) => void;
@@ -99,7 +100,9 @@ const AdminServiceList = (
       }
       {selectedService &&
         <AdminCalendarModal
-          type={selectedService}
+          type={FetchType.SERVICE}
+          name={selectedService.name}
+          id={selectedService.id}
           open={isModalOpen}
           handleClose={() => {
             setIsModalOpen(false);
