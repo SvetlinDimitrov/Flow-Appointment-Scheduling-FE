@@ -37,7 +37,7 @@ const StaffList = (
     page,
     handlePageChange,
     setPage,
-  } = usePaginatedQuery<User>(useGetUsersByServiceId, 0, employeesPerPage, selectedService.id);
+  } = usePaginatedQuery<User>(useGetUsersByServiceId, 0, employeesPerPage, String(selectedService.id));
 
   useEffect(() => {
     if (prevIsXs !== isXs) {
