@@ -17,7 +17,6 @@ const DayCustomEvent = ({event}: EventProps<ShortAppointment>) => {
       borderRadius={1}
       height={'100%'}
       p={0.2}
-      overflow={'auto'}
     >
       <Typography variant="caption">{startTime} - {endTime}</Typography>
       <Typography variant="caption">{event.serviceName}</Typography>

@@ -15,6 +15,7 @@ interface TableBodyUsersProps {
   onEdit: (user: User) => void;
   onDelete: (user: User) => void;
   onAssignToService: (user: User) => void;
+  onViewAppointments: (user: User) => void;
 }
 
 const experienceYears = (startDate: string) => {
@@ -23,7 +24,15 @@ const experienceYears = (startDate: string) => {
   return (currentYear - startYear).toString();
 };
 
-const TableBodyUsers = ({data, userId, onEdit, onDelete, onAssignToService}: TableBodyUsersProps) => {
+const TableBodyUsers = (
+  {
+    data,
+    userId,
+    onEdit,
+    onDelete,
+    onAssignToService,
+    onViewAppointments
+  }: TableBodyUsersProps) => {
   return (
     <TableBody>
       {data.map((user) => (
@@ -48,6 +57,7 @@ const TableBodyUsers = ({data, userId, onEdit, onDelete, onAssignToService}: Tab
                 onEdit={() => onEdit(user)}
                 onDelete={() => onDelete(user)}
                 onAssignToService={() => onAssignToService(user)}
+                onViewAppointments={() => onViewAppointments(user)}
               />
             )}
           </TableCell>

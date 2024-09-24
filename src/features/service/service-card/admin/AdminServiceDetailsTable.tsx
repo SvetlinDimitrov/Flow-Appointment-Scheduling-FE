@@ -2,6 +2,11 @@ import {TableBody, TableCell, TableRow} from "@mui/material";
 import {Service} from "../../../../shared/models/service.types.ts";
 import {styled} from "@mui/system";
 import {Duration} from "luxon";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import PlaceIcon from '@mui/icons-material/Place';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
   fontSize: '0.875rem',
@@ -17,32 +22,23 @@ interface AdminServiceDetailsTableProps {
 }
 
 const AdminServiceDetailsTable = ({service}: AdminServiceDetailsTableProps) => {
-
   return (
     <TableBody>
       <TableRow>
-        <StyledTableCell>Duration</StyledTableCell>
+        <StyledTableCell><AccessTimeIcon/></StyledTableCell>
         <StyledTableCell>{Duration.fromISO(service.duration).as('minutes')} min</StyledTableCell>
       </TableRow>
       <TableRow>
-        <StyledTableCell>Price</StyledTableCell>
+        <StyledTableCell><AttachMoneyIcon/></StyledTableCell>
         <StyledTableCell>{service.price} $</StyledTableCell>
       </TableRow>
       <TableRow>
-        <StyledTableCell>Place</StyledTableCell>
+        <StyledTableCell><PlaceIcon/></StyledTableCell>
         <StyledTableCell>{service.workSpace.name}</StyledTableCell>
       </TableRow>
       <TableRow>
-        <StyledTableCell>Availability</StyledTableCell>
+        <StyledTableCell>{service.availability ? <CheckCircleIcon/> : <CancelIcon/>}</StyledTableCell>
         <StyledTableCell>{service.availability ? 'Yes' : 'No'}</StyledTableCell>
-      </TableRow>
-      <TableRow>
-        <StyledTableCell>Total Profit</StyledTableCell>
-        <StyledTableCell>1900 $</StyledTableCell>
-      </TableRow>
-      <TableRow>
-        <StyledTableCell>Total Appointments</StyledTableCell>
-        <StyledTableCell>190</StyledTableCell>
       </TableRow>
     </TableBody>
   );

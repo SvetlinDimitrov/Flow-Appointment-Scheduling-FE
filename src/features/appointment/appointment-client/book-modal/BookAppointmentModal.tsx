@@ -5,7 +5,7 @@ import {User} from '../../../../shared/models/user.types.ts';
 import {Service} from '../../../../shared/models/service.types.ts';
 import {DateTime} from 'luxon';
 import BookFormSection from './BookFormSection.tsx';
-import {AppointmentCreate} from "../../../../shared/models/appointment.types.ts";
+import {AppointmentCreate, AppointmentStatus} from "../../../../shared/models/appointment.types.ts";
 import useGetUserQuery from "../../../../hooks/users/query/useGetUserQuery.ts";
 import {useContext, useState} from "react";
 import {UserAuthContext} from "../../../../shared/context/UserAuthContext.tsx";
@@ -14,6 +14,7 @@ import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
 import FullScreenLoader from "../../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
 import {useConfirmationModal} from "../../../../shared/context/ConfirmationModalContext.tsx";
 import useCreateAppointmentMutation from "../../../../hooks/appointments/mutation/useCreateAppointmentMutation.ts";
+import {CalendarType, FetchType} from "../../../../shared/models/react-big-calendar.ts";
 
 interface BookAppointmentModalProps {
   service: Service;
@@ -93,13 +94,15 @@ const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentMo
                   Working Scheduler
                 </Typography>
                 <MyCalendar
-                  openDetails={undefined}
-                  userId={userId}
+                  filterByStatus={[AppointmentStatus.NOT_APPROVED , AppointmentStatus.APPROVED]}
+                  calendarType={CalendarType.BOOK}
+                  fetchId={staff.id}
+                  fetchType={FetchType.USER}
                   CustomToolbar={BookToolbar}
                   width={'100%'}
                   height={'95%'}
-                  startDate={startDateValue}
-                  endDate={endDateValue}
+                  startHourBoundary={startDateValue}
+                  endHourBoundary={endDateValue}
                 />
               </Box>
             </Box>

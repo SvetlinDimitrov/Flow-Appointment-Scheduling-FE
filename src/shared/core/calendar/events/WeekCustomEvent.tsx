@@ -10,7 +10,6 @@ const WeekCustomEvent = ({event}: EventProps<ShortAppointment>) => {
       color={'white'}
       borderRadius={1}
       height={'100%'}
-      overflow={'auto'}
       display={'flex'}
       alignItems={'center'}
       justifyContent={'center'}

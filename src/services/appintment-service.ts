@@ -16,7 +16,7 @@ export const getAllAppointmentsByServiceId = async (serviceId: number, page: num
   return response.data;
 };
 
-export const getAllAppointmentsByServiceIdAndDate = async (serviceId: number, date: Date) => {
+export const getAllAppointmentsByServiceIdAndDate = async (serviceId: number, date: string) => {
   const params = { date };
   const response = await axiosInstance.get<ShortAppointment[]>(`${API_URL}/service/${serviceId}/short`, { params });
   return response.data;

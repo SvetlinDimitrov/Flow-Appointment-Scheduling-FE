@@ -18,6 +18,7 @@ interface PaginatedUserSectionProps {
   onEdit: (user: User) => void;
   onDelete: (user: User) => void;
   onAssignToService: (user: User) => void;
+  onViewAppointments: (user: User) => void;
 }
 
 interface Sort {
@@ -32,6 +33,7 @@ const PaginatedUserSection = (
     onEdit,
     onDelete,
     onAssignToService,
+    onViewAppointments
   }: PaginatedUserSectionProps) => {
   const {userId} = useContext(UserAuthContext)!;
 
@@ -102,13 +104,26 @@ const PaginatedUserSection = (
   const maxWidth = numberOfColumns * 130;
 
   return (
-    <Box p={2} display={'flex'} flexDirection={'column'}
-         justifyContent={'center'} alignItems={'center'} gap={3}>
-      <TableContainer component={Paper} sx={{minWidth: 300, maxWidth: maxWidth, maxHeight: 500, overflow: 'auto'}}
-                      ref={tableContainerRef}>
+    <Box
+      p={2}
+      display={'flex'}
+      flexDirection={'column'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      gap={3}
+    >
+      <TableContainer
+        component={Paper}
+        sx={{minWidth: 300, maxWidth: maxWidth, maxHeight: 500, overflow: 'auto'}}
+        ref={tableContainerRef}
+      >
         <Box sx={{position: 'sticky', top: 0, zIndex: 2, backgroundColor: 'white'}}>
-          <SearchAndSortBar search={search} setSearch={setSearch} totalElements={data.pages[0].totalElements}
-                            onSearch={handleSearch}/>
+          <SearchAndSortBar
+            search={search}
+            setSearch={setSearch}
+            totalElements={data.pages[0].totalElements}
+            onSearch={handleSearch}
+          />
         </Box>
         <Table stickyHeader>
           <TableHeadUsers userRole={userRole} handleSort={handleSort} renderSortIcon={renderSortIcon}/>
@@ -118,6 +133,7 @@ const PaginatedUserSection = (
             onEdit={onEdit}
             onDelete={onDelete}
             onAssignToService={onAssignToService}
+            onViewAppointments={onViewAppointments}
           />
         </Table>
       </TableContainer>
