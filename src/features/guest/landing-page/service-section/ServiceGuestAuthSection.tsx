@@ -83,11 +83,12 @@ const ServiceGuestAuthSection = ({title, description , buttonText}: ServiceGuest
         {data.content.map((service, index) => (
           <ServiceCard
             key={index}
-            image={"/static/images/no-picture-found.jpg"}
+            image={"https://via.placeholder.com/350x150/CCCCCC/CCCCCC"}
             alt={service.name}
             title={service.name}
             navigateTo={`/service/${service.id}`}
             buttonText={buttonText}
+            serviceAvailable={service.availability}
           />
         ))}
       </CardsHolder>

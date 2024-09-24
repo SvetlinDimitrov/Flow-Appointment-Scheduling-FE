@@ -1,9 +1,24 @@
-import {Box, Card, CardContent, Paper, Table, TableContainer, Typography} from "@mui/material";
-import UserCardActions from "./user/UserCardActions.tsx";
-import AdminCardActions from "./admin/AdminCardActions.tsx";
-import UserServiceDetailsTable from "./user/UserServiceDetailsTable.tsx";
-import AdminServiceDetailsTable from "./admin/AdminServiceDetailsTable.tsx";
+import {Box, Card, CardContent, Divider, IconButton, Menu, MenuItem, MenuItemProps, Typography} from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {MouseEvent, useState} from "react";
 import {Service} from "../../../shared/models/service.types.ts";
+import AdminButtons from "./AdminButtons";
+import UserButton from "./UserButton";
+import CardBody from "./CardBody";
+
+const StyledMenuItem = (props: MenuItemProps) => {
+  return (
+    <MenuItem
+      sx={{
+        "&:hover": {
+          color: "primary.main"
+        },
+      }}
+      {...props}
+    />
+  );
+};
+
 
 interface ServiceCardProps {
   isAdmin: boolean;
@@ -14,11 +29,6 @@ interface ServiceCardProps {
   handleAppointments?: () => void;
 }
 
-/*
-  If handleDeleteService and handleUpdateService are defined, then the user is an admin.
-  I was not able to put this (handleDeleteService !== undefined && handleUpdateService !== undefined)
-  in function or in a const because typescript stills complains about the type that it can be undefined.
-*/
 const ServiceCard = (
   {
     isAdmin,
@@ -29,44 +39,108 @@ const ServiceCard = (
     handleAppointments
   }: ServiceCardProps) => {
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Box>
-      <Card sx={{width: '100%', margin: "auto", boxShadow: 3}}>
+      <Card
+        sx={{
+          width: '350px',
+          margin: "auto",
+          boxShadow: 3,
+          padding: 2,
+          borderRadius: 2,
+          position: 'relative'
+        }}>
+        {isAdmin && (
+          <IconButton
+            onClick={handleClick}
+            sx={{position: 'absolute', top: 8, right: 8}}
+          >
+            <MoreVertIcon/>
+          </IconButton>
+        )}
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+        >
+          <StyledMenuItem
+            onClick={() => {
+              handleViewEmployees();
+              handleClose();
+            }}
+          >
+            Staff
+          </StyledMenuItem>
+          {isAdmin && handleAppointments && (
+            <>
+              <StyledMenuItem
+                onClick={() => {
+                  handleAppointments();
+                  handleClose();
+                }}
+              >
+                Events
+              </StyledMenuItem>
+              <StyledMenuItem
+                onClick={() => {
+                  console.log(123);
+                  handleClose();
+                }}
+              >
+                Statistics
+              </StyledMenuItem>
+            </>
+          )}
+        </Menu>
         <CardContent>
-          <Typography variant={"h5"} fontWeight={'bold'} textAlign={'center'}>
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            textAlign="center"
+            noWrap
+            overflow="hidden"
+            textOverflow="ellipsis"
+          >
             {selectedService.name}
           </Typography>
           <Typography
-            variant={"subtitle2"}
-            maxWidth={300}
-            margin={"auto"}
-            textAlign={"center"}
-            color={"gray"}
-            fontStyle={"italic"}
+            variant="subtitle2"
+            margin="auto"
+            textAlign="center"
+            color="gray"
+            fontStyle="italic"
             marginTop={1}
+            noWrap
+            overflow="hidden"
+            textOverflow="ellipsis"
           >
             {selectedService.description}
           </Typography>
-          <TableContainer component={Paper} sx={{marginTop: 2}}>
-            <Table>
-              {isAdmin ? (
-                <AdminServiceDetailsTable service={selectedService}/>
-              ) : (
-                <UserServiceDetailsTable service={selectedService}/>
-              )}
-            </Table>
-          </TableContainer>
+          <Divider sx={{marginY: 2}}/>
+          <CardBody selectedService={selectedService} isAdmin={isAdmin}/>
         </CardContent>
-        {isAdmin && handleDeleteService && handleUpdateService && handleAppointments ? (
-          <AdminCardActions
-            handleDelete={handleDeleteService}
-            handleEdit={handleUpdateService}
-            handleOpen={handleViewEmployees}
-            handleAppointments={handleAppointments}
-          />
-        ) : (
-          <UserCardActions handleOpen={handleViewEmployees}/>
-        )}
+        <Divider sx={{marginY: 2}}/>
+        <Box display="flex" justifyContent="space-around" padding={2}>
+          {isAdmin ? (
+            <AdminButtons
+              handleUpdateService={handleUpdateService!}
+              handleDeleteService={handleDeleteService!}
+            />
+          ) : (
+            <UserButton handleViewEmployees={handleViewEmployees}/>
+          )}
+        </Box>
       </Card>
     </Box>
   );
