@@ -41,6 +41,7 @@ function App() {
           <Route path="/contact-us" element={<ContactUs/>}/>
           <Route element={<GuestRoutes/>}>
             <Route path="/login" element={<Login/>}/>
+            <Route path="/secret-login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
           </Route>
           <Route element={<AuthenticatedUser/>}>
