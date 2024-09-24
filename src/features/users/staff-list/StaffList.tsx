@@ -46,12 +46,6 @@ const StaffList = (
     }
   }, [isXs, prevIsXs, setPage]);
 
-  useEffect(() => {
-    if (data && data.content.length === 0 && page !== 0) {
-      setPage(0);
-    }
-  }, [data, page, setPage]);
-
   if (error) return <PageNotFound/>;
 
   return (
