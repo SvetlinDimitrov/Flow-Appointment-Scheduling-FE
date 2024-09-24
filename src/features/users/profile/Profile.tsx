@@ -53,16 +53,25 @@ const Profile = () => {
   });
 
   const handleUpdateUser: SubmitHandler<FormInputs> = (data) => {
-    updateUserMutation.mutate({id: userId, user: {firstName: data.firstName, lastName: data.lastName}});
+    const onConfirm = () => {
+      updateUserMutation.mutate(
+        {id: userId, user: {firstName: data.firstName, lastName: data.lastName}}, {
+          onSettled: () => closeModal()
+        }
+      );
+    }
+
+    openModal("Update User", "Are you sure you want to save these changes?", onConfirm);
   };
 
   const handleDeleteUser = () => {
     const onConfirm = () => {
-      logoutDeleteUserMutation.mutate(userId);
-      closeModal();
+      logoutDeleteUserMutation.mutate(userId, {
+        onSettled: () => closeModal()
+      })
     };
 
-    openModal("Delete User", `Are you sure you want to delete the user: ${user?.email}?`, onConfirm);
+    openModal("Delete User", "Are you sure you want to delete this profile?", onConfirm);
   };
 
   if (isLoading || !user) return <LoadingSpinner/>;
