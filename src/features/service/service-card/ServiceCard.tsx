@@ -6,6 +6,7 @@ import AdminServiceDetailsTable from "./admin/AdminServiceDetailsTable.tsx";
 import {Service} from "../../../shared/models/service.types.ts";
 
 interface ServiceCardProps {
+  isAdmin: boolean;
   selectedService: Service;
   handleViewEmployees: () => void;
   handleDeleteService?: () => void;
@@ -20,16 +21,13 @@ interface ServiceCardProps {
 */
 const ServiceCard = (
   {
+    isAdmin,
     selectedService,
     handleViewEmployees,
     handleDeleteService,
     handleUpdateService,
     handleAppointments
   }: ServiceCardProps) => {
-
-  const isAdmin = handleDeleteService !== undefined &&
-    handleUpdateService !== undefined &&
-    handleAppointments !== undefined;
 
   return (
     <Box>
@@ -59,7 +57,7 @@ const ServiceCard = (
             </Table>
           </TableContainer>
         </CardContent>
-        {isAdmin ? (
+        {isAdmin && handleDeleteService && handleUpdateService && handleAppointments ? (
           <AdminCardActions
             handleDelete={handleDeleteService}
             handleEdit={handleUpdateService}
