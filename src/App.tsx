@@ -9,7 +9,7 @@ import Header from "./shared/core/header/Header.tsx";
 import Footer from "./shared/core/footer/Footer.tsx";
 import {setupInterceptors} from "./utils/axios-config/axiosInstance.ts";
 import {useContext, useEffect} from "react";
-import Profile from "./features/users/settings/Profile.tsx";
+import Profile from "./features/users/profile/Profile.tsx";
 import AboutUs from "./features/guest/about-us/AboutUs.tsx";
 import {UserAuthContext} from "./shared/context/UserAuthContext.tsx";
 import ContactUs from "./features/guest/contact-us/ContactUs.tsx";
@@ -20,6 +20,7 @@ import AdminDashboardUsers from "./features/admin/user-dashboard/AdminDashboardU
 import ServicePage from "./features/guest/service-id/ServiceIdPage.tsx";
 import StaffClientRoutes from "./shared/core/layouts/StaffClientRoutes.tsx";
 import AppointmentLayout from "./shared/core/layouts/AppointmentLayout.tsx";
+import ErrorPage from "./shared/core/error-page/ErrorPage.tsx";
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
       <Box flexGrow={1}>
         <Routes>
           <Route path="/" element={<Home/>}/>
+          <Route path={"/error"} element={<ErrorPage/>}/>
           <Route path="/about-us" element={<AboutUs/>}/>
           <Route path="/contact-us" element={<ContactUs/>}/>
           <Route element={<GuestRoutes/>}>

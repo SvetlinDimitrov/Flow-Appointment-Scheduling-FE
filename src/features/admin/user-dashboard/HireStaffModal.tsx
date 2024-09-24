@@ -2,16 +2,16 @@ import {Box, Button, Checkbox, FormControlLabel, MenuItem, Modal, TextField, Typ
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {z} from 'zod';
-import {UserRole} from "../../../../../shared/models/user.types.ts";
-import {HireStaffRequest} from "../../../../../shared/models/api/users.ts";
+import {UserRole} from "../../../shared/models/user.types.ts";
+import {HireStaffRequest} from "../../../shared/models/api/users.ts";
 import {
   emailValidation,
   nameValidation,
   passwordValidation,
   staffDetailsCreateUpdateValidation
-} from "../../../../../shared/validation/users.validations.ts";
+} from "../../../shared/validation/users.validations.ts";
 
-interface HireStaffForm{
+interface HireStaffForm {
   userInfo: {
     firstName: string;
     lastName: string;
@@ -48,8 +48,8 @@ const schema = z.object({
   staffDetailsDto: staffDetailsCreateUpdateValidation
 });
 
-const HireStaffModal = ({open, onClose, onSubmit} : HireStaffModalProps) => {
-  const {register, handleSubmit, formState: {errors} , reset} = useForm<HireStaffForm>({
+const HireStaffModal = ({open, onClose, onSubmit}: HireStaffModalProps) => {
+  const {register, handleSubmit, formState: {errors}, reset} = useForm<HireStaffForm>({
     resolver: zodResolver(schema),
     defaultValues: {
       userInfo: {
@@ -70,13 +70,12 @@ const HireStaffModal = ({open, onClose, onSubmit} : HireStaffModalProps) => {
   });
 
   const onSubmitForm = (data: HireStaffForm) => {
-    const {...userInfo } = data.userInfo;
+    const {...userInfo} = data.userInfo;
     const hireStaffRequest: HireStaffRequest = {
       userInfo,
       staffDetailsDto: data.staffDetailsDto
     };
     onSubmit(hireStaffRequest);
-    reset();
   };
 
   const onCloseModal = () => {
@@ -90,8 +89,15 @@ const HireStaffModal = ({open, onClose, onSubmit} : HireStaffModalProps) => {
       onClose={onCloseModal}
       style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
     >
-      <Box p={4} bgcolor="background.paper" borderRadius={2} minWidth={300}
-           height={600} maxWidth={500} overflow={'auto'}>
+      <Box
+        p={4}
+        bgcolor="background.paper"
+        borderRadius={2}
+        minWidth={300}
+        height={600}
+        maxWidth={500}
+        overflow={'auto'}
+      >
         <Typography variant="h5" mb={2}>Hire Staff Member</Typography>
         <form onSubmit={handleSubmit(onSubmitForm)}>
           <TextField
