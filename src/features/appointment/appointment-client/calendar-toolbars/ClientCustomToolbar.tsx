@@ -17,9 +17,7 @@ const ClientCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) =>
           xs: 'column',
           md: 'row',
         },
-        gap: {
-          sm: 1,
-        }
+        gap: 1
       }}
     >
       <Box

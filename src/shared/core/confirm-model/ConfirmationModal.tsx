@@ -1,14 +1,24 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, useTheme} from '@mui/material';
+import FullScreenLoader from "../loading/full-screen-loader/FullScreenLoader.tsx";
 
 interface ConfirmationModalProps {
   open: boolean;
+  isLoading: boolean;
   title: string;
   message: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
-const ConfirmationModal = ({open, title, message, onConfirm, onCancel}: ConfirmationModalProps) => {
+const ConfirmationModal = (
+  {
+    open,
+    isLoading,
+    title,
+    message,
+    onConfirm,
+    onCancel
+  }: ConfirmationModalProps) => {
   const theme = useTheme();
 
   return (
@@ -17,6 +27,9 @@ const ConfirmationModal = ({open, title, message, onConfirm, onCancel}: Confirma
       onClose={onCancel}
       aria-labelledby="confirmation-dialog-title"
       aria-describedby="confirmation-dialog-description"
+      sx={{
+        minWidth: 300,
+      }}
       PaperProps={{
         sx: {
           padding: theme.spacing(2),
@@ -24,7 +37,6 @@ const ConfirmationModal = ({open, title, message, onConfirm, onCancel}: Confirma
           boxShadow: theme.shadows[5],
           borderRadius: theme.shape.borderRadius,
           zIndex: 1000,
-          minWidth: 300
         },
       }}
       BackdropProps={{
@@ -33,10 +45,16 @@ const ConfirmationModal = ({open, title, message, onConfirm, onCancel}: Confirma
         },
       }}
     >
-      <DialogTitle id="confirmation-dialog-title" sx={{color: theme.palette.primary.main}}>
+      <DialogTitle
+        id="confirmation-dialog-title"
+        sx={{
+          color: theme.palette.primary.main,
+          minWidth: 300,
+          overflowX: 'auto',
+        }}>
         {title}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent >
         <DialogContentText id="confirmation-dialog-description" sx={{color: theme.palette.text.primary}}>
           {message}
         </DialogContentText>
@@ -49,6 +67,7 @@ const ConfirmationModal = ({open, title, message, onConfirm, onCancel}: Confirma
           Confirm
         </Button>
       </DialogActions>
+      <FullScreenLoader isLoading={isLoading}/>
     </Dialog>
   );
 };

@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import ConfirmationModal from '../../../shared/core/confirm-model/ConfirmationModal.tsx';
 import {useConfirmationModal} from "../../context/ConfirmationModalContext.tsx";
-import FullScreenLoader from "../loading/full-screen-loader/FullScreenLoader.tsx";
 
 const ConfirmationModalWrapper = () => {
   const {modalData, closeModal} = useConfirmationModal();
@@ -18,8 +17,8 @@ const ConfirmationModalWrapper = () => {
 
   return (
     <>
-      <FullScreenLoader isLoading={isLoading}/>
       <ConfirmationModal
+        isLoading={isLoading}
         open={modalData.isOpen}
         title={modalData.title}
         message={modalData.message}

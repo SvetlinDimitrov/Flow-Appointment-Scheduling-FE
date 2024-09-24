@@ -67,6 +67,7 @@ const MyCalendar = (
     data: events = [],
     isLoading: allAppointmentsLoading,
     error: allAppointmentsError,
+    isFetching: isFetchingAppointments,
   } = useGetAllAppointmentsShort(fetchId, range.start, range.end, fetchType);
   const {openModal, closeModal} = useConfirmationModal();
   const updateAppointmentMutation = useUpdateAppointmentMutation();
@@ -143,12 +144,12 @@ const MyCalendar = (
 
   return (
     <>
-      {allAppointmentsLoading && (
-        <Box position="absolute" width="100%" display="flex" top={30}>
-          <ContainerLoader height={200}/>
-        </Box>
-      )}
-      <div style={{height, width}}>
+      <Box position="relative" style={{height, width}}>
+        {(allAppointmentsLoading || isFetchingAppointments) && (
+          <Box position="absolute" width="100%" display="flex">
+            <ContainerLoader height={200}/>
+          </Box>
+        )}
         <Calendar
           localizer={localize}
           events={events.filter((event) => filterByStatus.includes(event.status))}
@@ -171,7 +172,7 @@ const MyCalendar = (
             agenda: {event: AgendaCustomView},
           }}
         />
-      </div>
+      </Box>
       <AppointmentDetailsPopup
         calendarType={calendarType}
         currentAppointmentId={currentAppointmentId}

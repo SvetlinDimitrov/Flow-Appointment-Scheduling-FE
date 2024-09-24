@@ -22,7 +22,7 @@ const ServicePage = () => {
 
   const theme = useTheme();
   const isBelow1200 = useMediaQuery(theme.breakpoints.down('lg'));
-  const isBelow600 = useMediaQuery(theme.breakpoints.down('sm'));
+  const isBelow600 = useMediaQuery(theme.breakpoints.down('md'));
 
   const value = isBelow600 ? 1 : isBelow1200 ? 2 : 4;
 
@@ -41,14 +41,14 @@ const ServicePage = () => {
         />
       )}
       <Box
+        margin={'auto'}
+        mt={6}
+        mb={2}
         sx={{
           width: {
             xs: '100%',
             sm: '80%'
           },
-          margin: 'auto',
-          marginTop: 6,
-          marginBottom: 2
         }}
       >
         <Grid

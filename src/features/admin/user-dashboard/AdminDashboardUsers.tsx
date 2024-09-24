@@ -59,7 +59,7 @@ const AdminDashboardUsers = () => {
   };
 
   const columns: GridColDef[] = [
-    {field: 'firstName', headerName: 'Forename', width: 150, editable: true},
+    {field: 'firstName', headerName: 'Forename', width: 150},
     {field: 'lastName', headerName: 'Surname', width: 150},
     {field: 'email', headerName: 'Email', width: 200},
     {field: 'salary', headerName: 'Salary', width: 100},
@@ -68,13 +68,14 @@ const AdminDashboardUsers = () => {
     {field: 'startDate', headerName: 'Years', width: 100},
     {field: 'beginWorkingHour', headerName: 'Start', width: 100},
     {field: 'endWorkingHour', headerName: 'End', width: 100},
+    {field: 'availability', headerName: 'status', width: 100},
     {
       field: 'actions',
       headerName: 'Operations',
       width: 200,
       renderCell: (params) => (
         <div>
-          {params.row.salary &&
+          {params.row.salary !== undefined &&
             <IconButton
               onClick={() => setEditUserId(params.row.id)}
               aria-label="edit"
@@ -88,7 +89,7 @@ const AdminDashboardUsers = () => {
           >
             <DeleteIcon/>
           </IconButton>
-          {params.row.salary &&
+          {params.row.salary !== undefined &&
             <IconButton
               onClick={() => setAssignUserId(params.row.id)} aria-label="assign"
             >
@@ -116,6 +117,7 @@ const AdminDashboardUsers = () => {
     if (column.field === 'startDate') return data?.content.some(user => user.staffDetails?.startDate);
     if (column.field === 'beginWorkingHour') return data?.content.some(user => user.staffDetails?.beginWorkingHour);
     if (column.field === 'endWorkingHour') return data?.content.some(user => user.staffDetails?.endWorkingHour);
+    if (column.field === 'availability') return data?.content.some(user => user.staffDetails?.isAvailable);
     return true;
   });
 
@@ -130,6 +132,7 @@ const AdminDashboardUsers = () => {
     startDate: user.staffDetails?.startDate,
     beginWorkingHour: user.staffDetails?.beginWorkingHour,
     endWorkingHour: user.staffDetails?.endWorkingHour,
+    availability: user.staffDetails?.isAvailable ? 'Available' : 'Unavailable',
   })) : [];
 
   if (isLoading) return <LoadingSpinner/>;
