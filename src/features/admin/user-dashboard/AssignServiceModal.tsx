@@ -6,6 +6,7 @@ import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpin
 import useAssignStaffToServiceMutation from "../../../hooks/services/mutations/useAssignStaffToServiceMutation.ts";
 import useGetUserQuery from "../../../hooks/users/query/useGetUserQuery.ts";
 import ErrorPage from "../../../shared/core/error-page/ErrorPage.tsx";
+import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
 
 interface AssignServiceModalProps {
   userId: number;
@@ -29,10 +30,21 @@ const AssignServiceModal = ({userId, open, onClose}: AssignServiceModalProps) =>
     isLoading: userLoading
   } = useGetUserQuery(userId);
   const assignStaffToServiceMutation = useAssignStaffToServiceMutation();
+  const {openModal, closeModal} = useConfirmationModal();
+
   const handleAssignService = (service: Service) => {
-    assignStaffToServiceMutation.mutate({id: service.id, staffEmail: userData?.email}, {
-      onSuccess: () => onClose()
-    });
+    const onConfirm = () => {
+      assignStaffToServiceMutation.mutate({id: service.id, staffEmail: userData?.email}, {
+        onSuccess: () => onClose(),
+        onSettled: () => closeModal()
+      });
+    }
+
+    openModal(
+      'Assign Service',
+      `Are you sure you want to assign ${service.name} to ${userData?.email}?`,
+      onConfirm
+    );
   };
 
   if (servicesIsLoading || userLoading) return <LoadingSpinner/>;
