@@ -21,6 +21,7 @@ const StyledMenuItem = (props: MenuItemProps) => {
 
 
 interface ServiceCardProps {
+  isAdmin: boolean;
   selectedService: Service;
   handleViewEmployees: () => void;
   handleDeleteService?: () => void;
@@ -30,15 +31,13 @@ interface ServiceCardProps {
 
 const ServiceCard = (
   {
+    isAdmin,
     selectedService,
     handleViewEmployees,
     handleDeleteService,
     handleUpdateService,
     handleAppointments
   }: ServiceCardProps) => {
-  const isAdmin = handleDeleteService !== undefined &&
-    handleUpdateService !== undefined &&
-    handleAppointments !== undefined;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -83,7 +82,7 @@ const ServiceCard = (
           >
             Staff
           </StyledMenuItem>
-          {isAdmin && (
+          {isAdmin && handleAppointments && (
             <>
               <StyledMenuItem
                 onClick={() => {
