@@ -22,6 +22,7 @@ import useGetAllWorkSpacesNamesQuery from "../../../hooks/services/query/useGetA
 import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
 import useCreateServiceMutation from "../../../hooks/services/mutations/useCreateServiceMutation.ts";
 import ErrorPage from "../../../shared/core/error-page/ErrorPage.tsx";
+import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
 
 interface CreateServiceModalProps {
   open: boolean;
@@ -36,13 +37,24 @@ const CreateServiceModal = ({open, onClose}: CreateServiceModalProps) => {
   });
   const {data, isLoading, error} = useGetAllWorkSpacesNamesQuery();
   const createServiceMutation = useCreateServiceMutation();
+  const {openModal, closeModal} = useConfirmationModal();
 
   const onSubmitForm = (data: ServiceDTO) => {
     data.duration *= 60;
-    createServiceMutation.mutate({service: data}, {
-      onSettled: () => handleClose()
-    });
-    reset();
+
+    const onConfirm = () => {
+      createServiceMutation.mutate({service: data}, {
+        onSettled: () => {
+          closeModal();
+        },
+        onSuccess: () => {
+          handleClose();
+          reset();
+        }
+      });
+    }
+
+    openModal("Create Service", `Are you sure you want to create the service: ${data.name}?`, onConfirm);
   };
 
   const handleClose = () => {
@@ -66,8 +78,11 @@ const CreateServiceModal = ({open, onClose}: CreateServiceModalProps) => {
       <DialogTitle>Create New Service</DialogTitle>
       <form onSubmit={handleSubmit(onSubmitForm)}>
         <DialogContent>
-          <Box display={'flex'} flexDirection={'column'}
-               gap={3} p={2}>
+          <Box display={'flex'}
+               flexDirection={'column'}
+               gap={3}
+               p={2}
+          >
             <TextField
               label="Name"
               {...register("name")}

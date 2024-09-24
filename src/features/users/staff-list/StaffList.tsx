@@ -46,19 +46,36 @@ const StaffList = (
     }
   }, [isXs, prevIsXs, setPage]);
 
+  useEffect(() => {
+    if (data && data.content.length === 0 && page !== 0) {
+      setPage(0);
+    }
+  }, [data, page, setPage]);
+
   if (error) return <PageNotFound/>;
 
   return (
-    <Box p={2} display={'flex'} flexDirection={'column'}
-         justifyContent={'center'} alignItems={'center'} gap={3}>
+    <Box
+      p={2}
+      display={'flex'}
+      flexDirection={'column'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      gap={3}
+    >
       {isLoading && <ContainerLoader height={430}/>}
       {!isLoading && data && data.content.length !== 0 &&
         <>
           <Typography variant={"h5"} textAlign={"center"}>
             Our Experts for {selectedService.name}
           </Typography>
-          <Box display={"flex"} flexWrap={"wrap"} justifyContent={"center"} gap={4}
-               maxWidth={'1200px'}>
+          <Box
+            display={"flex"}
+            flexWrap={"wrap"}
+            justifyContent={"center"}
+            gap={4}
+            maxWidth={'1200px'}
+          >
             {data.content.map((employee) => (
               <StaffCard
                 key={employee.id}
@@ -86,7 +103,7 @@ const StaffList = (
           </Box>
         </>
       }
-      {data && data.content.length === 0 &&
+      {data && data.content.length === 0 && page === 0 &&
         <Typography variant={"h5"} textAlign={"center"}>
           There are no experts for {selectedService.name} at the moment.
         </Typography>

@@ -35,7 +35,7 @@ const AdminServiceStaffModal = (
         id: serviceId,
         staffEmail: staffEmail,
       }, {
-        onSuccess: () => closeModal()
+        onSettled: () => closeModal()
       });
     };
 

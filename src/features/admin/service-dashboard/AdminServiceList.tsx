@@ -1,5 +1,5 @@
 import {Box, Pagination, useMediaQuery, useTheme} from "@mui/material";
-import ServiceCard from "../../service/service-card/ServiceCard.tsx";
+import ServiceCard from "./service-card/ServiceCard.tsx";
 import {Service} from "../../../shared/models/service.types.ts";
 import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
 import useGetAllServicesQuery from "../../../hooks/services/query/useGetAllServicesQuery.ts";

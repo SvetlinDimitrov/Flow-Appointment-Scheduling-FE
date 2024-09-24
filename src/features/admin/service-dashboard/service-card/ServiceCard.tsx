@@ -1,10 +1,9 @@
 import {Box, Card, CardContent, Divider, IconButton, Menu, MenuItem, MenuItemProps, Typography} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {MouseEvent, useState} from "react";
-import {Service} from "../../../shared/models/service.types.ts";
-import AdminButtons from "./AdminButtons";
-import UserButton from "./UserButton";
-import CardBody from "./CardBody";
+import {Service} from "../../../../shared/models/service.types.ts";
+import AdminButtons from "./AdminButtons.tsx";
+import CardBody from "./CardBody.tsx";
 
 const StyledMenuItem = (props: MenuItemProps) => {
   return (
@@ -23,9 +22,9 @@ const StyledMenuItem = (props: MenuItemProps) => {
 interface ServiceCardProps {
   selectedService: Service;
   handleViewEmployees: () => void;
-  handleDeleteService?: () => void;
-  handleUpdateService?: () => void;
-  handleAppointments?: () => void;
+  handleDeleteService: () => void;
+  handleUpdateService: () => void;
+  handleAppointments: () => void;
 }
 
 const ServiceCard = (
@@ -36,9 +35,6 @@ const ServiceCard = (
     handleUpdateService,
     handleAppointments
   }: ServiceCardProps) => {
-  const isAdmin = handleDeleteService !== undefined &&
-    handleUpdateService !== undefined &&
-    handleAppointments !== undefined;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -62,14 +58,14 @@ const ServiceCard = (
           borderRadius: 2,
           position: 'relative'
         }}>
-        {isAdmin && (
-          <IconButton
-            onClick={handleClick}
-            sx={{position: 'absolute', top: 8, right: 8}}
-          >
-            <MoreVertIcon/>
-          </IconButton>
-        )}
+
+        <IconButton
+          onClick={handleClick}
+          sx={{position: 'absolute', top: 8, right: 8}}
+        >
+          <MoreVertIcon/>
+        </IconButton>
+
         <Menu
           anchorEl={anchorEl}
           open={open}
@@ -83,26 +79,23 @@ const ServiceCard = (
           >
             Staff
           </StyledMenuItem>
-          {isAdmin && (
-            <>
-              <StyledMenuItem
-                onClick={() => {
-                  handleAppointments();
-                  handleClose();
-                }}
-              >
-                Events
-              </StyledMenuItem>
-              <StyledMenuItem
-                onClick={() => {
-                  console.log(123);
-                  handleClose();
-                }}
-              >
-                Statistics
-              </StyledMenuItem>
-            </>
-          )}
+
+          <StyledMenuItem
+            onClick={() => {
+              handleAppointments();
+              handleClose();
+            }}
+          >
+            Events
+          </StyledMenuItem>
+          <StyledMenuItem
+            onClick={() => {
+              console.log(123);
+              handleClose();
+            }}
+          >
+            Statistics
+          </StyledMenuItem>
         </Menu>
         <CardContent>
           <Typography
@@ -129,18 +122,14 @@ const ServiceCard = (
             {selectedService.description}
           </Typography>
           <Divider sx={{marginY: 2}}/>
-          <CardBody selectedService={selectedService} isAdmin={isAdmin}/>
+          <CardBody selectedService={selectedService}/>
         </CardContent>
         <Divider sx={{marginY: 2}}/>
         <Box display="flex" justifyContent="space-around" padding={2}>
-          {isAdmin ? (
-            <AdminButtons
-              handleUpdateService={handleUpdateService!}
-              handleDeleteService={handleDeleteService!}
-            />
-          ) : (
-            <UserButton handleViewEmployees={handleViewEmployees}/>
-          )}
+          <AdminButtons
+            handleUpdateService={handleUpdateService!}
+            handleDeleteService={handleDeleteService!}
+          />
         </Box>
       </Card>
     </Box>

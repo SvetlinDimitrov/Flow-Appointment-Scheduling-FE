@@ -23,6 +23,7 @@ import useGetServiceByIdQuery from '../../../hooks/services/query/useGetServiceB
 import {Duration} from 'luxon';
 import ErrorPage from "../../../shared/core/error-page/ErrorPage.tsx";
 import {useRef} from "react";
+import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
 
 const serviceSchema = serviceCreateUpdateValidations;
 
@@ -53,6 +54,7 @@ const ServiceEditModal = ({open, onClose, id}: ServiceEditModalProps) => {
     isLoading: workSpacesLoading,
     error: workSpacesError
   } = useGetAllWorkSpacesNamesQuery();
+  const {openModal, closeModal} = useConfirmationModal();
 
   if (service && !formInitialized.current && !serviceIsFetching) {
     reset({
@@ -66,16 +68,24 @@ const ServiceEditModal = ({open, onClose, id}: ServiceEditModalProps) => {
     formInitialized.current = true;
 
   }
+
   const handleFormSubmit = (data: ServiceFormInputs) => {
     data.duration *= 60;
 
-    updateServiceMutation.mutate({
-      serviceId: id,
-      service: data,
-    }, {
-      onSuccess: () => onClose()
-    });
-    reset();
+    const onConfirm = () => {
+      updateServiceMutation.mutate({
+        serviceId: id,
+        service: data,
+      }, {
+        onSuccess: () => {
+          onClose();
+          reset();
+        },
+        onSettled: () => closeModal(),
+      });
+    }
+
+    openModal("Update Service", `Are you sure you want to update the service: ${data.name}?`, onConfirm);
   };
 
   const handleClose = () => {
