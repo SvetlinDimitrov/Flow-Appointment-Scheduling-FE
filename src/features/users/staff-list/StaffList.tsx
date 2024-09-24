@@ -2,11 +2,11 @@ import {Box, Pagination, Typography, useMediaQuery, useTheme} from "@mui/materia
 import StaffCard from "./staff-card/StaffCard.tsx";
 import {User} from "../../../shared/models/user.types.ts";
 import usePaginatedQuery from "../../../hooks/custom/usePaginatedQuery.ts";
-import PageNotFound from "../../../shared/core/not-found/PageNotFound.tsx";
 import {Service} from "../../../shared/models/service.types.ts";
 import useGetUsersByServiceId from "../../../hooks/users/query/useGetUsersByServiceId.ts";
 import {useEffect, useState} from "react";
 import ContainerLoader from "../../../shared/core/loading/container-loader/ContainerLoader.tsx";
+import ErrorPage from "../../../shared/core/error-page/ErrorPage.tsx";
 
 interface StaffListProps {
   selectedService: Service;
@@ -46,7 +46,7 @@ const StaffList = (
     }
   }, [isXs, prevIsXs, setPage]);
 
-  if (error) return <PageNotFound/>;
+  if (error) return <ErrorPage/>;
 
   return (
     <Box

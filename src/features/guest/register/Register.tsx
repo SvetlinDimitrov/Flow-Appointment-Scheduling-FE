@@ -106,8 +106,12 @@ const Register = () => {
                   type="submit">
             Register
           </Button>
-          <Typography variant="body2" align="center"
-                      mt={2} lineHeight={1.5}>
+          <Typography
+            variant="body2"
+            align="center"
+            mt={2}
+            lineHeight={1.5}
+          >
             Already have an account? <Link to="/login">Login here</Link>
           </Typography>
         </form>

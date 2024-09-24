@@ -5,7 +5,6 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {z} from 'zod';
 import useGetUserQuery from '../../../hooks/users/query/useGetUserQuery.ts';
 import {UserAuthContext} from '../../../shared/context/UserAuthContext.tsx';
-import PageNotFound from '../../../shared/core/not-found/PageNotFound.tsx';
 import LoadingSpinner from '../../../shared/core/loading/main-loader/LoadingSpinner.tsx';
 import useUpdateUserMutation from '../../../hooks/users/mutations/useUpdateUserMutation.ts';
 import useLogoutDeleteUserMutation from '../../../hooks/users/mutations/useLogoutDeleteUserMutation.ts';
@@ -18,6 +17,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import PasswordResetModal from "../reset-password/PasswordResetModal.tsx";
+import ErrorPage from "../../../shared/core/error-page/ErrorPage.tsx";
 
 const StyleButton = styled(Button)(() => ({
   flexGrow: 1,
@@ -74,8 +74,10 @@ const Profile = () => {
     openModal("Delete User", "Are you sure you want to delete this profile?", onConfirm);
   };
 
-  if (isLoading || !user) return <LoadingSpinner/>;
-  if (error) return <PageNotFound/>;
+  if (isLoading) return <LoadingSpinner/>;
+  if (error) return <ErrorPage/>;
+
+  if (!user) return null;
 
   return (
     <Box width={'80%'} margin={'auto'} mt={6} mb={6}>

@@ -23,7 +23,6 @@ import {FetchType} from "../../../shared/models/react-big-calendar.ts";
 
 const pageSizes = [25, 50, 100];
 
-//TODO: Add processing loader
 const AdminDashboardUsers = () => {
   const [editUserId, setEditUserId] = useState<number | null>(null);
   const [assignUserId, setAssignUserId] = useState<number | null>(null);
@@ -75,23 +74,27 @@ const AdminDashboardUsers = () => {
       width: 200,
       renderCell: (params) => (
         <div>
-          <IconButton
-            onClick={() => setEditUserId(params.row.id)}
-            aria-label="edit"
-          >
-            <EditIcon/>
-          </IconButton>
+          {params.row.salary &&
+            <IconButton
+              onClick={() => setEditUserId(params.row.id)}
+              aria-label="edit"
+            >
+              <EditIcon/>
+            </IconButton>
+          }
           <IconButton
             onClick={() => handleDelete(params.row.id, params.row.email)}
             aria-label="delete"
           >
             <DeleteIcon/>
           </IconButton>
-          <IconButton
-            onClick={() => setAssignUserId(params.row.id)} aria-label="assign"
-          >
-            <AssignmentIcon/>
-          </IconButton>
+          {params.row.salary &&
+            <IconButton
+              onClick={() => setAssignUserId(params.row.id)} aria-label="assign"
+            >
+              <AssignmentIcon/>
+            </IconButton>
+          }
           <IconButton
             onClick={() => setEventsUser({id: params.row.id, name: params.row.name})}
             aria-label="view appointments"
