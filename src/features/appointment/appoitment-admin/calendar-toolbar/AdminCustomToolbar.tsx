@@ -10,10 +10,8 @@ const AdminCustomToolbar = ({label, onNavigate, onView, view}: ToolbarProps) => 
       mb={2}
       gap={2}
       sx={{
-        '@media (max-width: 600px)': {
-          flexDirection: 'column',
-          gap: 1,
-        },
+        flexDirection: {xs: 'column', sm: 'row'},
+        gap: {xs: 1, sm: 2},
       }}>
       <Box
         display={'flex'}
