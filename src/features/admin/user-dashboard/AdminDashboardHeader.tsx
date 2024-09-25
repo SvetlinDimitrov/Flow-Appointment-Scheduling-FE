@@ -1,4 +1,3 @@
-import React from 'react';
 import {Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography} from '@mui/material';
 import {UserRole} from '../../../shared/models/user.types.ts';
 
@@ -8,12 +7,12 @@ interface AdminDashboardHeaderProps {
   setIsHireModalOpen: (open: boolean) => void;
 }
 
-const AdminDashboardHeader: React.FC<AdminDashboardHeaderProps> = (
-  {
+const AdminDashboardHeader =
+  ({
     selectedRole,
     setSelectedRole,
     setIsHireModalOpen
-  }) => {
+   }: AdminDashboardHeaderProps) => {
   const handleRoleChange = (event: SelectChangeEvent<UserRole>) => {
     setSelectedRole(event.target.value as UserRole);
   };

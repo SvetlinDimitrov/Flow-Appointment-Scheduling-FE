@@ -4,7 +4,7 @@ import {Navigate, Outlet} from "react-router-dom";
 import {UserRole} from "../../models/user.types.ts";
 
 const AdminRoutes = () => {
-  const {role} = useContext(UserAuthContext)!;
+  const {role} = useContext(UserAuthContext);
 
   if (role !== UserRole.ADMINISTRATOR) {
     return <Navigate to="/"/>;

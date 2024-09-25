@@ -24,7 +24,7 @@ import ErrorPage from "./shared/core/error-page/ErrorPage.tsx";
 
 function App() {
 
-  const {login, logout} = useContext(UserAuthContext)!;
+  const {login, logout} = useContext(UserAuthContext);
 
   useEffect(() => {
     setupInterceptors({login, logout});

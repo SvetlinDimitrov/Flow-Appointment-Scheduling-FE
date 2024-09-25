@@ -3,7 +3,7 @@ import {useContext} from "react";
 import {UserAuthContext} from "../../context/UserAuthContext.tsx";
 
 const AuthenticatedUser = () => {
-  const {isUserAuthenticated} = useContext(UserAuthContext)!;
+  const {isUserAuthenticated} = useContext(UserAuthContext);
 
   if (!isUserAuthenticated()) {
     return <Navigate to="/login" />;
