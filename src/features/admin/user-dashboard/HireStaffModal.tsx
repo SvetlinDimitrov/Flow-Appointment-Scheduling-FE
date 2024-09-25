@@ -5,11 +5,12 @@ import {z} from 'zod';
 import {UserRole} from "../../../shared/models/user.types.ts";
 import {HireStaffRequest} from "../../../shared/models/api/users.ts";
 import {
-  emailValidation,
   nameValidation,
   passwordValidation,
   staffDetailsCreateUpdateValidation
 } from "../../../shared/validation/users.validations.ts";
+import useHireStaffMutation from "../../../hooks/users/mutations/useHireStuffMutation.ts";
+import {useConfirmationModal} from '../../../shared/context/ConfirmationModalContext.tsx';
 
 interface HireStaffForm {
   userInfo: {
@@ -31,8 +32,13 @@ interface HireStaffForm {
 interface HireStaffModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: HireStaffRequest) => void;
 }
+
+const emailValidation = z.string()
+  .min(4, {message: "Email must be at least 4 characters long"})
+  .refine(email => !email.includes('@'), {
+    message: "Only the first part of the email should be written, without any domain"
+  });
 
 const schema = z.object({
   userInfo: z.object({
@@ -48,7 +54,7 @@ const schema = z.object({
   staffDetailsDto: staffDetailsCreateUpdateValidation
 });
 
-const HireStaffModal = ({open, onClose, onSubmit}: HireStaffModalProps) => {
+const HireStaffModal = ({open, onClose}: HireStaffModalProps) => {
   const {register, handleSubmit, formState: {errors}, reset} = useForm<HireStaffForm>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -68,20 +74,36 @@ const HireStaffModal = ({open, onClose, onSubmit}: HireStaffModalProps) => {
       },
     },
   });
-
-  const onSubmitForm = (data: HireStaffForm) => {
-    const {...userInfo} = data.userInfo;
-    const hireStaffRequest: HireStaffRequest = {
-      userInfo,
-      staffDetailsDto: data.staffDetailsDto
-    };
-    onSubmit(hireStaffRequest);
-  };
+  const hireStaffMutation = useHireStaffMutation();
+  const {openModal, closeModal} = useConfirmationModal();
 
   const onCloseModal = () => {
     reset();
     onClose();
   }
+
+  const onSubmitForm = (data: HireStaffForm) => {
+    let email = data.userInfo.email;
+    if (!email.endsWith('@flow.com')) {
+      email = `${email}@flow.com`;
+    }
+
+    const hireStaffRequest: HireStaffRequest = {
+      userInfo: {
+        ...data.userInfo,
+        email
+      },
+      staffDetailsDto: data.staffDetailsDto
+    };
+
+    const onConfirm = () => {
+      hireStaffMutation.mutate(hireStaffRequest, {
+        onSettled: () => closeModal(),
+        onSuccess: () => onCloseModal()
+      });
+    };
+    openModal("Hire Staff", `Are you sure you want to hire the user: ${hireStaffRequest.userInfo.email}?`, onConfirm);
+  };
 
   return (
     <Modal
