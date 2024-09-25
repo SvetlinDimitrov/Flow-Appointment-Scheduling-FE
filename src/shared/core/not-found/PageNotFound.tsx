@@ -2,8 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-
   body {
     margin: 0px;
     height: 100vh;

@@ -21,3 +21,9 @@ export const refreshToken = async (refreshRequest: RefreshTokenRequest): Promise
 
   return response.json();
 };
+
+export const resetPassword = async (email: string): Promise<void> => {
+  await axiosInstance.get(`/auth/reset-password`, {
+    params: {email}
+  });
+};

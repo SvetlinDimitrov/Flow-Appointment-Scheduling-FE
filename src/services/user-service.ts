@@ -7,6 +7,7 @@ import {
   HireStaffRequest,
   UpdateUserRequest
 } from "../shared/models/api/users.ts";
+import {UserPasswordUpdate} from "../shared/models/api/auth.ts";
 
 export const getAllUsers = async (
   page: number, size: number,
@@ -61,4 +62,26 @@ export const modifyStaff = async (id: number, modifyDto: CreateUpdateUserAdminRe
 export const hireStaff = async (hireDto: HireStaffRequest): Promise<User> => {
   const response = await axiosInstance.post(`/users/hire`, hireDto);
   return response.data;
+};
+
+export const userResetPasswordWithAuth = async (userPasswordUpdate: UserPasswordUpdate): Promise<User> => {
+  const response = await axiosInstance.put(`/users/reset-password`, userPasswordUpdate);
+  return response.data;
+};
+
+export const userResetPasswordWithCustomAuth = async (userPasswordUpdate: UserPasswordUpdate, jwtToken: string): Promise<User> => {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/reset-password`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwtToken}`
+    },
+    body: JSON.stringify(userPasswordUpdate)
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to reset password');
+  }
+
+  return response.json();
 };
