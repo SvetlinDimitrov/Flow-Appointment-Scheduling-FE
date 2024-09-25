@@ -1,13 +1,14 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {Button, TextField, Typography} from '@mui/material';
 import useLoginUserMutation from "../../../hooks/users/mutations/useLoginUserMutation.ts";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {emailValidation, passwordValidation} from "../../../shared/validation/users.validations.ts";
 import {z} from "zod";
 import {UserMainWrapper, UserSecondWrapper} from "../../../shared/styles/wrappers.ts";
 import useProcessing from "../../../hooks/custom/useProcessing.ts";
 import FullScreenLoader from "../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
+import {toast} from "react-toastify";
 
 interface IFormInput {
   email: string;
@@ -24,11 +25,22 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const userLoginMutation = useLoginUserMutation();
   const {processing, startProcessing, stopProcessing} = useProcessing();
 
   const onSubmit: SubmitHandler<IFormInput> = data => {
+    if (data.email.endsWith('@flow.com') && location.pathname !== '/secret-login') {
+      toast.warn('You have been redirected. If you are a company employee, please use the company login page.');
+      navigate('/secret-login');
+      return;
+    } else if (!data.email.endsWith('@flow.com') && location.pathname === '/secret-login') {
+      toast.warn('You have been redirected. Please use the regular login page.');
+      navigate('/login');
+      return;
+    }
+
     const body: IFormInput = {
       email: data.email,
       password: data.password
@@ -46,7 +58,7 @@ const Login = () => {
       <UserMainWrapper>
         <UserSecondWrapper elevation={4}>
           <Typography mb={'2'} variant="h4">
-            Login
+            {location.pathname === '/secret-login' ? 'Company Login' : 'Login'}
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <TextField
