@@ -22,7 +22,16 @@ interface UserContextType {
   isUserAuthenticated: () => boolean;
 }
 
-export const UserAuthContext = createContext<UserContextType | undefined>(undefined);
+const initialValues: UserContextType = {
+  userId: null,
+  role: null,
+  login: () => {},
+  logout: () => {},
+  isUserAuthenticated: () => false,
+}
+
+
+export const UserAuthContext = createContext<UserContextType>(initialValues);
 
 export const UserAuthProvider = ({children}: { children: ReactNode }) => {
 

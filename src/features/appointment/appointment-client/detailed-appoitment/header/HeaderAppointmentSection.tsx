@@ -11,7 +11,7 @@ const CalendarIconContainer = styled(Box)(({theme}) => ({
   width: '50px',
   height: '50px',
   borderRadius: '50%',
-  backgroundColor: '#eeeeee',
+  backgroundColor: theme.palette.flowBgColor.main,
   marginLeft: theme.spacing(2),
 }));
 

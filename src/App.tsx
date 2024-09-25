@@ -25,7 +25,7 @@ import PasswordResetForm from "./features/guest/reset-password/PasswordResetForm
 
 function App() {
 
-  const {login, logout} = useContext(UserAuthContext)!;
+  const {login, logout} = useContext(UserAuthContext);
 
   useEffect(() => {
     setupInterceptors({login, logout});

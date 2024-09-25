@@ -14,7 +14,7 @@ const ServicePage = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
-  const { userId } = useContext(UserAuthContext)!;
+  const { userId } = useContext(UserAuthContext);
 
   const [selectedStaff, setSelectedStaff] = useState<User | null>(null);
 
@@ -77,7 +77,6 @@ const ServicePage = () => {
               <Box display="flex" justifyContent="center" sx={{mt: 3}}>
                 <StaffList
                   selectedService={service}
-                  handleDeleteEmployeeFromService={null}
                   handleBookWithStaff={(staff) => setSelectedStaff(staff)}
                   showStaffNumbers={value}
                 />

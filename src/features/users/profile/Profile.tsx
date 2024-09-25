@@ -31,7 +31,7 @@ interface FormInputs {
 const Profile = () => {
   const [isPasswordResetModalOpen, setPasswordResetModalOpen] = useState(false);
 
-  const {userId} = useContext(UserAuthContext)!;
+  const {userId} = useContext(UserAuthContext);
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
