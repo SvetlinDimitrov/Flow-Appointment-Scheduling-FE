@@ -26,3 +26,8 @@ export interface ServiceWithUsers {
   totalAppointments: number;
   employees: User[];
 }
+
+export enum TimeRange {
+  THIRTY_DAYS_BACK = '30daysBack',
+  THIRTY_DAYS_FRONT = '30daysFront',
+}
