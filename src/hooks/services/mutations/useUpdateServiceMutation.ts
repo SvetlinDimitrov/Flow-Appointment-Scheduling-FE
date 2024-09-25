@@ -8,8 +8,10 @@ const useUpdateServiceMutation = () => {
 
   return useMutation({
     mutationFn: ({serviceId, service}: { serviceId: number, service: ServiceDTO }) => updateService(serviceId, service),
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['services']})
+    onSuccess: (_, variables) => {
+      const {serviceId} = variables;
+      queryClient.invalidateQueries({queryKey: ['service', String(serviceId)]});
+      queryClient.invalidateQueries({queryKey: ['services']});
       toast.success("Service updated successfully.");
     },
   });

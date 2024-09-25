@@ -7,7 +7,8 @@ const useUnassignStaffFromServiceMutation = () => {
 
   return useMutation({
     mutationFn: ({id, staffEmail}: { id: number, staffEmail: string }) => unassignStaffFromService(id, staffEmail),
-    onSuccess: () => {
+    onSuccess: (_, {id}) => {
+      queryClient.invalidateQueries({queryKey: ['service', id]});
       queryClient.invalidateQueries({queryKey: ['services']});
       queryClient.invalidateQueries({queryKey: ['users']});
       toast.success("Staff unassigned from service successfully.");

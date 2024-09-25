@@ -23,7 +23,6 @@ import {FetchType} from "../../../shared/models/react-big-calendar.ts";
 
 const pageSizes = [25, 50, 100];
 
-//TODO: Add processing loader
 const AdminDashboardUsers = () => {
   const [editUserId, setEditUserId] = useState<number | null>(null);
   const [assignUserId, setAssignUserId] = useState<number | null>(null);
@@ -60,7 +59,7 @@ const AdminDashboardUsers = () => {
   };
 
   const columns: GridColDef[] = [
-    {field: 'firstName', headerName: 'Forename', width: 150, editable: true},
+    {field: 'firstName', headerName: 'Forename', width: 150},
     {field: 'lastName', headerName: 'Surname', width: 150},
     {field: 'email', headerName: 'Email', width: 200},
     {field: 'salary', headerName: 'Salary', width: 100},
@@ -69,29 +68,34 @@ const AdminDashboardUsers = () => {
     {field: 'startDate', headerName: 'Years', width: 100},
     {field: 'beginWorkingHour', headerName: 'Start', width: 100},
     {field: 'endWorkingHour', headerName: 'End', width: 100},
+    {field: 'availability', headerName: 'status', width: 100},
     {
       field: 'actions',
       headerName: 'Operations',
       width: 200,
       renderCell: (params) => (
         <div>
-          <IconButton
-            onClick={() => setEditUserId(params.row.id)}
-            aria-label="edit"
-          >
-            <EditIcon/>
-          </IconButton>
+          {params.row.salary !== undefined &&
+            <IconButton
+              onClick={() => setEditUserId(params.row.id)}
+              aria-label="edit"
+            >
+              <EditIcon/>
+            </IconButton>
+          }
           <IconButton
             onClick={() => handleDelete(params.row.id, params.row.email)}
             aria-label="delete"
           >
             <DeleteIcon/>
           </IconButton>
-          <IconButton
-            onClick={() => setAssignUserId(params.row.id)} aria-label="assign"
-          >
-            <AssignmentIcon/>
-          </IconButton>
+          {params.row.salary !== undefined &&
+            <IconButton
+              onClick={() => setAssignUserId(params.row.id)} aria-label="assign"
+            >
+              <AssignmentIcon/>
+            </IconButton>
+          }
           <IconButton
             onClick={() => setEventsUser({id: params.row.id, name: params.row.name})}
             aria-label="view appointments"
@@ -113,6 +117,7 @@ const AdminDashboardUsers = () => {
     if (column.field === 'startDate') return data?.content.some(user => user.staffDetails?.startDate);
     if (column.field === 'beginWorkingHour') return data?.content.some(user => user.staffDetails?.beginWorkingHour);
     if (column.field === 'endWorkingHour') return data?.content.some(user => user.staffDetails?.endWorkingHour);
+    if (column.field === 'availability') return data?.content.some(user => user.staffDetails?.isAvailable);
     return true;
   });
 
@@ -127,6 +132,7 @@ const AdminDashboardUsers = () => {
     startDate: user.staffDetails?.startDate,
     beginWorkingHour: user.staffDetails?.beginWorkingHour,
     endWorkingHour: user.staffDetails?.endWorkingHour,
+    availability: user.staffDetails?.isAvailable ? 'Available' : 'Unavailable',
   })) : [];
 
   if (isLoading) return <LoadingSpinner/>;

@@ -11,7 +11,7 @@ import {UserRole} from "../../models/user.types.ts";
 const UserMenu = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout, role } = useContext(UserAuthContext)!;
+  const { logout, role } = useContext(UserAuthContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { openModal, closeModal } = useConfirmationModal();
 

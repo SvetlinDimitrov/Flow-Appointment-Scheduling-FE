@@ -2,8 +2,8 @@ import {Box, Chip, Modal, Typography} from '@mui/material';
 import AccordionGridModal from "./calendar-modal/AccordionGridModal.tsx";
 import MyCalendar from "../../../shared/core/calendar/MyCalendar.tsx";
 import {CalendarType, FetchType} from "../../../shared/models/react-big-calendar.ts";
-import AdminCustomToolbar from "./calendar-toolbar/AdminCustomToolbar.tsx";
 import useAdditionalFilteringCalendar from "../../../hooks/custom/useAdditionalFilteringCalendar.ts";
+import AdminStaffCustomToolbar from "../appointment-staff/calendar-toolbars/AdminStaffCustomToolbar.tsx";
 
 interface ServiceCalendarModalProps {
   open: boolean;
@@ -72,7 +72,7 @@ const AdminCalendarModal = ({open, handleClose, type, id , name}: ServiceCalenda
           calendarType={CalendarType.ADMIN}
           fetchId={id}
           fetchType={type}
-          CustomToolbar={AdminCustomToolbar}
+          CustomToolbar={AdminStaffCustomToolbar}
           width={'90%'}
           height={'80%'}
           updateAppointmentCounts={updateAppointmentCounts}

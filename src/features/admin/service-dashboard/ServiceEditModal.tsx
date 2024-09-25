@@ -15,12 +15,15 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import {ServiceDTO} from "../../../../shared/models/api/services.ts";
-import {serviceCreateUpdateValidations} from "../../../../shared/validation/services.validations.ts";
-import useGetAllWorkSpacesNamesQuery from "../../../../hooks/services/query/useGetAllWorkSpacesNamesQuery.ts";
-import PageNotFound from "../../../../shared/core/not-found/PageNotFound.tsx";
-import LoadingSpinner from "../../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
-import {useEffect} from "react";
+import {serviceCreateUpdateValidations} from "../../../shared/validation/services.validations.ts";
+import useGetAllWorkSpacesNamesQuery from "../../../hooks/services/query/useGetAllWorkSpacesNamesQuery.ts";
+import LoadingSpinner from "../../../shared/core/loading/main-loader/LoadingSpinner.tsx";
+import useUpdateServiceMutation from "../../../hooks/services/mutations/useUpdateServiceMutation.ts";
+import useGetServiceByIdQuery from '../../../hooks/services/query/useGetServiceByIdQuery.ts';
+import {Duration} from 'luxon';
+import ErrorPage from "../../../shared/core/error-page/ErrorPage.tsx";
+import {useRef} from "react";
+import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
 
 const serviceSchema = serviceCreateUpdateValidations;
 
@@ -29,46 +32,89 @@ type ServiceFormInputs = z.infer<typeof serviceSchema>;
 interface ServiceEditModalProps {
   open: boolean;
   onClose: () => void;
-  service: ServiceDTO;
-  onSubmit: (data: ServiceFormInputs) => void;
+  id: number;
 }
 
-const ServiceEditModal = ({ open, onClose, service, onSubmit } : ServiceEditModalProps) => {
+const ServiceEditModal = ({open, onClose, id}: ServiceEditModalProps) => {
+  const formInitialized = useRef(false);
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ServiceFormInputs>({
     resolver: zodResolver(serviceSchema),
-    defaultValues: {
-      ...service
-    },
   });
 
-  useEffect(() => {
-    reset(service);
-  }, [service, reset]);
+  const updateServiceMutation = useUpdateServiceMutation();
+  const {
+    data: service,
+    isLoading: serviceIsLoading,
+    error: serviceError,
+    isFetching: serviceIsFetching
+  } = useGetServiceByIdQuery(String(id));
+  const {
+    data: workSpaces,
+    isLoading: workSpacesLoading,
+    error: workSpacesError
+  } = useGetAllWorkSpacesNamesQuery();
+  const {openModal, closeModal} = useConfirmationModal();
 
-  const {data, isLoading, error} = useGetAllWorkSpacesNamesQuery();
+  if (service && !formInitialized.current && !serviceIsFetching) {
+    reset({
+      name: service.name,
+      description: service.description,
+      duration: Duration.fromISO(service.duration).as('minutes'),
+      price: service.price,
+      availability: service.availability,
+      workSpaceName: service.workSpace.name,
+    });
+    formInitialized.current = true;
+
+  }
 
   const handleFormSubmit = (data: ServiceFormInputs) => {
     data.duration *= 60;
 
-    onSubmit(data);
-    reset();
+    const onConfirm = () => {
+      updateServiceMutation.mutate({
+        serviceId: id,
+        service: data,
+      }, {
+        onSuccess: () => {
+          onClose();
+          reset();
+        },
+        onSettled: () => closeModal(),
+      });
+    }
+
+    openModal("Update Service", `Are you sure you want to update the service: ${data.name}?`, onConfirm);
   };
 
   const handleClose = () => {
     onClose();
   };
 
-  if (isLoading || !data) return <LoadingSpinner/>;
-  if (error) return <PageNotFound/>;
+  if (workSpacesLoading || serviceIsLoading) return <LoadingSpinner/>;
+  if (workSpacesError || serviceError) return <ErrorPage/>;
+  if (!service || !workSpaces) return null;
 
   return (
-    <Modal open={open} onClose={handleClose} aria-labelledby="edit-service-modal">
-      <Box position={'absolute'} top={'50%'} left={'50%'} maxWidth={500}
-           minWidth={300} bgcolor={'background.paper'}
-           boxShadow={24} p={4} sx={{
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="edit-service-modal"
+    >
+      <Box
+        position={'absolute'}
+        top={'50%'}
+        left={'50%'}
+        maxWidth={500}
+        minWidth={300}
+        bgcolor={'background.paper'}
+        boxShadow={24}
+        p={4}
+        sx={{
         transform: 'translate(-50%, -50%)',
-      }}>
+        }}
+      >
         <Typography id="edit-service-modal" variant="h5" component="h2">
           Edit Service
         </Typography>
@@ -114,9 +160,9 @@ const ServiceEditModal = ({ open, onClose, service, onSubmit } : ServiceEditModa
               label="Workspace Name"
               {...register("workSpaceName")}
               size="small"
-              defaultValue={service.workSpaceName}
+              defaultValue={service.workSpace.name}
             >
-              {data.map((service) => (
+              {workSpaces.map((service) => (
                 <MenuItem key={service} value={service}>
                   {service}
                 </MenuItem>

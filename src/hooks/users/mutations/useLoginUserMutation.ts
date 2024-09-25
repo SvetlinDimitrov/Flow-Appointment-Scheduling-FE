@@ -7,7 +7,7 @@ import {AuthenticationRequest, AuthenticationResponse} from "../../../shared/mod
 
 const useLoginUserMutation = () => {
 
-  const {login} = useContext(UserAuthContext)!;
+  const {login} = useContext(UserAuthContext);
 
   return useMutation({
     mutationFn: (authRequest: AuthenticationRequest) => createAuthenticationToken(authRequest),

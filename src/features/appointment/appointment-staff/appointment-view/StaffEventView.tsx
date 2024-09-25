@@ -14,6 +14,8 @@ import {
 } from '@mui/material';
 import {AccessTime, Build, Email, Person} from '@mui/icons-material';
 import {Appointment, AppointmentStatus, UpdateAppointmentStatus} from "../../../../shared/models/appointment.types.ts";
+import {useIsFetching} from "@tanstack/react-query";
+import {formatAppointmentDate} from "../../../../shared/core/calendar/formatAppointmentDate.ts";
 
 interface StaffEventViewProps {
   open: boolean;
@@ -22,22 +24,9 @@ interface StaffEventViewProps {
   onAppointmentUpdate: (status: UpdateAppointmentStatus) => void;
 }
 
-export const formatAppointmentDate = (appointment: Appointment): string => {
-  const startDate = new Date(appointment.startDate);
-  const endDate = new Date(appointment.endDate);
-
-  const day = startDate.toLocaleString('default', {weekday: 'long'});
-  const dayOfMonth = startDate.getDate();
-  const month = startDate.toLocaleString('default', {month: 'long'});
-  const year = startDate.getFullYear();
-  const startTime = startDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-  const endTime = endDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-
-  return `${day}, ${dayOfMonth} ${month}, ${year} from ${startTime} to ${endTime}`;
-};
-
 const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: StaffEventViewProps) => {
   const {status, service, client} = appointment;
+  const isFetching = useIsFetching() > 0;
 
   return (
     <Dialog
@@ -120,6 +109,7 @@ const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: Staff
                 size={'small'}
                 onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.APPROVED)}
                 color="primary"
+                disabled={isFetching}
               >
                 Approve Appointment
               </Button>
@@ -128,6 +118,7 @@ const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: Staff
                 size={'small'}
                 onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.CANCELED)}
                 color="secondary"
+                disabled={isFetching}
               >
                 Cancel Appointment
               </Button>
@@ -140,6 +131,7 @@ const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: Staff
                 size={'small'}
                 onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.COMPLETED)}
                 color="primary"
+                disabled={isFetching}
               >
                 Complete Appointment
               </Button>
@@ -148,6 +140,7 @@ const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: Staff
                 size={'small'}
                 onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.CANCELED)}
                 color="secondary"
+                disabled={isFetching}
               >
                 Cancel Appointment
               </Button>
@@ -159,6 +152,7 @@ const StaffEventView = ({open, onClose, appointment, onAppointmentUpdate}: Staff
               size={'small'}
               onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.CANCELED)}
               color="secondary"
+              disabled={isFetching}
             >
               Cancel Appointment
             </Button>

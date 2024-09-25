@@ -14,7 +14,8 @@ import {
 } from '@mui/material';
 import {AccessTime, Build, Email, Person} from '@mui/icons-material';
 import {Appointment, AppointmentStatus, UpdateAppointmentStatus} from "../../../../shared/models/appointment.types.ts";
-import {formatAppointmentDate} from "../../appointment-staff/appointment-view/StaffEventView.tsx";
+import {formatAppointmentDate} from "../../../../shared/core/calendar/formatAppointmentDate.ts";
+import {useIsFetching} from "@tanstack/react-query";
 
 interface AdminEventViewProps {
   open: boolean;
@@ -33,6 +34,7 @@ const AdminEventView = (
     deleteAppointment
   }: AdminEventViewProps) => {
   const {status, service, client} = appointment;
+  const isFetching = useIsFetching() > 0;
 
   return (
     <Dialog
@@ -137,6 +139,7 @@ const AdminEventView = (
                 size={'small'}
                 onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.APPROVED)}
                 color="primary"
+                disabled={isFetching}
               >
                 Approve Event
               </Button>
@@ -145,6 +148,7 @@ const AdminEventView = (
                 size={'small'}
                 onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.CANCELED)}
                 color="secondary"
+                disabled={isFetching}
               >
                 Cancel Event
               </Button>
@@ -157,6 +161,7 @@ const AdminEventView = (
                 size={'small'}
                 onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.COMPLETED)}
                 color="primary"
+                disabled={isFetching}
               >
                 Complete Event
               </Button>
@@ -165,6 +170,7 @@ const AdminEventView = (
                 size={'small'}
                 onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.CANCELED)}
                 color="secondary"
+                disabled={isFetching}
               >
                 Cancel Event
               </Button>
@@ -176,6 +182,7 @@ const AdminEventView = (
               size={'small'}
               onClick={() => onAppointmentUpdate(UpdateAppointmentStatus.CANCELED)}
               color="secondary"
+              disabled={isFetching}
             >
               Cancel Event
             </Button>
@@ -185,6 +192,7 @@ const AdminEventView = (
             size={'small'}
             onClick={deleteAppointment}
             color="secondary"
+            disabled={isFetching}
           >
             Delete Event
           </Button>
