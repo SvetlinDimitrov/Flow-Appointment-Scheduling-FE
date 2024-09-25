@@ -7,6 +7,7 @@ import {
   HireStaffRequest,
   UpdateUserRequest
 } from "../shared/models/api/users.ts";
+import {UserPasswordUpdate} from "../shared/models/api/auth.ts";
 
 export const getAllUsers = async (
   page: number, size: number,
@@ -60,5 +61,10 @@ export const modifyStaff = async (id: number, modifyDto: CreateUpdateUserAdminRe
 
 export const hireStaff = async (hireDto: HireStaffRequest): Promise<User> => {
   const response = await axiosInstance.post(`/users/hire`, hireDto);
+  return response.data;
+};
+
+export const userResetPasswordWithAuth = async (userPasswordUpdate: UserPasswordUpdate): Promise<User> => {
+  const response = await axiosInstance.put(`/users/reset-password`, userPasswordUpdate);
   return response.data;
 };

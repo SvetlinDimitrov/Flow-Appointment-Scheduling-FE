@@ -3,6 +3,13 @@ import {SubmitHandler, useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {z} from 'zod';
 import {passwordValidation} from "../../../shared/validation/users.validations.ts";
+import useResetPasswordMutationWithAuth from "../../../hooks/users/mutations/useResetPasswordMutationWithAuth.ts";
+import {useConfirmationModal} from "../../../shared/context/ConfirmationModalContext.tsx";
+import {UserPasswordUpdate} from "../../../shared/models/api/auth.ts";
+import {UserAuthContext} from "../../../shared/context/UserAuthContext.tsx";
+import {useContext} from "react";
+import {UserRole} from "../../../shared/models/user.types.ts";
+import {useNavigate} from "react-router-dom";
 
 interface PasswordResetModalProps {
   open: boolean;
@@ -23,14 +30,33 @@ const passwordSchema = z.object({
 });
 
 const PasswordResetModal = ({open, onClose}: PasswordResetModalProps) => {
+  const {logout, role} = useContext(UserAuthContext)!;
+
+  const navigate = useNavigate();
   const {register, handleSubmit, formState: {errors}} = useForm<PasswordResetInputs>({
     resolver: zodResolver(passwordSchema),
   });
+  const resetPasswordMutation = useResetPasswordMutationWithAuth();
+  const {openModal, closeModal} = useConfirmationModal();
+
+  const loginRedirect = role === UserRole.CLIENT ? '/login' : '/secret-login';
 
   const onSubmit: SubmitHandler<PasswordResetInputs> = (data) => {
-    //TODO:: Implement password reset
-    console.log(data);
-    onClose();
+    const body: UserPasswordUpdate = {
+      newPassword: data.newPassword,
+    };
+    const onConfirm = () => {
+      resetPasswordMutation.mutate(body, {
+        onSettled: () => closeModal(),
+        onSuccess: () => {
+          onClose();
+          logout();
+          navigate(loginRedirect);
+        },
+      });
+    }
+
+    openModal("Reset Password", "Are you sure you want to reset your password? You will need to log in again afterward.", onConfirm);
   };
 
   return (
@@ -53,7 +79,7 @@ const PasswordResetModal = ({open, onClose}: PasswordResetModalProps) => {
           p: 4,
           borderRadius: 2,
           boxShadow: 24,
-          minWidth: 250,
+          minWidth: '50%',
         }}
       >
         <Typography variant="h6" component="h2" gutterBottom>

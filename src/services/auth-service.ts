@@ -1,5 +1,11 @@
 import {axiosInstance} from '../utils/axios-config/axiosInstance';
-import {AuthenticationRequest, AuthenticationResponse, RefreshTokenRequest} from "../shared/models/api/auth.ts";
+import {
+  AuthenticationRequest,
+  AuthenticationResponse,
+  RefreshTokenRequest,
+  UserPasswordUpdate
+} from "../shared/models/api/auth.ts";
+import {User} from "../shared/models/user.types.ts";
 
 export const createAuthenticationToken = async (authRequest: AuthenticationRequest): Promise<AuthenticationResponse> => {
   const response = await axiosInstance.post(`/auth`, authRequest);
@@ -20,4 +26,9 @@ export const refreshToken = async (refreshRequest: RefreshTokenRequest): Promise
   }
 
   return response.json();
+};
+
+export const resetPassword = async (userPasswordUpdate: UserPasswordUpdate): Promise<User> => {
+  const response = await axiosInstance.put(`/reset-password`, userPasswordUpdate);
+  return response.data;
 };

@@ -74,7 +74,6 @@ const AdminServiceList = (
             {data.content.map((service) => (
               <ServiceCard
                 key={service.id}
-                isAdmin={true}
                 selectedService={service}
                 handleDeleteService={() => handleDeleteService(service)}
                 handleUpdateService={() => handleUpdateService(service)}

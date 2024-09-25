@@ -13,3 +13,7 @@ export interface AuthenticationResponse {
 export interface RefreshTokenRequest {
   token: string;
 }
+
+export interface UserPasswordUpdate {
+  newPassword: string;
+}
