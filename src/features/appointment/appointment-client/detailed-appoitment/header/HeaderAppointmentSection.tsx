@@ -2,7 +2,7 @@ import {Box, Button, Chip, Typography} from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import {styled} from '@mui/system';
 import {Appointment, AppointmentStatus} from "../../../../../shared/models/appointment.types.ts";
-import {formatAppointmentDate} from "../../../appointment-staff/appointment-view/StaffEventView.tsx";
+import {formatAppointmentDate} from "../../../../../shared/core/calendar/formatAppointmentDate.ts";
 
 const CalendarIconContainer = styled(Box)(({theme}) => ({
   display: 'flex',
@@ -11,7 +11,7 @@ const CalendarIconContainer = styled(Box)(({theme}) => ({
   width: '50px',
   height: '50px',
   borderRadius: '50%',
-  backgroundColor: '#eeeeee',
+  backgroundColor: theme.palette.flowBgColor.main,
   marginLeft: theme.spacing(2),
 }));
 

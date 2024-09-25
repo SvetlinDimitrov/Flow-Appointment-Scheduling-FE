@@ -14,7 +14,7 @@ const useGetServiceByIdQuery = (id: string | undefined) => {
       }
       return getServiceById(numericId);
     },
-    enabled: !!id && !isNaN(numericId),
+    enabled: !!id,
   });
 };
 

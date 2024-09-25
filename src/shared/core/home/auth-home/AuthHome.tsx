@@ -13,7 +13,7 @@ import ServiceGuestAuthSection
 const AuthHome = () => {
   const navigate = useNavigate();
 
-  const {userId, role} = useContext(UserAuthContext)!;
+  const {userId, role} = useContext(UserAuthContext);
 
   useEffect(() => {
     if (role === UserRole.ADMINISTRATOR) {

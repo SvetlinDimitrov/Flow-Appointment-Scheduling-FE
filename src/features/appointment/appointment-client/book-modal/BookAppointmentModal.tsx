@@ -28,7 +28,7 @@ const getWorkingHourValue = (workingHour?: DateTime): Date | undefined => {
 };
 
 const BookAppointmentModal = ({service, staff, open, onClose}: BookAppointmentModalProps) => {
-  const {userId} = useContext(UserAuthContext)!;
+  const {userId} = useContext(UserAuthContext);
 
   const [isBooking, setIsBooking] = useState(false);
 

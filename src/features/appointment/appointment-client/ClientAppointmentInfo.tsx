@@ -6,7 +6,7 @@ import ClientCustomToolbar from "./calendar-toolbars/ClientCustomToolbar.tsx";
 import {CalendarType, FetchType} from "../../../shared/models/react-big-calendar.ts";
 
 const ClientAppointmentInfo = () => {
-  const {userId} = useContext(UserAuthContext)!;
+  const {userId} = useContext(UserAuthContext);
 
   if (!userId) return null;
 

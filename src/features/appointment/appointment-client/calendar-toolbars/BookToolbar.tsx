@@ -1,9 +1,10 @@
-import {Box, Button, Typography, useTheme} from '@mui/material';
+import {Box, Button, Typography} from '@mui/material';
 import {ToolbarProps} from 'react-big-calendar';
 import {NavigationAction} from "../../../../shared/models/react-big-calendar.ts";
+import {useIsFetching} from '@tanstack/react-query';
 
 const BookToolbar = ({label, onNavigate}: ToolbarProps) => {
-  const theme = useTheme();
+  const isFetching = useIsFetching() > 0;
 
   return (
     <Box
@@ -12,9 +13,12 @@ const BookToolbar = ({label, onNavigate}: ToolbarProps) => {
       mb={2}
       gap={2}
       sx={{
-        [theme.breakpoints.down('sm')]: {
-          flexDirection: 'column',
-          gap: 1,
+        flexDirection: {
+          xs: 'column',
+          md: 'row',
+        },
+        gap: {
+          sm: 1,
         },
       }}
     >
@@ -28,6 +32,7 @@ const BookToolbar = ({label, onNavigate}: ToolbarProps) => {
           color={'primary'}
           size={'small'}
           onClick={() => onNavigate(NavigationAction.TODAY)}
+          disabled={isFetching}
         >
           Today
         </Button>
@@ -36,6 +41,7 @@ const BookToolbar = ({label, onNavigate}: ToolbarProps) => {
           color={'primary'}
           size={'small'}
           onClick={() => onNavigate(NavigationAction.PREV)}
+          disabled={isFetching}
         >
           Previous
         </Button>
@@ -44,6 +50,7 @@ const BookToolbar = ({label, onNavigate}: ToolbarProps) => {
           color={'primary'}
           size={'small'}
           onClick={() => onNavigate(NavigationAction.NEXT)}
+          disabled={isFetching}
         >
           Next
         </Button>

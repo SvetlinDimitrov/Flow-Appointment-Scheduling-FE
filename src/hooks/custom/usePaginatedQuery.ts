@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { UseQueryResult } from '@tanstack/react-query';
+import {useState} from 'react';
+import {UseQueryResult} from '@tanstack/react-query';
 import Page from '../../shared/models/api/shared/Page';
 
 const usePaginatedQuery = <T>(
@@ -10,7 +10,11 @@ const usePaginatedQuery = <T>(
 ) => {
   const [page, setPage] = useState(initialPage);
 
-  const { data, isLoading, error} = queryHook(page, size, ...args);
+  const {data, isLoading, error , isFetching} = queryHook(page, size, ...args);
+
+  if (data && data.content.length === 0 && page !== 0 && !isFetching) {
+    setPage(page - 1);
+  }
 
   const handleNextPage = () => {
     if (data && page < data.totalPages - 1) {

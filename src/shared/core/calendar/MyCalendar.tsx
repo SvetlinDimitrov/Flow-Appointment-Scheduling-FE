@@ -4,7 +4,6 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import {AppointmentStatus, ShortAppointment, UpdateAppointmentStatus} from '../../models/appointment.types.ts';
 import './index.css';
-import PageNotFound from '../not-found/PageNotFound.tsx';
 import ContainerLoader from '../loading/container-loader/ContainerLoader.tsx';
 import useGetAllAppointmentsShort from '../../../hooks/appointments/query/useGetAllAppointmentsShortByUserId.ts';
 import {Box} from '@mui/material';
@@ -19,6 +18,7 @@ import BookAppointmentModal from '../../../features/appointment/appointment-clie
 import AppointmentDetailsPopup from './AppointmentDetails.tsx';
 import useDeleteAppointmentMutation from '../../../hooks/appointments/mutation/useDeleteAppointmentMutation.ts';
 import AgendaCustomView from "./events/AgendaCustomView.tsx";
+import ErrorPage from "../error-page/ErrorPage.tsx";
 
 const localize = momentLocalizer(moment);
 
@@ -67,6 +67,7 @@ const MyCalendar = (
     data: events = [],
     isLoading: allAppointmentsLoading,
     error: allAppointmentsError,
+    isFetching: isFetchingAppointments,
   } = useGetAllAppointmentsShort(fetchId, range.start, range.end, fetchType);
   const {openModal, closeModal} = useConfirmationModal();
   const updateAppointmentMutation = useUpdateAppointmentMutation();
@@ -139,16 +140,16 @@ const MyCalendar = (
     updateCounts();
   }, [events, updateAppointmentCounts]);
 
-  if (allAppointmentsError || appointmentError) return <PageNotFound/>;
+  if (allAppointmentsError || appointmentError) return <ErrorPage/>;
 
   return (
     <>
-      {allAppointmentsLoading && (
-        <Box position="absolute" width="100%" display="flex" top={30}>
-          <ContainerLoader height={200}/>
-        </Box>
-      )}
-      <div style={{height, width}}>
+      <Box position="relative" style={{height, width}}>
+        {(allAppointmentsLoading || isFetchingAppointments) && (
+          <Box position="absolute" width="100%" display="flex">
+            <ContainerLoader height={200}/>
+          </Box>
+        )}
         <Calendar
           localizer={localize}
           events={events.filter((event) => filterByStatus.includes(event.status))}
@@ -171,7 +172,7 @@ const MyCalendar = (
             agenda: {event: AgendaCustomView},
           }}
         />
-      </div>
+      </Box>
       <AppointmentDetailsPopup
         calendarType={calendarType}
         currentAppointmentId={currentAppointmentId}
