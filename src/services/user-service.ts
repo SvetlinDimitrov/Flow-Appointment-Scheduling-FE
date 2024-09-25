@@ -68,3 +68,20 @@ export const userResetPasswordWithAuth = async (userPasswordUpdate: UserPassword
   const response = await axiosInstance.put(`/users/reset-password`, userPasswordUpdate);
   return response.data;
 };
+
+export const userResetPasswordWithCustomAuth = async (userPasswordUpdate: UserPasswordUpdate, jwtToken: string): Promise<User> => {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users/reset-password`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwtToken}`
+    },
+    body: JSON.stringify(userPasswordUpdate)
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to reset password');
+  }
+
+  return response.json();
+};

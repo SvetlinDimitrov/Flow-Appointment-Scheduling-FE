@@ -1,14 +1,16 @@
-import {SubmitHandler, useForm} from 'react-hook-form';
-import {Button, TextField, Typography} from '@mui/material';
-import useLoginUserMutation from "../../../hooks/users/mutations/useLoginUserMutation.ts";
-import {Link, useLocation, useNavigate} from "react-router-dom";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {emailValidation, passwordValidation} from "../../../shared/validation/users.validations.ts";
-import {z} from "zod";
-import {UserMainWrapper, UserSecondWrapper} from "../../../shared/styles/wrappers.ts";
-import useProcessing from "../../../hooks/custom/useProcessing.ts";
-import FullScreenLoader from "../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx";
-import {toast} from "react-toastify";
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button, TextField, Typography } from '@mui/material';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { toast } from 'react-toastify';
+import useLoginUserMutation from '../../../hooks/users/mutations/useLoginUserMutation.ts';
+import { emailValidation, passwordValidation } from '../../../shared/validation/users.validations.ts';
+import { UserMainWrapper, UserSecondWrapper } from '../../../shared/styles/wrappers.ts';
+import useProcessing from '../../../hooks/custom/useProcessing.ts';
+import FullScreenLoader from '../../../shared/core/loading/full-screen-loader/FullScreenLoader.tsx';
+import ResetPasswordNoAuthModal from './ResetPasswordNoAuthModal.tsx';
 
 interface IFormInput {
   email: string;
@@ -16,7 +18,7 @@ interface IFormInput {
 }
 
 const Login = () => {
-  const {register, handleSubmit, formState: {errors}} = useForm<IFormInput>({
+  const { register, handleSubmit, formState: { errors } } = useForm<IFormInput>({
     resolver: zodResolver(
       z.object({
         email: emailValidation,
@@ -26,9 +28,10 @@ const Login = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const userLoginMutation = useLoginUserMutation();
-  const {processing, startProcessing, stopProcessing} = useProcessing();
+  const { processing, startProcessing, stopProcessing } = useProcessing();
 
   const onSubmit: SubmitHandler<IFormInput> = data => {
     if (data.email.endsWith('@flow.com') && location.pathname !== '/secret-login') {
@@ -54,7 +57,7 @@ const Login = () => {
 
   return (
     <>
-      <FullScreenLoader isLoading={processing}/>
+      <FullScreenLoader isLoading={processing} />
       <UserMainWrapper>
         <UserSecondWrapper elevation={4}>
           <Typography mb={'2'} variant="h4">
@@ -80,16 +83,20 @@ const Login = () => {
               helperText={errors.password ? errors.password.message : ''}
             />
             <Button variant="contained" fullWidth
-                    sx={{mt: 2, mb: 1}}
+                    sx={{ mt: 2, mb: 1 }}
                     type="submit">
               Login
             </Button>
             <Typography mt={2} textAlign={'center'} variant="body2" align="center">
               Don't have an account? <Link to="/register">Register here</Link>
             </Typography>
+            <Typography mt={2} textAlign={'center'} variant="body2" align="center">
+              Forgot your password? <Link to="#" onClick={() => setIsModalOpen(true)}>Reset Password</Link>
+            </Typography>
           </form>
         </UserSecondWrapper>
       </UserMainWrapper>
+      <ResetPasswordNoAuthModal open={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 };
