@@ -4,7 +4,7 @@ import {Box, Pagination, Stack, Typography, useMediaQuery, useTheme} from "@mui/
 import usePaginatedQuery from "../../../../hooks/custom/usePaginatedQuery.ts";
 import {Service} from "../../../../shared/models/service.types.ts";
 import useGetAllServicesQuery from "../../../../hooks/services/query/useGetAllServicesQuery.ts";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import ContainerLoader from "../../../../shared/core/loading/container-loader/ContainerLoader.tsx";
 import ErrorPage from "../../../../shared/core/error-page/ErrorPage.tsx";
 
@@ -43,7 +43,6 @@ const ServiceGuestAuthSection = ({title, description , buttonText}: ServiceGuest
   const theme = useTheme();
 
   const isLg = useMediaQuery(theme.breakpoints.down('lg'));
-  const [prevIsLg, setPrevIsLg] = useState(isLg);
 
   const servicesPerPage = isLg ? 1 : 3;
 
@@ -57,11 +56,8 @@ const ServiceGuestAuthSection = ({title, description , buttonText}: ServiceGuest
   } = usePaginatedQuery<Service>(useGetAllServicesQuery, 0, servicesPerPage);
 
   useEffect(() => {
-    if (prevIsLg !== isLg) {
-      setPage(0);
-      setPrevIsLg(isLg);
-    }
-  }, [isLg, prevIsLg, setPage]);
+    setPage(0);
+  }, [isLg, setPage]);
 
   if (error) return <ErrorPage/>;
 

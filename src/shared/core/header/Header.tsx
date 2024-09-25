@@ -8,7 +8,7 @@ import GuestMenu from "./GuestMenu.tsx";
 
 const Header = () => {
   const navigate = useNavigate();
-  const {isUserAuthenticated} = useContext(UserAuthContext)!;
+  const {isUserAuthenticated} = useContext(UserAuthContext);
 
   return (
     <AppBar position={"sticky"}>

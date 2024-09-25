@@ -16,8 +16,7 @@ interface ServiceListProps {
   handleViewStaff: (service: Service) => void;
 }
 
-const AdminServiceList = (
-  {
+const AdminServiceList = ({
     handleUpdateService,
     handleDeleteService,
     handleViewStaff,
@@ -26,12 +25,11 @@ const AdminServiceList = (
 
   const isMd = useMediaQuery(theme.breakpoints.down('md'));
   const isLg = useMediaQuery(theme.breakpoints.down('lg'));
-  const [prevBreakpoints, setPrevBreakpoints] = useState({ isMd, isLg });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [selectedService, setSelectedService] = useState<Service | null>(null);
 
-  const {userId} = useContext(UserAuthContext)!;
+  const {userId} = useContext(UserAuthContext);
 
   const servicesPerPage = isMd ? 1 : isLg ? 2 : 3;
   const {
@@ -44,11 +42,8 @@ const AdminServiceList = (
   } = usePaginatedQuery<Service>(useGetAllServicesQuery, 0, servicesPerPage);
 
   useEffect(() => {
-    if (prevBreakpoints.isMd !== isMd || prevBreakpoints.isLg !== isLg) {
-      setPage(0);
-      setPrevBreakpoints({ isMd, isLg });
-    }
-  }, [isMd, isLg, prevBreakpoints, setPage]);
+    setPage(0);
+  }, [isMd, isLg, setPage]);
 
   const handleOpenModal = (service: Service) => {
     setIsModalOpen(true);
@@ -74,7 +69,6 @@ const AdminServiceList = (
             {data.content.map((service) => (
               <ServiceCard
                 key={service.id}
-                isAdmin={true}
                 selectedService={service}
                 handleDeleteService={() => handleDeleteService(service)}
                 handleUpdateService={() => handleUpdateService(service)}

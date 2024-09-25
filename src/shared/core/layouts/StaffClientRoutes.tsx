@@ -4,7 +4,7 @@ import {UserRole} from "../../models/user.types.ts";
 import {Navigate, Outlet} from "react-router-dom";
 
 const StaffClientRoutes = () => {
-  const {role} = useContext(UserAuthContext)!;
+  const {role} = useContext(UserAuthContext);
 
   if (role !== UserRole.EMPLOYEE && role !== UserRole.CLIENT) {
     return <Navigate to="/"/>;

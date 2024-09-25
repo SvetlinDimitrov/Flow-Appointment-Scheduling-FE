@@ -43,16 +43,16 @@ const AdminServiceStaffModal = (
   };
 
   const theme = useTheme();
-  const isBelow600 = useMediaQuery(theme.breakpoints.down(660));
-  const isBelow1200 = useMediaQuery(theme.breakpoints.down(1200));
-  const isBelow1600 = useMediaQuery(theme.breakpoints.down(1600));
+  const isBelowMd = useMediaQuery(theme.breakpoints.down('md'));
+  const isBelowLg = useMediaQuery(theme.breakpoints.down('lg'));
+  const isBelowXl = useMediaQuery(theme.breakpoints.down('xl'));
 
   let showStaffNumbers = 4;
-  if (isBelow600) {
+  if (isBelowMd) {
     showStaffNumbers = 1;
-  } else if (isBelow1200) {
+  } else if (isBelowLg) {
     showStaffNumbers = 2;
-  } else if (isBelow1600) {
+  } else if (isBelowXl) {
     showStaffNumbers = 3;
   }
 
@@ -89,7 +89,6 @@ const AdminServiceStaffModal = (
         <StaffList
           selectedService={service}
           handleDeleteEmployeeFromService={handleUnassignStaffFromService}
-          handleBookWithStaff={null}
           showStaffNumbers={showStaffNumbers}
         />
       </Box>
