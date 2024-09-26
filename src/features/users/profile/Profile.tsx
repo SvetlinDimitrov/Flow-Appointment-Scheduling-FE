@@ -39,7 +39,7 @@ const Profile = () => {
   const updateUserMutation = useUpdateUserMutation();
   const {data: user, error, isLoading} = useGetUserQuery(userId);
   const logoutDeleteUserMutation = useLogoutDeleteUserMutation();
-  const {register, handleSubmit, formState: {errors}} = useForm<FormInputs>({
+  const {register, handleSubmit, formState: {errors, isDirty}, reset} = useForm<FormInputs>({
     defaultValues: {
       firstName: user?.firstName,
       lastName: user?.lastName,
@@ -56,7 +56,10 @@ const Profile = () => {
     const onConfirm = () => {
       updateUserMutation.mutate(
         {id: userId, user: {firstName: data.firstName, lastName: data.lastName}}, {
-          onSettled: () => closeModal()
+          onSettled: () => closeModal(),
+          onSuccess: () => {
+            reset({firstName: data.firstName, lastName: data.lastName});
+          }
         }
       );
     }
@@ -113,6 +116,7 @@ const Profile = () => {
               type="submit"
               startIcon={<SaveIcon/>}
               sx={{backgroundColor: theme.palette.success.main}}
+              disabled={!isDirty}
             >
               Save
             </StyleButton>

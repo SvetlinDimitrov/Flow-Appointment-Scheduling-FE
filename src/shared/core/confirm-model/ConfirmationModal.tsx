@@ -36,7 +36,7 @@ const ConfirmationModal = (
           backgroundColor: theme.palette.background.paper,
           boxShadow: theme.shadows[5],
           borderRadius: theme.shape.borderRadius,
-          zIndex: 1000,
+          zIndex: 10000,
         },
       }}
       BackdropProps={{

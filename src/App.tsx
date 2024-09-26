@@ -21,6 +21,7 @@ import ServicePage from "./features/guest/service-id/ServiceIdPage.tsx";
 import StaffClientRoutes from "./shared/core/layouts/StaffClientRoutes.tsx";
 import AppointmentLayout from "./shared/core/layouts/AppointmentLayout.tsx";
 import ErrorPage from "./shared/core/error-page/ErrorPage.tsx";
+import PasswordResetForm from "./features/guest/reset-password/PasswordResetForm.tsx";
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
           <Route element={<GuestRoutes/>}>
             <Route path="/login" element={<Login/>}/>
             <Route path="/secret-login" element={<Login/>}/>
+            <Route path="/reset-password" element={<PasswordResetForm/>}/>
             <Route path="/register" element={<Register/>}/>
           </Route>
           <Route element={<AuthenticatedUser/>}>
