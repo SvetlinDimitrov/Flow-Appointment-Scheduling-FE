@@ -8,7 +8,7 @@ import AccordionGridModal from "../appoitment-admin/calendar-modal/AccordionGrid
 import useAdditionalFilteringCalendar from "../../../hooks/custom/useAdditionalFilteringCalendar.ts";
 
 const StaffAppointmentInfo = () => {
-  const {userId} = useContext(UserAuthContext)!;
+  const {userId} = useContext(UserAuthContext);
 
   const {
     selectedStatuses,

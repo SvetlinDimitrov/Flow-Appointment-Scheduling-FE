@@ -5,7 +5,7 @@ import StaffAppointmentInfo from "../../../features/appointment/appointment-staf
 import {UserRole} from "../../models/user.types.ts";
 
 const AppointmentLayout = () => {
-  const {role} = useContext(UserAuthContext)!;
+  const {role} = useContext(UserAuthContext);
 
   if (role === UserRole.EMPLOYEE) {
     return <StaffAppointmentInfo/>;
