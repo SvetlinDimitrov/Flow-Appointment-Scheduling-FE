@@ -14,12 +14,14 @@ interface ServiceListProps {
   handleDeleteService: (service: Service) => void;
   handleUpdateService: (service: Service) => void;
   handleViewStaff: (service: Service) => void;
+  handleStatistics: (service: Service) => void;
 }
 
 const AdminServiceList = ({
     handleUpdateService,
     handleDeleteService,
     handleViewStaff,
+    handleStatistics,
   }: ServiceListProps) => {
   const theme = useTheme();
 
@@ -74,6 +76,7 @@ const AdminServiceList = ({
                 handleUpdateService={() => handleUpdateService(service)}
                 handleViewEmployees={() => handleViewStaff(service)}
                 handleAppointments={() => handleOpenModal(service)}
+                handleStatistics={() => handleStatistics(service)}
               />
             ))}
           </Box>

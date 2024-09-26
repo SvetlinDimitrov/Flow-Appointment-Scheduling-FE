@@ -25,6 +25,7 @@ interface ServiceCardProps {
   handleDeleteService: () => void;
   handleUpdateService: () => void;
   handleAppointments: () => void;
+  handleStatistics: () => void;
 }
 
 const ServiceCard = (
@@ -33,7 +34,8 @@ const ServiceCard = (
     handleViewEmployees,
     handleDeleteService,
     handleUpdateService,
-    handleAppointments
+    handleAppointments,
+    handleStatistics
   }: ServiceCardProps) => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -90,7 +92,7 @@ const ServiceCard = (
           </StyledMenuItem>
           <StyledMenuItem
             onClick={() => {
-              console.log(123);
+              handleStatistics();
               handleClose();
             }}
           >

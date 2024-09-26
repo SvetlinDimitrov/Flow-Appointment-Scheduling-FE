@@ -9,11 +9,13 @@ import WelcomeServiceSection from "./WelcomeServiceSection.tsx";
 import CreateServiceModal from "./CreateServiceModal.tsx";
 import ConfirmationModalWrapper from "../../../shared/core/confirm-model/ConfirmationModalWrapper.tsx";
 import AdminServiceStaffModal from "./AdminServiceStaffModal.tsx";
+import ServiceStatsModal from "./service-stats/ServiceStatsModal.tsx";
 
 const AdminServiceDashboard = () => {
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
+  const [isStatisticsModalOpen, setStatisticsModalOpen] = useState(false);
   const [showStaff, setShowStaff] = useState(false);
 
   const {openModal, closeModal} = useConfirmationModal();
@@ -46,6 +48,10 @@ const AdminServiceDashboard = () => {
     >
       <WelcomeServiceSection onCreateService={() => setCreateModalOpen(true)}/>
       <AdminServiceList
+        handleStatistics={(service) => {
+          setSelectedServiceId(service.id);
+          setStatisticsModalOpen(true);
+        }}
         handleViewStaff={(service) => {
           setSelectedServiceId(service.id);
           setShowStaff(true);
@@ -84,6 +90,16 @@ const AdminServiceDashboard = () => {
         <CreateServiceModal
           open={isCreateModalOpen}
           onClose={() => setCreateModalOpen(false)}
+        />
+      }
+      {isStatisticsModalOpen && selectedServiceId &&
+        <ServiceStatsModal
+          open={isStatisticsModalOpen}
+          serviceId={selectedServiceId}
+          onClose={() => {
+            setStatisticsModalOpen(false);
+            setSelectedServiceId(null);
+          }}
         />
       }
       <ConfirmationModalWrapper/>
